@@ -20,6 +20,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # centering the player in its rectangle
         self.rect.center = (width // 2, height // 2)
 
+        # Testing at home: making white become transparent when the player is an image
+        # self.image.set_colorkey(white)
+
         # GAMEPLAY VARIABLES
         self.speed = 5
         self.health = 100

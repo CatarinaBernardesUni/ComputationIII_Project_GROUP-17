@@ -10,6 +10,10 @@ def interface():
     # creating the screen at the set resolution
     screen = pygame.display.set_mode(resolution) # show the user something
 
+    # this was in the execute game function, I put it here to change the title of the window even if we
+    # don't click in the "start game"
+    pygame.display.set_caption("Endless Wilderness Explorer") # set the title of the window
+
     # setting the fonts
     corbelfont = pygame.font.SysFont("Corbel", 50)
     comicsansfont = pygame.font.SysFont("Comic Sans MS", 50)

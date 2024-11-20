@@ -26,5 +26,5 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.x < 0 or self.rect.x > width or self.rect.y < 0 or self.rect.y > height:
             self.kill()
 
-    def draw(self, screen):
+    def draw(self, screen): # I changed the screen to display at home
         pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
