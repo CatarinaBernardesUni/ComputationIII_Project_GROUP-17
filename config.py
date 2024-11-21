@@ -16,6 +16,7 @@ greenish = (182, 215, 168)
 
 # SCREEN RESOLUTION
 resolution = (720, 720) # height/width
+# todo: make resolution options in the interface
 width, height = resolution[0], resolution[1]
 fps = 60
 

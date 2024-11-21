@@ -1,17 +1,32 @@
 from config import *
-import math
 import pygame
 from player import Player
 from enemy import Enemy
+from shed import shed
 
-def execute_game():
+
+def game_loop():
+    # creating the player for the game, it is only defined once
+    player = Player()
+
+    # by default, I start the game inn the main area
+    current_state = "main"
+
+    # endeless game loop
+    while True:
+        if current_state == "main":
+            current_state = execute_game(player)
+        elif current_state == "shed":
+            current_state = shed(player)
+
+def execute_game(player):
 
     # SETUP
     # setting up the background
     background = pygame.image.load("images/stardew_valley.jpg")
     background = pygame.transform.scale(background, (width, height))
 
-    # Testing at home: making the display "smaler" than the background
+    # Testing at home: making the display "smaller" than the background
     # display = pygame.Surface((width // 2, height // 2))
 
     # using the clock to control the time frame
@@ -20,9 +35,7 @@ def execute_game():
     # screen setup:
     screen = pygame.display.set_mode(resolution)
 
-    player = Player()
-
-    # creating an empty group for the player
+    # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
 
     # adding the player to the group
@@ -34,7 +47,7 @@ def execute_game():
     # creating an enemy group
     enemies = pygame.sprite.Group()
 
-    # before starting our main loop, setup the enemy cooldown
+    # before starting our main loop, set up the enemy cooldown
     enemy_cooldown = 0
 
     ###################################### MAIN GAME LOOP #######################################
@@ -92,6 +105,10 @@ def execute_game():
         # updating the bullets group
         bullets.update()
         enemies.update(player)
+
+        # checking if the player moved off-screen from the right to the left area
+        if player.rect.right >= width:
+            return "shed"
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         player_group.draw(screen)

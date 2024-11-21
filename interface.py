@@ -1,7 +1,8 @@
-import pygame
 from utils import *  # no need to import pygame because the import is in utils
-from config import *  # importing colors and the like
-from game import *
+from game import game_loop
+from utils import under_construction
+from config import *
+
 
 def interface():
 
@@ -97,65 +98,6 @@ def interface():
         # update the display so that the loop changes will appear
         pygame.display.update()
 
-# Under construction screen
-def under_construction():
-
-    # creating the screen at 720x720 pixels
-    screen = pygame.display.set_mode(resolution)
-
-    # setting up the fonts
-    corbelfont = pygame.font.SysFont("Corbel", 50)
-    conversation_font = pygame.font.SysFont("Arial", 30)
-
-    # setting my texts:
-    back_text = corbelfont.render("back", True, white)
-    construction_text = corbelfont.render("UNDER CONSTRUCTION", True, white)
-    first_speech = conversation_font.render("Can we fix it?", True, white)
-    bob_speech = conversation_font.render("Probably not...", True, white)
-
-    # setting up the "images" positions
-    bob_x_position = 460
-    bob_y_position = 450
-
-    normal_x_position = 260
-    normal_y_position = 450
-
-    # same old, same old while True loop
-    while True:
-        # getting mouse position
-        mouse = pygame.mouse.get_pos()
-
-        for ev in pygame.event.get():
-            if ev.type == pygame.QUIT:
-                pygame.quit()
-
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                # checking if the back button was clicked
-                if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    interface()
-
-            # display the screen:
-            screen.fill(deep_black)
-
-            # displaying the main UNDER CONSTRUCTION text
-            construction_rect = construction_text.get_rect(center=(720//2, 300))
-            screen.blit(construction_text, construction_rect)
-
-            # drawing the back button
-            pygame.draw.rect(screen, dark_red, [450,600,140,60])
-            back_rect = back_text.get_rect(center=(450 + 140//2, 600 + 60 // 2))
-            screen.blit(back_text, back_rect)
-
-            # stick figures text and "images"
-            draw_normal_stick_figure(screen, normal_x_position, normal_y_position)
-            draw_stick_figure_with_hat(screen, bob_x_position, bob_y_position)
-
-            screen.blit(first_speech, (normal_x_position - 60, normal_y_position - 80))
-            screen.blit(bob_speech, (bob_x_position - 60, bob_y_position - 80))
-
-            # finally, as always, updating our screen
-            pygame.display.update()
-
 def credits_():
     screen = pygame.display.set_mode(resolution)
 
@@ -209,4 +151,4 @@ def rules_():
 
 
 def wilderness_explorer():
-    execute_game()
+    game_loop()
