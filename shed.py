@@ -1,5 +1,6 @@
 from config import *
 from utils import *
+from visual import *
 
 
 # the second background
@@ -11,8 +12,8 @@ def shed(player):
     background = pygame.transform.scale(background, resolution)
 
     # placing my house on the screen
-    house = pygame.image.load("images/outside_house.png")
-    house = pygame.transform.scale(house, house_position)
+    house = House(width=190, height=250, visual_path="images/outside_house.png")
+    house.set_position(160, 120)
 
     # setting up the screen
     screen = pygame.display.set_mode(resolution)
@@ -40,7 +41,7 @@ def shed(player):
         clock.tick(fps)
         # displaying the farm background on the entirety of the screen
         screen.blit(background, (0, 0))
-        screen.blit(house, (530, 30))
+        screen.blit(house.visual_image, house.detect_coll)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for event in pygame.event.get():
@@ -71,3 +72,4 @@ def shed(player):
 
         # updating the screen
         pygame.display.flip()
+        
