@@ -1,4 +1,4 @@
-IDEAS FOR THE GAME 
+#### IDEAS FOR THE GAME ####
 
 titulos como em dress to impress: quanto mais rewards mais próximo de ganhar outro título 
 
@@ -32,7 +32,7 @@ We should have a quest to fix the greenhouse.
 
 
 
-NEEDS TO BE IN THE GAME: 
+####NEEDS TO BE IN THE GAME: #####
 
 Power Ups (at least 4: 2 mandatory and 2 of our choice), 
 
@@ -67,3 +67,11 @@ Give the player the option to shop for new weapons. Thus, a monetary system must
 Store progress 
 
 ONE EXTRA FUNCTIONALITY 
+
+
+#### IMPLEMENTATIONS ####
+
+TO CREATE COLLIDE FOR MY OBJECTS/ITEMS:
+CREATE A MOTHER SPRITE CLASS --- INNIT: WIDTH, HEIGHT
+CREATE CHILD CLASSES TO OVERWRITE METHODS IN MOTHER CLASS FOR SPECIFIC PURPOSES
+
