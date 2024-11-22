@@ -2,6 +2,8 @@ import pygame
 
 from config import resolution, white, deep_black, dark_red
 
+
+
 # Function to draw a stick figure with a construction hat
 def draw_stick_figure_with_hat(screen, x, y):
     # head
@@ -58,45 +60,44 @@ def under_construction():
     first_speech = conversation_font.render("Can we fix it?", True, white)
     bob_speech = conversation_font.render("Probably not...", True, white)
 
-    # setting up the "images" positions
+    # setting up the "images" position
     bob_x_position = 460
     bob_y_position = 450
 
     normal_x_position = 260
     normal_y_position = 450
 
-    # same old, same old while True loop
+    # same old, same old... while True loop
     while True:
-        # getting mouse position
-        mouse = pygame.mouse.get_pos()
+        # getting the mouse position
+        mouse = pygame.mouse.get_pos()  # probably good idea to create a function to write this
 
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
-
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 # checking if the back button was clicked
                 if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    return
+                    return   # return from where it was before
 
-            # display the screen:
-            screen.fill(deep_black)
+        # displaying the screen:
+        screen.fill(deep_black)
 
-            # displaying the main UNDER CONSTRUCTION text
-            construction_rect = construction_text.get_rect(center=(720//2, 300))
-            screen.blit(construction_text, construction_rect)
+        # displaying the main UNDER CONSTRUCTION TEXT
+        construction_rect = construction_text.get_rect(center=(720 // 2, 300))
+        screen.blit(construction_text, construction_rect)
 
-            # drawing the back button
-            pygame.draw.rect(screen, dark_red, [450,600,140,60])
-            back_rect = back_text.get_rect(center=(450 + 140//2, 600 + 60 // 2))
-            screen.blit(back_text, back_rect)
+        # drawing the back button
+        pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
+        back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
+        screen.blit(back_text, back_rect)
 
-            # stick figures text and "images"
-            draw_normal_stick_figure(screen, normal_x_position, normal_y_position)
-            draw_stick_figure_with_hat(screen, bob_x_position, bob_y_position)
+        # stick figures text and "images"
+        draw_normal_stick_figure(screen, normal_x_position, normal_y_position)
+        draw_stick_figure_with_hat(screen, bob_x_position, bob_y_position)
 
-            screen.blit(first_speech, (normal_x_position - 60, normal_y_position - 80))
-            screen.blit(bob_speech, (bob_x_position - 60, bob_y_position - 80))
+        screen.blit(first_speech, (normal_x_position - 60, normal_y_position - 80))
+        screen.blit(bob_speech, (bob_x_position - 60, bob_y_position - 80))
 
-            # finally, as always, updating our screen
-            pygame.display.update()
+        # finally, as always, updating our screen
+        pygame.display.update()

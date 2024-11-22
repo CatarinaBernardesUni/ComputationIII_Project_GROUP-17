@@ -1,7 +1,7 @@
-from utils import *  # no need to import pygame because the import is in utils
 from game import game_loop
+from utils import * # no need to import pygame because the import is in utils
+from config import * # importing colors and the like
 from utils import under_construction
-from config import *
 
 
 def interface():
@@ -10,10 +10,6 @@ def interface():
     pygame.init() # calling pygame
     # creating the screen at the set resolution
     screen = pygame.display.set_mode(resolution) # show the user something
-
-    # this was in the execute game function, I put it here to change the title of the window even if we
-    # don't click in the "start game"
-    pygame.display.set_caption("Endless Wilderness Explorer") # set the title of the window
 
     # setting the fonts
     corbelfont = pygame.font.SysFont("Corbel", 50)
@@ -29,22 +25,20 @@ def interface():
 
     # main interface loop (will run until the user quits)
     while True:
+        # getting the mouse position (future need)
+        mouse = pygame.mouse.get_pos()
+
         # event detection (future work)
         for ev in pygame.event.get():
 
-            # getting the mouse position (future need)
-            mouse = pygame.mouse.get_pos()
-
-            # seeing if the user hits the red x button
+            # seeing if the user hits the red X button
             if ev.type == pygame.QUIT:
-                pygame.quit()
+                pygame.quit()   # quit the game
 
-            # quit button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
                     pygame.quit()
 
-            # credits button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] < 590 and 480 <= mouse[1] < 540:
                     credits_()
@@ -95,15 +89,17 @@ def interface():
         # showing the title of the project
         screen.blit(title_text, (55, 0))
 
-        # update the display so that the loop changes will appear
+        # updating the display sp that the loop changes will appear
         pygame.display.update()
 
+
 def credits_():
+
+    # basic settings #
+
     screen = pygame.display.set_mode(resolution)
 
-    # in order to print something we need to first create a font, create the text and then blit
-
-    # creating the fonts:
+    # creating the fonts
     corbelfont = pygame.font.SysFont("Corbel", 50)
     comicsansfont = pygame.font.SysFont("Comic Sans MS", 25)
 
@@ -114,7 +110,7 @@ def credits_():
 
     # main loop to detect user input and display the credits
     while True:
-        # getting the position of the users mouse
+        # getting the position of the user mouse
         mouse = pygame.mouse.get_pos()
 
         for ev in pygame.event.get():
@@ -128,18 +124,18 @@ def credits_():
                 if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
                     interface()
 
-        # display my screen
-        screen.fill(deep_black) # we can fill the screen with an image instead of deep_black
+        # displaying my screen
+        screen.fill(deep_black)  # we can use an image instead of black paint
 
         # displaying our texts
-        screen.blit(augusto_text, (0,0)) # first line
-        screen.blit(diogo_text, (0, 25))
+        screen.blit(augusto_text, (0, 0))
+        screen.blit(diogo_text, (0, 25))  # same position but different y
         screen.blit(liah_text, (0, 50))
 
-        # drawing and displaying the back button
+        # drawing and displaying the back button to go back to interface
         pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
         back_text = corbelfont.render("back", True, white)
-        back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
+        back_rect = back_text.get_rect(center=(450+140 // 2, 600 + 60 // 2))
         screen.blit(back_text, back_rect)
 
         # updating the display
