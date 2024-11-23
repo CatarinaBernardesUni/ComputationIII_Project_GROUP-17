@@ -3,6 +3,7 @@ import pygame
 import random
 import math
 
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -21,13 +22,12 @@ class Enemy(pygame.sprite.Sprite):
         # todo: different enemies have different speeds
 
         # setting a random initial speed for the enemy
-        self.speed = random.randint(1,2)
+        self.speed = random.randint(1, 2)
 
         # setting the health bar
         self.health = 10
 
     def update(self, player):
-
         # determining the direction of the movement based on the player location
         dx = player.rect.x - self.rect.x
         dy = player.rect.y - self.rect.y
@@ -41,3 +41,4 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.x = int(self.rect.x)
         self.rect.y = int(self.rect.y)
+

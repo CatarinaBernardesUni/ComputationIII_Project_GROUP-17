@@ -12,6 +12,7 @@ def collision_test(rect, tiles):
             hit_list.append(tile)
     return hit_list
 
+
 def move(rect, movement, tiles):
     """
     this function is used to move the player

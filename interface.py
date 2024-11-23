@@ -34,7 +34,6 @@ def interface():
 
             # getting the mouse position (future need)
             mouse = pygame.mouse.get_pos()
-
             # seeing if the user hits the red x button
             if ev.type == pygame.QUIT:
                 pygame.quit()
@@ -97,6 +96,7 @@ def interface():
 
         # update the display so that the loop changes will appear
         pygame.display.update()
+
 
 def credits_():
     screen = pygame.display.set_mode(resolution)

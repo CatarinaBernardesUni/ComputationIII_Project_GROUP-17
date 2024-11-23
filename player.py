@@ -25,8 +25,11 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.speed = 5
-        self.health = 100
+        # self.health = [full_heart, full_heart, full_heart, full_heart, full_heart, full_heart]
+        self.health = ['<3', '<3', '<3', '<3', '<3']
         self.bullet_cooldown = 0
+        self.damage_cooldown = 0  # Initial cooldown time
+        self.cooldown_duration = 2000  # Cooldown duration in milliseconds
 
     def update(self):
         # getting the keys input

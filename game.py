@@ -5,6 +5,7 @@ from enemy import Enemy
 from shed import shed
 
 
+
 def game_loop():
     # creating the player for the game, it is only defined once
     player = Player()
@@ -19,10 +20,21 @@ def game_loop():
         elif current_state == "shed":
             current_state = shed(player)
 
-def execute_game(player):
 
+def game_over(screen):
+    screen.fill('black')
+    font = pygame.font.SysFont("Corbel", 50)
+    game_over_text = font.render("Game Over", True, 'white')
+    game_over_text_rect = game_over_text.get_rect(center=(width / 2, height / 3))
+    screen.blit(game_over_text, game_over_text_rect)
+
+    pygame.display.update()
+
+
+def execute_game(player):
     # SETUP
     # setting up the background
+
     background = pygame.image.load("images/stardew_valley.jpg")
     background = pygame.transform.scale(background, (width, height))
 
@@ -65,9 +77,9 @@ def execute_game(player):
                 pygame.quit()
 
         # Testing at home: loading the map code
-        #tile_rects = []
-        #y = 0
-        #for row in game_map:
+        # tile_rects = []
+        # y = 0
+        # for row in game_map:
         #    x = 0
         #    for tile in row:
         #        if tile == 1:
@@ -76,11 +88,8 @@ def execute_game(player):
         #        if tile == 2:
         #            display.blit(floor, (x * tile_size, y * tile_size))
 
-        #        if tile == 0:
-        #            tile_rects.append(pygame.Rect(x * tile_size, y * tile_size, tile_size, tile_size)) #these tile sizes
-        #                                                                                            # are assuming that width and height are the same
-        #        x += 1
-        #    y += 1
+        # if tile == 0: tile_rects.append(pygame.Rect(x * tile_size, y * tile_size, tile_size, tile_size)) #these
+        # tile sizes # are assuming that width and height are the same x += 1 y += 1
 
         # automatically shoot bullets from the player
         player.shoot(bullets)
@@ -121,7 +130,7 @@ def execute_game(player):
         # checking for collisions between player bullets and enemies
         for bullet in bullets:
             # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-            collided_enemies = pygame.sprite.spritecollide(bullet, enemies, False) # False means not kill upon impact
+            collided_enemies = pygame.sprite.spritecollide(bullet, enemies, False)  # False means not kill upon impact
             for enemy in collided_enemies:
                 enemy.health -= 5
 
@@ -132,8 +141,21 @@ def execute_game(player):
                     enemy.kill()
 
         # Testing at home: player becomes red when colliding with an enemy # this display was screen
+        # the problem with this part of the code is that the health is decreasing very fast
+        def remove_health():
+            player.health.__delitem__(-1)  # B  deletes the last item in the list of hearts
+
         if player.rect.colliderect(enemy.rect):
             pygame.draw.rect(screen, red, player.rect)
+            if not player.health:
+                game_over(screen)
+                clock.tick(10)
+
+            elif pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
+                remove_health()
+                player.damage_cooldown = pygame.time.get_ticks()
+                print(player.health)
+
 
         # Testing at home: making the screen "move"
         # screen.blit(pygame.transform.scale(display, resolution), (0, 0)) # 0,0 being the top left
@@ -143,3 +165,6 @@ def execute_game(player):
 
     # the main while loop was terminated
     pygame.quit()
+
+    pygame.display.update()
+    clock.tick(15)
