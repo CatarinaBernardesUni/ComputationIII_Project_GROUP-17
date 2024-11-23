@@ -153,6 +153,7 @@ def execute_game(player):
                 clock.tick(10)
 
             elif pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
+                # aqui falta mostrar os corações na tela (I print the health to see if it's working)
                 remove_health()
                 player.damage_cooldown = pygame.time.get_ticks()
                 print(player.health)
