@@ -3,6 +3,9 @@ import pygame
 from player import Player
 from enemy import Enemy
 from shed import shed
+from pytmx.util_pygame import load_pygame
+
+from tile import Tile
 
 
 def game_loop():
@@ -25,6 +28,22 @@ def execute_game(player):
     # setting up the background
     background = pygame.image.load("images/stardew_valley.jpg")
     background = pygame.transform.scale(background, (width, height))
+    tmx_data = load_pygame("...") # todo: add the path to the tmx file
+    tile_group = pygame.sprite.Group()
+
+    # cycle through all visible layers in the tmx file
+    for layer in tmx_data.visible_layers:
+        # layer as the attribute data which objects don't have
+        if hasattr(layer, "data"):
+            for x, y, surface in layer.tiles():
+                pos = (x * tile_size, y * tile_size)
+                Tile(pos=pos, surface=surface, groups=tile_group)
+
+    for obj in tmx_data.objects:
+        pos = obj.x, obj.y  # this is not a tile set which means that the x and y are information
+                            # that we can use straight away
+        if obj.image:
+            Tile(pos=pos, surface=obj.image, groups=tile_group)
 
     # Testing at home: making the display "smaller" than the background
     # display = pygame.Surface((width // 2, height // 2))
@@ -109,6 +128,9 @@ def execute_game(player):
         # checking if the player moved off-screen from the right to the left area
         if player.rect.right >= width:
             return "shed"
+
+        # drawing the tiles
+        tile_group.draw(screen)
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         player_group.draw(screen)

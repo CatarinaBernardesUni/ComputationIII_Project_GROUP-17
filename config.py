@@ -24,3 +24,4 @@ fps = 60
 player_size = (50, 100)
 enemy_size = (40, 40)
 bullet_size = 10
+tile_size = 16
