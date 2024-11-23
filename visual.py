@@ -1,7 +1,7 @@
 from config import *
 import pygame
 from utils import *
-from mouse_position import get_mouse_position
+from mouse_position import *
 
 """
 creating a sprite class for my visuals that will interact when collided with
@@ -36,11 +36,11 @@ class House(Visual):
         super().__init__(width=width, height=height, visual_path=visual_path)
 
     def on_collision(self, player):
-        house_collision()
+        house_collision(player)
 
 
 
-def house_collision():
+def house_collision(player):
     # setting up a background
     background = pygame.image.load("images/inside_house.png")
     background = pygame.transform.scale(background, resolution)
@@ -51,27 +51,49 @@ def house_collision():
     # displaying my background
     screen.blit(background, (0, 0))
 
-    # setting up font and text for going back
-    corbelfont = pygame.font.SysFont("Corbel", 50)
-    back_text = corbelfont.render("back", True, deep_black)
+    ### SETTING UP SO MY PLAYER APPEARS ON SCREEN ####
 
-    while True:
-        # getting the mouse position
-        mouse = get_mouse_position()
+    # setting up a clock for fps
+    clock = pygame.time.Clock()
 
-        for ev in pygame.event.get():
-            if ev.type == pygame.QUIT:
+    # i want my player to start on the bottom, slightly to the right
+    player.rect.x = 270
+    player.rect.y = resolution[1] - player.rect.height
+
+    # creating the player group
+    player_group = pygame.sprite.Group()
+    player_group.add(player)
+
+    # initializing back button to avoid errors
+    back_button_rect = None
+
+    ### LOOP SO PLAYER CAN MOVE INSIDE HOUSE ####
+    running = True
+    while running:
+        clock.tick(fps)
+
+        # handling events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 pygame.quit()
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                # checking if the back button was clicked
-                if 1050 <= mouse[0] <= 1190 and 600 <= mouse[1] <= 660:
-                    return   # return from where it was before
+                # can't use button loop as it interferes with main loop :(
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse = pygame.mouse.get_pos()
+                if back_button_rect.collidepoint(mouse):
+                    return
 
+        # displaying the background
+        screen.fill(deep_black)
+        screen.blit(background, (0, 0))
+        back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, white)
 
-        # drawing the back button
-        pygame.draw.rect(screen, white, [1050, 600, 140, 60])
-        back_rect = back_text.get_rect(center=(1050 + 140 // 2, 600 + 60 // 2))
-        screen.blit(back_text, back_rect)
+        # updating player position
+        player_group.update()
 
-        # Updating our screen
+        # drawing the player
+        player_group.draw(screen)
+
+        # updating the display
         pygame.display.update()
+
+

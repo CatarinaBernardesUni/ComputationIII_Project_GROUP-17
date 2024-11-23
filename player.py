@@ -13,9 +13,15 @@ class Player(pygame.sprite.Sprite):
 
         # VISUAL VARIABLES
         # we call surface to represent the player image
-        self.image = pygame.Surface(player_size)
+        self.image = pygame.Surface(player_size, pygame.SRCALPHA)   # lets support transparent backgrounds
         # drawing the image of the player
-        self.image.fill(cute_purple)
+        player_image = pygame.image.load("images/character.png")
+        player_image = pygame.transform.scale(player_image, player_size)
+
+        # Blit the player image onto the surface
+        self.image.blit(player_image, (0, 0))
+
+        # getting player rect
         self.rect = self.image.get_rect()
         self.rect.center = (width // 2, height // 2)
 
