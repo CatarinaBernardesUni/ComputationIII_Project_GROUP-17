@@ -22,6 +22,7 @@ def game_loop():
 
 
 def game_over(screen):
+    # ainda falta adicionar "restart" e "return to menu"
     screen.fill('black')
     font = pygame.font.SysFont("Corbel", 50)
     game_over_text = font.render("Game Over", True, 'white')
