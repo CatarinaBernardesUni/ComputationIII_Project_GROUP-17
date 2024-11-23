@@ -22,5 +22,3 @@ fps = 60
 player_size = (50, 100)
 enemy_size = (40, 40)
 bullet_size = 10
-house_position = (260, 250)
-house_size = (160, 120)

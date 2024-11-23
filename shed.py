@@ -12,8 +12,7 @@ def shed(player):
     background = pygame.transform.scale(background, resolution)
 
     # placing my house on the screen
-    house = House(width=190, height=250, visual_path="images/outside_house.png")
-    house.set_position(160, 120)
+    house = House(width=340, height=450, visual_path="images/outside_house.png")
 
     # setting up the screen
     screen = pygame.display.set_mode(resolution)
@@ -29,7 +28,7 @@ def shed(player):
     player_group.add(player)
 
     # setting up the shed area as a special area in the shed map location
-    special_area = pygame.Rect(530, 30, 140, 140)
+    special_area = house.detect_coll
 
     # normal main game loop (because reasons, shed area will not have enemies nor bullets)
     # this is our base implementation and you're allowed to change this!!!
@@ -53,13 +52,13 @@ def shed(player):
 
         # detect if the user walked in to the special area (which is the house)
         if special_area.colliderect(player.rect):
-            under_construction()
+            house.collide_player(player)
 
             # changing the players position
             player.rect.top = 200
             player.rect.left = 560
 
-        # allowing the player to return back to the previous area/screen
+        # allowing the player to return back to the previous area/screen from area 2 to area 1
         if player.rect.left <= 0:
             # position the player to the right of the screen
             player.rect.left = width - player.rect.width
@@ -72,4 +71,3 @@ def shed(player):
 
         # updating the screen
         pygame.display.flip()
-        

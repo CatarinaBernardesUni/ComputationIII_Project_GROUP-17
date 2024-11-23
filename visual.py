@@ -23,14 +23,6 @@ class Visual(pygame.sprite.Sprite):
         # creating an area in which when collided against, it will activate
         self.detect_coll = self.visual_image.get_rect()
 
-
-    # creating a def for changing positions: link stack overflow
-    # https://stackoverflow.com/questions/62804292/how-to-set-the-position-of-an-image-in-pygame
-    def set_position(self, x, y):
-        self.detect_coll.x = x
-        self.detect_coll.y = y
-        self.visual_image = pygame.transform.scale(self.visual_image, (x, y))
-
     def collide_player(self, player):
         if self.detect_coll.colliderect(player.rect):
             self.on_collision()
