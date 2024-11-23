@@ -8,9 +8,12 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         # creating a surface for the enemy
-        self.image = pygame.Surface(enemy_size)
+        # self.image = pygame.Surface(enemy_size)
         # filling the surface with chosen enemy colour
-        self.image.fill(greenish)
+        enemy_img1 = pygame.image.load("images/monsters/monster 1/walk/1.png")
+        self.image = pygame.transform.scale(enemy_img1, enemy_size)
+
+        # self.image.fill(greenish)
 
         # getting rectangle for positioning
         self.rect = self.image.get_rect()

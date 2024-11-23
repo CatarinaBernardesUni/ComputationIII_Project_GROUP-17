@@ -5,7 +5,6 @@ from enemy import Enemy
 from shed import shed
 
 
-
 def game_loop():
     # creating the player for the game, it is only defined once
     player = Player()
@@ -30,6 +29,7 @@ def game_over(screen):
     screen.blit(game_over_text, game_over_text_rect)
 
     pygame.display.update()
+
 
 
 def execute_game(player):
@@ -123,7 +123,7 @@ def execute_game(player):
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         player_group.draw(screen)
         enemies.draw(screen)
-
+        enemy_hurt = pygame.image.load("images/monsters/monster 1/enemy_hurt.png")
         # drawing the bullet sprites # this display was also screen
         for bullet in bullets:
             bullet.draw(screen)
@@ -133,6 +133,7 @@ def execute_game(player):
             # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
             collided_enemies = pygame.sprite.spritecollide(bullet, enemies, False)  # False means not kill upon impact
             for enemy in collided_enemies:
+                enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
                 enemy.health -= 5
 
                 # removing the bullet from the screen after hitting the player
@@ -157,7 +158,6 @@ def execute_game(player):
                 remove_health()
                 player.damage_cooldown = pygame.time.get_ticks()
                 print(player.health)
-
 
         # Testing at home: making the screen "move"
         # screen.blit(pygame.transform.scale(display, resolution), (0, 0)) # 0,0 being the top left
