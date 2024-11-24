@@ -17,15 +17,16 @@ cute_purple = (128, 0, 128)
 greenish = (182, 215, 168)
 full_heart = pygame.image.load("images/full_heart.png")
 empty_heart = pygame.image.load("images/empty_heart.png")
-
+game_over_image = pygame.image.load("images/gameover.png")
 # SCREEN RESOLUTION
 resolution = (720, 720)  # height/width
 # todo: make resolution options in the interface
 width, height = resolution[0], resolution[1]
 fps = 60
+screen = pygame.display.set_mode(resolution)
 
 # SIZES
-player_size = (80, 100)
+player_size = (100, 120)
 enemy_size = (80, 80)
 bullet_size = 10
 

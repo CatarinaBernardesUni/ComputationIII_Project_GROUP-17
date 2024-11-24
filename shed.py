@@ -6,7 +6,7 @@ def shed(player):
     background = pygame.image.load("images/Giant_Stump.png")
     background = pygame.transform.scale(background, resolution)
 
-    screen = pygame.display.set_mode(resolution)
+    # screen = pygame.display.set_mode(resolution)
 
     # setting up the clock for fps
     clock = pygame.time.Clock()
@@ -22,9 +22,8 @@ def shed(player):
 
     # normal main game loop (because reasons shed area will not have enemies nor bullets
     # this is our base implementation and you're allowed to change this
-    running = True
 
-    while running:
+    while True:
         clock.tick(fps)
         screen.blit(background, (0, 0))
 
@@ -32,6 +31,7 @@ def shed(player):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                exit()
 
         # updating player position
         player_group.update()

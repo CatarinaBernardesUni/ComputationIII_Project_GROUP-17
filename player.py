@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                         # self.frames[state].append(surf)
 
     def animate(self):
-        self.frame_index += 0.07  # Increments frame index at a fixed fps (animation speed)
+        self.frame_index += 0.07  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
     def update(self):

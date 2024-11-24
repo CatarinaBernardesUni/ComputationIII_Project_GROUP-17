@@ -6,16 +6,25 @@ from shed import shed
 import interface
 
 
-def game_over(screen):
-    # ainda falta adicionar "restart" e "return to menu"
-    # screen.fill('black')
-    font = pygame.font.SysFont("Corbel", 50)
-    game_over_text = font.render("Game Over", True, 'white')
-    game_over_text_rect = game_over_text.get_rect(center=(width / 2, height / 2 - 200))  # height / 3
-    screen.blit(game_over_text, game_over_text_rect)
-    clock.tick(1)
-    # interface.interface()
+def game_over():
+    screen.blit(game_over_image, (0, 0))
     pygame.display.update()
+
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            mouse = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 157 <= mouse[0] <= 340 and 505 <= mouse[1] <= 598:
+                    game_loop()
+                    waiting = False
+
+                if 282 <= mouse[0] <= 431 and 502 <= mouse[1] <= 535:
+                    pygame.quit()
+                    exit()
 
 
 def game_loop():
@@ -47,7 +56,7 @@ def execute_game(player):
     clock = pygame.time.Clock()
 
     # screen setup:
-    screen = pygame.display.set_mode(resolution)
+    # screen = pygame.display.set_mode(resolution)
 
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
@@ -65,8 +74,8 @@ def execute_game(player):
     enemy_cooldown = 0
 
     ###################################### MAIN GAME LOOP #######################################
-    running = True
-    while running:
+
+    while True:
         # controlling the frame rate
         clock.tick(fps)
 
@@ -76,8 +85,8 @@ def execute_game(player):
         # handling events:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                # pygame.quit()
-                running = False
+                pygame.quit()
+                exit()
         # Testing at home: loading the map code
         # tile_rects = []
         # y = 0
@@ -152,9 +161,8 @@ def execute_game(player):
             # player.image = pygame.transform.scale(player_img1, player_size)
             # pygame.draw.rect(screen, red, player.rect)
             if not player.health:
-            #    game_over(screen)
-            #    clock.tick(1)
-                print("YOU DIED!")
+                game_over()
+                #    clock.tick(1)
 
             if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
                 # aqui falta mostrar os corações na tela (I print the health to see if it's working)

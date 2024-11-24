@@ -8,7 +8,7 @@ def interface():
     # initiating pygame
     pygame.init()  # calling pygame
     # creating the screen at the set resolution
-    screen = pygame.display.set_mode(resolution)  # show the user something
+    # screen = pygame.display.set_mode(resolution)  # show the user something
 
     # this was in the execute game function, I put it here to change the title of the window even if we
     # don't click in the "start game"
@@ -27,8 +27,7 @@ def interface():
     title_text = comicsansfont.render("Computation III - Project", True, glowing_light_red)
 
     # main interface loop (will run until the user quits)
-    run = True
-    while run:
+    while True:
         # event detection (future work)
         for ev in pygame.event.get():
 
@@ -36,14 +35,14 @@ def interface():
             mouse = pygame.mouse.get_pos()
             # seeing if the user hits the red x button
             if ev.type == pygame.QUIT:
-                # pygame.quit()
-                run = False
+                pygame.quit()
+                exit()
 
             # quit button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    # pygame.quit()
-                    run = False
+                    pygame.quit()
+                    exit()
             # credits button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] < 590 and 480 <= mouse[1] < 540:
@@ -99,7 +98,7 @@ def interface():
 
 
 def credits_():
-    screen = pygame.display.set_mode(resolution)
+    # screen = pygame.display.set_mode(resolution)
 
     # in order to print something we need to first create a font, create the text and then blit
 
