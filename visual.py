@@ -24,6 +24,18 @@ class Visual(pygame.sprite.Sprite):
         # creating an area in which when collided against, it will activate
         self.detect_coll = self.visual_image.get_rect()
 
+        # creating a new variable to be able to move the image
+        self.visual_pos = self.detect_coll.topleft
+
+    # creating a function to change the visual around
+    def set_position(self, x, y):
+        self.visual_pos = (x, y)
+        self.detect_coll.topleft = (x, y)
+
+    # creating a function to draw the visual on screen
+    def draw_visual(self, screen):
+        screen.blit(self.visual_image, self.visual_pos)
+
     def collide_player(self, player):
         if self.detect_coll.colliderect(player.rect):
             self.on_collision(player)
@@ -36,14 +48,39 @@ class House(Visual):
         super().__init__(width=width, height=height, visual_path=visual_path)
 
     def on_collision(self, player):
-        house_collision(player)
+        inside_house(player)
 
 
+class Clues(Visual):
+    def __init__(self, width, height, visual_path):
+        super().__init__(width=width, height=height, visual_path=visual_path)
 
-def house_collision(player):
+    def on_collision(self, player):
+        get_clue(player)
+
+
+def get_clue(player):
+    background = pygame.image.load("images/GRASS.jpg")
+    background = pygame.transform.scale(background, resolution)
+
+    screen = pygame.display.set_mode(resolution)
+
+    # setting up the back button
+    back_button = activate_back_button(screen, background, 1050, 620, 140, 60, "back", deep_black, white)
+
+    # trying to make the player move but not working
+    # so it doesn't collide with the thing again
+
+    # setting up the background
+    screen.blit(background, (0, 0))
+
+
+def inside_house(player):
     # setting up a background
     background = pygame.image.load("images/inside_house.png")
     background = pygame.transform.scale(background, resolution)
+    clue = Clues(100, 100, "images/pregaminho.png")
+    clue.set_position(1000, 200)
 
     # setting up the screen
     screen = pygame.display.set_mode(resolution)
@@ -67,6 +104,9 @@ def house_collision(player):
     # initializing back button to avoid errors
     back_button_rect = None
 
+    # creating specila collision area
+    special_area = clue.detect_coll
+
     ### LOOP SO PLAYER CAN MOVE INSIDE HOUSE ####
     running = True
     while running:
@@ -82,10 +122,24 @@ def house_collision(player):
                 if back_button_rect.collidepoint(mouse):
                     return
 
+        # let the player be able to collide with clue
+        # updating player position
+        player.update()
+
+        # detect if the user walked in to the special area (which is the house)
+        if special_area.colliderect(player.rect):
+            clue.collide_player(player)
+
+            # changing the players position to a set one to avoid colliding from the sides.
+            # location based on the clue
+            player.rect.x = 1050
+            player.rect.y = 300
+
         # displaying the background
         screen.fill(deep_black)
         screen.blit(background, (0, 0))
         back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, white)
+        clue.draw_visual(screen)
 
         # updating player position
         player_group.update()
@@ -95,5 +149,4 @@ def house_collision(player):
 
         # updating the display
         pygame.display.update()
-
 

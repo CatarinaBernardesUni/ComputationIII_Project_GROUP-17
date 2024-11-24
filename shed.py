@@ -12,7 +12,8 @@ def shed(player):
     background = pygame.transform.scale(background, resolution)
 
     # placing my house on the screen
-    house = House(width=340, height=450, visual_path="images/outside_house.png")
+    house = House(width=220, height=250, visual_path="images/outside_house.png")
+    house.set_position(1000, 190)
 
     # setting up the screen
     screen = pygame.display.set_mode(resolution)
@@ -38,9 +39,9 @@ def shed(player):
 
     while running:
         clock.tick(fps)
-        # displaying the farm background on the entirety of the screen
+        # displaying the farm background on the entirety of the screen and the house
         screen.blit(background, (0, 0))
-        screen.blit(house.visual_image, house.detect_coll)
+        house.draw_visual(screen)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for event in pygame.event.get():
@@ -54,9 +55,9 @@ def shed(player):
         if special_area.colliderect(player.rect):
             house.collide_player(player)
 
-            # changing the players position
-            player.rect.top = 200
-            player.rect.left = 560
+            # changing the players position --- NOT WORKING
+            player.rect.x -= 100
+            player.rect.y -= 100
 
         # allowing the player to return back to the previous area/screen from area 2 to area 1
         if player.rect.left <= 0:
