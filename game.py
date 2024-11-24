@@ -28,6 +28,8 @@ def execute_game(player):
     # setting up the background
     background = pygame.image.load("images/stardew_valley.jpg")
     background = pygame.transform.scale(background, (width, height))
+
+    ###################################### TILE MAP #######################################
     tmx_data = load_pygame("...") # todo: add the path to the tmx file
     tile_group = pygame.sprite.Group()
 
@@ -82,24 +84,6 @@ def execute_game(player):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-
-        # Testing at home: loading the map code
-        #tile_rects = []
-        #y = 0
-        #for row in game_map:
-        #    x = 0
-        #    for tile in row:
-        #        if tile == 1:
-        #            display.blit(wall, (x * tile_size, y * tile_size)) # we are multiplying it to get the pixel
-        #                                                                    # coordinates of the tile
-        #        if tile == 2:
-        #            display.blit(floor, (x * tile_size, y * tile_size))
-
-        #        if tile == 0:
-        #            tile_rects.append(pygame.Rect(x * tile_size, y * tile_size, tile_size, tile_size)) #these tile sizes
-        #                                                                                            # are assuming that width and height are the same
-        #        x += 1
-        #    y += 1
 
         # automatically shoot bullets from the player
         player.shoot(bullets)
