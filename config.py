@@ -1,6 +1,8 @@
 # Config file used to set global variables and other settings
 # COLORS AND PICTURES HERE FOR NOW
 import pygame
+
+
 # COLORS
 dark_red = (138, 0, 0)  # Dark red for buttons
 deep_black = (19, 20, 20)  # Almost black for background
@@ -16,14 +18,15 @@ greenish = (182, 215, 168)
 full_heart = pygame.image.load("images/full_heart.png")
 empty_heart = pygame.image.load("images/empty_heart.png")
 
-
 # SCREEN RESOLUTION
-resolution = (720, 720) # height/width
+resolution = (720, 720)  # height/width
 # todo: make resolution options in the interface
 width, height = resolution[0], resolution[1]
 fps = 60
 
 # SIZES
-player_size = (50, 100)
+player_size = (80, 100)
 enemy_size = (80, 80)
 bullet_size = 10
+
+clock = pygame.time.Clock()

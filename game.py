@@ -3,6 +3,19 @@ import pygame
 from player import Player
 from enemy import Enemy
 from shed import shed
+import interface
+
+
+def game_over(screen):
+    # ainda falta adicionar "restart" e "return to menu"
+    # screen.fill('black')
+    font = pygame.font.SysFont("Corbel", 50)
+    game_over_text = font.render("Game Over", True, 'white')
+    game_over_text_rect = game_over_text.get_rect(center=(width / 2, height / 2 - 200))  # height / 3
+    screen.blit(game_over_text, game_over_text_rect)
+    clock.tick(1)
+    # interface.interface()
+    pygame.display.update()
 
 
 def game_loop():
@@ -18,18 +31,6 @@ def game_loop():
             current_state = execute_game(player)
         elif current_state == "shed":
             current_state = shed(player)
-
-
-def game_over(screen):
-    # ainda falta adicionar "restart" e "return to menu"
-    screen.fill('black')
-    font = pygame.font.SysFont("Corbel", 50)
-    game_over_text = font.render("Game Over", True, 'white')
-    game_over_text_rect = game_over_text.get_rect(center=(width / 2, height / 3))
-    screen.blit(game_over_text, game_over_text_rect)
-
-    pygame.display.update()
-
 
 
 def execute_game(player):
@@ -75,8 +76,8 @@ def execute_game(player):
         # handling events:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-
+                # pygame.quit()
+                running = False
         # Testing at home: loading the map code
         # tile_rects = []
         # y = 0
@@ -148,12 +149,14 @@ def execute_game(player):
             player.health.__delitem__(-1)  # B  deletes the last item in the list of hearts
 
         if player.rect.colliderect(enemy.rect):
-            pygame.draw.rect(screen, red, player.rect)
+            # player.image = pygame.transform.scale(player_img1, player_size)
+            # pygame.draw.rect(screen, red, player.rect)
             if not player.health:
-                game_over(screen)
-                clock.tick(10)
+            #    game_over(screen)
+            #    clock.tick(1)
+                print("YOU DIED!")
 
-            elif pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
+            if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
                 # aqui falta mostrar os corações na tela (I print the health to see if it's working)
                 remove_health()
                 player.damage_cooldown = pygame.time.get_ticks()

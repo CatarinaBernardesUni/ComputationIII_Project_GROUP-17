@@ -3,6 +3,8 @@ from config import *
 import pygame
 import math
 from bullet import Bullet
+from os.path import join
+from os import walk  # allows us to walk through a folder
 
 
 # making a player a child of the Sprite class
@@ -11,11 +13,16 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def __init__(self):
         # calling the mother classes init aka Sprite
         super().__init__()
+        self.load_images()  # we need to do this before creating image
+        self.state, self.frame_index = "left", 0
 
         # VISUAL VARIABLES
+        # player_img1 = pygame.image.load("images/player/down/2.png")
+        # self.image = pygame.transform.scale(player_img1, player_size)
         self.image = pygame.Surface(player_size)  # we use surface to display any image or draw
         # drawing the image of the player
         self.image.fill(cute_purple)
+
         # area where the player will be drawn
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
@@ -25,27 +32,67 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # self.image.set_colorkey(white)
 
         # GAMEPLAY VARIABLES
-        self.speed = 5
+        self.speed = 3
         # self.health = [full_heart, full_heart, full_heart, full_heart, full_heart, full_heart]
         self.health = ['<3', '<3', '<3', '<3', '<3']
         self.bullet_cooldown = 0
         self.damage_cooldown = 0  # Initial cooldown time
         self.cooldown_duration = 2000  # Cooldown duration in milliseconds
 
+    def load_images(self):
+        self.frames = {"up": [], "down": [], "left": [], "right": [],
+                       "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
+        for state in self.frames.keys():
+            for folder_path, sub_folders, file_names in walk(join("images", "player", state)):
+                if file_names:
+                    for file_name in file_names:
+                        full_path = join(folder_path, file_name)
+                        surf = pygame.image.load(full_path).convert_alpha()
+                        scaled_surf = pygame.transform.scale(surf, player_size)
+                        self.frames[state].append(scaled_surf)
+                        # self.frames[state].append(surf)
+
+    def animate(self):
+        self.frame_index += 0.07  # Increments frame index at a fixed fps (animation speed)
+        self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
+
     def update(self):
         # getting the keys input
-        keys = pygame.key.get_pressed()
 
+        keys = pygame.key.get_pressed()
+        movement = False
         # checking which keys where pressed and moving the player accordingly
         # independent movements, independent ifs
         if keys[pygame.K_w] and self.rect.top > 0:
             self.rect.y -= self.speed
+            self.state = "up"
+            movement = True
         if keys[pygame.K_s] and self.rect.bottom < height:
             self.rect.y += self.speed
+            self.state = "down"
+            movement = True
         if keys[pygame.K_a] and self.rect.left > 0:
             self.rect.x -= self.speed
+            self.state = "left"
+            movement = True
         if keys[pygame.K_d] and self.rect.right < width:
             self.rect.x += self.speed
+            self.state = "right"
+            movement = True
+
+        if not movement:
+            if self.state == "down":
+                self.state = "idle_down"
+            elif self.state == "up":
+                self.state = "idle_up"
+            elif self.state == "left":
+                self.state = "idle_left"
+            elif self.state == "right":
+                self.state = "idle_right"
+
+        if keys[pygame.K_SPACE]:
+            pass
+        self.animate()
 
     def shoot(self, bullets):
         """

@@ -5,15 +5,14 @@ from config import *
 
 
 def interface():
-
     # initiating pygame
-    pygame.init() # calling pygame
+    pygame.init()  # calling pygame
     # creating the screen at the set resolution
-    screen = pygame.display.set_mode(resolution) # show the user something
+    screen = pygame.display.set_mode(resolution)  # show the user something
 
     # this was in the execute game function, I put it here to change the title of the window even if we
     # don't click in the "start game"
-    pygame.display.set_caption("Endless Wilderness Explorer") # set the title of the window
+    pygame.display.set_caption("Endless Wilderness Explorer")  # set the title of the window
 
     # setting the fonts
     corbelfont = pygame.font.SysFont("Corbel", 50)
@@ -28,7 +27,8 @@ def interface():
     title_text = comicsansfont.render("Computation III - Project", True, glowing_light_red)
 
     # main interface loop (will run until the user quits)
-    while True:
+    run = True
+    while run:
         # event detection (future work)
         for ev in pygame.event.get():
 
@@ -36,13 +36,14 @@ def interface():
             mouse = pygame.mouse.get_pos()
             # seeing if the user hits the red x button
             if ev.type == pygame.QUIT:
-                pygame.quit()
+                # pygame.quit()
+                run = False
 
             # quit button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    pygame.quit()
-
+                    # pygame.quit()
+                    run = False
             # credits button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] < 590 and 480 <= mouse[1] < 540:
@@ -65,10 +66,9 @@ def interface():
 
         # filling the screen
         screen.fill(deep_black)
-
         # wilderness explorer button
         pygame.draw.rect(screen, dark_red, [90, 240, 540, 60])
-        wilderness_rect = wilderness_text.get_rect(center=(90 + 540 // 2, 240 + 60 // 2)) # text centered in the button
+        wilderness_rect = wilderness_text.get_rect(center=(90 + 540 // 2, 240 + 60 // 2))  # text centered in the button
         screen.blit(wilderness_text, wilderness_rect)
 
         # rules button
@@ -129,10 +129,10 @@ def credits_():
                     interface()
 
         # display my screen
-        screen.fill(deep_black) # we can fill the screen with an image instead of deep_black
+        screen.fill(deep_black)  # we can fill the screen with an image instead of deep_black
 
         # displaying our texts
-        screen.blit(augusto_text, (0,0)) # first line
+        screen.blit(augusto_text, (0, 0))  # first line
         screen.blit(diogo_text, (0, 25))
         screen.blit(liah_text, (0, 50))
 
@@ -152,3 +152,5 @@ def rules_():
 
 def wilderness_explorer():
     game_loop()
+
+
