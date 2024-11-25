@@ -3,7 +3,7 @@ from utils import *
 
 def shed(player):
     # setting up the background and the screen
-    background = pygame.image.load("images/Giant_Stump.png")
+    background = pygame.image.load("images/screens/Giant_Stump.png")
     background = pygame.transform.scale(background, resolution)
 
     # screen = pygame.display.set_mode(resolution)

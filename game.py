@@ -46,7 +46,7 @@ def execute_game(player):
     # SETUP
     # setting up the background
 
-    background = pygame.image.load("images/stardew_valley.jpg")
+    background = pygame.image.load("images/screens/stardew_valley.jpg")
     background = pygame.transform.scale(background, (width, height))
 
     # Testing at home: making the display "smaller" than the background
