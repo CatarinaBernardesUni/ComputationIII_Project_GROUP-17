@@ -3,18 +3,18 @@ import sys
 from pytmx.util_pygame import load_pygame
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, surface, groups, animation_frames=None, animation_duration=None):
+    def __init__(self, position, surf, groups, frames_animation=None, animation_duration=None):
         super().__init__(groups)
-        self.image = surface
-        self.rect = self.image.get_rect(topleft=pos)
+        self.image = surf
+        self.rect = self.image.get_rect(topleft=position)
         self.current_anim_index = 0  # Initialize animation index
-        self.animation_frames = animation_frames if animation_frames else []  # Store animation frames
-        self.animation_duration = animation_duration if animation_duration else 1  # Store the duration for animation frames
+        self.animation_frames = frames_animation if frames_animation else []  # Store animation frames
+        self.animation_duration = animation_duration if animation_duration else 1
         self.animation_time = 0  # Store time passed for animation
 
-    def update(self, frame_time):
+    def update(self, time_frame):
         if self.animation_frames:
-            self.animation_time += frame_time
+            self.animation_time += time_frame
             if self.animation_time >= self.animation_duration:
                 self.current_anim_index += 1
                 if self.current_anim_index >= len(self.animation_frames):
@@ -39,9 +39,9 @@ for layer in tmx_data.layers:
     if hasattr(layer, "data"):
         for x, y, surface in layer.tiles():
             pos = (x * 16, y * 16)
-            Tile(pos=pos, surface=surface, groups=(sprite_group, tiles_group))
+            Tile(position=pos, surf=surface, groups=(sprite_group, tiles_group))
 
-    # animated tiles
+# animated tiles
 for layer in tmx_data.layers:  # Loop through layers again for animated tiles
     if hasattr(layer, "data"):
         for x, y, surface in layer.tiles():
@@ -58,16 +58,16 @@ for layer in tmx_data.layers:  # Loop through layers again for animated tiles
                     total_duration += duration
 
                 if animation_frames:
-                    pos = (x * 16, y * 16)  # Calculate position based on tile coordinates
-                    Tile(pos=pos, surface=animation_frames[0], groups=(sprite_group, animated_tiles_group),
-                         animation_frames=animation_frames, animation_duration=total_duration)
+                    pos = (x * 16, y * 16)
+                    Tile(position=pos, surf=animation_frames[0], groups=(sprite_group, animated_tiles_group),
+                         frames_animation=animation_frames, animation_duration=total_duration)
 
 
 for obj in tmx_data.objects:
     if obj.image:
         scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
         pos = (obj.x, obj.y)
-        Tile(pos=pos, surface=scaled_image, groups=(sprite_group, objects_group))
+        Tile(position=pos, surf=scaled_image, groups=(sprite_group, objects_group))
 
 
 while True:
@@ -86,7 +86,7 @@ while True:
     animated_tiles_group.draw(screen)
 
     # draw the objects
-    for sprite in sorted(objects_group, key=lambda sprite: sprite.rect.centery):
+    for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
         screen.blit(sprite.image, sprite.rect.topleft)
 
     pygame.display.update()
