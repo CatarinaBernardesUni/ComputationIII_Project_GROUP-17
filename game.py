@@ -1,3 +1,4 @@
+
 from config import *
 import pygame
 from player import Player
@@ -25,6 +26,27 @@ def game_over():
                 if 282 <= mouse[0] <= 431 and 502 <= mouse[1] <= 535:
                     pygame.quit()
                     exit()
+                if 27 <= mouse[0] <= 273 and 187 <= mouse[1] <= 429:
+                    interface.interface()
+                    waiting = False
+
+
+def paused():
+    is_paused = True
+    while is_paused:
+        """
+        corbelfont = pygame.font.SysFont("Corbel", 30, 10)
+        pause_text = corbelfont.render("You just paused the game, press ENTER to unpause", True, deep_black, white)
+        pause_rect = pause_text.get_rect(center=(720 // 2, 100))
+        screen.blit(pause_text, pause_rect)
+        pygame.display.update()"""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    is_paused = False
 
 
 def game_loop():
@@ -46,7 +68,7 @@ def execute_game(player):
     # SETUP
     # setting up the background
 
-    background = pygame.image.load("images/screens/stardew_valley.jpg")
+    background = pygame.image.load("images/screens/farm.jpg")
     background = pygame.transform.scale(background, (width, height))
 
     # Testing at home: making the display "smaller" than the background
@@ -75,18 +97,24 @@ def execute_game(player):
 
     ###################################### MAIN GAME LOOP #######################################
 
-    while True:
+    running = True
+    while running:
         # controlling the frame rate
         clock.tick(fps)
 
         # setting up the background # change to display later
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
-
+        # mouse = pygame.mouse.get_pos()
         # handling events:
+        keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+            if keys[pygame.K_SPACE]:
+                paused()
+
+
         # Testing at home: loading the map code
         # tile_rects = []
         # y = 0
@@ -133,7 +161,7 @@ def execute_game(player):
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         player_group.draw(screen)
         enemies.draw(screen)
-        enemy_hurt = pygame.image.load("images/monsters/monster 1/enemy_hurt.png")
+        enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
         # drawing the bullet sprites # this display was also screen
         for bullet in bullets:
             bullet.draw(screen)
@@ -155,20 +183,25 @@ def execute_game(player):
         # Testing at home: player becomes red when colliding with an enemy # this display was screen
         # the problem with this part of the code is that the health is decreasing very fast
         def remove_health():
-            player.health.__delitem__(-1)  # B  deletes the last item in the list of hearts
+            # player.health.__delitem__(-1)  # B  deletes the last item in the list of hearts
+            player.health -= 1
+
+        def get_health():  # we should use this if the player picks up hearts or something
+            if player.health < player.max_health:
+                player.health += 1
 
         if player.rect.colliderect(enemy.rect):
-            # player.image = pygame.transform.scale(player_img1, player_size)
             # pygame.draw.rect(screen, red, player.rect)
-            if not player.health:
+            if player.health <= 0:
                 game_over()
-                #    clock.tick(1)
 
+            # this "if" sees if the difference between the time the player is hit and the last time the
+            # player was hit is bigger than the time it needs to cooldown
             if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
-                # aqui falta mostrar os corações na tela (I print the health to see if it's working)
+                # here is missing showing hearts as health (I print the health to see if it's working)
                 remove_health()
-                player.damage_cooldown = pygame.time.get_ticks()
-                print(player.health)
+                player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
+                # to this time because he was hit
 
         # Testing at home: making the screen "move"
         # screen.blit(pygame.transform.scale(display, resolution), (0, 0)) # 0,0 being the top left
@@ -178,6 +211,7 @@ def execute_game(player):
 
     # the main while loop was terminated
     pygame.quit()
+    exit()
 
-    pygame.display.update()
-    clock.tick(15)
+    #pygame.display.update()
+    #clock.tick(15)

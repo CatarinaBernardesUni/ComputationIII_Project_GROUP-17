@@ -1,5 +1,5 @@
-from config import *
 from utils import *
+
 
 def shed(player):
     # setting up the background and the screen
@@ -21,7 +21,7 @@ def shed(player):
     special_area = pygame.Rect(530, 30, 140, 140)
 
     # normal main game loop (because reasons shed area will not have enemies nor bullets
-    # this is our base implementation and you're allowed to change this
+    # this is our base implementation, and you're allowed to change this
 
     while True:
         clock.tick(fps)

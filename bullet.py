@@ -9,8 +9,11 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__()
 
         self.direction = direction
-        self.radius = bullet_size
+        self.radius = bullet_size[0]
         self.color = yellow
+        #self.image = pygame.image.load("images/others/trident.png")
+        #self.image = pygame.surface.Surface(bullet_size)
+        # #self.image = pygame.transform.scale(self.image, bullet_size)
 
         # updating the x and y positions to fit the circle
         self.rect = pygame.Rect(x - self.radius, y - self.radius, self.radius * 2, self.radius * 2)

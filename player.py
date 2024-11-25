@@ -1,4 +1,3 @@
-from utils import *
 from config import *
 import pygame
 import math
@@ -17,12 +16,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.state, self.frame_index = "left", 0
 
         # VISUAL VARIABLES
-        # player_img1 = pygame.image.load("images/player/down/2.png")
-        # self.image = pygame.transform.scale(player_img1, player_size)
         self.image = pygame.Surface(player_size)  # we use surface to display any image or draw
-        # drawing the image of the player
-        self.image.fill(cute_purple)
-
         # area where the player will be drawn
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
@@ -33,8 +27,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.speed = 3
-        # self.health = [full_heart, full_heart, full_heart, full_heart, full_heart, full_heart]
-        self.health = ['<3', '<3', '<3', '<3', '<3']
+        self.health = 5
+        self.max_health = 5
+        # to be able to pick up hearts in the game
         self.bullet_cooldown = 0
         self.damage_cooldown = 0  # Initial cooldown time
         self.cooldown_duration = 2000  # Cooldown duration in milliseconds
@@ -43,7 +38,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
         for state in self.frames.keys():
-            for folder_path, sub_folders, file_names in walk(join("images", "player", state)):
+            for folder_path, sub_folders, file_names in walk(join("images", "player", "player 3", state)):
                 if file_names:
                     for file_name in file_names:
                         full_path = join(folder_path, file_name)
@@ -55,6 +50,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def animate(self):
         self.frame_index += 0.07  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
+
+    def empty_hearts(self):
+        for heart in range(self.max_health):
+            if heart < self.health:
+                screen.blit(full_heart, (heart * 50, 10))
+            else:
+                screen.blit(empty_heart, (heart * 50, 10))
 
     def update(self):
         # getting the keys input
@@ -93,6 +95,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if keys[pygame.K_SPACE]:
             pass
         self.animate()
+        self.empty_hearts()
 
     def shoot(self, bullets):
         """

@@ -62,6 +62,7 @@ def interface():
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 90 <= mouse[0] <= 230 and 480 <= mouse[1] <= 540:
                     under_construction()
+                    rules_()
 
         # filling the screen
         screen.fill(deep_black)

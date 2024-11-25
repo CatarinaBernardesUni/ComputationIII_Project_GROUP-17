@@ -10,7 +10,7 @@ class Enemy(pygame.sprite.Sprite):
         # creating a surface for the enemy
         # self.image = pygame.Surface(enemy_size)
         # filling the surface with chosen enemy colour
-        enemy_img1 = pygame.image.load("images/monsters/monster 1/walk/1.png")
+        enemy_img1 = pygame.image.load("images/monsters/monster 3/enemy.png")
         self.image = pygame.transform.scale(enemy_img1, enemy_size)
 
         # self.image.fill(greenish)

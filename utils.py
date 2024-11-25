@@ -49,7 +49,8 @@ def under_construction():
     # screen = pygame.display.set_mode(resolution)
 
     # setting up the fonts
-    corbelfont = pygame.font.SysFont("Corbel", 50)
+
+    corbelfont = pygame.font.SysFont("georgia", 50)
     conversation_font = pygame.font.SysFont("Arial", 30)
 
     # setting my texts:
