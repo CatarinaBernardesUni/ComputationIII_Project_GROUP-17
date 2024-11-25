@@ -1,5 +1,5 @@
 from utils import *  # no need to import pygame because the import is in utils
-from game import game_loop
+from game import execute_game
 from utils import under_construction
 from config import *
 
@@ -151,4 +151,5 @@ def rules_():
 
 
 def wilderness_explorer():
-    game_loop()
+    # game_loop()
+    execute_game()
