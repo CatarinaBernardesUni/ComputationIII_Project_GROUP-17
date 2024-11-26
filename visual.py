@@ -8,12 +8,17 @@ creating a sprite class for my visuals that will interact when collided with
 
 """
 class Visual(pygame.sprite.Sprite):
-    def __init__(self, width, height, visual_path):
+    def __init__(self, width, height, visual_path, collision_behaviour):
         super().__init__()
 
         # setting up the width and height of my visual
         self.width = width
         self.height = height
+
+        # setting up my behaviour for collision
+        self.collision_behaviour = collision_behaviour
+
+
 
         ##### CREATING MY VISUAL ######
         # creating my image provided by input
@@ -38,25 +43,20 @@ class Visual(pygame.sprite.Sprite):
 
     def collide_player(self, player):
         if self.detect_coll.colliderect(player.rect):
-            self.on_collision(player)
+            self.collision_behaviour(player)
 
-    def on_collision(self, player):
-        pass
+    #def on_collision(self, player):
+        #pass
 
 class House(Visual):
-    def __init__(self, width, height, visual_path):
-        super().__init__(width=width, height=height, visual_path=visual_path)
-
-    def on_collision(self, player):
-        inside_house(player)
+    def __init__(self, width, height, visual_path, collision_behaviour):
+        super().__init__(width=width, height=height, visual_path=visual_path, collision_behaviour=collision_behaviour)
 
 
 class Clues(Visual):
-    def __init__(self, width, height, visual_path):
-        super().__init__(width=width, height=height, visual_path=visual_path)
+    def __init__(self, width, height, visual_path, collision_behaviour):
+        super().__init__(width=width, height=height, visual_path=visual_path, collision_behaviour=collision_behaviour)
 
-    def on_collision(self, player):
-        get_clue(player)
 
 
 def get_clue(player):
@@ -79,7 +79,7 @@ def inside_house(player):
     # setting up a background
     background = pygame.image.load("images/inside_house.png")
     background = pygame.transform.scale(background, resolution)
-    clue = Clues(100, 100, "images/pregaminho.png")
+    clue = Clues(100, 100, "images/pregaminho.png", collision_behaviour=get_clue)
     clue.set_position(1000, 200)
 
     # setting up the screen
@@ -104,7 +104,7 @@ def inside_house(player):
     # initializing back button to avoid errors
     back_button_rect = None
 
-    # creating specila collision area
+    # creating special collision area
     special_area = clue.detect_coll
 
     ### LOOP SO PLAYER CAN MOVE INSIDE HOUSE ####

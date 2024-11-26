@@ -12,7 +12,7 @@ def shed(player):
     background = pygame.transform.scale(background, resolution)
 
     # placing my house on the screen
-    house = House(width=220, height=250, visual_path="images/outside_house.png")
+    house = House(width=220, height=250, visual_path="images/outside_house.png", collision_behaviour=inside_house)
     house.set_position(1000, 190)
 
     # setting up the screen
