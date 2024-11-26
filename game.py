@@ -64,22 +64,18 @@ def execute_game(player):
                         Tile(position=pos, surf=animation_frames[0], groups=(sprite_group, animated_tiles_group),
                              frames_animation=animation_frames, animation_duration=total_duration)
 
+    # creating a group of sprites to include all sprites to be drawn on the screen(except the tiles)
+    all_sprites = pygame.sprite.Group()
+    collision_sprites = pygame.sprite.Group()
     # objects
     for obj in tmx_data.objects:
-        if obj.image:
+        if obj.image: # no rectangles are entering here because they do not have images
             scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
             pos = (obj.x, obj.y)
             Tile(position=pos, surf=scaled_image, groups=(sprite_group, objects_group))
+        if obj in tmx_data.get_layer_by_name("COLLISIONS"):
+            CollisionObject(position=(obj.x, obj.y), size=(obj.width, obj.height), groups=(all_sprites, collision_sprites))
     ####################################################################
-    # creating a group of sprites to include all sprites to be drawn on the screen(except the tiles)
-    all_sprites = pygame.sprite.Group()
-
-    # testing collisions
-    collision_sprites = pygame.sprite.Group()
-    for i in range(6):
-        position = (randint(0, width), randint(0, height))
-        size = (randint(60, 100), randint(50, 100))
-        CollisionObject(position, size, (all_sprites, collision_sprites))
 
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
@@ -139,8 +135,8 @@ def execute_game(player):
         enemies.update(player)
 
         # checking if the player moved off-screen from the right to the left area
-        if player.rect.right >= width:
-            return "shed"
+        # if player.rect.right >= width:
+            # return "shed"
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         player_group.draw(screen)

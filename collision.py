@@ -5,6 +5,5 @@ import pygame
 class CollisionObject(pygame.sprite.Sprite):
     def __init__(self, position, size, groups):
         super().__init__(groups)
-        self.image = pygame.Surface(size)
-        self.image.fill((255, 0, 0))
-        self.rect = self.image.get_rect(center = position)
+        self.image = pygame.Surface(size, pygame.SRCALPHA)
+        self.rect = self.image.get_rect(topleft = position)

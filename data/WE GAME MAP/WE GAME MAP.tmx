@@ -652,7 +652,7 @@
   <object id="637" gid="2147485083" x="92.8333" y="266.833" width="31.3333" height="29.3333" rotation="-359.369"/>
   <object id="638" gid="2147485083" x="61.3333" y="254.833" width="31.3333" height="29.3333" rotation="-359.369"/>
  </objectgroup>
- <objectgroup id="8" name="COLLISIONS" visible="0" locked="1">
+ <objectgroup id="8" name="COLLISIONS" locked="1">
   <object id="518" x="613.333" y="284" width="234.667" height="64"/>
   <object id="519" x="849.333" y="305.333" width="136" height="45.3333"/>
   <object id="520" x="952" y="286.667" width="330.667" height="64"/>
@@ -757,7 +757,7 @@
   <object id="626" x="77.3333" y="477.333" width="49.3333" height="84"/>
   <object id="627" x="202.667" y="586.667" width="65.3333" height="37.3333"/>
  </objectgroup>
- <objectgroup id="9" name="FIGHT AREA" locked="1">
+ <objectgroup id="9" name="FIGHT AREA" visible="0" locked="1">
   <object id="517" x="638.667" y="338.667" width="636" height="380"/>
  </objectgroup>
  <objectgroup id="10" name="Markers">
