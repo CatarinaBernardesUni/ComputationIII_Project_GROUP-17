@@ -5,6 +5,8 @@ from player import Player
 from shed import shed
 from pytmx.util_pygame import load_pygame
 from tile import Tile
+from collision import CollisionObject
+from random import randint
 
 def game_loop():
     # creating the player for the game - only done once :)
@@ -62,12 +64,22 @@ def execute_game(player):
                         Tile(position=pos, surf=animation_frames[0], groups=(sprite_group, animated_tiles_group),
                              frames_animation=animation_frames, animation_duration=total_duration)
 
+    # objects
     for obj in tmx_data.objects:
         if obj.image:
             scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
             pos = (obj.x, obj.y)
             Tile(position=pos, surf=scaled_image, groups=(sprite_group, objects_group))
     ####################################################################
+    # creating a group of sprites to include all sprites to be drawn on the screen(except the tiles)
+    all_sprites = pygame.sprite.Group()
+
+    # testing collisions
+    collision_sprites = pygame.sprite.Group()
+    for i in range(6):
+        position = (randint(0, width), randint(0, height))
+        size = (randint(60, 100), randint(50, 100))
+        CollisionObject(position, size, (all_sprites, collision_sprites))
 
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
@@ -77,6 +89,7 @@ def execute_game(player):
     bullets = pygame.sprite.Group()
     # creating an enemy group
     enemies = pygame.sprite.Group()
+
     # before starting our main loop, set up the enemy cooldown
     enemy_cooldown = 0
 
@@ -98,9 +111,10 @@ def execute_game(player):
         animated_tiles_group.update(frame_time * 3)
         animated_tiles_group.draw(screen)
 
-        # draw the objects
+        # draw the objects in order of their y position
         for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
             screen.blit(sprite.image, sprite.rect.topleft)
+
         # automatically shoot bullets from the player
         player.shoot(bullets)
 
@@ -118,7 +132,7 @@ def execute_game(player):
         enemy_cooldown -= 1
 
         # updating positions and visuals
-        player_group.update()
+        player_group.update(collision_sprites)
 
         # updating the bullets group
         bullets.update()
@@ -131,7 +145,12 @@ def execute_game(player):
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         player_group.draw(screen)
+        # Testing at home: player becomes red when colliding with an enemy # this display was screen
+        if player.rect.colliderect(enemy.rect):
+            pygame.draw.rect(screen, red, player.rect)
+
         enemies.draw(screen)
+        collision_sprites.draw(screen)
 
         # drawing the bullet sprites # this display was also screen
         for bullet in bullets:
@@ -149,10 +168,6 @@ def execute_game(player):
 
                 if enemy.health <= 0:
                     enemy.kill()
-
-        # Testing at home: player becomes red when colliding with an enemy # this display was screen
-        if player.rect.colliderect(enemy.rect):
-            pygame.draw.rect(screen, red, player.rect)
 
         # Testing at home: making the screen "move"
         # screen.blit(pygame.transform.scale(display, resolution), (0, 0)) # 0,0 being the top left

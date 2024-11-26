@@ -18,8 +18,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
         self.rect.center = (width // 2, height // 2)
+        self.direction = pygame.Vector2(0, 0)
 
-        #self.hitbox_rect = self.rect.inflate(-40, 0) # making the hitbox smaller than the player image
+        self.hitbox_rect = self.rect.inflate(-40, 0) # making the hitbox smaller than the player image
                                                     # todo: change this according to the player image
 
         # GAMEPLAY VARIABLES
@@ -27,17 +28,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.health = 100
         self.bullet_cooldown = 0
 
-    #def collision(self, direction):
-        #for sprite in self.collision_sprites:
-            #if sprite.rect.colliderect(self.hitbox_rect):
-                #if direction == 'horizontal':
-                    #if self.direction.x > 0: self.hitbox_rect.right = sprite.rect.left
-                    #if self.direction.x < 0: self.hitbox_rect.left = sprite.rect.right
-                #else:
-                    #if self.direction.y < 0: self.hitbox_rect.top = sprite.rect.bottom
-                    #if self.direction.y > 0: self.hitbox_rect.bottom = sprite.rect.top
-
-    def update(self):
+    def update(self, collision_sprites):
         # getting the keys input
         keys = pygame.key.get_pressed()
 
@@ -45,13 +36,31 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # independent movements, independent ifs
         if keys[pygame.K_w] or keys[pygame.K_UP] and self.rect.top > 0:
             self.rect.y -= self.speed
+            self.collision('vertical', collision_sprites)
         if keys[pygame.K_s] or keys[pygame.K_DOWN] and self.rect.bottom < height:
             self.rect.y += self.speed
+            self.collision('vertical', collision_sprites)
         if keys[pygame.K_a] or keys[pygame.K_LEFT] and self.rect.left > 0:
             self.rect.x -= self.speed
+            self.collision('horizontal', collision_sprites)
         if keys[pygame.K_d] or keys[pygame.K_RIGHT] and self.rect.right < width:
             self.rect.x += self.speed
+            self.collision('horizontal', collision_sprites)
 
+    def collision(self, direction, collision_sprites):
+        for sprite in collision_sprites:
+            if sprite.rect.colliderect(self.hitbox_rect):
+                if direction == 'horizontal':
+                    if self.direction.x > 0:
+                        self.hitbox_rect.right = sprite.rect.left
+                    if self.direction.x < 0:
+                        self.hitbox_rect.left = sprite.rect.right
+            else:
+                if self.direction.y < 0:
+                    self.hitbox_rect.top = sprite.rect.bottom
+                if self.direction.y > 0:
+                    self.hitbox_rect.bottom = sprite.rect.top
+    
     def shoot(self, bullets):
         """
         bullets --> pygame group where I will add bullets
