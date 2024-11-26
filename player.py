@@ -18,6 +18,13 @@ class Player(pygame.sprite.Sprite):
         player_image = pygame.image.load("images/character.png")
         player_image = pygame.transform.scale(player_image, player_size)
 
+
+
+        # creating and inventory for my player:
+        self.inventory = {"gold": 0}
+
+
+
         # Blit the player image onto the surface
         self.image.blit(player_image, (0, 0))
 
@@ -72,3 +79,28 @@ class Player(pygame.sprite.Sprite):
             self.bullet_cooldown = fps
 
         self.bullet_cooldown -= 1
+
+    # creating functions that let the player spend and earn gold
+    def spend_gold(self, amount):
+        if self.inventory["gold"] >= amount:
+            self.inventory["gold"] -= amount
+            return self.inventory
+        else:
+            return self.inventory
+
+    def add_gold(self, amount):
+        self.inventory["gold"] += amount
+        return self.inventory
+
+    def add_item_to_inventory(self, item, amount):
+        if item in self.inventory:
+            self.inventory[item] += amount
+        else:
+            self.inventory[item] = amount
+
+    def buy_items(self, item, amount):
+        if self.spend_gold(amount):
+            self.add_item_to_inventory(item, amount)
+            return self.inventory
+        else:
+            return self.inventory
