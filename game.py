@@ -131,7 +131,7 @@ def execute_game(player):
         # updating the enemy cooldown
         enemy_cooldown -= 1
 
-        # updating positions and visuals
+        # updating the player group
         player_group.update(collision_sprites)
 
         # updating the bullets group
@@ -141,7 +141,6 @@ def execute_game(player):
         # checking if the player moved off-screen from the right to the left area
         if player.rect.right >= width:
             return "shed"
-
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         player_group.draw(screen)
