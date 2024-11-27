@@ -1,7 +1,7 @@
 from config import *
 from utils import *
 from visual import *
-
+from store import *
 
 # the second background
 def shed(player):
@@ -14,6 +14,8 @@ def shed(player):
     # placing my house on the screen
     house = House(width=220, height=250, visual_path="images/outside_house.png", collision_behaviour=inside_house)
     house.set_position(1000, 190)
+    store = House(width=220, height=250, visual_path="images/outside_store.png", collision_behaviour=inside_store)
+    store.set_position(200, 190)
 
     # setting up the screen
     screen = pygame.display.set_mode(resolution)
@@ -30,6 +32,7 @@ def shed(player):
 
     # setting up the shed area as a special area in the shed map location
     special_area = house.detect_coll
+    collide_store = store.detect_coll
 
     # normal main game loop (because reasons, shed area will not have enemies nor bullets)
     # this is our base implementation and you're allowed to change this!!!
@@ -42,6 +45,7 @@ def shed(player):
         # displaying the farm background on the entirety of the screen and the house
         screen.blit(background, (0, 0))
         house.draw_visual(screen)
+        store.draw_visual(screen)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for event in pygame.event.get():
@@ -58,6 +62,14 @@ def shed(player):
             # changing the players position --- NOT WORKING
             player.rect.x -= 100
             player.rect.y -= 100
+
+        # detect if player collides with the store
+        if collide_store.colliderect(player.rect):
+            store.collide_player(player)
+
+            player.rect.x = 300
+            player.rect.y = 490
+
 
         # allowing the player to return back to the previous area/screen from area 2 to area 1
         if player.rect.left <= 0:

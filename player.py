@@ -98,7 +98,7 @@ class Player(pygame.sprite.Sprite):
         else:
             self.inventory[item] = amount
 
-    def buy_items(self, item, amount):
+    def buy_item(self, item, amount):
         if self.spend_gold(amount):
             self.add_item_to_inventory(item, amount)
             return self.inventory
