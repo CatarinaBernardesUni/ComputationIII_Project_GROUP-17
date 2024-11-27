@@ -12,7 +12,7 @@ def game_loop():
     # creating the player for the game - only done once :)
     player = Player()
 
-    # by default I start the game in the main area
+    # by default, I start the game in the main area
     current_state = "main"
 
     # "endeless" game loop:
@@ -25,7 +25,9 @@ def game_loop():
 def execute_game(player):
     # using the clock to control the time frame.
     clock = pygame.time.Clock()
+    # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
     screen = pygame.display.set_mode(resolution)
+    display = pygame.Surface((width//2.2, height//2.2))
 
     ############################### MAP ################################
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
@@ -40,7 +42,7 @@ def execute_game(player):
     for layer in tmx_data.layers:
         if hasattr(layer, "data"):
             for x, y, surface in layer.tiles():
-                pos = (x * 16, y * 16)
+                pos = (x * tile_size, y * tile_size)
                 Tile(position=pos, surf=surface, groups=(sprite_group, tiles_group))
 
     # animated tiles
@@ -60,7 +62,7 @@ def execute_game(player):
                         total_duration += duration
 
                     if animation_frames:
-                        pos = (x * 16, y * 16)
+                        pos = (x * tile_size, y * tile_size)
                         Tile(position=pos, surf=animation_frames[0], groups=(sprite_group, animated_tiles_group),
                              frames_animation=animation_frames, animation_duration=total_duration)
 
@@ -100,16 +102,16 @@ def execute_game(player):
             if event.type == pygame.QUIT:
                 pygame.quit()
 
-        screen.fill("black")
+        display.fill("black")
 
         # draw the tiles
-        tiles_group.draw(screen)
+        tiles_group.draw(display)
         animated_tiles_group.update(frame_time * 3)
-        animated_tiles_group.draw(screen)
+        animated_tiles_group.draw(display)
 
         # draw the objects in order of their y position
         for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
-            screen.blit(sprite.image, sprite.rect.topleft)
+            display.blit(sprite.image, sprite.rect.topleft)
 
         # automatically shoot bullets from the player
         player.shoot(bullets)
@@ -139,17 +141,17 @@ def execute_game(player):
             # return "shed"
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
-        player_group.draw(screen)
+        player_group.draw(display)
         # Testing at home: player becomes red when colliding with an enemy # this display was screen
         if player.rect.colliderect(enemy.rect):
-            pygame.draw.rect(screen, red, player.rect)
+            pygame.draw.rect(display, red, player.rect)
 
-        enemies.draw(screen)
-        collision_sprites.draw(screen)
+        enemies.draw(display)
+        collision_sprites.draw(display)
 
         # drawing the bullet sprites # this display was also screen
         for bullet in bullets:
-            bullet.draw(screen)
+            bullet.draw(display)
 
         # checking for collisions between player bullets and enemies
         for bullet in bullets:
@@ -165,7 +167,7 @@ def execute_game(player):
                     enemy.kill()
 
         # Testing at home: making the screen "move"
-        # screen.blit(pygame.transform.scale(display, resolution), (0, 0)) # 0,0 being the top left
+        screen.blit(pygame.transform.scale(display, resolution), (0, 0)) # 0,0 being the top left
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()

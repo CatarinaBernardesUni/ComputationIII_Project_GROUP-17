@@ -18,8 +18,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
         self.rect.center = (width // 2, height // 2)
-        # self.direction = pygame.Vector2(0, 0)
-
         self.hitbox_rect = self.rect.inflate(0, 0) # making the hitbox smaller than the player image
                                                     # todo: change this according to the player image
 
