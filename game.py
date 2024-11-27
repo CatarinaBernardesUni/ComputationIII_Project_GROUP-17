@@ -27,23 +27,26 @@ def execute_game(player):
     clock = pygame.time.Clock()
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
     screen = pygame.display.set_mode(resolution)
-    display = pygame.Surface((width//2.2, height//2.2))
+    display = pygame.Surface((width//2, height//2))
 
     ############################### MAP ################################
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
 
     # sprite groups for the objects and tiles
-    sprite_group = pygame.sprite.Group()
+    # the background sprite group is a container for all the background sprites in the game
+    background_sprite_group = pygame.sprite.Group()
+    # although the rectangles being used for collisions are also objects, they are not included in this group
     objects_group = pygame.sprite.Group()
     tiles_group = pygame.sprite.Group()
     animated_tiles_group = pygame.sprite.Group()
+    collision_sprites = pygame.sprite.Group()
 
     # static tiles
     for layer in tmx_data.layers:
         if hasattr(layer, "data"):
             for x, y, surface in layer.tiles():
                 pos = (x * tile_size, y * tile_size)
-                Tile(position=pos, surf=surface, groups=(sprite_group, tiles_group))
+                Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
 
     # animated tiles
     for layer in tmx_data.layers:  # Loop through layers again for animated tiles
@@ -63,20 +66,19 @@ def execute_game(player):
 
                     if animation_frames:
                         pos = (x * tile_size, y * tile_size)
-                        Tile(position=pos, surf=animation_frames[0], groups=(sprite_group, animated_tiles_group),
+                        Tile(position=pos, surf=animation_frames[0], groups=(background_sprite_group,
+                                                                             animated_tiles_group),
                              frames_animation=animation_frames, animation_duration=total_duration)
 
-    # creating a group of sprites to include all sprites to be drawn on the screen(except the tiles)
-    all_sprites = pygame.sprite.Group()
-    collision_sprites = pygame.sprite.Group()
     # objects
     for obj in tmx_data.objects:
-        if obj.image: # no rectangles are entering here because they do not have images
+        if obj.image:  # no rectangles are entering here because they do not have images
             scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
             pos = (obj.x, obj.y)
-            Tile(position=pos, surf=scaled_image, groups=(sprite_group, objects_group))
+            Tile(position=pos, surf=scaled_image, groups=(background_sprite_group, objects_group))
         if obj in tmx_data.get_layer_by_name("COLLISIONS"):
-            CollisionObject(position=(obj.x, obj.y), size=(obj.width, obj.height), groups=(all_sprites, collision_sprites))
+            CollisionObject(position=(obj.x, obj.y), size=(obj.width, obj.height), groups=(background_sprite_group,
+                                                                                           collision_sprites))
     ####################################################################
 
     # creating an empty group for the player (that was received as input)
