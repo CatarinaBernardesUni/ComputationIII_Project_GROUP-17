@@ -35,10 +35,11 @@ def execute_game(player):
     # sprite groups for the objects and tiles
     # the background sprite group is a container for all the background sprites in the game
     background_sprite_group = pygame.sprite.Group()
-    # although the rectangles being used for collisions are also objects, they are not included in this group
-    objects_group = pygame.sprite.Group()
+
     tiles_group = pygame.sprite.Group()
     animated_tiles_group = pygame.sprite.Group()
+    # although the rectangles being used for collisions are also objects, they are not included in this group
+    objects_group = pygame.sprite.Group()
     collision_sprites = pygame.sprite.Group()
 
     # static tiles
@@ -106,14 +107,28 @@ def execute_game(player):
 
         display.fill("black")
 
+        # Calculate camera offset
+        camera_x = player.rect.centerx - display.get_width() // 2
+        camera_y = player.rect.centery - display.get_height() // 2
+
+        # Clamp the camera within the map boundaries
+        camera_x = max(0, min(camera_x, width - display.get_width()))
+        camera_y = max(0, min(camera_y, height - display.get_height()))
+
+        camera_offset = pygame.Vector2(-camera_x, -camera_y)
+
         # draw the tiles
-        tiles_group.draw(display)
+        # tiles_group.draw(display)
+        for tile in tiles_group:
+            display.blit(tile.image, tile.rect.topleft + camera_offset)
         animated_tiles_group.update(frame_time * 3)
-        animated_tiles_group.draw(display)
+        # animated_tiles_group.draw(display)
+        for animated_tile in animated_tiles_group:
+            display.blit(animated_tile.image, animated_tile.rect.topleft + camera_offset)
 
         # draw the objects in order of their y position
         for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
-            display.blit(sprite.image, sprite.rect.topleft)
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # automatically shoot bullets from the player
         player.shoot(bullets)
@@ -143,17 +158,30 @@ def execute_game(player):
             # return "shed"
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
-        player_group.draw(display)
+        # player_group.draw(display)
+        for sprite in player_group:
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)
         # Testing at home: player becomes red when colliding with an enemy # this display was screen
         if player.rect.colliderect(enemy.rect):
             pygame.draw.rect(display, red, player.rect)
 
-        enemies.draw(display)
-        collision_sprites.draw(display)
+        # enemies.draw(display)
+        for enemy in enemies:
+            display.blit(enemy.image, enemy.rect.topleft + camera_offset)
+
+        # collision_sprites.draw(display)
+        for sprite in collision_sprites:
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         # drawing the bullet sprites # this display was also screen
         for bullet in bullets:
-            bullet.draw(display)
+            # bullet.draw(display)
+            pygame.draw.circle(
+                display,
+                bullet.color,
+                (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
+                bullet.radius
+            )
 
         # checking for collisions between player bullets and enemies
         for bullet in bullets:
