@@ -33,19 +33,19 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # checking which keys where pressed and moving the player accordingly
         # independent movements, independent ifs
-        if keys[pygame.K_w] or keys[pygame.K_UP] and self.rect.top > 0:
+        if (keys[pygame.K_w] or keys[pygame.K_UP]) and self.rect.top > 0:
             self.rect.y -= self.speed
             self.hitbox_rect.centery = self.rect.centery
             self.collision('vertical', collision_sprites)
-        if keys[pygame.K_s] or keys[pygame.K_DOWN] and self.rect.bottom < height:
+        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and self.rect.bottom < height:
             self.rect.y += self.speed
             self.hitbox_rect.centery = self.rect.centery
             self.collision('vertical', collision_sprites)
-        if keys[pygame.K_a] or keys[pygame.K_LEFT] and self.rect.left > 0:
+        if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and self.rect.left > 0:
             self.rect.x -= self.speed
             self.hitbox_rect.centerx = self.rect.centerx
             self.collision('horizontal', collision_sprites)
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT] and self.rect.right < width:
+        if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and self.rect.right < width:
             self.rect.x += self.speed
             self.hitbox_rect.centerx = self.rect.centerx
             self.collision('horizontal', collision_sprites)
