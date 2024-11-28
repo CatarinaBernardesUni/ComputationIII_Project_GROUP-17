@@ -1,7 +1,7 @@
 from player import *
 from config import *
 from visual import *
-from mouse_position import *
+from mouse_position import get_mouse_position, draw_button
 import pygame
 from shed import *
 
@@ -18,7 +18,6 @@ def inside_store(player):
     cutefont = pygame.font.SysFont("American Typewriter", 40)
     lady_text = cutefont.render("Welcome to our store! "
                                 "Are you looking to buy?", True, white)
-
 
     # setting up the screen
     screen = pygame.display.set_mode(resolution)
