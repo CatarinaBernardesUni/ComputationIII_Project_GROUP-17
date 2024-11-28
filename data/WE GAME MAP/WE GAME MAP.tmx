@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="674">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="683">
  <tileset firstgid="1" source="tileset_basic_terrain.tsx"/>
  <tileset firstgid="529" source="tileset_mountains.tsx"/>
  <tileset firstgid="1145" source="Objetos PRAIA.tsx"/>
@@ -775,12 +775,30 @@
   <object id="672" x="562" y="328.667" width="52" height="26"/>
   <object id="673" x="197.333" y="417.667" width="21" height="89.6667"/>
  </objectgroup>
- <objectgroup id="9" name="FIGHT AREA" visible="0" locked="1">
+ <objectgroup id="9" name="FIGHT AREA" locked="1">
   <object id="517" x="638.667" y="338.667" width="636" height="380"/>
  </objectgroup>
  <objectgroup id="10" name="Markers">
   <object id="628" name="Player" x="1098.67" y="166.667">
    <point/>
   </object>
+ </objectgroup>
+ <objectgroup id="11" name="Flower Roof House" locked="1">
+  <object id="674" x="458" y="83.3333" width="73.3333" height="90.6667"/>
+ </objectgroup>
+ <objectgroup id="12" name="Purple Roof House" locked="1">
+  <object id="675" x="273.333" y="77.3333" width="124" height="48.6667"/>
+ </objectgroup>
+ <objectgroup id="13" name="Pink Roof House" locked="1">
+  <object id="676" x="99.3333" y="114" width="42.6667" height="108.667"/>
+ </objectgroup>
+ <objectgroup id="14" name="Blue Roof House" locked="1">
+  <object id="678" x="1158.67" y="62" width="19.3333" height="56.6667"/>
+ </objectgroup>
+ <objectgroup id="15" name="Yellow Roof House" visible="0" locked="1">
+  <object id="680" x="66.6667" y="608" width="32.6667" height="58"/>
+ </objectgroup>
+ <objectgroup id="16" name="Cave" visible="0" locked="1">
+  <object id="682" x="560" y="324.667" width="52.6667" height="54.6667"/>
  </objectgroup>
 </map>
