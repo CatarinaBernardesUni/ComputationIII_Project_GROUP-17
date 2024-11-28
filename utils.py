@@ -1,6 +1,5 @@
-import pygame
 
-from config import *  # resolution, white, deep_black, dark_red
+from config import *
 
 
 # Function to draw a stick figure with a construction hat
@@ -73,7 +72,9 @@ def under_construction():
 
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
+                progress()
                 pygame.quit()
+                exit()
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 # checking if the back button was clicked

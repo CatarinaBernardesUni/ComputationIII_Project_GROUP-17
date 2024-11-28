@@ -4,17 +4,26 @@ import math
 from bullet import Bullet
 from os.path import join
 from os import walk  # allows us to walk through a folder
+import config
+# I had to import the module itself here in import config, so we could actually choose a character, I tried for a
+# long time and found no other way
 
 
 # making a player a child of the Sprite class
+
+def remove_health():
+    if info['health'] > 0:
+        info['health'] -= 1
+
+
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def __init__(self):
         # calling the mother classes init aka Sprite
         super().__init__()
+        self.user = config.character_choice
         self.load_images()  # we need to do this before creating image
         self.state, self.frame_index = "left", 0
-
         # VISUAL VARIABLES
         self.image = pygame.Surface(player_size)  # we use surface to display any image or draw
         # area where the player will be drawn
@@ -27,7 +36,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.speed = 3
-        self.health = 5
+        self.health = info['health']
+
         self.max_health = 5
         # to be able to pick up hearts in the game
         self.bullet_cooldown = 0
@@ -38,7 +48,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
         for state in self.frames.keys():
-            for folder_path, sub_folders, file_names in walk(join("images", "player", "player 3", state)):
+            for folder_path, sub_folders, file_names in walk(join("images", "player", self.user, state)):
                 if file_names:
                     for file_name in file_names:
                         full_path = join(folder_path, file_name)
@@ -48,12 +58,12 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                         # self.frames[state].append(surf)
 
     def animate(self):
-        self.frame_index += 0.07  # increments frame index at a fixed fps (animation speed)
+        self.frame_index += 0.08  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
     def empty_hearts(self):
         for heart in range(self.max_health):
-            if heart < self.health:
+            if heart < info['health']:
                 screen.blit(full_heart, (heart * 50, 10))
             else:
                 screen.blit(empty_heart, (heart * 50, 10))
@@ -118,3 +128,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.bullet_cooldown = fps
 
         self.bullet_cooldown -= 1
+
+    def get_health(self):  # we should use this if the player picks up hearts or something
+        if info['health'] < self.max_health:
+            info['health'] += 1

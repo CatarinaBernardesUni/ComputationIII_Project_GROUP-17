@@ -1,29 +1,52 @@
-
-from config import *
 import pygame
-from player import Player
+from player import *
 from enemy import Enemy
 from shed import shed
 import interface
+from progress import *
+
+
+def choose_character():
+    screen.blit(choose_character_image, (0, 0))
+
+    while True:
+        for ev in pygame.event.get():
+            mouse = pygame.mouse.get_pos()
+            if ev.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                if 243 <= mouse[0] <= 547 and 222 <= mouse[1] <= 527:
+                    config.character_choice = "player 1"
+                    game_loop()
+                if 720 <= mouse[0] <= 1023 and 226 <= mouse[1] <= 526:
+                    config.character_choice = "player 2"
+                    game_loop()
+
+        pygame.display.update()
 
 
 def game_over():
     screen.blit(game_over_image, (0, 0))
     pygame.display.update()
-
+    # player = Player()
     waiting = True
     while waiting:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                progress()
                 pygame.quit()
                 exit()
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 157 <= mouse[0] <= 340 and 505 <= mouse[1] <= 598:
+                    info['health'] = 5
                     game_loop()
                     waiting = False
 
                 if 282 <= mouse[0] <= 431 and 502 <= mouse[1] <= 535:
+                    progress()
                     pygame.quit()
                     exit()
                 if 27 <= mouse[0] <= 273 and 187 <= mouse[1] <= 429:
@@ -32,28 +55,28 @@ def game_over():
 
 
 def paused():
-    is_paused = True
-    while is_paused:
-        """
-        corbelfont = pygame.font.SysFont("Corbel", 30, 10)
-        pause_text = corbelfont.render("You just paused the game, press ENTER to unpause", True, deep_black, white)
-        pause_rect = pause_text.get_rect(center=(720 // 2, 100))
-        screen.blit(pause_text, pause_rect)
-        pygame.display.update()"""
+    pause = True
+    while pause:
+        screen.blit(pause_image, (width // 2 - 375, height // 2 - 300))
         for event in pygame.event.get():
+            mouse = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
+                progress()
                 pygame.quit()
                 exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    is_paused = False
+            pygame.display.update()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 295 <= mouse[0] <= 600 and 533 <= mouse[1] <= 631:
+                    interface.interface()
+                if 667 <= mouse[0] <= 976 and 533 <= mouse[1] <= 631:
+                    pause = False
+        pygame.display.update()
 
 
 def game_loop():
     # creating the player for the game, it is only defined once
     player = Player()
-
-    # by default, I start the game inn the main area
+    # by default, I start the game in the main area
     current_state = "main"
 
     # endeless game loop
@@ -68,6 +91,7 @@ def execute_game(player):
     # SETUP
     # setting up the background
 
+    global player_score_surf, player_score_rect
     background = pygame.image.load("images/screens/farm.jpg")
     background = pygame.transform.scale(background, (width, height))
 
@@ -75,7 +99,6 @@ def execute_game(player):
     # display = pygame.Surface((width // 2, height // 2))
 
     # using the clock to control the time frame
-    clock = pygame.time.Clock()
 
     # screen setup:
     # screen = pygame.display.set_mode(resolution)
@@ -104,16 +127,17 @@ def execute_game(player):
 
         # setting up the background # change to display later
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
+        screen.blit(player_score_surf, player_score_rect)
         # mouse = pygame.mouse.get_pos()
         # handling events:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                progress()
                 pygame.quit()
                 exit()
             if keys[pygame.K_SPACE]:
                 paused()
-
 
         # Testing at home: loading the map code
         # tile_rects = []
@@ -179,20 +203,16 @@ def execute_game(player):
 
                 if enemy.health <= 0:
                     enemy.kill()
+                    info['score'] += 1
+                    player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
+                    player_score_rect = player_score_surf.get_rect(center=(80, 80))
 
         # Testing at home: player becomes red when colliding with an enemy # this display was screen
         # the problem with this part of the code is that the health is decreasing very fast
-        def remove_health():
-            # player.health.__delitem__(-1)  # B  deletes the last item in the list of hearts
-            player.health -= 1
-
-        def get_health():  # we should use this if the player picks up hearts or something
-            if player.health < player.max_health:
-                player.health += 1
 
         if player.rect.colliderect(enemy.rect):
             # pygame.draw.rect(screen, red, player.rect)
-            if player.health <= 0:
+            if info['health'] <= 0:
                 game_over()
 
             # this "if" sees if the difference between the time the player is hit and the last time the
@@ -210,8 +230,9 @@ def execute_game(player):
         pygame.display.flip()
 
     # the main while loop was terminated
+    progress()
     pygame.quit()
     exit()
 
-    #pygame.display.update()
-    #clock.tick(15)
+    # pygame.display.update()
+    # clock.tick(15)

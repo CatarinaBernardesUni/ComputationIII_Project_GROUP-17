@@ -1,4 +1,5 @@
 from utils import *
+from config import resolution, fps, width
 
 
 def shed(player):
@@ -26,10 +27,12 @@ def shed(player):
     while True:
         clock.tick(fps)
         screen.blit(background, (0, 0))
+        screen.blit(player_score_surf, player_score_rect)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                progress()
                 pygame.quit()
                 exit()
 
