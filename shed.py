@@ -1,8 +1,6 @@
 from utils import *
 from config import resolution, fps, width
 
-
-
 def battle_area(player):
     # setting up the background and the screen
     background = pygame.image.load("images/screens/Giant_Stump.png")
