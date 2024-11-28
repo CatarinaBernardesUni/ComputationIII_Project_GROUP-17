@@ -62,6 +62,7 @@ class Clues(Visual):
 def get_clue(player):
     background = pygame.image.load("images/GRASS.jpg")
     background = pygame.transform.scale(background, resolution)
+    cutefont = pygame.font.SysFont("American Typewriter", 40)
 
     screen = pygame.display.set_mode(resolution)
 
@@ -83,7 +84,7 @@ def get_clue(player):
 
         # setting up the background
         screen.blit(background, (0, 0))
-        back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, "images/store_button.png")
+        back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, "images/store_button.png", font=cutefont)
 
         # updating the display
         pygame.display.update()
@@ -95,6 +96,7 @@ def inside_house(player):
     background = pygame.transform.scale(background, resolution)
     clue = Clues(100, 100, "images/pregaminho.png", collision_behaviour=get_clue)
     clue.set_position(1000, 200)
+    cutefont = pygame.font.SysFont("American Typewriter", 40)
 
     # setting up the screen
     screen = pygame.display.set_mode(resolution)
@@ -152,7 +154,7 @@ def inside_house(player):
         # displaying the background
         screen.fill(deep_black)
         screen.blit(background, (0, 0))
-        back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, "images/store_button.png")
+        back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, "images/store_button.png", font=cutefont)
         clue.draw_visual(screen)
 
         # updating player position
