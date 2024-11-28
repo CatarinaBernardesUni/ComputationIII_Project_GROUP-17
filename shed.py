@@ -1,12 +1,13 @@
-from config import *
 from utils import *
+from config import resolution, fps, width
+
 
 def battle_area(player):
     # setting up the background and the screen
-    background = pygame.image.load("images/Giant_Stump.png")
+    background = pygame.image.load("images/screens/Giant_Stump.png")
     background = pygame.transform.scale(background, resolution)
 
-    screen = pygame.display.set_mode(resolution)
+    # screen = pygame.display.set_mode(resolution)
 
     # setting up the clock for fps
     clock = pygame.time.Clock()
@@ -21,17 +22,19 @@ def battle_area(player):
     special_area = pygame.Rect(530, 30, 140, 140)
 
     # normal main game loop (because reasons shed area will not have enemies nor bullets
-    # this is our base implementation and you're allowed to change this
-    running = True
+    # this is our base implementation, and you're allowed to change this
 
-    while running:
+    while True:
         clock.tick(fps)
         screen.blit(background, (0, 0))
+        screen.blit(player_score_surf, player_score_rect)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                progress()
                 pygame.quit()
+                exit()
 
         # updating player position
         player_group.update()

@@ -1,6 +1,6 @@
-import pygame
 
-from config import resolution, white, deep_black, dark_red
+from config import *
+
 
 # Function to draw a stick figure with a construction hat
 def draw_stick_figure_with_hat(screen, x, y):
@@ -44,12 +44,12 @@ def draw_normal_stick_figure(screen, x, y):
 
 
 def under_construction():
-
     # creating the screen at 720x720 pixels
-    screen = pygame.display.set_mode(resolution)
+    # screen = pygame.display.set_mode(resolution)
 
     # setting up the fonts
-    corbelfont = pygame.font.SysFont("Corbel", 50)
+
+    corbelfont = pygame.font.SysFont("georgia", 50)
     conversation_font = pygame.font.SysFont("Arial", 30)
 
     # setting my texts:
@@ -72,7 +72,9 @@ def under_construction():
 
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
+                progress()
                 pygame.quit()
+                exit()
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 # checking if the back button was clicked
@@ -83,12 +85,12 @@ def under_construction():
             screen.fill(deep_black)
 
             # displaying the main UNDER CONSTRUCTION text
-            construction_rect = construction_text.get_rect(center=(720//2, 300))
+            construction_rect = construction_text.get_rect(center=(720 // 2, 300))
             screen.blit(construction_text, construction_rect)
 
             # drawing the back button
-            pygame.draw.rect(screen, dark_red, [450,600,140,60])
-            back_rect = back_text.get_rect(center=(450 + 140//2, 600 + 60 // 2))
+            pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
+            back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
             screen.blit(back_text, back_rect)
 
             # stick figures text and "images"
