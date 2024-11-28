@@ -1,12 +1,10 @@
+from background import background_setup
 from enemy import Enemy
 from config import *
 import pygame
 from player import Player
-from shed import shed
+from shed import battle_area
 from pytmx.util_pygame import load_pygame
-from tile import Tile
-from collision import CollisionObject
-from random import randint
 
 def game_loop():
     # creating the player for the game - only done once :)
@@ -19,8 +17,8 @@ def game_loop():
     while True:
         if current_state == "main":
             current_state = execute_game(player)
-        elif current_state == "shed":
-            current_state = shed(player)
+        elif current_state == "battle_area":
+            current_state = battle_area(player)
 
 def execute_game(player):
     # using the clock to control the time frame.
@@ -30,56 +28,11 @@ def execute_game(player):
     display = pygame.Surface((width//2, height//2))
 
     ############################### MAP ################################
+
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
+    (background_sprite_group, tiles_group, animated_tiles_group,
+     objects_group, collision_sprites, battle_area_rect) = background_setup(tmx_data)
 
-    # sprite groups for the objects and tiles
-    # the background sprite group is a container for all the background sprites in the game
-    background_sprite_group = pygame.sprite.Group()
-
-    tiles_group = pygame.sprite.Group()
-    animated_tiles_group = pygame.sprite.Group()
-    # although the rectangles being used for collisions are also objects, they are not included in this group
-    objects_group = pygame.sprite.Group()
-    collision_sprites = pygame.sprite.Group()
-
-    # static tiles
-    for layer in tmx_data.layers:
-        if hasattr(layer, "data"):
-            for x, y, surface in layer.tiles():
-                pos = (x * tile_size, y * tile_size)
-                Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
-
-    # animated tiles
-    for layer in tmx_data.layers:  # Loop through layers again for animated tiles
-        if hasattr(layer, "data"):
-            for x, y, surface in layer.tiles():
-                gid = layer.data[y][x]  # Get the gid for the current tile
-                if gid in tmx_data.tile_properties:
-                    props = tmx_data.tile_properties[gid]
-                    animation_frames = []
-                    total_duration = 0
-
-                    for animation_frame in props.get("frames", []):
-                        image = tmx_data.get_tile_image_by_gid(animation_frame.gid)
-                        duration = animation_frame.duration
-                        animation_frames.append(image)
-                        total_duration += duration
-
-                    if animation_frames:
-                        pos = (x * tile_size, y * tile_size)
-                        Tile(position=pos, surf=animation_frames[0], groups=(background_sprite_group,
-                                                                             animated_tiles_group),
-                             frames_animation=animation_frames, animation_duration=total_duration)
-
-    # objects
-    for obj in tmx_data.objects:
-        if obj.image:  # no rectangles are entering here because they do not have images
-            scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
-            pos = (obj.x, obj.y)
-            Tile(position=pos, surf=scaled_image, groups=(background_sprite_group, objects_group))
-        if obj in tmx_data.get_layer_by_name("COLLISIONS"):
-            CollisionObject(position=(obj.x, obj.y), size=(obj.width, obj.height), groups=(background_sprite_group,
-                                                                                           collision_sprites))
     ####################################################################
 
     # creating an empty group for the player (that was received as input)
@@ -157,6 +110,10 @@ def execute_game(player):
         # if player.rect.right >= width:
             # return "shed"
 
+        # checking if the player is in the battle area
+        if battle_area_rect.colliderect(player.rect):
+            battle_area(player)
+
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         # player_group.draw(display)
         for sprite in player_group:
@@ -196,7 +153,6 @@ def execute_game(player):
                 if enemy.health <= 0:
                     enemy.kill()
 
-        # Testing at home: making the screen "move"
         screen.blit(pygame.transform.scale(display, resolution), (0, 0)) # 0,0 being the top left
 
         # updates the whole screen since the frame was last drawn

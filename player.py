@@ -17,12 +17,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # area where the player will be drawn
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
-        self.rect.center = (width // 2, height // 2)
+        # self.rect.center = (width // 2, height // 2)
+        self.rect.center = (1150, 150)
         self.hitbox_rect = self.rect.inflate(0, 0) # making the hitbox smaller than the player image
                                                     # todo: change this according to the player image
 
         # GAMEPLAY VARIABLES
-        self.speed = 5
+        self.speed = 3
         self.health = 100
         self.bullet_cooldown = 0
 
