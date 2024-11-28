@@ -1,8 +1,7 @@
-from utils import *  # no need to import pygame because the import is in utils
 from game import game_loop
+from utils import *  # no need to import pygame because the import is in utils
 from utils import under_construction
 from config import *
-
 
 def interface():
 
@@ -29,12 +28,11 @@ def interface():
 
     # main interface loop (will run until the user quits)
     while True:
+        # getting the mouse position (future need)
+        mouse = pygame.mouse.get_pos()
+
         # event detection (future work)
         for ev in pygame.event.get():
-
-            # getting the mouse position (future need)
-            mouse = pygame.mouse.get_pos()
-
             # seeing if the user hits the red x button
             if ev.type == pygame.QUIT:
                 pygame.quit()
@@ -129,10 +127,10 @@ def credits_():
                     interface()
 
         # display my screen
-        screen.fill(deep_black) # we can fill the screen with an image instead of deep_black
+        screen.fill(deep_black)  # we can fill the screen with an image instead of deep_black
 
         # displaying our texts
-        screen.blit(augusto_text, (0,0)) # first line
+        screen.blit(augusto_text, (0, 0))  # first line
         screen.blit(diogo_text, (0, 25))
         screen.blit(liah_text, (0, 50))
 

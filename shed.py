@@ -1,7 +1,7 @@
 from config import *
 from utils import *
 
-def shed(player):
+def battle_area(player):
     # setting up the background and the screen
     background = pygame.image.load("images/Giant_Stump.png")
     background = pygame.transform.scale(background, resolution)

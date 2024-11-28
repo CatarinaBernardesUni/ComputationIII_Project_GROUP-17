@@ -15,12 +15,12 @@ cute_purple = (128, 0, 128)
 greenish = (182, 215, 168)
 
 # SCREEN RESOLUTION
-resolution = (720, 720) # height/width
-# todo: make resolution options in the interface
+resolution = (1280, 720)
 width, height = resolution[0], resolution[1]
 fps = 60
 
 # SIZES
-player_size = (50, 100)
+player_size = (25, 35)
 enemy_size = (40, 40)
 bullet_size = 10
+tile_size = 16
