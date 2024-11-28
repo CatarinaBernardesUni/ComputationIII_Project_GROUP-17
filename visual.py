@@ -65,14 +65,28 @@ def get_clue(player):
 
     screen = pygame.display.set_mode(resolution)
 
-    # setting up the back button
-    back_button = activate_back_button(screen, background, 1050, 620, 140, 60, "back", deep_black, white)
+    back_button_rect = None
+    clock = pygame.time.Clock()
+    running = True
+    while running:
+        mouse = get_mouse_position()
+        clock.tick(fps)
 
-    # trying to make the player move but not working
-    # so it doesn't collide with the thing again
+        # allowing the user to quit even tho they shouldn't because our game is perfect
+        for ev in pygame.event.get():
+            if ev.type == pygame.QUIT:
+                pygame.quit()
 
-    # setting up the background
-    screen.blit(background, (0, 0))
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                if back_button_rect.collidepoint(mouse):
+                    return
+
+        # setting up the background
+        screen.blit(background, (0, 0))
+        back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, "images/store_button.png")
+
+        # updating the display
+        pygame.display.update()
 
 
 def inside_house(player):
@@ -138,7 +152,7 @@ def inside_house(player):
         # displaying the background
         screen.fill(deep_black)
         screen.blit(background, (0, 0))
-        back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, white)
+        back_button_rect = draw_button(screen, 1050, 620, 140, 60, "back", deep_black, "images/store_button.png")
         clue.draw_visual(screen)
 
         # updating player position

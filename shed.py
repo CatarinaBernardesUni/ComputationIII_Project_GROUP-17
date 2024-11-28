@@ -67,6 +67,7 @@ def shed(player):
         if collide_store.colliderect(player.rect):
             store.collide_player(player)
 
+            # when player leaves goes to this location
             player.rect.x = 300
             player.rect.y = 490
 
