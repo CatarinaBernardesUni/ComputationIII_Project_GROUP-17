@@ -1,0 +1,77 @@
+#### IDEAS FOR THE GAME ####
+
+titulos como em dress to impress: quanto mais rewards mais próximo de ganhar outro título 
+
+obter itens ao ganhar batalhas 
+
+boosts: invencibilidade, rapidez, slow down time, armas diferentes 
+
+Em vez de mapas diferentes para níveis diferentes, ao subir de nível o jogador podia desbloquear mais áreas do mapa inicial  
+
+Pet que ajuda em batalha, os ovos de determinados pets podiam aparecer como os powerups no meio de uma batalha, e depois podíamos “chocá-los”; talvez ter a habilidade para ter vários pets, cada um com a sua habilidade específica; pets podem descobrir coisas enterradas 
+
+Para manter os pets alimentados precisaríamos de ter plantações; uma das plantas que podemos plantar pode ser uma planta que dá poderes específicos ao jogador quando consumida (a semente para esta planta pode spawnar durante as batalhas ou pode ser encontrada debaixo de água) – este power up traz a complicação de talvez precisarmos de criar uma hot bar, nada muito complexo, talvez 5 slots (em vez de hot bar, m+uma tecla especifica pode abrir o inventario e a partir dai o jogador seleciona o que precisar) 
+
+Podíamos ter dois mapas alternativos, um para debaixo de água e um para uma gruta (ainda não pensei bem nas especificidades destes dois mas na gruta podíamos encontrar diferentes minerais para construir armas e debaixo de água ainda é um mistério, talvez a possibilidade de spawnar um treasure chest e assim tínhamos uma forma alternativa de aceder aos treasure chests) – talvez em vez de mergulhar dentro de água devêssemos ter uma cena de pesca, em que víamos o fundo do mar (lembrei me que para “mergulhar” o player ia precisar de ter animações diferentes) – a carolinaF DEU A IDEIA DE MINI GAMES DENTRO DO JOGO 
+
+Será que dá para fazer day/night cycles? Ou estações? Para as estações íamos era precisar de 4 versões do mapa original 
+
+Para aceder à gruta e ter a possibilidade de melhorar as weapons precisamos de luz (qualquer coisa do tipo a gruta é ventosa e em vez de fogo, precisamos de uma lanterna para ir mais fundo) 
+
+Talvez diferentes tipo de monstros com diferentes níveis de dificuldade? Batalhas mais complicadas dariam drops melhores, mas as batalhas seriam random ou existiria alguma forma de escolher a dificuldade da batalha? 
+
+Talvez fazer uma red full moon onde as batalhas seriam random e haveria um número especifico delas antes de se poder sair do campo de batalha 
+
+Haver uma storyline em que há personagens com falas 
+
+The player can be idle if they don’t move for a certain amount of time. So we should have different animations for the player and maybe also for the enemy.  
+
+We have to implement a shop so to make it simple we could have a shed that when we enter it will show 3 random items available to buy. The shopping shed needs to have a cool down but the ideia would be for the items for sale appear only when the player enters the shed (the cool down would serve to ensure that the player didn’t leave and enter again to see new items for sale every time. Maybe the pets could be one of the “items” for sale. 
+
+We should have a quest to fix the greenhouse.
+
+
+
+####NEEDS TO BE IN THE GAME: #####
+
+Power Ups (at least 4: 2 mandatory and 2 of our choice), 
+
+Different probabilities of spawning; 
+
+Changes the player colour for as long as the "Power-up" is still active 
+
+abstract class called PowerUp. This class will contain at least two abstract methods called affect_player and affect_game. 
+
+Implement the specific "Power-ups" as children of the mother class PowerUp. 
+
+The two mandatory "Power-ups" you are requested to implement are:  
+
+1. Invincibility: The invincibility "Power-up" makes the player invincible for a limited amount of time. More specifically, monsters hitting/attacking the player will not cause the player any damage.  
+
+2. De-spawner: The de-spawner "Power-up" removes from the game a certain amount of monsters (probabilitically determined). Additionally, while the de-spawner "Power up" is active, the number of monsters that are spawning needs to be reduced (not to 0) 
+
+Weapons (at least 2 of our choice), 
+
+Treasure chests (with three different weapons/skill options from which the user must choose), 
+
+relatively low chance of spawning 
+
+When the player catches a chest (by touching it), the game should pause and present the player with three randomly selected options to choose from. These options should be chosen with certain probabilities from a wide range of possibilities that you have implemented. These could include weapons, temporary power-ups, or skills (e.g., permanent upgrades to player damage, health, etc.). 
+
+After the player selects one of the three options, the game resumes from where it paused, with the chosen ability now active. 
+
+Add a panel with the description of the game, its weapons, treasures and rules 
+
+Give the player the option to shop for new weapons. Thus, a monetary system must be implemented alongside the option to purchase weapons/abilities. 
+
+Store progress 
+
+ONE EXTRA FUNCTIONALITY 
+
+
+#### IMPLEMENTATIONS ####
+
+TO CREATE COLLIDE FOR MY OBJECTS/ITEMS:
+CREATE A MOTHER SPRITE CLASS --- INNIT: WIDTH, HEIGHT
+CREATE CHILD CLASSES TO OVERWRITE METHODS IN MOTHER CLASS FOR SPECIFIC PURPOSES
+
