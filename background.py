@@ -1,6 +1,4 @@
 import pygame
-from pytmx import load_pygame
-
 from config import *
 from tile import Tile
 from collision import CollisionObject
