@@ -20,7 +20,7 @@ full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.
 empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (50, 50))
 game_over_image = pygame.image.load("images/screens/gameover.png")
 
-mouse_image = pygame.transform.scale(pygame.image.load("images/others/mouse_image.png"), (50, 50))
+#mouse_image = pygame.transform.scale(pygame.image.load("images/others/mouse_image.png"), (50, 50))
 # SCREEN RESOLUTION
 resolution = (1280, 720)  # height/width
 # todo: make resolution options in the interface
@@ -32,9 +32,10 @@ pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_imag
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 
 # SIZES
-player_size = (100, 120)
+player_size = (20,20)
 enemy_size = (80, 80)
 bullet_size = 10
+tile_size = 16
 # using the clock to control the time frame
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode(resolution)

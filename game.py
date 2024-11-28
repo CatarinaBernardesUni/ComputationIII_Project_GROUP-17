@@ -1,9 +1,12 @@
+from background import background_setup
 import pygame
 from player import *
 from enemy import Enemy
-from shed import shed
+from shed import battle_area
 import interface
 from progress import *
+from config import *
+from pytmx.util_pygame import load_pygame
 
 
 def choose_character():
@@ -84,49 +87,44 @@ def game_loop():
         if current_state == "main":
             current_state = execute_game(player)
         elif current_state == "shed":
-            current_state = shed(player)
+            current_state = battle_area(player)
 
 
 def execute_game(player):
     # SETUP
-    # setting up the background
-
     global player_score_surf, player_score_rect
-    background = pygame.image.load("images/screens/farm.jpg")
-    background = pygame.transform.scale(background, (width, height))
+    # using the clock to control the time frame.
+    clock = pygame.time.Clock()
+    # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
+    screen = pygame.display.set_mode(resolution)
+    display = pygame.Surface((width // 2, height // 2))
 
-    # Testing at home: making the display "smaller" than the background
-    # display = pygame.Surface((width // 2, height // 2))
+    ############################### MAP ################################
 
-    # using the clock to control the time frame
+    tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
+    (background_sprite_group, tiles_group, animated_tiles_group,
+     objects_group, collision_sprites, battle_area_rect) = background_setup(tmx_data)
 
-    # screen setup:
-    # screen = pygame.display.set_mode(resolution)
+    ####################################################################
 
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
-
     # adding the player to the group
     player_group.add(player)
-
     # creating an empty bullet group that will be given as input to the player.shoot() method
     bullets = pygame.sprite.Group()
-
     # creating an enemy group
     enemies = pygame.sprite.Group()
-
     # before starting our main loop, set up the enemy cooldown
     enemy_cooldown = 0
 
     ###################################### MAIN GAME LOOP #######################################
-
     running = True
     while running:
         # controlling the frame rate
-        clock.tick(fps)
+        frame_time = clock.tick(fps)
 
         # setting up the background # change to display later
-        screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
         screen.blit(player_score_surf, player_score_rect)
         # mouse = pygame.mouse.get_pos()
         # handling events:
@@ -139,81 +137,101 @@ def execute_game(player):
             if keys[pygame.K_SPACE]:
                 paused()
 
-        # Testing at home: loading the map code
-        # tile_rects = []
-        # y = 0
-        # for row in game_map:
-        #    x = 0
-        #    for tile in row:
-        #        if tile == 1:
-        #            display.blit(wall, (x * tile_size, y * tile_size)) # we are multiplying it to get the pixel
-        #                                                                    # coordinates of the tile
-        #        if tile == 2:
-        #            display.blit(floor, (x * tile_size, y * tile_size))
+        display.fill("black")
 
-        # if tile == 0: tile_rects.append(pygame.Rect(x * tile_size, y * tile_size, tile_size, tile_size)) #these
-        # tile sizes # are assuming that width and height are the same x += 1 y += 1
+        # Calculate camera offset
+        camera_x = player.rect.centerx - display.get_width() // 2
+        camera_y = player.rect.centery - display.get_height() // 2
 
-        # automatically shoot bullets from the player
-        player.shoot(bullets)
+        # Clamp the camera within the map boundaries
+        camera_x = max(0, min(camera_x, width - display.get_width()))
+        camera_y = max(0, min(camera_y, height - display.get_height()))
 
-        # spawning enemies every two seconds
-        if enemy_cooldown <= 0:
-            # todo: creating more types of enemies
-            enemy = Enemy()
+        camera_offset = pygame.Vector2(-camera_x, -camera_y)
 
-            # adding the enemy to the group
-            enemies.add(enemy)
+        # draw the tiles
+        # tiles_group.draw(display)
+        for tile in tiles_group:
+            display.blit(tile.image, tile.rect.topleft + camera_offset)
+        animated_tiles_group.update(frame_time * 3)
+        # animated_tiles_group.draw(display)
+        for animated_tile in animated_tiles_group:
+            display.blit(animated_tile.image, animated_tile.rect.topleft + camera_offset)
 
-            # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
-            enemy_cooldown = fps * 2
+        # draw the objects in order of their y position
+        for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
-        # updating the enemy cooldown
-        enemy_cooldown -= 1
-
-        # updating positions and visuals
-        player_group.update()
-
-        # updating the bullets group
-        bullets.update()
-        enemies.update(player)
+        # updating the player group
+        player_group.update(collision_sprites)
 
         # checking if the player moved off-screen from the right to the left area
-        if player.rect.right >= width:
-            return "shed"
+        # if player.rect.right >= width:
+        # return "shed"
 
-        # drawing the player and enemies sprites on the screen # these 2 displays were screen
-        player_group.draw(screen)
-        enemies.draw(screen)
-        enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
-        # drawing the bullet sprites # this display was also screen
-        for bullet in bullets:
-            bullet.draw(screen)
+        # checking if the player is in the battle area
+        if battle_area_rect.colliderect(player.rect):
+            # automatically shoot bullets from the player
+            player.shoot(bullets)
+            # spawning enemies every two seconds
+            if enemy_cooldown <= 0:
+                # todo: creating more types of enemies
+                enemy = Enemy()
+                # adding the enemy to the group
+                enemies.add(enemy)
 
-        # checking for collisions between player bullets and enemies
-        for bullet in bullets:
-            # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-            collided_enemies = pygame.sprite.spritecollide(bullet, enemies, False)  # False means not kill upon impact
-            for enemy in collided_enemies:
-                enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
-                enemy.health -= 5
+                # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
+                enemy_cooldown = fps * 2
 
-                # removing the bullet from the screen after hitting the player
-                bullet.kill()
+            # updating the enemy cooldown
+            enemy_cooldown -= 1
 
-                if enemy.health <= 0:
-                    enemy.kill()
-                    info['score'] += 1
-                    player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                    player_score_rect = player_score_surf.get_rect(center=(80, 80))
+            # updating the bullets group
+            bullets.update()
+            enemies.update(player)
 
-        # Testing at home: player becomes red when colliding with an enemy # this display was screen
-        # the problem with this part of the code is that the health is decreasing very fast
+            # Testing at home: player becomes red when colliding with an enemy # this display was screen
+            if player.rect.colliderect(enemy.rect):
+                pygame.draw.rect(display, red, player.rect)
 
-        if player.rect.colliderect(enemy.rect):
-            # pygame.draw.rect(screen, red, player.rect)
-            if info['health'] <= 0:
-                game_over()
+            # enemies.draw(display)
+            for enemy in enemies:
+                display.blit(enemy.image, enemy.rect.topleft + camera_offset)
+
+            # drawing the bullet sprites # this display was also screen
+            for bullet in bullets:
+                # bullet.draw(display)
+                pygame.draw.circle(
+                    display,
+                    bullet.color,
+                    (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
+                    bullet.radius
+                )
+
+            enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
+
+            # checking for collisions between player bullets and enemies
+            for bullet in bullets:
+                # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
+                collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
+                                                               False)  # False means not kill upon impact
+                for enemy in collided_enemies:
+                    enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
+                    enemy.health -= 5
+
+                    # removing the bullet from the screen after hitting the player
+                    bullet.kill()
+
+            if enemy.health <= 0:
+                enemy.kill()
+                info['score'] += 1
+                player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
+                player_score_rect = player_score_surf.get_rect(center=(80, 80))
+
+            if player.rect.colliderect(enemy.rect):
+                # pygame.draw.rect(screen, red, player.rect)
+                if info['health'] <= 0:
+                    game_over()
 
             # this "if" sees if the difference between the time the player is hit and the last time the
             # player was hit is bigger than the time it needs to cooldown
@@ -221,10 +239,25 @@ def execute_game(player):
                 # here is missing showing hearts as health (I print the health to see if it's working)
                 remove_health()
                 player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
-                # to this time because he was hit
 
-        # Testing at home: making the screen "move"
-        # screen.blit(pygame.transform.scale(display, resolution), (0, 0)) # 0,0 being the top left
+        # drawing the player and enemies sprites on the screen # these 2 displays were screen
+        # player_group.draw(display)
+        for sprite in player_group:
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)
+
+        # collision_sprites.draw(display)
+        for sprite in collision_sprites:
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)
+
+        screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
+
+        # updates the whole screen since the frame was last drawn
+        pygame.display.flip()
+
+        # Testing at home: player becomes red when colliding with an enemy # this display was screen
+        # the problem with this part of the code is that the health is decreasing very fast
+
+
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()

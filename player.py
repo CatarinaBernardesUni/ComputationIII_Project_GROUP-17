@@ -29,7 +29,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # area where the player will be drawn
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
-        self.rect.center = (width // 2, height // 2)
+        self.rect.center = (1150, 150)
+        self.hitbox_rect = self.rect.inflate(0, 0)  # making the hitbox smaller than the player image
+        # todo: change this according to the player image
 
         # Testing at home: making white become transparent when the player is an image
         # self.image.set_colorkey(white)
@@ -68,29 +70,37 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             else:
                 screen.blit(empty_heart, (heart * 50, 10))
 
-    def update(self):
+    def update(self, collision_sprites):
         # getting the keys input
 
         keys = pygame.key.get_pressed()
         movement = False
         # checking which keys where pressed and moving the player accordingly
         # independent movements, independent ifs
-        if keys[pygame.K_w] and self.rect.top > 0:
+        if (keys[pygame.K_w] or keys[pygame.K_UP]) and self.rect.top > 0:
             self.rect.y -= self.speed
             self.state = "up"
             movement = True
-        if keys[pygame.K_s] and self.rect.bottom < height:
+            self.hitbox_rect.centery = self.rect.centery
+            self.collision('vertical', collision_sprites)
+        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and self.rect.bottom < height:
             self.rect.y += self.speed
             self.state = "down"
             movement = True
-        if keys[pygame.K_a] and self.rect.left > 0:
+            self.hitbox_rect.centery = self.rect.centery
+            self.collision('vertical', collision_sprites)
+        if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and self.rect.left > 0:
             self.rect.x -= self.speed
             self.state = "left"
             movement = True
-        if keys[pygame.K_d] and self.rect.right < width:
+            self.hitbox_rect.centerx = self.rect.centerx
+            self.collision('horizontal', collision_sprites)
+        if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and self.rect.right < width:
             self.rect.x += self.speed
             self.state = "right"
             movement = True
+            self.hitbox_rect.centerx = self.rect.centerx
+            self.collision('horizontal', collision_sprites)
 
         if not movement:
             if self.state == "down":
@@ -106,6 +116,25 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             pass
         self.animate()
         self.empty_hearts()
+
+    def collision(self, direction, collision_sprites):
+        for sprite in collision_sprites:
+            if sprite.rect.colliderect(self.hitbox_rect):
+                if direction == 'horizontal':
+                    # Resolve horizontal collision
+                    if self.rect.centerx < sprite.rect.centerx:  # Moving right
+                        self.rect.right = sprite.rect.left
+                    elif self.rect.centerx > sprite.rect.centerx:  # Moving left
+                        self.rect.left = sprite.rect.right
+                elif direction == 'vertical':
+                    # Resolve vertical collision
+                    if self.rect.centery < sprite.rect.centery:  # Moving down
+                        self.rect.bottom = sprite.rect.top
+                    elif self.rect.centery > sprite.rect.centery:  # Moving up
+                        self.rect.top = sprite.rect.bottom
+
+                # Sync the hitbox with the rect after collision
+                self.hitbox_rect.center = self.rect.center
 
     def shoot(self, bullets):
         """
