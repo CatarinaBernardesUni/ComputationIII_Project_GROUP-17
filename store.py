@@ -87,16 +87,18 @@ def shop_menu(player):
                 # SWORD BUTTON
                 if 834 <= mouse[0] <= 930 and 291 <= mouse[1] <= 334:
                     shopping = False
+                # LAST ROW
                 # DOG BUTTON
                 if 347 <= mouse[0] <= 444 and 503 <= mouse[1] <= 546:
                     shopping = False
                 # BUN BUTTON
-                if 499 <= mouse[0] <= 600 and 500 <= mouse[1] <= 543:
+                if 499 <= mouse[0] <= 600 and 503 <= mouse[1] <= 546:
                     shopping = False
                 # BOW BUTTON
-                if 725 <= mouse[0] <= 822 and 463 <= mouse[1] <= 506:
+                if 673 <= mouse[0] <= 767 and 503 <= mouse[1] <= 546:
                     shopping = False
                 # KEY BUTTON
-                if 909 <= mouse[0] <= 1006 and 463 <= mouse[1] <= 506:
+                if 832 <= mouse[0] <= 926 and 500 <= mouse[1] <= 543:
                     shopping = False
+        
         pygame.display.update()
