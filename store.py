@@ -77,28 +77,28 @@ def shop_menu(player):
                     shopping = False
                 # APPLE BUTTON
                 if 348 <= mouse[0] <= 445 and 291 <= mouse[1] <= 334:
-                    shopping = False
+                    player.buy_item('apple')
                 # MUSHROOM BUTTON
                 if 509 <= mouse[0] <= 605 and 291 <= mouse[1] <= 334:
-                    shopping = False
+                    player.buy_item('mushroom')
                 # POTION BUTTON
                 if 670 <= mouse[0] <= 766 and 291 <= mouse[1] <= 334:
-                    shopping = False
+                    player.buy_item('speed potion')
                 # SWORD BUTTON
                 if 834 <= mouse[0] <= 930 and 291 <= mouse[1] <= 334:
-                    shopping = False
+                    player.buy_item('sword')
                 # LAST ROW
                 # DOG BUTTON
                 if 347 <= mouse[0] <= 444 and 503 <= mouse[1] <= 546:
-                    shopping = False
-                # BUN BUTTON
+                    player.buy_item('dog')
+                # SOUP BUTTON
                 if 499 <= mouse[0] <= 600 and 503 <= mouse[1] <= 546:
-                    shopping = False
+                    player.buy_item('soup')
                 # BOW BUTTON
                 if 673 <= mouse[0] <= 767 and 503 <= mouse[1] <= 546:
-                    shopping = False
+                    player.buy_item('bow')
                 # KEY BUTTON
                 if 832 <= mouse[0] <= 926 and 500 <= mouse[1] <= 543:
-                    shopping = False
-        
+                    player.buy_item('key')
+
         pygame.display.update()

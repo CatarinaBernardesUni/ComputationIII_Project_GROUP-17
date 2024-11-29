@@ -47,8 +47,22 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.inventory = {'apple': 0,
                           'mushroom': 0,
                           'speed potion': 0,
-                          'dog': 0}
+                          'dog': 0,
+                          'soup': 0,
+                          'sword': 0,
+                          'bow': 0,
+                          'key': 0}
         self.gold = 200
+
+        self.price_items = {'apple': 5,
+                          'mushroom': 10,
+                          'speed potion': 25,
+                          'dog': 50,
+                          'soup': 60,
+                          'sword': 80,
+                          'bow': 100,
+                          'key': 300}
+
 
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],
@@ -169,3 +183,18 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def get_health(self):  # we should use this if the player picks up hearts or something
         if info['health'] < self.max_health:
             info['health'] += 1
+
+    def buy_item(self, item_name):
+        # getting the item price from the price_items dictionary
+        price = self.price_items[item_name]
+
+        # checking if the player has enough money to buy the item
+        if self.gold >= price:
+            self.gold -= price
+            self.inventory[item_name] += 1
+            print(f"bought {item_name}: amount {self.inventory[item_name]} money: {self.gold}")
+        else:
+            print(f"gold is not enough. gold: {self.gold}") # todo: add here a screen saying not enough money
+
+    def add_gold(self, amount):
+        self.gold += amount
