@@ -30,14 +30,11 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
         self.rect.center = (1150, 150)
-        self.hitbox_rect = self.rect.inflate(0, 0)  # making the hitbox smaller than the player image
+        self.hitbox_rect = self.rect.inflate(-10, -15)  # making the hitbox smaller than the player image
         # todo: change this according to the player image
 
-        # Testing at home: making white become transparent when the player is an image
-        # self.image.set_colorkey(white)
-
         # GAMEPLAY VARIABLES
-        self.speed = 3
+        self.speed = 1.8
         self.health = info['health']
 
         self.max_health = 5
@@ -123,15 +120,19 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 if direction == 'horizontal':
                     # Resolve horizontal collision
                     if self.rect.centerx < sprite.rect.centerx:  # Moving right
-                        self.rect.right = sprite.rect.left
+                        overlap = self.hitbox_rect.right - sprite.rect.left
+                        self.rect.x -= overlap
                     elif self.rect.centerx > sprite.rect.centerx:  # Moving left
-                        self.rect.left = sprite.rect.right
+                        overlap = sprite.rect.right - self.hitbox_rect.left
+                        self.rect.x += overlap
                 elif direction == 'vertical':
                     # Resolve vertical collision
                     if self.rect.centery < sprite.rect.centery:  # Moving down
-                        self.rect.bottom = sprite.rect.top
+                        overlap = self.hitbox_rect.bottom - sprite.rect.top
+                        self.rect.y -= overlap
                     elif self.rect.centery > sprite.rect.centery:  # Moving up
-                        self.rect.top = sprite.rect.bottom
+                        overlap = sprite.rect.bottom - self.hitbox_rect.top
+                        self.rect.y += overlap
 
                 # Sync the hitbox with the rect after collision
                 self.hitbox_rect.center = self.rect.center
