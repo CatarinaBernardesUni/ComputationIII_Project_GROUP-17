@@ -7,6 +7,7 @@ import interface
 from progress import *
 from config import *
 from pytmx.util_pygame import load_pygame
+from store import inside_store
 
 
 def choose_character():
@@ -103,7 +104,7 @@ def execute_game(player):
 
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
-     objects_group, collision_sprites, battle_area_rect) = background_setup(tmx_data)
+     objects_group, collision_sprites, battle_area_rect, store_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -169,6 +170,14 @@ def execute_game(player):
 
         # setting up the background # change to display later
         display.blit(player_score_surf, player_score_rect)
+
+        # checking if player enters the store are
+        if store_rect and store_rect.colliderect(player.rect):
+            inside_store(player)
+
+            # when player leaves the house it goes here
+            player.rect.x = player.rect.x
+            player.rect.y = player.rect.y + 20
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):

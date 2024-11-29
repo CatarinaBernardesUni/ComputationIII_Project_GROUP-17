@@ -43,6 +43,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.damage_cooldown = 0  # Initial cooldown time
         self.cooldown_duration = 2000  # Cooldown duration in milliseconds
 
+        # INVENTORY AND MONEY (GOLD) START WITH 200
+        self.inventory = {'apple': 0,
+                          'mushroom': 0,
+                          'speed potion': 0,
+                          'dog': 0}
+        self.gold = 200
+
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
