@@ -31,7 +31,7 @@ pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_imag
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 
 # SIZES
-player_size = (20,20)
+player_size = (40, 40)
 enemy_size = (80, 80)
 bullet_size = 10
 tile_size = 16

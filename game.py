@@ -124,8 +124,6 @@ def execute_game(player):
         # controlling the frame rate
         frame_time = clock.tick(fps)
 
-        # setting up the background # change to display later
-        screen.blit(player_score_surf, player_score_rect)
         # mouse = pygame.mouse.get_pos()
         # handling events:
         keys = pygame.key.get_pressed()
@@ -168,6 +166,9 @@ def execute_game(player):
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
         # return "shed"
+
+        # setting up the background # change to display later
+        display.blit(player_score_surf, player_score_rect)
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
@@ -250,14 +251,6 @@ def execute_game(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
-
-        # updates the whole screen since the frame was last drawn
-        pygame.display.flip()
-
-        # Testing at home: player becomes red when colliding with an enemy # this display was screen
-        # the problem with this part of the code is that the health is decreasing very fast
-
-
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
