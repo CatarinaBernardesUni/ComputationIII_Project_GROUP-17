@@ -6,7 +6,8 @@ from os.path import join
 from os import walk  # allows us to walk through a folder
 import config
 # I had to import the module itself here in import config, so we could actually choose a character, I tried for a
-# long time and found no other way
+# long time and found no other way, I found it was the only way to connect the player to the game without
+# importing the game in player because it causes a circular import :')
 
 
 # making a player a child of the Sprite class

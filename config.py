@@ -1,7 +1,6 @@
 # Config file used to set global variables and other settings
 # COLORS AND PICTURES HERE FOR NOW
-import pygame
-import json
+
 from progress import *
 
 # COLORS
@@ -27,7 +26,7 @@ resolution = (1280, 720)  # height/width
 width, height = resolution[0], resolution[1]
 fps = 60
 # screen = pygame.display.set_mode(resolution)
-pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_image2.png"), (750, 600))
+pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_image2.png"), (1280, 180))
 # pause_image.get_rect(center=(720 // 2, 100))
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 

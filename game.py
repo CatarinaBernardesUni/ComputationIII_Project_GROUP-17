@@ -60,7 +60,7 @@ def game_over():
 def paused():
     pause = True
     while pause:
-        screen.blit(pause_image, (width // 2 - 375, height // 2 - 300))
+        screen.blit(pause_image, (0, 0))
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
@@ -69,9 +69,9 @@ def paused():
                 exit()
             pygame.display.update()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 295 <= mouse[0] <= 600 and 533 <= mouse[1] <= 631:
+                if 443 <= mouse[0] <= 610 and 112 <= mouse[1] <= 169:
                     interface.interface()
-                if 667 <= mouse[0] <= 976 and 533 <= mouse[1] <= 631:
+                if 637 <= mouse[0] <= 802 and 112 <= mouse[1] <= 171:
                     pause = False
         pygame.display.update()
 
