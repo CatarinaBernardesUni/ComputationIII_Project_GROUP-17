@@ -56,10 +56,14 @@ def inside_store(player):
 
 def shop_menu(player):
     shopping = True
+    custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
 
     while shopping:
         screen.blit(entrance_store, (0, 0))
         screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
+        # setting up so my gold amount shows on store menu
+        gold_available = custom_font.render(f"My Gold: {player.gold}", True, brick_color)
+        screen.blit(gold_available, (width // 2 - 310, height // 2 - 220))
 
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()

@@ -41,12 +41,12 @@ def show_hover_message(screen, mouse_pos, button_rect, description):
 
 
 button_data = {
-    "apple": {"rect": pygame.Rect(348, 291, 97, 43), "description": "A delicious apple that restores health."},
-    "mushroom": {"rect": pygame.Rect(509, 291, 96, 43), "description": "A mysterious mushroom that increases stamina."},
-    "speed potion": {"rect": pygame.Rect(670, 291, 96, 43), "description": "A potion that increases your speed."},
-    "sword": {"rect": pygame.Rect(834, 291, 96, 43), "description": "A sword to defend yourself."},
-    "dog": {"rect": pygame.Rect(347, 503, 97, 43), "description": "A dog companion for the journey."},
-    "soup": {"rect": pygame.Rect(499, 503, 101, 43), "description": "A bowl of soup to restore health."},
-    "bow": {"rect": pygame.Rect(673, 503, 94, 43), "description": "A bow for ranged attacks."},
-    "key": {"rect": pygame.Rect(832, 500, 94, 43), "description": "A key to unlock special things."}
+    "apple": {"rect": pygame.Rect(348, 291, 97, 43), "description": "5 gold. A delicious apple that restores health."},
+    "mushroom": {"rect": pygame.Rect(509, 291, 96, 43), "description": "10 gold. A mysterious mushroom that increases stamina."},
+    "speed potion": {"rect": pygame.Rect(670, 291, 96, 43), "description": "25 gold. A potion that increases your speed."},
+    "sword": {"rect": pygame.Rect(834, 291, 96, 43), "description": "50 gold. A sword to defend yourself."},
+    "dog": {"rect": pygame.Rect(347, 503, 97, 43), "description": "60 gold. A dog companion for the journey."},
+    "soup": {"rect": pygame.Rect(499, 503, 101, 43), "description": "80 gold. A bowl of soup to restore health."},
+    "bow": {"rect": pygame.Rect(673, 503, 94, 43), "description": "100 gold. A bow for ranged attacks."},
+    "key": {"rect": pygame.Rect(832, 500, 94, 43), "description": "300 gold. A key to unlock special things."}
 }
