@@ -1,21 +1,18 @@
-import interface
 from player import Player
 from mouse_position import get_mouse_position, draw_button
 import pygame
-from shed import *
 from config import *
+from mouse_position import button_data, show_hover_message
 
 def inside_store(player):
 
     # setting up a background
-    background = pygame.image.load("images/store/store_front.png")
-    background = pygame.transform.scale(background, resolution)
     store_owner = pygame.image.load("images/store/store_owner.png")
     store_owner = pygame.transform.scale(store_owner, (100, 100))
     store_owner_position = (600, 400)
 
     # setting up fonts for the text
-    cutefont = pygame.font.SysFont("American Typewriter", 40)
+    cutefont = pygame.font.Font("fonts/Minecraft.ttf", 30)
 
     # setting up the screen
     screen = pygame.display.set_mode(resolution)
@@ -35,6 +32,7 @@ def inside_store(player):
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
+                exit()
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if shop_button.collidepoint(mouse):
@@ -45,12 +43,12 @@ def inside_store(player):
                     return
 
         # displaying my background
-        screen.blit(background, (0, 0))
+        screen.blit(entrance_store, (0, 0))
         screen.blit(store_owner, store_owner_position)
 
-        shop_button = draw_button(screen, 255, 335, 190, 65, "shop", text_color=white, image_path="images/store/store_button.png", font=cutefont)
-        quit_shop_button = draw_button(screen, 475, 335, 245, 65, "leave shop", text_color=white, image_path="images/store/store_button.png", font=cutefont)
-        draw_button(screen, 255, 190, 450, 120, "welcome to my shop!", white, "images/store/board.png", font=cutefont)
+        shop_button = draw_button(screen, 255, 335, 190, 65, "shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
+        quit_shop_button = draw_button(screen, 475, 335, 245, 65, "leave shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
+        draw_button(screen, 255, 190, 450, 120, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
 
         # updating the display
         pygame.display.update()
@@ -60,10 +58,12 @@ def shop_menu(player):
     shopping = True
 
     while shopping:
+        screen.blit(entrance_store, (0, 0))
         screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
 
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
+
             # letting my player quit the game:
             if event.type == pygame.QUIT:
                 progress()
@@ -100,5 +100,9 @@ def shop_menu(player):
                 # KEY BUTTON
                 if 832 <= mouse[0] <= 926 and 500 <= mouse[1] <= 543:
                     player.buy_item('key')
+
+        mouse_pos = get_mouse_position()
+        for button in button_data.values():
+            show_hover_message(screen, mouse_pos, button["rect"], button["description"])
 
         pygame.display.update()
