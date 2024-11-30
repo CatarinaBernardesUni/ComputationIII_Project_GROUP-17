@@ -161,7 +161,7 @@ def execute_game(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # updating the player group
-        player_group.update(collision_sprites)
+        player_group.update(collision_sprites, display)
 
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
