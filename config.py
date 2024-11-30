@@ -29,7 +29,6 @@ fps = 60
 pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_image2.png"), (1280, 180))
 # pause_image.get_rect(center=(720 // 2, 100))
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
-
 # SIZES
 player_size = (40, 40)
 enemy_size = (80, 80)
