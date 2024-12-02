@@ -2,6 +2,8 @@ import pygame
 from config import *
 from tile import Tile
 from collision import CollisionObject
+from store import inside_store
+from player import Player
 
 def background_setup(tmx_data):
     # sprite groups for the objects and tiles
@@ -13,8 +15,9 @@ def background_setup(tmx_data):
     # although the rectangles being used for collisions are also objects, they are not included in this group
     objects_group = pygame.sprite.Group()
     collision_sprites = pygame.sprite.Group()
-    # storing the rect of the "battle area"
+    # storing the rect of the "battle area" and "store"
     battle_area_rect = None
+    store_rect = None
 
     # static tiles
     for layer in tmx_data.layers:
@@ -57,5 +60,8 @@ def background_setup(tmx_data):
         if obj in tmx_data.get_layer_by_name("FIGHT AREA"):
             battle_area_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
 
+        if obj in tmx_data.get_layer_by_name("Flower Roof House"):
+            store_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
     return (background_sprite_group, tiles_group, animated_tiles_group, objects_group,
-            collision_sprites, battle_area_rect)
+            collision_sprites, battle_area_rect, store_rect)
