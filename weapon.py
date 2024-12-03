@@ -1,6 +1,16 @@
 from random import random
-class Weapon:
-    def __init__(self, name, tier, damage, range, attack_speed, durability, crit_chance, crit_multiplier, special_effect=None):
+
+import pygame.sprite
+
+
+class Weapon(pygame.sprite.Sprite):
+    def __init__(self, player, name, tier, damage, range, attack_speed, durability,
+                 crit_chance, crit_multiplier, groups, special_effect=None):
+        super.__init__(groups)
+        self.image = pygame.image.load() # todo: add an image
+        self.rect = self.image.get_rect()
+
+        # weapon atrributes
         self.name = name
         self.tier = tier
         self.damage = damage
@@ -11,6 +21,11 @@ class Weapon:
         self.crit_multiplier = crit_multiplier  # how much extra damage is dealt
         self.special_effect = special_effect  # burn, freeze, maybe more efficient in some players than others
         self.usage_count = 0
+
+        # connection to the player
+        self.player = player
+        self.distance = 140
+        self.player_direction = pygame.Vector2(1,0)
 
     def attack(self, target):
         if self.durability <= 0:
