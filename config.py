@@ -15,19 +15,16 @@ yellow = (255, 255, 0)
 red = (150, 0, 24)
 cute_purple = (128, 0, 128)
 greenish = (182, 215, 168)
-<<<<<<< HEAD
-full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (30, 30))
-empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (30, 30))
-=======
+
 brick_color_transparent = (117, 49, 40, 225)
 brick_color = (117, 49, 40)
 
 full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (50, 50))
 empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (50, 50))
->>>>>>> origin/carolinaBestie
+
 game_over_image = pygame.image.load("images/screens/gameover.png")
 
-#mouse_image = pygame.transform.scale(pygame.image.load("images/others/mouse_image.png"), (50, 50))
+# mouse_image = pygame.transform.scale(pygame.image.load("images/others/mouse_image.png"), (50, 50))
 # SCREEN RESOLUTION
 resolution = (1280, 720)  # height/width
 # todo: make resolution options in the interface

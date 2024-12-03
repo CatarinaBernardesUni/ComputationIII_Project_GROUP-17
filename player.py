@@ -85,9 +85,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def empty_hearts(self, display):
         for heart in range(self.max_health):
             if heart < info['health']:
-                display.blit(full_heart, (heart * 30, 10))
+                display.blit(full_heart, (heart * 50, 10))
             else:
-                display.blit(empty_heart, (heart * 30, 10))
+                display.blit(empty_heart, (heart * 50, 10))
 
     def update(self, collision_sprites, display):
         # getting the keys input
