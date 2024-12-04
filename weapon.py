@@ -1,14 +1,12 @@
 from random import random
-
+from config import *
+from math import atan2, degrees
 import pygame.sprite
-
 
 class Weapon(pygame.sprite.Sprite):
     def __init__(self, player, name, tier, damage, range, attack_speed, durability,
                  crit_chance, crit_multiplier, groups, special_effect=None):
-        super.__init__(groups)
-        self.image = pygame.image.load() # todo: add an image
-        self.rect = self.image.get_rect()
+        super().__init__(groups)
 
         # weapon atrributes
         self.name = name
@@ -24,8 +22,28 @@ class Weapon(pygame.sprite.Sprite):
 
         # connection to the player
         self.player = player
-        self.distance = 140
-        self.player_direction = pygame.Vector2(1,0)
+        self.distance = 50
+        self.player_direction = pygame.Vector2(0, 1) # weapon bellow the player
+
+        self.weapon_surf = pygame.image.load(
+            "images/weapons/fire_sword/fire1.png").convert_alpha()  # todo: animate image
+        self.image = pygame.transform.scale(self.weapon_surf, (40, 40)) # todo: this is not being implemented due to the rotate method
+        self.rect = self.image.get_rect(center=self.player.rect.center + self.player_direction * self.distance)
+
+    def update(self):
+        self.get_direction()
+        self.rotate_weapon()
+        self.rect.center = self.player.rect.center + self.player_direction * self.distance
+
+    def rotate_weapon(self):
+        angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
+        self.image = pygame.transform.rotate(self.weapon_surf, angle)
+        self.rect = self.image.get_rect(center=self.rect.center)
+
+    def get_direction(self):
+        mouse_position = pygame.Vector2(pygame.mouse.get_pos())
+        player_position = pygame.Vector2(width // 2, height // 2)
+        self.player_direction = (mouse_position - player_position).normalize()
 
     def attack(self, target):
         if self.durability <= 0:
@@ -88,45 +106,7 @@ class Weapon(pygame.sprite.Sprite):
         if self.usage_count % 10 == 0:
             self.damage += 1 # increase damage every 10 attacks
 
-weapons = {Weapon(
-    name="Flaming Sword",
-    tier=1,
-    damage=20,
-    range=5,
-    attack_speed=1.5,
-    durability=50,
-    crit_chance=0.1,
-    crit_multiplier=2.0,
-    special_effect="burn"
-), Weapon(
-    name="Frost Axe",
-    tier=2,
-    damage=15,
-    range=3,
-    attack_speed=1.2,
-    durability=40,
-    crit_chance=0.15,
-    crit_multiplier=2.0,
-    special_effect="freeze"
-), Weapon(
-    name="Thunder Hammer",
-    tier=3,
-    damage=25,
-    range=2,
-    attack_speed=0.8,
-    durability=30,
-    crit_chance=0.1,
-    crit_multiplier=1.8,
-    special_effect="stun"
-), Weapon(
-    name="Iron Sword",
-    tier=1,
-    damage=10,
-    range=3,
-    attack_speed=1.5,
-    durability=50,
-    crit_chance=0.05,
-    crit_multiplier=1.5,
-    special_effect=None
-)
-}
+#weapons = {Weapon(name="Flaming Sword",tier=1,damage=20,range=5,attack_speed=1.5,durability=50,crit_chance=0.1,crit_multiplier=2.0,special_effect="burn"),
+    # Weapon(name="Frost Axe",tier=2,damage=15,range=3,attack_speed=1.2,durability=40,crit_chance=0.15,crit_multiplier=2.0,special_effect="freeze"),
+    # Weapon(name="Thunder Hammer",tier=3,damage=25,range=2,attack_speed=0.8,durability=30,crit_chance=0.1,crit_multiplier=1.8,special_effect="stun"),
+    # Weapon(name="Iron Sword",tier=1,damage=10,range=3,attack_speed=1.5,durability=50,crit_chance=0.05,crit_multiplier=1.5,special_effect=None)}

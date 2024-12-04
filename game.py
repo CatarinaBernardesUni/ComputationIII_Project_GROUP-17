@@ -8,6 +8,7 @@ from progress import *
 from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
+from weapon import Weapon
 
 
 def choose_character():
@@ -181,6 +182,9 @@ def execute_game(player):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
+            weapon_group = pygame.sprite.Group()
+            fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
+                                10, 10, weapon_group)
             # automatically shoot bullets from the player
             player.shoot(bullets)
             # spawning enemies every two seconds
@@ -199,6 +203,7 @@ def execute_game(player):
             # updating the bullets group
             bullets.update()
             enemies.update(player)
+            weapon_group.update()
 
             # Testing at home: player becomes red when colliding with an enemy # this display was screen
             if player.rect.colliderect(enemy.rect):
@@ -217,6 +222,10 @@ def execute_game(player):
                     (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
                     bullet.radius
                 )
+            # drawing the weapons
+            for weapon in weapon_group:
+                display.blit(weapon.image, weapon.rect.topleft + camera_offset)
+
 
             enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
 
