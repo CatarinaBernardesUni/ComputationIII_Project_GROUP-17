@@ -99,6 +99,7 @@ def cave_area(player):
         player_group.update(collision_sprites, display)
 
         if cave_exit_rect and cave_exit_rect.colliderect(player.rect):
+            player.just_left_cave = True
             return "main"
 
         display.blit(player_score_surf, player_score_rect)

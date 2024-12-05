@@ -139,7 +139,7 @@ def execute_game(player):
 
         # display.fill("black")
 
-        # Calculate camera offset
+        ################################ Calculate camera offset  #######################
         camera_x = player.rect.centerx - display.get_width() // 2
         camera_y = player.rect.centery - display.get_height() // 2
 
@@ -148,6 +148,7 @@ def execute_game(player):
         camera_y = max(0, min(camera_y, height - display.get_height()))
 
         camera_offset = pygame.Vector2(-camera_x, -camera_y)
+        ###################################################################################
 
         # draw the tiles
         # tiles_group.draw(display)
@@ -172,6 +173,11 @@ def execute_game(player):
         # checking if the player entered the cave
         if cave_entrance_rect and cave_entrance_rect.colliderect(player.rect):
             return "cave"
+
+        if player.just_left_cave:
+            player.rect.x -= 90
+            player.rect.y += 105
+            player.just_left_cave = False
 
         display.blit(player_score_surf, player_score_rect)
 
@@ -228,7 +234,6 @@ def execute_game(player):
             # drawing the weapons
             for weapon in weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
-
 
             enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
 

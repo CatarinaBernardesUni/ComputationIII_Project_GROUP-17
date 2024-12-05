@@ -32,11 +32,11 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # todo: centering the player in its rectangle?
         # initial position of the player
         self.rect.center = (1150, 150)
-
         # making the hitbox smaller than the player image
         self.hitbox_rect = self.rect.inflate(-10, -15)
 
         # GAMEPLAY VARIABLES
+        self.just_left_cave = False
         self.speed = 1.8
         self.health = info['health']
 
