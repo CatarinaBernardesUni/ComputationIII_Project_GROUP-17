@@ -6,13 +6,14 @@ from os.path import join
 from os import walk  # allows us to walk through a folder
 import config
 # I had to import the module itself here in import config, so we could actually choose a character, I tried for a
-# long time and found no other way
+# long time and found no other way, I found it was the only way to connect the player to the game without
+# importing the game in player because it causes a circular import :')
 
 
 # making a player a child of the Sprite class
 
 def remove_health():
-    if info['health'] > 0:
+    if info['health'] >= 0:
         info['health'] -= 1
 
 
@@ -81,14 +82,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.frame_index += 0.08  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
-    def empty_hearts(self):
+    def empty_hearts(self, display):
         for heart in range(self.max_health):
             if heart < info['health']:
-                screen.blit(full_heart, (heart * 50, 10))
+                display.blit(full_heart, (heart * 50, 10))
             else:
-                screen.blit(empty_heart, (heart * 50, 10))
+                display.blit(empty_heart, (heart * 50, 10))
 
-    def update(self, collision_sprites):
+    def update(self, collision_sprites, display):
         # getting the keys input
 
         keys = pygame.key.get_pressed()
@@ -133,7 +134,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if keys[pygame.K_SPACE]:
             pass
         self.animate()
-        self.empty_hearts()
+        self.empty_hearts(display)
 
     def collision(self, direction, collision_sprites):
         for sprite in collision_sprites:

@@ -3,7 +3,7 @@ import pygame
 
 pygame.init()
 
-pixel = pygame.font.SysFont("Pixel", 50, 9)
+pixel = pygame.font.SysFont("Pixel", 40, 5)
 info = {"health": 5, "score": 0, "coins": 0}
 
 try:
