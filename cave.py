@@ -39,7 +39,7 @@ def cave_setup(tmx_data_cave):
 def cave_area(player):
     clock = pygame.time.Clock()
     cave_screen = pygame.display.set_mode(resolution)
-    display = pygame.Surface((width // 2, height // 2))
+    display = pygame.Surface((width // 2.2, height // 2.2))
 
     ############################### CAVE MAP ################################
 
