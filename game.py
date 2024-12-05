@@ -169,6 +169,13 @@ def execute_game(player):
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
         # return "shed"
+        weapon_group = pygame.sprite.Group()
+        fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
+                            10, 10, weapon_group)
+
+
+
+        weapon_group.update()
 
         # checking if the player entered the cave
         if cave_entrance_rect and cave_entrance_rect.colliderect(player.rect):
@@ -198,7 +205,6 @@ def execute_game(player):
             player.shoot(bullets)
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
-                # todo: creating more types of enemies
                 enemy = Enemy()
                 # adding the enemy to the group
                 enemies.add(enemy)
@@ -275,6 +281,9 @@ def execute_game(player):
         # collision_sprites.draw(display)
         for sprite in collision_sprites:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
+
+        for weapon in weapon_group:
+            display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 
