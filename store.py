@@ -12,7 +12,6 @@ def store_setup(tmx_data_store):
     tiles_group = pygame.sprite.Group()
     objects_group = pygame.sprite.Group()
     collision_sprites = pygame.sprite.Group()
-    cave_exit_rect = None
 
     # static tiles
     for layer in tmx_data_store.layers:
@@ -21,9 +20,9 @@ def store_setup(tmx_data_store):
                 pos = (x * tile_size, y * tile_size)
                 Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
 
+    return background_sprite_group, tiles_group, objects_group, collision_sprites
 
-    return (background_sprite_group, tiles_group, objects_group,
-            collision_sprites, cave_exit_rect)
+
 def inside_store(player):
 
     # setting up a background
@@ -37,9 +36,9 @@ def inside_store(player):
 
     ############################### CAVE MAP ################################
 
-    tmx_data_cave = load_pygame("data/W")
-    (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, cave_exit_rect) = cave_setup(tmx_data_cave)
+    tmx_data_store = load_pygame("data/WE STORE/WE STORE MAP.tmx")
+    background_sprite_group, tiles_group, objects_group, collision_sprites = store_setup(tmx_data_store)
+
     # setting up fonts for the text
     cutefont = pygame.font.Font("fonts/Minecraft.ttf", 30)
 
@@ -61,6 +60,7 @@ def inside_store(player):
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
+                progress()
                 exit()
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
@@ -72,9 +72,16 @@ def inside_store(player):
                     return
 
         # displaying my background
-        screen.blit(entrance_store, (0, 0))
+        for tile in tiles_group:
+            display.blit(tile.image, tile.rect.topleft)
+
+        # scalling and bliting the screen to the surface
+        store_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
+
+        # displaying the store owner
         screen.blit(store_owner, store_owner_position)
 
+        # drawing the buttons
         shop_button = draw_button(screen, 255, 335, 190, 65, "shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
         quit_shop_button = draw_button(screen, 475, 335, 245, 65, "leave shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
         draw_button(screen, 255, 190, 450, 120, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
