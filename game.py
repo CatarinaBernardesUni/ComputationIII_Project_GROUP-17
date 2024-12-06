@@ -120,6 +120,10 @@ def execute_game(player):
     # before starting our main loop, set up the enemy cooldown
     enemy_cooldown = 0
 
+    weapon_group = pygame.sprite.Group()
+    fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
+                        10, 10, weapon_group)
+
     ###################################### MAIN GAME LOOP #######################################
     running = True
     while running:
@@ -169,13 +173,8 @@ def execute_game(player):
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
         # return "shed"
-        weapon_group = pygame.sprite.Group()
-        fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
-                            10, 10, weapon_group)
 
-
-
-        weapon_group.update()
+        weapon_group.update(frame_time)
 
         # checking if the player entered the cave
         if cave_entrance_rect and cave_entrance_rect.colliderect(player.rect):
@@ -198,9 +197,6 @@ def execute_game(player):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
-            weapon_group = pygame.sprite.Group()
-            fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
-                                10, 10, weapon_group)
             # automatically shoot bullets from the player
             player.shoot(bullets)
             # spawning enemies every two seconds
@@ -218,7 +214,8 @@ def execute_game(player):
             # updating the bullets group
             bullets.update()
             enemies.update(player)
-            weapon_group.update()
+            # todo: put this back
+            # weapon_group.update()
 
             # Testing at home: player becomes red when colliding with an enemy # this display was screen
             if player.rect.colliderect(enemy.rect):
@@ -238,8 +235,9 @@ def execute_game(player):
                     bullet.radius
                 )
             # drawing the weapons
-            for weapon in weapon_group:
-                display.blit(weapon.image, weapon.rect.topleft + camera_offset)
+            # todo: put this back too
+            # for weapon in weapon_group:
+                # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
             enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
 

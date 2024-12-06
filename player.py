@@ -66,7 +66,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                           'bow': 100,
                           'key': 300}
 
-
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}

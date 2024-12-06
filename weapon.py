@@ -1,3 +1,4 @@
+import os
 from random import random
 from config import *
 from math import atan2, degrees
@@ -23,33 +24,65 @@ class Weapon(pygame.sprite.Sprite):
 
         # connection to the player
         self.player = player
-        self.distance = 50
+        self.distance = 40
         self.player_direction = pygame.Vector2(0, 1)  # weapon at the right (i think) of the player
 
-        self.weapon_surf = pygame.image.load(
-            "images/weapons/fire_sword/fire1.png").convert_alpha()
-        self.scaled_weapon_surf = pygame.transform.scale(self.weapon_surf, (35, 35))
-        self.image = self.scaled_weapon_surf
+        # Load all weapon frames
+        self.frames = []
+        folder_path = os.path.normpath("images/weapons/fire_sword")
+        for file_name in os.listdir(folder_path):
+            frame = pygame.image.load(os.path.join(folder_path, file_name)).convert_alpha()
+            scaled_frame = pygame.transform.scale(frame, (35, 35))
+            self.frames.append(scaled_frame)
+
+        # print(f"Loaded frames: {len(self.frames)}")
+
+        self.current_frame_index = 0
+        self.animation_speed = 0.1
+        self.image = self.frames[self.current_frame_index]
+
+        # self.weapon_surf = pygame.image.load("images/weapons/fire_sword/fire1.png").convert_alpha()
+        # self.scaled_weapon_surf = pygame.transform.scale(self.weapon_surf, (35, 35))
+        # self.image = self.scaled_weapon_surf
+
         self.rect = self.image.get_rect(center=self.player.rect.center + self.player_direction * self.distance)
 
-    def update(self):
+#################################### DISPLAY OF WEAPON ###########################################
+    def animate(self, frame_time):
+        self.animation_speed += frame_time
+        # Check if it's time to update the animation frame
+        if self.animation_speed >= 75:  # 200 milliseconds per frame (adjust as needed)
+            self.animation_speed = 0  # Reset the timer
+            self.current_frame_index += 1
+
+            # Loop back to the first frame if at the end
+            if self.current_frame_index >= len(self.frames):
+                self.current_frame_index = 0
+
+        self.image = self.frames[self.current_frame_index]
+        # print(f"Current Frame Index: {self.current_frame_index}")
+
+    def update(self, frame_time):
         self.get_direction()
+        self.animate(frame_time)
         self.rotate_weapon()
         self.rect.center = self.player.rect.center + self.player_direction * self.distance
 
     def rotate_weapon(self):
+        # todo: check if all these rotations and flips make sense
         angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
-        print(angle)
         if -45 <= angle <= 45:
-            self.image = pygame.transform.rotate(self.scaled_weapon_surf, angle)
+            rotated_frame = pygame.transform.rotate(self.image, angle)
         elif 45 < angle <= 90 or -270 <= angle < -225:
-            self.image = pygame.transform.rotate(self.scaled_weapon_surf, angle - 90)
+            rotated_frame = pygame.transform.rotate(self.image, angle - 90)
         elif -225 <= angle < -135:
-            flipped_image = pygame.transform.flip(self.scaled_weapon_surf, False, True)
-            self.image = pygame.transform.rotate(flipped_image, angle)
-        elif -135 <= angle < -45:
+            flipped_image = pygame.transform.flip(self.image, False, True)
+            rotated_frame = pygame.transform.rotate(flipped_image, angle)
+        else:
             # flipped_image = pygame.transform.flip(self.scaled_weapon_surf, True, False)
-            self.image = pygame.transform.rotate(self.scaled_weapon_surf, angle - 90)
+            rotated_frame = pygame.transform.rotate(self.image, angle - 90)
+
+        self.image = rotated_frame
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def get_direction(self):
@@ -57,6 +90,7 @@ class Weapon(pygame.sprite.Sprite):
         player_position = pygame.Vector2(self.player.rect.center)
         self.player_direction = (mouse_position - player_position).normalize()
 
+##########################################################################################################
     def attack(self, target):
         if self.durability <= 0:
             return "This weapon is broken"
