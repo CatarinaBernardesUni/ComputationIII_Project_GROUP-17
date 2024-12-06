@@ -121,8 +121,8 @@ def execute_game(player):
     enemy_cooldown = 0
 
     weapon_group = pygame.sprite.Group()
-    fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
-                        10, 10, weapon_group)
+    # fire_sword = Weapon(player, weapon_group, "1", "images/weapons/fire_sword")
+    earth_scepter = Weapon(player, weapon_group, "2", "images/weapons/dagger")
 
     ###################################### MAIN GAME LOOP #######################################
     running = True
