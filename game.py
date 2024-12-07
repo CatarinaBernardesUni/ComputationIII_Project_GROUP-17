@@ -122,7 +122,9 @@ def execute_game(player):
 
     weapon_group = pygame.sprite.Group()
     # fire_sword = Weapon(player, weapon_group, "1", "images/weapons/fire_sword")
-    earth_scepter = Weapon(player, weapon_group, "2", "images/weapons/dagger")
+    # dagger = Weapon(player, weapon_group, "2", "images/weapons/dagger")
+    # winter_sword = Weapon(player, weapon_group, "3", "images/weapons/winter_sword")
+    # bow_without_arrow = Weapon(player, weapon_group, "4", "images/weapons/bow_without_arrow")
 
     ###################################### MAIN GAME LOOP #######################################
     running = True
