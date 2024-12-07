@@ -46,16 +46,16 @@ def game_over():
                 exit()
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 157 <= mouse[0] <= 340 and 505 <= mouse[1] <= 598:
+                if 384 <= mouse[0] <= 626 and 489 <= mouse[1] <= 580:
                     info['health'] = 5
                     game_loop()
                     waiting = False
 
-                if 282 <= mouse[0] <= 431 and 502 <= mouse[1] <= 535:
+                if 690 <= mouse[0] <= 935 and 487 <= mouse[1] <= 582:
                     progress()
                     pygame.quit()
                     exit()
-                if 27 <= mouse[0] <= 273 and 187 <= mouse[1] <= 429:
+                if 531 <= mouse[0] <= 771 and 608 <= mouse[1] <= 700:
                     interface.interface()
                     waiting = False
 

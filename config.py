@@ -22,7 +22,7 @@ brick_color = (117, 49, 40)
 full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (50, 50))
 empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (50, 50))
 
-game_over_image = pygame.image.load("images/screens/gameover.png")
+game_over_image = pygame.transform.scale(pygame.image.load("images/screens/game_over.png"), (1280, 720))
 
 # mouse_image = pygame.transform.scale(pygame.image.load("images/others/mouse_image.png"), (50, 50))
 # SCREEN RESOLUTION
