@@ -63,7 +63,7 @@ def game_over():
 def paused():
     pause = True
     while pause:
-        screen.blit(pause_image, (0, 0)) # todo: change the amount of different variables called screen
+        screen.blit(pause_image, (0, 0))  # todo: change the amount of different variables called screen
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
@@ -91,6 +91,7 @@ def game_loop():
             current_state = execute_game(player)
         elif current_state == "cave":
             current_state = cave_area(player)
+
 
 def execute_game(player):
     # SETUP

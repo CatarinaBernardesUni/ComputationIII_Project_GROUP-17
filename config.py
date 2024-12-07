@@ -24,7 +24,6 @@ empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_hear
 
 game_over_image = pygame.transform.scale(pygame.image.load("images/screens/game_over.png"), (1280, 720))
 
-# mouse_image = pygame.transform.scale(pygame.image.load("images/others/mouse_image.png"), (50, 50))
 # SCREEN RESOLUTION
 resolution = (1280, 720)  # height/width
 # todo: make resolution options in the interface
@@ -32,7 +31,6 @@ width, height = resolution[0], resolution[1]
 fps = 60
 # screen = pygame.display.set_mode(resolution)
 pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_image2.png"), (1280, 180))
-# pause_image.get_rect(center=(720 // 2, 100))
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 # menu of the store
 menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.png"), (750, 600))
@@ -46,11 +44,10 @@ tile_size = 16
 # using the clock to control the time frame
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode(resolution)
-# pygame.cursors.load_xbm()
 mouse = pygame.mouse.get_pos()
 character_choice = "player 1"
+
 
 def progress():
     with open("player_info.txt", "w") as player_file:
         json.dump(info, player_file)
-
