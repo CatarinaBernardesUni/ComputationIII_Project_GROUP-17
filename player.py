@@ -29,12 +29,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.image = pygame.Surface(player_size)  # we use surface to display any image or draw
         # area where the player will be drawn
         self.rect = self.image.get_rect()
-        # centering the player in its rectangle
+        # todo: centering the player in its rectangle?
+        # initial position of the player
         self.rect.center = (1150, 150)
-        self.hitbox_rect = self.rect.inflate(-10, -15)  # making the hitbox smaller than the player image
-        # todo: change this according to the player image
+        # making the hitbox smaller than the player image
+        self.hitbox_rect = self.rect.inflate(-10, -15)
 
         # GAMEPLAY VARIABLES
+        self.just_left_cave = False
         self.speed = 1.8
         self.health = info['health']
 
