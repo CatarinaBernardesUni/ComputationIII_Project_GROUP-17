@@ -34,7 +34,7 @@ def inside_store(player):
     store_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
 
-    ############################### CAVE MAP ################################
+    ############################### STORE MAP ################################
 
     tmx_data_store = load_pygame("data/WE STORE/WE STORE MAP.tmx")
     background_sprite_group, tiles_group, objects_group, collision_sprites = store_setup(tmx_data_store)
@@ -94,9 +94,28 @@ def shop_menu(player):
     shopping = True
     custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
 
+    ################ TESTING THE TILES ###################
+    store_screen = pygame.display.set_mode(resolution)
+    display = pygame.Surface((width // 2.2, height // 2.2))
+
+    ############################### CAVE MAP ################################
+
+    tmx_data_store = load_pygame("data/WE STORE/WE STORE MAP.tmx")
+    background_sprite_group, tiles_group, objects_group, collision_sprites = store_setup(tmx_data_store)
+
+
     while shopping:
-        screen.blit(entrance_store, (0, 0))
+
+        # displaying my tiles background
+        for tile in tiles_group:
+            display.blit(tile.image, tile.rect.topleft)
+
+        # scaling and blitting the screen to the surface
+        store_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
+
+        # bliting the actual store menu
         screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
+
         # setting up so my gold amount shows on store menu
         gold_available = custom_font.render(f"My Gold: {player.gold}", True, brick_color)
         screen.blit(gold_available, (width // 2 - 310, height // 2 - 220))
