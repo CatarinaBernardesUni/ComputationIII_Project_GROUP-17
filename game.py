@@ -254,7 +254,7 @@ def execute_game(player):
                 enemy.kill()
                 info['score'] += 1
                 player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                player_score_rect = player_score_surf.get_rect(center=(80, 80))
+                player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
             if player.rect.colliderect(enemy.rect):
                 # pygame.draw.rect(screen, red, player.rect)

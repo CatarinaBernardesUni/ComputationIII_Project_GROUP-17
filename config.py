@@ -19,8 +19,9 @@ greenish = (182, 215, 168)
 brick_color_transparent = (117, 49, 40, 225)
 brick_color = (117, 49, 40)
 
-full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (50, 50))
-empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (50, 50))
+
+full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))
+empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (33, 33))
 
 game_over_image = pygame.transform.scale(pygame.image.load("images/screens/game_over.png"), (1280, 720))
 
