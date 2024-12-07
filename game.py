@@ -124,7 +124,12 @@ def execute_game(player):
     # fire_sword = Weapon(player, weapon_group, "1", "images/weapons/fire_sword")
     # dagger = Weapon(player, weapon_group, "2", "images/weapons/dagger")
     # winter_sword = Weapon(player, weapon_group, "3", "images/weapons/winter_sword")
-    # bow_without_arrow = Weapon(player, weapon_group, "4", "images/weapons/bow_without_arrow")
+    # ghost_bow = Weapon(player, weapon_group, "4", "images/weapons/ghost_bow") #too fast and flipped the wrong way
+    # todo:weapon should be abstract
+    # gold_axe = Weapon(player, weapon_group, "4", "images/weapons/gold_axe") #flipping is also a bit weird
+    # ice_bow = Weapon(player, weapon_group, "4", "images/weapons/ice_bow")
+    # light_bow = Weapon(player, weapon_group, "4", "images/weapons/light_bow")
+    # ruby_axe = Weapon(player, weapon_group, "4", "images/weapons/ruby_axe")
 
     ###################################### MAIN GAME LOOP #######################################
     running = True
