@@ -55,7 +55,7 @@ def home_area(player):
     player_group.add(player)
 
     # setting the player initial position on the home
-    player.rect.center = (670, 320)
+    player.rect.center = (385, 550)
     player.state = "down"
 
     ###################################### MAIN GAME LOOP #######################################
