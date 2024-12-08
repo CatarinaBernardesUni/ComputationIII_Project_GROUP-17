@@ -197,10 +197,12 @@ def execute_game(player):
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
 
-        # if player.just_left_home:
-            #player.rect.x = player.rect.x
-            #player.rect.y = player.rect.y + 20
-            #player.just_left_home = False
+        if player.just_left_home:
+            player.rect.x = 90
+            player.rect.y = 105
+            player.just_left_home = False
+
+        display.blit(player_score_surf, player_score_rect)
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
