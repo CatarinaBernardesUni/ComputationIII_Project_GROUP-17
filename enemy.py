@@ -3,7 +3,13 @@ import pygame
 import random
 import math
 
-
+enemies = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire", "special_effect": None},
+           "normal_fly": {"tier": 1, "element": None, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire", "special_effect": None},
+           "fire_fly": {"tier": 2, "element": "fire", "health": 40, "speed": 1.5, "attack": 2, "weakness": "ice", "special_effect": None},
+           "horse_ghost": {"tier": 3, "element": "darkness", "health": 80, "speed": 1.3, "attack": 2.5, "weakness": "light", "special_effect": "fear"}, # fear makes the player slower
+           "electric_fly": {"tier": 3, "element": "electricity", "health": 60, "speed": 1.7, "attack": 2, "weakness": "ice", "special_effect": "shock"}, # shock makes the player paralysed
+           "myst_ghost": {"tier": 4, "element": "darkness", "health": 120, "speed": 1.5, "attack": 3, "weakness": "light", "special_effect": "shoot"},
+           "electric_enemy": {"tier": 4, "element": "electricity", "health": 100, "speed": 1.8, "attack": 3, "weakness": "ice", "special_effect": "explosion"}}
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
