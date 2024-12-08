@@ -87,6 +87,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         super().__init__(groups)
 
         # weapon attributes
+        self.name = weapon_name
         self.tier = weapons[weapon_name]["tier"]
         self.damage = weapons[weapon_name]["damage"]
         self.attack_speed = weapons[weapon_name]["attack_speed"]
@@ -98,6 +99,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.directory_path = weapons[weapon_name]["directory_path"]
 
         self.usage_count = 0
+        self.upgrade_level = 0
 
         # connection to the player
         self.player = player
@@ -183,8 +185,8 @@ class Weapon(pygame.sprite.Sprite, ABC):
             target.kill()
 
     def upgrade(self):
-        if self.tier < 5:
-            self.tier += 1
+        if self.upgrade_level < 5:
+            self.upgrade_level += 1
             self.damage *= 1.2
             self.attack_speed *= 1.1
             self.durability += 10
@@ -200,6 +202,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
     def display_stats(self):
         print(f"Name: {self.name}")
         print(f"Tier: {self.tier}")
+        print(f"Upgrade Level: {self.upgrade_level}")
         print(f"Damage: {self.damage}")
         print(f"Attack Speed: {self.attack_speed}")
         print(f"Durability: {self.durability}")
@@ -207,10 +210,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
         print(f"Crit Multiplier: {self.crit_multiplier}")
         print(f"Special Effect: {self.special_effect}")
         print(f"Usage Count: {self.usage_count}")
-
-    def adapt(self):
-        if self.usage_count % 10 == 0:
-            self.damage += 1 # increase damage every 10 attacks
 
 #################################################################################
 
@@ -247,8 +246,8 @@ class Sword(Weapon):
         # print(f"Current Frame Index: {self.current_frame_index}")
 
 class Bow(Weapon):
-    def __init__(self, player, groups, weapon_name, directory_path):
-        super().__init__(player, groups, weapon_name, directory_path)
+    def __init__(self, player, groups, weapon_name):
+        super().__init__(player, groups, weapon_name)
         self.distance = 30
 
     def rotate_weapon(self):
