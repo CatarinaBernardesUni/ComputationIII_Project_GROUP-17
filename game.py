@@ -2,6 +2,7 @@ from background import background_setup
 import pygame
 
 from cave import cave_area
+from home import home_area
 from player import *
 from enemy import Enemy
 import interface
@@ -91,6 +92,8 @@ def game_loop():
             current_state = execute_game(player)
         elif current_state == "cave":
             current_state = cave_area(player)
+        elif current_state == "home":
+            current_state = home_area(player)
 
 
 def execute_game(player):
@@ -105,7 +108,7 @@ def execute_game(player):
 
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
-     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect) = background_setup(tmx_data)
+     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -188,6 +191,15 @@ def execute_game(player):
             # when player leaves the house it goes here
             player.rect.x = player.rect.x
             player.rect.y = player.rect.y + 20
+
+        # make the player able to go inside the home
+        if home_rect and home_rect.colliderect(player.rect):
+            return "home"
+
+        # if player.just_left_home:
+            #player.rect.x = player.rect.x
+            #player.rect.y = player.rect.y + 20
+            #player.just_left_home = False
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
