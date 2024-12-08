@@ -3,61 +3,99 @@ from random import random
 from config import *
 from math import atan2, degrees
 import pygame.sprite
+from abc import ABC, abstractmethod
 
-weapons = {"1": {"name": "Flaming Sword",
+weapons = {"dagger": {
+                "tier": 1,
+                "damage": 18,
+                "attack_speed": 2.0,
+                "durability": 30,
+                "crit_chance": 0.2,
+                "crit_multiplier": 2.5,
+                "special_effect": None,
+                "directory_path": "images/weapons/dagger"},
+           "ghost_bow": {
                  "tier": 1,
-                 "damage": 20,
-                 "range": 5,
-                 "attack_speed": 1.5,
-                 "durability": 50,
-                 "crit_chance": 0.1,
-                 "crit_multiplier": 2.0,
-                 "special_effect": "burn"},
-           "2": {"name": "Frost Axe",
-                 "tier": 2,
-                 "damage": 15,
-                 "range": 3,
-                 "attack_speed": 1.2,
+                 "damage": 22,
+                 "attack_speed": 1.0,
                  "durability": 40,
-                 "crit_chance": 0.15,
-                 "crit_multiplier": 2.0,
-                 "special_effect": "freeze"},
-           "3": {"name": "Thunder Hammer",
-                 "tier": 3,
-                 "damage": 25,
-                 "range": 2,
-                 "attack_speed": 0.8,
-                 "durability": 30,
                  "crit_chance": 0.1,
-                 "crit_multiplier": 1.8,
-                 "special_effect": "stun"},
-           "4": {"name": "Iron Sword",
-                 "tier": 1,
-                 "damage": 10,
-                 "range": 3,
-                 "attack_speed": 1.5,
-                 "durability": 50,
-                 "crit_chance": 0.05,
-                 "crit_multiplier": 1.5,
-                 "special_effect": None}}
+                 "crit_multiplier": 2.0,
+                 "special_effect": None,
+                 "directory_path": "images/weapons/ghost_bow"},
+####################### TIER 2 WEAPONS ########################################
+           "winter_sword": {
+               "tier": 2,
+               "damage": 18,
+               "attack_speed": 1.1,
+               "durability": 35,
+               "crit_chance": 0.15,
+               "crit_multiplier": 2.2,
+               "special_effect": "freeze",  # slow down enemies
+               "directory_path": "images/weapons/winter_sword"},
+           "gold_axe": {
+               "tier": 2,
+               "damage": 22,
+               "attack_speed": 0.9,
+               "durability": 30,
+               "crit_chance": 0.1,
+               "crit_multiplier": 1.8,
+               "special_effect": "golden touch",  # get more gold from enemies
+               "directory_path": "images/weapons/gold_axe"},
+####################### TIER 3 WEAPONS ########################################
+           "fire_sword": {
+               "tier": 3,
+               "damage": 28,
+               "attack_speed": 0.7,
+               "durability": 25,
+               "crit_chance": 0.1,
+               "crit_multiplier": 2.0,
+               "special_effect": "burn",
+               "directory_path": "images/weapons/fire_sword"},
+           "ice_bow": {
+               "tier": 3,
+               "damage": 24,
+               "attack_speed": 1.0,
+               "durability": 30,
+               "crit_chance": 0.12,
+               "crit_multiplier": 1.9,
+               "special_effect": "freeze",
+               "directory_path": "images/weapons/ice_bow"},
+           "light_bow": {
+               "tier": 3,
+               "damage": 23,
+               "attack_speed": 1.0,
+               "durability": 30,
+               "crit_chance": 0.1,
+               "crit_multiplier": 1.8,
+               "special_effect": "blindness", # monster stop moving because they can't see for a while or will miss their attacks or start going away from you
+               "directory_path": "images/weapons/light_bow"},
+####################### TIER 4 WEAPON ########################################
+           "ruby_axe": {
+               "tier": 4,
+               "damage": 15,
+               "attack_speed": 1.2,
+               "durability": 50,
+               "crit_chance": 0.08,
+               "crit_multiplier": 1.6,
+               "special_effect": "bleed",  # Causes enemies to lose HP over time
+               "directory_path": "images/weapons/ruby_axe"}}
 
-# todo: a lot of this definitions are for weapons in the diagonal
-class Weapon(pygame.sprite.Sprite):
-    def __init__(self, player, groups, tier_code, directory_path):
+class Weapon(pygame.sprite.Sprite, ABC):
+    def __init__(self, player, groups, weapon_name):
         # directory_path is like: "images/weapons/fire_sword"
         super().__init__(groups)
 
         # weapon attributes
-        self.name = weapons[tier_code]["name"]
-        self.tier = weapons[tier_code]["tier"]
-        self.damage = weapons[tier_code]["damage"]
-        self.range = weapons[tier_code]["range"]
-        self.attack_speed = weapons[tier_code]["attack_speed"]
-        self.durability = weapons[tier_code]["durability"]
-        self.crit_chance = weapons[tier_code]["crit_chance"] # probability of dealing extra damage
-        self.crit_multiplier = weapons[tier_code]["crit_multiplier"]  # how much extra damage is dealt
-        self.special_effect = weapons[tier_code]["special_effect"] # burn, freeze, maybe more efficient
-                                                                   # in some players than others
+        self.tier = weapons[weapon_name]["tier"]
+        self.damage = weapons[weapon_name]["damage"]
+        self.attack_speed = weapons[weapon_name]["attack_speed"]
+        self.durability = weapons[weapon_name]["durability"]
+        self.crit_chance = weapons[weapon_name]["crit_chance"]  # probability of dealing extra damage
+        self.crit_multiplier = weapons[weapon_name]["crit_multiplier"]  # how much extra damage is dealt
+        self.special_effect = weapons[weapon_name]["special_effect"]  # burn, freeze, maybe more efficient
+                                                                      # in some monsters than others
+        self.directory_path = weapons[weapon_name]["directory_path"]
 
         self.usage_count = 0
 
@@ -66,14 +104,15 @@ class Weapon(pygame.sprite.Sprite):
         self.distance = 40
         self.player_direction = pygame.Vector2(0, 1)  # weapon at the right (i think) of the player
                                                       # Matilde said that is left
+                                                      # the side of the screen this arrow is pointing to -->
 
         # Load all weapon frames
         self.frames = []
-        folder_path = os.path.normpath(directory_path)
+        folder_path = os.path.normpath(self.directory_path)
         for file_name in os.listdir(folder_path):
             frame = pygame.image.load(os.path.join(folder_path, file_name)).convert_alpha()
             scaled_frame = pygame.transform.scale(frame, (35, 35))
-            print(f"Loaded frame: {file_name}")
+            # print(f"Loaded frame: {file_name}")
             self.frames.append(scaled_frame)
 
         # print(f"Loaded frames: {len(self.frames)}")
@@ -82,26 +121,15 @@ class Weapon(pygame.sprite.Sprite):
         self.animation_speed = 0.1
         self.image = self.frames[self.current_frame_index]
 
-        # self.weapon_surf = pygame.image.load("images/weapons/fire_sword/fire1.png").convert_alpha()
-        # self.scaled_weapon_surf = pygame.transform.scale(self.weapon_surf, (35, 35))
-        # self.image = self.scaled_weapon_surf
-
         self.rect = self.image.get_rect(center=self.player.rect.center + self.player_direction * self.distance)
 
 #################################### DISPLAY OF WEAPON ###########################################
+    @abstractmethod
     def animate(self, frame_time):
-        self.animation_speed += frame_time
-        # Check if it's time to update the animation frame
-        if self.animation_speed >= 75:  # 200 milliseconds per frame (adjust as needed)
-            self.animation_speed = 0  # Reset the timer
-            self.current_frame_index += 1
-
-            # Loop back to the first frame if at the end
-            if self.current_frame_index >= len(self.frames):
-                self.current_frame_index = 0
-
-        self.image = self.frames[self.current_frame_index]
-        # print(f"Current Frame Index: {self.current_frame_index}")
+        """
+        Abstract method to animate the weapon.
+        :param frame_time: clock running in the defined fps
+        """
 
     def update(self, frame_time):
         self.get_direction()
@@ -109,22 +137,13 @@ class Weapon(pygame.sprite.Sprite):
         self.rotate_weapon()
         self.rect.center = self.player.rect.center + self.player_direction * self.distance
 
+    @abstractmethod
     def rotate_weapon(self):
-        # todo: check if all these rotations and flips make sense
-        angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
-        if -45 <= angle <= 45:
-            rotated_frame = pygame.transform.rotate(self.image, angle)
-        elif 45 < angle <= 90 or -270 <= angle < -225:
-            rotated_frame = pygame.transform.rotate(self.image, angle - 90)
-        elif -225 <= angle < -135:
-            flipped_image = pygame.transform.flip(self.image, False, True)
-            rotated_frame = pygame.transform.rotate(flipped_image, angle)
-        else:
-            # flipped_image = pygame.transform.flip(self.scaled_weapon_surf, True, False)
-            rotated_frame = pygame.transform.rotate(self.image, angle - 90)
-
-        self.image = rotated_frame
-        self.rect = self.image.get_rect(center=self.rect.center)
+        """
+        Abstract method to rotate the weapon.
+        Implement specific display logic (e.g., rotation, flipping) in child classes.
+        """
+        pass
 
     def get_direction(self):
         mouse_position = pygame.Vector2(pygame.mouse.get_pos())
@@ -167,7 +186,6 @@ class Weapon(pygame.sprite.Sprite):
         if self.tier < 5:
             self.tier += 1
             self.damage *= 1.2
-            self.range += 1
             self.attack_speed *= 1.1
             self.durability += 10
             self.crit_chance += 0.02
@@ -183,7 +201,6 @@ class Weapon(pygame.sprite.Sprite):
         print(f"Name: {self.name}")
         print(f"Tier: {self.tier}")
         print(f"Damage: {self.damage}")
-        print(f"Range: {self.range}")
         print(f"Attack Speed: {self.attack_speed}")
         print(f"Durability: {self.durability}")
         print(f"Crit Change: {self.crit_chance*100}%")
@@ -197,5 +214,86 @@ class Weapon(pygame.sprite.Sprite):
 
 #################################################################################
 
+##################### CHILD CLASSES ############################################
+class Sword(Weapon):
+    def rotate_weapon(self):
+        angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
+        if -45 <= angle <= 45:
+            rotated_frame = pygame.transform.rotate(self.image, angle)
+        elif 45 < angle <= 90 or -270 <= angle < -225:
+            rotated_frame = pygame.transform.rotate(self.image, angle - 90)
+        elif -225 <= angle < -135:
+            flipped_image = pygame.transform.flip(self.image, False, True)
+            rotated_frame = pygame.transform.rotate(flipped_image, angle)
+        else:
+            # flipped_image = pygame.transform.flip(self.scaled_weapon_surf, True, False)
+            rotated_frame = pygame.transform.rotate(self.image, angle - 90)
 
+        self.image = rotated_frame
+        self.rect = self.image.get_rect(center=self.rect.center)
 
+    def animate(self, frame_time):
+        self.animation_speed += frame_time
+        # Check if it's time to update the animation frame
+        if self.animation_speed >= 75:
+            self.animation_speed = 0  # Reset the timer
+            self.current_frame_index += 1
+
+            # Loop back to the first frame if at the end
+            if self.current_frame_index >= len(self.frames):
+                self.current_frame_index = 0
+
+        self.image = self.frames[self.current_frame_index]
+        # print(f"Current Frame Index: {self.current_frame_index}")
+
+class Bow(Weapon):
+    def __init__(self, player, groups, weapon_name, directory_path):
+        super().__init__(player, groups, weapon_name, directory_path)
+        self.distance = 30
+
+    def rotate_weapon(self):
+        angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
+        flipped_image = pygame.transform.flip(self.image, True, False)
+        rotated_frame = pygame.transform.rotate(flipped_image, angle)
+        self.image = rotated_frame
+        self.rect = self.image.get_rect(center=self.rect.center)
+
+    def animate(self, frame_time):
+        self.animation_speed += frame_time
+        # Check if it's time to update the animation frame
+        if self.animation_speed >= 300:
+            self.animation_speed = 0  # Reset the timer
+            self.current_frame_index += 1
+
+            # Loop back to the first frame if at the end
+            if self.current_frame_index >= len(self.frames):
+                self.current_frame_index = 0
+
+        self.image = self.frames[self.current_frame_index]
+        # print(f"Current Frame Index: {self.current_frame_index}")
+
+class Axe(Weapon):
+    def rotate_weapon(self):
+        angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
+        if -90 <= angle <= 90:
+            rotated_frame = pygame.transform.rotate(self.image, angle)
+        else:
+            flipped_image = pygame.transform.flip(self.image, False, True)
+            rotated_frame = pygame.transform.rotate(flipped_image, angle)
+
+        self.image = rotated_frame
+        self.rect = self.image.get_rect(center=self.rect.center)
+
+    def animate(self, frame_time):
+        self.animation_speed += frame_time
+        # Check if it's time to update the animation frame
+        if self.animation_speed >= 100:
+            self.animation_speed = 0  # Reset the timer
+            self.current_frame_index += 1
+
+            # Loop back to the first frame if at the end
+            if self.current_frame_index >= len(self.frames):
+                self.current_frame_index = 0
+
+        self.image = self.frames[self.current_frame_index]
+        # print(f"Current Frame Index: {self.current_frame_index}")

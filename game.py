@@ -9,7 +9,7 @@ from progress import *
 from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
-from weapon import Weapon
+from weapon import *
 
 
 def choose_character():
@@ -121,15 +121,16 @@ def execute_game(player):
     enemy_cooldown = 0
 
     weapon_group = pygame.sprite.Group()
-    # fire_sword = Weapon(player, weapon_group, "1", "images/weapons/fire_sword")
-    # dagger = Weapon(player, weapon_group, "2", "images/weapons/dagger")
-    # winter_sword = Weapon(player, weapon_group, "3", "images/weapons/winter_sword")
-    # ghost_bow = Weapon(player, weapon_group, "4", "images/weapons/ghost_bow") #too fast and flipped the wrong way
-    # todo:weapon should be abstract
-    # gold_axe = Weapon(player, weapon_group, "4", "images/weapons/gold_axe") #flipping is also a bit weird
-    # ice_bow = Weapon(player, weapon_group, "4", "images/weapons/ice_bow")
-    # light_bow = Weapon(player, weapon_group, "4", "images/weapons/light_bow")
-    # ruby_axe = Weapon(player, weapon_group, "4", "images/weapons/ruby_axe")
+    # fire_sword = Sword(player, weapon_group, "fire_sword")
+    # dagger = Sword(player, weapon_group, "dagger")
+    # winter_sword = Sword(player, weapon_group, "winter_sword")
+
+    # ghost_bow = Bow(player, weapon_group, "ghost_bow") #too fast and flipped the wrong way
+    # ice_bow = Bow(player, weapon_group, "ice_bow")
+    # light_bow = Bow(player, weapon_group, "light_bow")
+
+    # gold_axe = Axe(player, weapon_group, "gold_axe") #flipping is also a bit weird
+    ruby_axe = Axe(player, weapon_group, "ruby_axe")
 
     ###################################### MAIN GAME LOOP #######################################
     running = True
