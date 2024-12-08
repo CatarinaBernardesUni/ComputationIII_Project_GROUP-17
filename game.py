@@ -10,13 +10,9 @@ from progress import *
 from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
-<<<<<<< HEAD
 from weapon import Weapon
 from old_lady_house import old_lady_house_area
-=======
 from weapon import *
->>>>>>> main
-
 
 def choose_character():
     screen.blit(choose_character_image, (0, 0))
@@ -99,13 +95,11 @@ def game_loop():
             current_state = cave_area(player)
         elif current_state == "home":
             current_state = home_area(player)
-<<<<<<< HEAD
         elif current_state == "old lady house":
             current_state = old_lady_house_area(player)
-=======
         elif current_state == "store":
             current_state = inside_store(player)
->>>>>>> main
+
 
 
 def execute_game(player):
@@ -222,21 +216,20 @@ def execute_game(player):
         # make the player able to go inside the home
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
-
-<<<<<<< HEAD
         if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
             return "old lady house"
+        if player.just_left_old_lady_house:
+            player.rect.center = (325, 160)
+            player.just_left_old_lady_house = False
 
         # if player.just_left_home:
             #player.rect.x = player.rect.x
             #player.rect.y = player.rect.y + 20
             #player.just_left_home = False
-=======
+
         if player.just_left_home:
             player.rect.center = (1150, 150)
             player.just_left_home = False
->>>>>>> main
-
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player

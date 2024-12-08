@@ -44,7 +44,7 @@ def old_lady_house_area(player):
     player_group.add(player)
 
     # setting the player initial position on the home
-    player.rect.center = (111, 276)
+    player.rect.center = (111, 270)
     player.state = "up"
     ###################################### MAIN GAME LOOP #######################################
     running = True
@@ -85,7 +85,7 @@ def old_lady_house_area(player):
         player_group.update(collision_sprites, display)
 
         if old_lady_house_exit_rect and old_lady_house_exit_rect.colliderect(player.rect):
-            player.just_left_home = True
+            player.just_left_old_lady_house = True
             return "main"
 
         # display.blit(player_score_surf, player_score_rect)
