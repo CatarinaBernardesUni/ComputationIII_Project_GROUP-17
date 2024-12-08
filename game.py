@@ -95,7 +95,6 @@ def game_loop():
 
 def execute_game(player):
     # SETUP
-    global player_score_surf, player_score_rect
     # using the clock to control the time frame.
     clock = pygame.time.Clock()
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
