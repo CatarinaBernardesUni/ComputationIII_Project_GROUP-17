@@ -41,7 +41,7 @@ def home_area(player):
     home_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
 
-    ############################### CAVE MAP ################################
+    ############################### HOUSE MAP ################################
 
     tmx_data_home = load_pygame("data/WE HOME/WE HOME MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,

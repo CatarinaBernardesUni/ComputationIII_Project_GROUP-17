@@ -2,11 +2,7 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-<<<<<<< HEAD
-    <orderEntry type="jdk" jdkName="Computation_III" jdkType="Python SDK" />
-=======
-    <orderEntry type="jdk" jdkName="Computation3" jdkType="Python SDK" />
->>>>>>> carolinaBestie
+    <orderEntry type="jdk" jdkName="Game_Env_CIII" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

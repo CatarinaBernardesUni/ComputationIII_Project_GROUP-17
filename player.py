@@ -39,7 +39,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.just_left_cave = False
+<<<<<<< HEAD
         self.speed = 4
+=======
+        self.just_left_home = False
+        self.just_left_store = False
+        self.speed = 1.8
+>>>>>>> main
         self.health = info['health']
 
         self.max_health = 5
@@ -59,6 +65,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                           'key': 0}
         self.gold = 200
         self.price_items = {'apple': 5,
+<<<<<<< HEAD
                             'mushroom': 10,
                             'speed potion': 25,
                             'dog': 50,
@@ -66,6 +73,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                             'sword': 80,
                             'bow': 100,
                             'key': 300}
+=======
+                          'mushroom': 10,
+                          'speed potion': 25,
+                          'dog': 50,
+                          'soup': 60,
+                          'sword': 80,
+                          'bow': 100,
+                          'key': 300}
+>>>>>>> main
 
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],

@@ -27,34 +27,56 @@ def inside_store(player):
 
     # setting up a background
     store_owner = pygame.image.load("images/store/store_owner.png")
-    store_owner = pygame.transform.scale(store_owner, (100, 100))
-    store_owner_position = (600, 400)
+    store_owner = pygame.transform.scale(store_owner, (40, 40))
+    store_owner_position = (320, 225)
 
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
-    display = pygame.Surface((width // 2.2, height // 2.2))
+    display = pygame.Surface((width // 2, height // 2))
+    print(display)
+    clock = pygame.time.Clock()
 
     ############################### STORE MAP ################################
 
     tmx_data_store = load_pygame("data/WE STORE/WE STORE MAP.tmx")
     background_sprite_group, tiles_group, objects_group, collision_sprites = store_setup(tmx_data_store)
 
+    #####################################################################
+
+    # creating an empty group for the player (that was received as input)
+    player_group = pygame.sprite.Group()
+    # adding the player to the group
+    player_group.add(player)
+
+    # setting the player initial position on the cave
+    player.rect.center = (300, 320)
+    player.state = "up"
+
     # setting up fonts for the text
-    cutefont = pygame.font.Font("fonts/Minecraft.ttf", 30)
+    cutefont = pygame.font.Font("fonts/Minecraft.ttf", 15)
 
-    # setting up the screen
-    screen = pygame.display.set_mode(resolution)
-
-    clock = pygame.time.Clock()
-
-    shop_button = None
-    quit_shop_button = None
-
-# creating an event loop
+    # creating an event loop
     running = True
     while running:
-        mouse = get_mouse_position()
+        mouse = pygame.mouse.get_pos()
+        display_mouse = (mouse[0] * (display.get_width() / width), mouse[1] * (display.get_height() / height))
+
         clock.tick(fps)
+
+        # displaying my background
+        for tile in tiles_group:
+            display.blit(tile.image, tile.rect.topleft)
+
+        # displaying the store owner
+        display.blit(store_owner, store_owner_position)
+
+        for sprite in player_group:
+            display.blit(sprite.image, sprite.rect.topleft)
+
+        # drawing the buttons
+        shop_button = draw_button(display, 177.5, 167.5, 95, 32.5, "shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
+        quit_shop_button = draw_button(display, 287.5, 167.5, 122.5, 32.5, "leave shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
+        draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for ev in pygame.event.get():
@@ -64,30 +86,19 @@ def inside_store(player):
                 exit()
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
-                if shop_button.collidepoint(mouse):
+                if shop_button.collidepoint(display_mouse):
                     shop_menu(player)
 
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if quit_shop_button.collidepoint(mouse):
-                    return
-
-        # displaying my background
-        for tile in tiles_group:
-            display.blit(tile.image, tile.rect.topleft)
+                elif quit_shop_button.collidepoint(display_mouse):
+                    player.just_left_store = True
+                    return "main"
 
         # scalling and bliting the screen to the surface
         store_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 
-        # displaying the store owner
-        screen.blit(store_owner, store_owner_position)
-
-        # drawing the buttons
-        shop_button = draw_button(screen, 255, 335, 190, 65, "shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
-        quit_shop_button = draw_button(screen, 475, 335, 245, 65, "leave shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
-        draw_button(screen, 255, 190, 450, 120, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
-
         # updating the display
-        pygame.display.update()
+        pygame.display.flip()
+        player_group.update(collision_sprites, display)
 
 
 def shop_menu(player):
@@ -96,15 +107,15 @@ def shop_menu(player):
 
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
-    display = pygame.Surface((width // 2.2, height // 2.2))
+    display = pygame.Surface((width // 2, height // 2))
 
     ############################### CAVE MAP ################################
 
     tmx_data_store = load_pygame("data/WE STORE/WE STORE MAP.tmx")
     background_sprite_group, tiles_group, objects_group, collision_sprites = store_setup(tmx_data_store)
 
-
     while shopping:
+        mouse_pos = pygame.mouse.get_pos()
 
         # displaying my tiles background
         for tile in tiles_group:
@@ -114,14 +125,14 @@ def shop_menu(player):
         store_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 
         # bliting the actual store menu
-        screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
+        store_screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
 
         # setting up so my gold amount shows on store menu
         gold_available = custom_font.render(f"My Gold: {player.gold}", True, brick_color)
-        screen.blit(gold_available, (width // 2 - 310, height // 2 - 220))
+        store_screen.blit(gold_available, (width // 2 - 310, height // 2 - 220))
 
         for event in pygame.event.get():
-            mouse = pygame.mouse.get_pos()
+            mouse_pos = pygame.mouse.get_pos()
 
             # letting my player quit the game:
             if event.type == pygame.QUIT:
@@ -132,35 +143,34 @@ def shop_menu(player):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # QUIT BUTTON
-                if 946 <= mouse[0] <= 987 and 110 <= mouse[1] <= 152:
+                if 946 <= mouse_pos[0] <= 987 and 110 <= mouse_pos[1] <= 152:
                     shopping = False
                 # APPLE BUTTON
-                if 348 <= mouse[0] <= 445 and 291 <= mouse[1] <= 334:
+                if 348 <= mouse_pos[0] <= 445 and 291 <= mouse_pos[1] <= 334:
                     player.buy_item('apple')
                 # MUSHROOM BUTTON
-                if 509 <= mouse[0] <= 605 and 291 <= mouse[1] <= 334:
+                if 509 <= mouse_pos[0] <= 605 and 291 <= mouse_pos[1] <= 334:
                     player.buy_item('mushroom')
                 # POTION BUTTON
-                if 670 <= mouse[0] <= 766 and 291 <= mouse[1] <= 334:
+                if 670 <= mouse_pos[0] <= 766 and 291 <= mouse_pos[1] <= 334:
                     player.buy_item('speed potion')
                 # SWORD BUTTON
-                if 834 <= mouse[0] <= 930 and 291 <= mouse[1] <= 334:
+                if 834 <= mouse_pos[0] <= 930 and 291 <= mouse_pos[1] <= 334:
                     player.buy_item('sword')
                 # LAST ROW
                 # DOG BUTTON
-                if 347 <= mouse[0] <= 444 and 503 <= mouse[1] <= 546:
+                if 347 <= mouse_pos[0] <= 444 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('dog')
                 # SOUP BUTTON
-                if 499 <= mouse[0] <= 600 and 503 <= mouse[1] <= 546:
+                if 499 <= mouse_pos[0] <= 600 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('soup')
                 # BOW BUTTON
-                if 673 <= mouse[0] <= 767 and 503 <= mouse[1] <= 546:
+                if 673 <= mouse_pos[0] <= 767 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('bow')
                 # KEY BUTTON
-                if 832 <= mouse[0] <= 926 and 500 <= mouse[1] <= 543:
+                if 832 <= mouse_pos[0] <= 926 and 500 <= mouse_pos[1] <= 543:
                     player.buy_item('key')
 
-        mouse_pos = get_mouse_position()
         for button in button_data.values():
             show_hover_message(screen, mouse_pos, button["rect"], button["description"])
 

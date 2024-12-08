@@ -10,8 +10,12 @@ from progress import *
 from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
+<<<<<<< HEAD
 from weapon import Weapon
 from old_lady_house import old_lady_house_area
+=======
+from weapon import *
+>>>>>>> main
 
 
 def choose_character():
@@ -95,8 +99,13 @@ def game_loop():
             current_state = cave_area(player)
         elif current_state == "home":
             current_state = home_area(player)
+<<<<<<< HEAD
         elif current_state == "old lady house":
             current_state = old_lady_house_area(player)
+=======
+        elif current_state == "store":
+            current_state = inside_store(player)
+>>>>>>> main
 
 
 def execute_game(player):
@@ -125,6 +134,18 @@ def execute_game(player):
     enemies = pygame.sprite.Group()
     # before starting our main loop, set up the enemy cooldown
     enemy_cooldown = 0
+
+    weapon_group = pygame.sprite.Group()
+    # fire_sword = Sword(player, weapon_group, "fire_sword")
+    # dagger = Sword(player, weapon_group, "dagger")
+    # winter_sword = Sword(player, weapon_group, "winter_sword")
+
+    # ghost_bow = Bow(player, weapon_group, "ghost_bow") #too fast and flipped the wrong way
+    # ice_bow = Bow(player, weapon_group, "ice_bow")
+    # light_bow = Bow(player, weapon_group, "light_bow")
+
+    # gold_axe = Axe(player, weapon_group, "gold_axe") #flipping is also a bit weird
+    ruby_axe = Axe(player, weapon_group, "ruby_axe")
 
     ###################################### MAIN GAME LOOP #######################################
     running = True
@@ -176,29 +197,33 @@ def execute_game(player):
         # if player.rect.right >= width:
         # return "shed"
 
+        weapon_group.update(frame_time)
+
         # checking if the player entered the cave
         if cave_entrance_rect and cave_entrance_rect.colliderect(player.rect):
             return "cave"
 
         if player.just_left_cave:
-            player.rect.x -= 90
-            player.rect.y += 105
+            player.rect.x -= 150
+            player.rect.y += 150
             player.just_left_cave = False
 
         # display.blit(player_score_surf, player_score_rect)
 
         # checking if player enters the store are
         if store_rect and store_rect.colliderect(player.rect):
-            inside_store(player)
-            # todo: is the store being drawn on top of the background?
-            # when player leaves the house it goes here
-            player.rect.x = player.rect.x
-            player.rect.y = player.rect.y + 20
+            return "store"
+
+        if player.just_left_store:
+            player.rect.center = (500, 240)
+            player.state = "down"
+            player.just_left_store = False
 
         # make the player able to go inside the home
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
 
+<<<<<<< HEAD
         if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
             return "old lady house"
 
@@ -206,17 +231,18 @@ def execute_game(player):
             #player.rect.x = player.rect.x
             #player.rect.y = player.rect.y + 20
             #player.just_left_home = False
+=======
+        if player.just_left_home:
+            player.rect.center = (1150, 150)
+            player.just_left_home = False
+>>>>>>> main
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
-            weapon_group = pygame.sprite.Group()
-            fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
-                                10, 10, weapon_group)
             # automatically shoot bullets from the player
             player.shoot(bullets)
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
-                # todo: creating more types of enemies
                 enemy = Enemy()
                 # adding the enemy to the group
                 enemies.add(enemy)
@@ -230,7 +256,8 @@ def execute_game(player):
             # updating the bullets group
             bullets.update()
             enemies.update(player)
-            weapon_group.update()
+            # todo: put this back
+            # weapon_group.update()
 
             # Testing at home: player becomes red when colliding with an enemy # this display was screen
             if player.rect.colliderect(enemy.rect):
@@ -250,8 +277,9 @@ def execute_game(player):
                     bullet.radius
                 )
             # drawing the weapons
-            for weapon in weapon_group:
-                display.blit(weapon.image, weapon.rect.topleft + camera_offset)
+            # todo: put this back too
+            # for weapon in weapon_group:
+                # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
             enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
 
@@ -293,6 +321,9 @@ def execute_game(player):
         # collision_sprites.draw(display)
         for sprite in collision_sprites:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
+
+        for weapon in weapon_group:
+            display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 

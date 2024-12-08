@@ -395,7 +395,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="8" name="collisions on home">
+ <objectgroup id="8" name="collisions on home" visible="0">
   <object id="4" x="570.252" y="291.798" width="20.1681" height="42.8571"/>
   <object id="6" x="640.84" y="225.412" width="62.1849" height="45.3782"/>
   <object id="7" x="702.333" y="226.694" width="82.2056" height="47.8992"/>
@@ -469,7 +469,6 @@
   <object id="111" x="608.944" y="42.2802"/>
  </objectgroup>
  <objectgroup id="9" name="home exit">
-  <object id="113" x="365.684" y="580.492" width="37.5025" height="41.5569"/>
-  <object id="115" x="443.73" y="-0.29029"/>
+  <object id="113" x="365.684" y="572.472" width="37.5025" height="49.577"/>
  </objectgroup>
 </map>
