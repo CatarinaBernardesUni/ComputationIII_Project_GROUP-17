@@ -3,7 +3,7 @@ import pygame
 
 pygame.init()
 
-pixel = pygame.font.SysFont("Pixel", 40, 5)
+pixel = pygame.font.SysFont("Pixel", 35)
 info = {"health": 5, "score": 0, "coins": 0}
 
 try:
@@ -12,5 +12,6 @@ try:
 except:
     print('no file created yet.')
 
+
 player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-player_score_rect = player_score_surf.get_rect(center=(80, 80))
+player_score_rect = player_score_surf.get_rect(center=(65, 55))

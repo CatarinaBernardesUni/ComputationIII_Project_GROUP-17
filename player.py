@@ -84,12 +84,12 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.frame_index += 0.08  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
-    def empty_hearts(self, display):
+    def draw_hearts(self, display):
         for heart in range(self.max_health):
             if heart < info['health']:
-                display.blit(full_heart, (heart * 50, 10))
+                display.blit(full_heart, (heart * 33, 5))
             else:
-                display.blit(empty_heart, (heart * 50, 10))
+                display.blit(empty_heart, (heart * 33, 5))
 
     def update(self, collision_sprites, display):
         # getting the keys input
@@ -136,7 +136,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if keys[pygame.K_SPACE]:
             pass
         self.animate()
-        self.empty_hearts(display)
+        self.draw_hearts(display)
 
     def collision(self, direction, collision_sprites):
         for sprite in collision_sprites:

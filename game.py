@@ -64,7 +64,7 @@ def game_over():
 def paused():
     pause = True
     while pause:
-        screen.blit(pause_image, (0, 0)) # todo: change the amount of different variables called screen
+        screen.blit(pause_image, (0, 0))  # todo: change the amount of different variables called screen
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
@@ -94,6 +94,7 @@ def game_loop():
             current_state = cave_area(player)
         elif current_state == "home":
             current_state = home_area(player)
+
 
 def execute_game(player):
     # SETUP
@@ -265,7 +266,7 @@ def execute_game(player):
                 enemy.kill()
                 info['score'] += 1
                 player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                player_score_rect = player_score_surf.get_rect(center=(80, 80))
+                player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
             if player.rect.colliderect(enemy.rect):
                 # pygame.draw.rect(screen, red, player.rect)
