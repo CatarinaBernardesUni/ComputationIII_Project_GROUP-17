@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.just_left_cave = False
-        self.speed = 1.8
+        self.speed = 4
         self.health = info['health']
 
         self.max_health = 5

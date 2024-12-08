@@ -11,6 +11,7 @@ from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
 from weapon import Weapon
+from old_lady_house import old_lady_house_area
 
 
 def choose_character():
@@ -94,6 +95,8 @@ def game_loop():
             current_state = cave_area(player)
         elif current_state == "home":
             current_state = home_area(player)
+        elif current_state == "old lady house":
+            current_state = old_lady_house_area(player)
 
 
 def execute_game(player):
@@ -108,7 +111,7 @@ def execute_game(player):
 
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
-     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect) = background_setup(tmx_data)
+     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect, old_lady_house_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -182,7 +185,7 @@ def execute_game(player):
             player.rect.y += 105
             player.just_left_cave = False
 
-        display.blit(player_score_surf, player_score_rect)
+        # display.blit(player_score_surf, player_score_rect)
 
         # checking if player enters the store are
         if store_rect and store_rect.colliderect(player.rect):
@@ -195,6 +198,9 @@ def execute_game(player):
         # make the player able to go inside the home
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
+
+        if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
+            return "old lady house"
 
         # if player.just_left_home:
             #player.rect.x = player.rect.x
@@ -264,8 +270,8 @@ def execute_game(player):
             if enemy.health <= 0:
                 enemy.kill()
                 info['score'] += 1
-                player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                player_score_rect = player_score_surf.get_rect(center=(65, 55))
+                # player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
+                # player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
             if player.rect.colliderect(enemy.rect):
                 # pygame.draw.rect(screen, red, player.rect)

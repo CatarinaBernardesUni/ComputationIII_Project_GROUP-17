@@ -1,9 +1,1 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-{"health": 5, "score": 686, "coins": 0}
-=======
-{"health": -1, "score": 61, "coins": 0}
->>>>>>> carolinaBestie
-=======
-{"health": 2, "score": 718, "coins": 0}
->>>>>>> 96453802fd8887a3e2f05ba3d77d00e96abdaaf1
+{"health": 5, "score": 0, "coins": 0}
