@@ -35,7 +35,7 @@ def old_lady_house_setup(tmx_data_old_lady):
 def old_lady_house_area(player):
     clock = pygame.time.Clock()
     home_screen = pygame.display.set_mode(resolution)
-    display = pygame.Surface((width // 3, height // 3))
+    display = pygame.Surface((width // 2.2, height // 2.2))
 
     tmx_data_old_lady_house = load_pygame("data/WE OLD LADY HOUSE/WE OLD LADY HOUSE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
