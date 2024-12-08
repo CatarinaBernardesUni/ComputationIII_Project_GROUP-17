@@ -47,6 +47,7 @@ def cave_area(player):
     (background_sprite_group, tiles_group, objects_group,
      collision_sprites, cave_exit_rect) = cave_setup(tmx_data_cave)
 
+
     ####################################################################
 
     # creating an empty group for the player (that was received as input)
