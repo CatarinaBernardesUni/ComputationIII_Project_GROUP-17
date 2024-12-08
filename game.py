@@ -94,6 +94,8 @@ def game_loop():
             current_state = cave_area(player)
         elif current_state == "home":
             current_state = home_area(player)
+        elif current_state == "store":
+            current_state = inside_store(player)
 
 
 def execute_game(player):
@@ -193,28 +195,28 @@ def execute_game(player):
             return "cave"
 
         if player.just_left_cave:
-            player.rect.x -= 90
-            player.rect.y += 105
+            player.rect.x -= 150
+            player.rect.y += 150
             player.just_left_cave = False
 
         display.blit(player_score_surf, player_score_rect)
 
         # checking if player enters the store are
         if store_rect and store_rect.colliderect(player.rect):
-            inside_store(player)
-            # todo: is the store being drawn on top of the background?
-            # when player leaves the house it goes here
-            player.rect.x = player.rect.x
-            player.rect.y = player.rect.y + 20
+            return "store"
+
+        if player.just_left_store:
+            player.rect.center = (500, 240)
+            player.state = "down"
+            player.just_left_store = False
 
         # make the player able to go inside the home
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
 
-        # if player.just_left_home:
-            #player.rect.x = player.rect.x
-            #player.rect.y = player.rect.y + 20
-            #player.just_left_home = False
+        if player.just_left_home:
+            player.rect.center = (1150, 150)
+            player.just_left_home = False
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
