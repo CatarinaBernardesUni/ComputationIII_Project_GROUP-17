@@ -118,7 +118,8 @@ def shop_menu(player):
     ############################### CAVE MAP ################################
 
     tmx_data_store = load_pygame("data/WE STORE/WE STORE MAP.tmx")
-    background_sprite_group, tiles_group, objects_group, collision_sprites = store_setup(tmx_data_store)
+    (background_sprite_group, tiles_group, objects_group,
+     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data_store, None, None, None, None)
 
     while shopping:
         mouse_pos = pygame.mouse.get_pos()
