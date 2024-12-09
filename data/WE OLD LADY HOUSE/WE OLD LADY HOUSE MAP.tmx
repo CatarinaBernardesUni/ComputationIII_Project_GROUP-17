@@ -2,7 +2,7 @@
 <map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="62">
  <tileset firstgid="1" source="atlas_16x 2.tsx"/>
  <tileset firstgid="769" source="CosyCabin_Objects_Simple 2.tsx"/>
- <tileset firstgid="4531" source="old lady15.tsx"/>
+ <tileset firstgid="4531" source="old lady16.tsx"/>
  <layer id="1" name="first layer" width="80" height="45">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

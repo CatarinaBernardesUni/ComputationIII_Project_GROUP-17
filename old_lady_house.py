@@ -84,8 +84,8 @@ def old_lady_house_area(player):
 
         # updating the player group
         player_group.update(collision_sprites, display)
-        cutefont = pygame.font.Font("fonts/Minecraft.ttf", 15)
-        draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
+        # cutefont = pygame.font.Font("fonts/Minecraft.ttf", 15)
+        # draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
 
 
         if old_lady_house_exit_rect and old_lady_house_exit_rect.colliderect(player.rect):
