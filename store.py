@@ -1,8 +1,29 @@
 from player import Player
 from mouse_position import get_mouse_position, draw_button
 import pygame
+from pytmx.util_pygame import load_pygame
+from tile import Tile
 from config import *
 from mouse_position import button_data, show_hover_message
+
+def store_setup(tmx_data_store):
+    background_sprite_group = pygame.sprite.Group()
+    tiles_group = pygame.sprite.Group()
+    objects_group = pygame.sprite.Group()
+    collision_sprites = pygame.sprite.Group()
+    cave_exit_rect = None
+
+    # static tiles
+    for layer in tmx_data_store.layers:
+        if hasattr(layer, "data"):
+            for x, y, surface in layer.tiles():
+                pos = (x * tile_size, y * tile_size)
+                Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
+
+
+    return (background_sprite_group, tiles_group, objects_group,
+            collision_sprites, cave_exit_rect)
+
 
 def inside_store(player):
 
@@ -11,6 +32,17 @@ def inside_store(player):
     store_owner = pygame.transform.scale(store_owner, (100, 100))
     store_owner_position = (600, 400)
 
+
+    ################ TESTING THE TILES ###################
+    store_screen = pygame.display.set_mode(resolution)
+    display = pygame.Surface((width // 2.2, height // 2.2))
+
+    ############################### STORE MAP ################################
+
+
+    tmx_data_cave = load_pygame("data/WE STORE/")
+    (background_sprite_group, tiles_group, objects_group,
+     collision_sprites, cave_exit_rect) = cave_setup(tmx_data_cave)
     # setting up fonts for the text
     cutefont = pygame.font.Font("fonts/Minecraft.ttf", 30)
 

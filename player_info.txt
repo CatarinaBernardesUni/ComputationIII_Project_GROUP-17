@@ -1,1 +1,1 @@
-{"health": 4, "score": 5, "coins": 0}
+{"health": 0, "score": 10, "coins": 0}
