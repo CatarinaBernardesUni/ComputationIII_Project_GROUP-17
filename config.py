@@ -37,6 +37,7 @@ choose_character_image = pygame.transform.scale(pygame.image.load("images/screen
 menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.png"), (750, 600))
 entrance_store = pygame.transform.scale(pygame.image.load("images/store/store_front.png"), resolution)
 
+
 # SIZES
 player_size = (40, 40)
 enemy_size = (80, 80)
