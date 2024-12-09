@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="107">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="109">
  <tileset firstgid="1" source="cave_tilesets/cave tiles.tsx"/>
  <tileset firstgid="1740" source="Cave objs.tsx"/>
  <tileset firstgid="1800" source="cave_tilesets/cave tiles 2.tsx"/>
@@ -322,8 +322,8 @@
   <object id="23" gid="2136" x="827" y="283.333" width="30.6667" height="56"/>
  </objectgroup>
  <objectgroup id="5" name="treasure"/>
- <objectgroup id="7" name="cave exit" visible="0" locked="1">
-  <object id="98" x="639.333" y="252.667" width="85.3333" height="34"/>
+ <objectgroup id="7" name="cave exit">
+  <object id="98" x="668.333" y="252.667" width="39.3333" height="27.25"/>
  </objectgroup>
  <objectgroup id="9" name="collisions on cave">
   <object id="79" x="329.333" y="184.667" width="102" height="342"/>
@@ -331,7 +331,7 @@
   <object id="81" x="579.333" y="251.333" width="58" height="40.6667"/>
   <object id="82" x="560" y="352" width="40" height="78.6667"/>
   <object id="83" x="600" y="370" width="22" height="60.6667"/>
-  <object id="84" x="431.333" y="368.667" width="128.667" height="30"/>
+  <object id="84" x="431.333" y="363.667" width="128.667" height="35"/>
   <object id="85" x="431.333" y="398.667" width="127.333" height="20.6667"/>
   <object id="86" x="430.667" y="418.667" width="48" height="28.6667"/>
   <object id="87" x="593.333" y="511.333" width="173.333" height="16"/>
@@ -339,11 +339,11 @@
   <object id="89" x="736" y="480.667" width="30.6667" height="29.3333"/>
   <object id="90" x="626.667" y="484.667" width="30.6667" height="24.6667"/>
   <object id="91" x="610" y="498.667" width="15.3333" height="12"/>
-  <object id="92" x="785.333" y="336.667" width="174.667" height="78.6667"/>
-  <object id="93" x="835.333" y="322.667" width="125.333" height="13.3333"/>
+  <object id="92" x="785.333" y="330.667" width="174.667" height="84.6667"/>
+  <object id="93" x="835.333" y="315.334" width="125.333" height="20.6666"/>
   <object id="94" x="894.667" y="177.333" width="64.6667" height="143.333"/>
-  <object id="95" x="882" y="288.667" width="11.3333" height="34"/>
-  <object id="96" x="865.333" y="304" width="17.3333" height="18"/>
+  <object id="95" x="882" y="283.334" width="11.3333" height="39.3333"/>
+  <object id="96" x="865.333" y="300.333" width="17.3333" height="21.6667"/>
   <object id="97" x="734" y="176.667" width="158.667" height="30.6667"/>
   <object id="99" x="870" y="416" width="88.6667" height="38"/>
   <object id="100" x="521.333" y="422.667" width="26.6667" height="31.3333"/>
@@ -352,5 +352,7 @@
   <object id="104" x="516.545" y="519.818" width="76.3636" height="7.27273"/>
   <object id="105" x="767.25" y="519.25" width="192" height="8.5"/>
   <object id="106" x="952.5" y="454.25" width="6.75" height="64"/>
+  <object id="107" x="708.5" y="252.375" width="25.5" height="36.125"/>
+  <object id="108" x="638.25" y="251.375" width="29.25" height="35.375"/>
  </objectgroup>
 </map>

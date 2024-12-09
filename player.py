@@ -5,6 +5,8 @@ from bullet import Bullet
 from os.path import join
 from os import walk  # allows us to walk through a folder
 import config
+
+
 # I had to import the module itself here in import config, so we could actually choose a character, I tried for a
 # long time and found no other way, I found it was the only way to connect the player to the game without
 # importing the game in player because it causes a circular import :')
@@ -37,7 +39,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.just_left_cave = False
+<<<<<<< HEAD
         self.just_left_home = False
+=======
+        self.just_left_old_lady_house = False
+        self.just_left_home = False
+        self.just_left_store = False
+>>>>>>> main
         self.speed = 1.8
         self.health = info['health']
 
@@ -57,16 +65,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                           'bow': 0,
                           'key': 0}
         self.gold = 200
-
         self.price_items = {'apple': 5,
-                          'mushroom': 10,
-                          'speed potion': 25,
-                          'dog': 50,
-                          'soup': 60,
-                          'sword': 80,
-                          'bow': 100,
-                          'key': 300}
-
+                            'mushroom': 10,
+                            'speed potion': 25,
+                            'dog': 50,
+                            'soup': 60,
+                            'sword': 80,
+                            'bow': 100,
+                            'key': 300}
 
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],
@@ -198,7 +204,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.inventory[item_name] += 1
             print(f"bought {item_name}: amount {self.inventory[item_name]} money: {self.gold}")
         else:
-            print(f"gold is not enough. gold: {self.gold}") # todo: add here a screen saying not enough money
+            print(f"gold is not enough. gold: {self.gold}")  # todo: add here a screen saying not enough money
 
     def add_gold(self, amount):
         self.gold += amount

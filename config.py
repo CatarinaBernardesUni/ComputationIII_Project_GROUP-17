@@ -37,6 +37,12 @@ choose_character_image = pygame.transform.scale(pygame.image.load("images/screen
 menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.png"), (750, 600))
 entrance_store = pygame.transform.scale(pygame.image.load("images/store/store_front.png"), resolution)
 
+old_lady_1 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech1.png"), (150, 100))
+old_lady_2 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech2.png"), (150, 100))
+old_lady_3 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech3.png"), (150, 100))
+
+old_lady_speech = [old_lady_1, old_lady_2, old_lady_3]
+
 # SIZES
 player_size = (40, 40)
 enemy_size = (80, 80)

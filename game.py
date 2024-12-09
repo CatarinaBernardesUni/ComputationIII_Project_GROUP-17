@@ -11,7 +11,8 @@ from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
 from weapon import Weapon
-
+from old_lady_house import old_lady_house_area
+from weapon import *
 
 def choose_character():
     screen.blit(choose_character_image, (0, 0))
@@ -94,11 +95,15 @@ def game_loop():
             current_state = cave_area(player)
         elif current_state == "home":
             current_state = home_area(player)
+        elif current_state == "old lady house":
+            current_state = old_lady_house_area(player)
+        elif current_state == "store":
+            current_state = inside_store(player)
+
 
 
 def execute_game(player):
     # SETUP
-    global player_score_surf, player_score_rect
     # using the clock to control the time frame.
     clock = pygame.time.Clock()
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
@@ -109,7 +114,7 @@ def execute_game(player):
 
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
-     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect) = background_setup(tmx_data)
+     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect, old_lady_house_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -123,6 +128,18 @@ def execute_game(player):
     enemies = pygame.sprite.Group()
     # before starting our main loop, set up the enemy cooldown
     enemy_cooldown = 0
+
+    weapon_group = pygame.sprite.Group()
+    # fire_sword = Sword(player, weapon_group, "fire_sword")
+    # dagger = Sword(player, weapon_group, "dagger")
+    # winter_sword = Sword(player, weapon_group, "winter_sword")
+
+    # ghost_bow = Bow(player, weapon_group, "ghost_bow") #too fast and flipped the wrong way
+    # ice_bow = Bow(player, weapon_group, "ice_bow")
+    # light_bow = Bow(player, weapon_group, "light_bow")
+
+    # gold_axe = Axe(player, weapon_group, "gold_axe") #flipping is also a bit weird
+    ruby_axe = Axe(player, weapon_group, "ruby_axe")
 
     ###################################### MAIN GAME LOOP #######################################
     running = True
@@ -174,28 +191,36 @@ def execute_game(player):
         # if player.rect.right >= width:
         # return "shed"
 
+        weapon_group.update(frame_time)
+
         # checking if the player entered the cave
         if cave_entrance_rect and cave_entrance_rect.colliderect(player.rect):
             return "cave"
 
         if player.just_left_cave:
-            player.rect.x -= 90
-            player.rect.y += 105
+            player.rect.x -= 150
+            player.rect.y += 150
             player.just_left_cave = False
 
-        display.blit(player_score_surf, player_score_rect)
+        # display.blit(player_score_surf, player_score_rect)
 
         # checking if player enters the store are
         if store_rect and store_rect.colliderect(player.rect):
-            inside_store(player)
-            # todo: is the store being drawn on top of the background?
-            # when player leaves the house it goes here
-            player.rect.x = player.rect.x
-            player.rect.y = player.rect.y + 20
+            return "store"
+
+        if player.just_left_store:
+            player.rect.center = (500, 240)
+            player.state = "down"
+            player.just_left_store = False
 
         # make the player able to go inside the home
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
+        if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
+            return "old lady house"
+        if player.just_left_old_lady_house:
+            player.rect.center = (325, 160)
+            player.just_left_old_lady_house = False
 
         if player.just_left_home:
             player.rect.x = 90
@@ -204,19 +229,18 @@ def execute_game(player):
 
         display.blit(player_score_surf, player_score_rect)
 
+        if player.just_left_home:
+            player.rect.center = (1150, 150)
+            player.just_left_home = False
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
-            weapon_group = pygame.sprite.Group()
-            fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
-                                10, 10, weapon_group)
             # automatically shoot bullets from the player
             player.shoot(bullets)
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
-                # todo: creating more types of enemies
-                enemy = Enemy()
+                normal_fly = Enemy(player, enemies, "normal_fly", battle_area_rect)
                 # adding the enemy to the group
-                enemies.add(enemy)
+                enemies.add(normal_fly)
 
                 # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
                 enemy_cooldown = fps * 2
@@ -226,12 +250,9 @@ def execute_game(player):
 
             # updating the bullets group
             bullets.update()
-            enemies.update(player)
-            weapon_group.update()
-
-            # Testing at home: player becomes red when colliding with an enemy # this display was screen
-            if player.rect.colliderect(enemy.rect):
-                pygame.draw.rect(display, red, player.rect)
+            enemies.update(frame_time)
+            # todo: put this back
+            # weapon_group.update()
 
             # enemies.draw(display)
             for enemy in enemies:
@@ -247,10 +268,9 @@ def execute_game(player):
                     bullet.radius
                 )
             # drawing the weapons
-            for weapon in weapon_group:
-                display.blit(weapon.image, weapon.rect.topleft + camera_offset)
-
-            enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
+            # todo: put this back too
+            # for weapon in weapon_group:
+                # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
             # checking for collisions between player bullets and enemies
             for bullet in bullets:
@@ -258,19 +278,19 @@ def execute_game(player):
                 collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
                                                                False)  # False means not kill upon impact
                 for enemy in collided_enemies:
-                    enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
+                    # enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
                     enemy.health -= 5
 
                     # removing the bullet from the screen after hitting the player
                     bullet.kill()
 
-            if enemy.health <= 0:
-                enemy.kill()
+            if normal_fly.health <= 0:
+                normal_fly.kill()
                 info['score'] += 1
-                player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                player_score_rect = player_score_surf.get_rect(center=(65, 55))
+                # player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
+                # player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
-            if player.rect.colliderect(enemy.rect):
+            if player.rect.colliderect(normal_fly.rect):
                 # pygame.draw.rect(screen, red, player.rect)
                 if info['health'] <= 0:
                     game_over()
@@ -290,6 +310,9 @@ def execute_game(player):
         # collision_sprites.draw(display)
         for sprite in collision_sprites:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
+
+        for weapon in weapon_group:
+            display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 
