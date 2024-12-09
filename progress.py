@@ -13,5 +13,5 @@ except:
     print('no file created yet.')
 
 
-player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-player_score_rect = player_score_surf.get_rect(center=(65, 55))
+# player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
+# player_score_rect = player_score_surf.get_rect(center=(65, 55))

@@ -1,7 +1,7 @@
-import pygame
-
-from config import resolution, white, deep_black, dark_red
-
+from collision import CollisionObject
+from config import *
+# from pytmx.util_pygame import load_pygame
+from tile import Tile
 
 
 # Function to draw a stick figure with a construction hat
@@ -46,7 +46,6 @@ def draw_normal_stick_figure(screen, x, y):
 
 
 def under_construction():
-
     # creating the screen at 720x720 pixels
     screen = pygame.display.set_mode(resolution)
 
@@ -78,7 +77,7 @@ def under_construction():
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 # checking if the back button was clicked
                 if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    return   # return from where it was before
+                    return  # return from where it was before
 
         # displaying the screen:
         screen.fill(deep_black)
@@ -101,3 +100,44 @@ def under_construction():
 
         # finally, as always, updating our screen
         pygame.display.update()
+
+
+def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
+    background_sprite_group = pygame.sprite.Group()
+    tiles_group = pygame.sprite.Group()
+    objects_group = pygame.sprite.Group()
+    collision_sprites = pygame.sprite.Group()
+    exit_rect = None
+    speech_bubble_rect = None
+    clues_rect = None
+
+    for layer in tmx_data.layers:
+        if hasattr(layer, "data"):
+            for x, y, surface in layer.tiles():
+                pos = (x * tile_size, y * tile_size)
+                Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
+
+    for obj in tmx_data.objects:
+        if obj.image:  # no rectangles are entering here because they do not have images
+            scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
+            pos = (obj.x, obj.y)
+            Tile(position=pos, surf=scaled_image, groups=(background_sprite_group, objects_group))
+        if collisions_name:
+            if obj in tmx_data.get_layer_by_name(collisions_name):
+                CollisionObject(position=(obj.x, obj.y), size=(obj.width, obj.height), groups=(background_sprite_group,
+                                                                                               collision_sprites))
+        if exit_name:
+            if obj in tmx_data.get_layer_by_name(exit_name):
+                exit_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
+        # this checks if there's any clues or if it's set to None
+        if clues_name:
+            if obj in tmx_data.get_layer_by_name(clues_name):
+                clues_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        # checks if someone talks or if it's None (this is for the old lady)
+        if someone_talks:
+            if obj in tmx_data.get_layer_by_name(someone_talks):
+                speech_bubble_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
+    return (background_sprite_group, tiles_group, objects_group,
+            collision_sprites, exit_rect, speech_bubble_rect, clues_rect)
