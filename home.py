@@ -1,11 +1,11 @@
 from collision import CollisionObject
 from config import *
 from pytmx.util_pygame import load_pygame
-
+from utils import area_setup
 # from game import paused
 from tile import Tile
 
-
+"""
 def home_setup(tmx_data_home):
     background_sprite_group = pygame.sprite.Group()
     tiles_group = pygame.sprite.Group()
@@ -35,6 +35,8 @@ def home_setup(tmx_data_home):
     return (background_sprite_group, tiles_group, objects_group,
             collision_sprites, home_exit_rect)
 
+"""
+
 
 def home_area(player):
     clock = pygame.time.Clock()
@@ -43,9 +45,11 @@ def home_area(player):
 
     ############################### HOUSE MAP ################################
 
-    tmx_data_home = load_pygame("data/WE HOME/WE HOME MAP.tmx")
+    tmx_data = load_pygame("data/WE HOME/WE HOME MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, home_exit_rect) = home_setup(tmx_data_home)
+     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions on home", "home "
+                                                                                                                "exit",
+                                                                                None, None)
 
     ####################################################################
 
@@ -98,7 +102,7 @@ def home_area(player):
         # updating the player group
         player_group.update(collision_sprites, display)
 
-        if home_exit_rect and home_exit_rect.colliderect(player.rect):
+        if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_home = True
             return "main"
 
