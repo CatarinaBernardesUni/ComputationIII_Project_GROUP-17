@@ -44,7 +44,7 @@ def old_lady_house_area(player):
     player_group.add(player)
 
     # setting the player initial position on the home
-    player.rect.center = (111, 270)
+    player.rect.center = (111, 265)
     player.state = "up"
     ###################################### MAIN GAME LOOP #######################################
     running = True
