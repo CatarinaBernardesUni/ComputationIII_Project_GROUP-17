@@ -5,8 +5,8 @@ from pytmx.util_pygame import load_pygame
 from tile import Tile
 from config import *
 from mouse_position import button_data, show_hover_message
-from utils import area_setup
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -18,6 +18,9 @@ from utils import area_setup
 >>>>>>> main
 =======
 >>>>>>> parent of 007b198 (test)
+=======
+
+>>>>>>> parent of 156a938 (Merge branch 'main' of https://github.com/CatarinaBernardesUni/ComputationIII_Project_GROUP-17)
 def store_setup(tmx_data_store):
     background_sprite_group = pygame.sprite.Group()
     tiles_group = pygame.sprite.Group()
@@ -36,10 +39,9 @@ def store_setup(tmx_data_store):
     return (background_sprite_group, tiles_group, objects_group,
             collision_sprites, cave_exit_rect)
 
-"""
-
 
 def inside_store(player):
+
     # setting up a background
     store_owner = pygame.image.load("images/store/store_owner.png")
     store_owner = pygame.transform.scale(store_owner, (40, 40))
@@ -57,6 +59,7 @@ def inside_store(player):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> parent of 007b198 (test)
 
@@ -71,6 +74,10 @@ def inside_store(player):
     tmx_data = load_pygame("data/WE STORE/WE STORE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
      collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, None, None, None, None)
+=======
+    tmx_data_store = load_pygame("data/WE STORE/WE STORE MAP.tmx")
+    background_sprite_group, tiles_group, objects_group, collision_sprites = store_setup(tmx_data_store)
+>>>>>>> parent of 156a938 (Merge branch 'main' of https://github.com/CatarinaBernardesUni/ComputationIII_Project_GROUP-17)
 
     #####################################################################
 
@@ -109,12 +116,9 @@ def inside_store(player):
             display.blit(sprite.image, sprite.rect.topleft)
 
         # drawing the buttons
-        shop_button = draw_button(display, 177.5, 167.5, 95, 32.5, "shop", text_color=deep_black,
-                                  image_path="images/store/store_button.png", font=cutefont)
-        quit_shop_button = draw_button(display, 287.5, 167.5, 122.5, 32.5, "leave shop", text_color=deep_black,
-                                       image_path="images/store/store_button.png", font=cutefont)
-        draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png",
-                    font=cutefont)
+        shop_button = draw_button(display, 177.5, 167.5, 95, 32.5, "shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
+        quit_shop_button = draw_button(display, 287.5, 167.5, 122.5, 32.5, "leave shop", text_color=deep_black, image_path="images/store/store_button.png", font=cutefont)
+        draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for ev in pygame.event.get():
