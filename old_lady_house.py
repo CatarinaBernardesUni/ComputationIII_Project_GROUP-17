@@ -2,7 +2,7 @@ from config import *
 from collision import CollisionObject
 from pytmx.util_pygame import load_pygame
 from tile import Tile
-from mouse_position import draw_button
+import random
 
 
 def old_lady_house_setup(tmx_data_old_lady):
@@ -11,6 +11,7 @@ def old_lady_house_setup(tmx_data_old_lady):
     objects_group = pygame.sprite.Group()
     collision_sprites = pygame.sprite.Group()
     old_lady_house_exit_rect = None
+    old_lady_talks_rect = None
 
     for layer in tmx_data_old_lady.layers:
         if hasattr(layer, "data"):
@@ -29,8 +30,11 @@ def old_lady_house_setup(tmx_data_old_lady):
         if obj in tmx_data_old_lady.get_layer_by_name("house exit"):
             old_lady_house_exit_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
 
+        if obj in tmx_data_old_lady.get_layer_by_name("old lady talks"):
+            old_lady_talks_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
     return (background_sprite_group, tiles_group, objects_group,
-            collision_sprites, old_lady_house_exit_rect)
+            collision_sprites, old_lady_house_exit_rect, old_lady_talks_rect)
 
 
 def old_lady_house_area(player):
@@ -40,13 +44,19 @@ def old_lady_house_area(player):
 
     tmx_data_old_lady_house = load_pygame("data/WE OLD LADY HOUSE/WE OLD LADY HOUSE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, old_lady_house_exit_rect) = old_lady_house_setup(tmx_data_old_lady_house)
+     collision_sprites, old_lady_house_exit_rect, old_lady_talks_rect) = old_lady_house_setup(tmx_data_old_lady_house)
     player_group = pygame.sprite.Group()
     player_group.add(player)
 
     # setting the player initial position on the home
     player.rect.center = (111, 265)
     player.state = "up"
+
+    # these variables are for the speech bubble of the old lady
+    # if I didn't do this code, she would keep spamming random speech bubbles
+    # basically,
+    current_speech = None
+    player_colliding = False
     ###################################### MAIN GAME LOOP #######################################
     running = True
     while running:
@@ -54,7 +64,7 @@ def old_lady_house_area(player):
         # frame_time = clock.tick(fps)
 
         # handling events:
-        # keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 progress()
@@ -84,13 +94,24 @@ def old_lady_house_area(player):
 
         # updating the player group
         player_group.update(collision_sprites, display)
-        # cutefont = pygame.font.Font("fonts/Minecraft.ttf", 15)
-        # draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
-
 
         if old_lady_house_exit_rect and old_lady_house_exit_rect.colliderect(player.rect):
             player.just_left_old_lady_house = True
             return "main"
+
+          # To track whether the player is already colliding
+
+        if old_lady_talks_rect and old_lady_talks_rect.colliderect(player.rect):
+            if not player_colliding:  # checks if it's the first time colliding
+                # this chooses a random speech from the list of speeches
+                current_speech = random.choice(old_lady_speech)
+                player_colliding = True  # indicates if collision is happening
+            # this "display.blit" is outside the "if not" to keep showing the same current_speech that was set when
+            # the player first collided with the old lady
+            display.blit(current_speech, (135, 40))
+        else:
+            # when the player stops colliding this is set to false so next time they collide the speech changes
+            player_colliding = False
 
         # display.blit(player_score_surf, player_score_rect)
 
@@ -106,7 +127,7 @@ def old_lady_house_area(player):
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
-
+        clock.tick(fps)
     # the main while loop was terminated
     progress()
     pygame.quit()
