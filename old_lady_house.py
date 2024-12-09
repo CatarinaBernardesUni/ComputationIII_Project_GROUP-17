@@ -1,63 +1,51 @@
-from collision import CollisionObject
 from config import *
+from collision import CollisionObject
 from pytmx.util_pygame import load_pygame
-
-# from game import paused
 from tile import Tile
 
 
-def home_setup(tmx_data_home):
+def old_lady_house_setup(tmx_data_old_lady):
     background_sprite_group = pygame.sprite.Group()
     tiles_group = pygame.sprite.Group()
     objects_group = pygame.sprite.Group()
     collision_sprites = pygame.sprite.Group()
-    home_exit_rect = None
+    old_lady_house_exit_rect = None
 
-    # static tiles
-    for layer in tmx_data_home.layers:
+    for layer in tmx_data_old_lady.layers:
         if hasattr(layer, "data"):
             for x, y, surface in layer.tiles():
                 pos = (x * tile_size, y * tile_size)
                 Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
 
-    # objects
-    for obj in tmx_data_home.objects:
+    for obj in tmx_data_old_lady.objects:
         if obj.image:  # no rectangles are entering here because they do not have images
             scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
             pos = (obj.x, obj.y)
             Tile(position=pos, surf=scaled_image, groups=(background_sprite_group, objects_group))
-        if obj in tmx_data_home.get_layer_by_name("collisions on home"):
+        if obj in tmx_data_old_lady.get_layer_by_name("collisions on house"):
             CollisionObject(position=(obj.x, obj.y), size=(obj.width, obj.height), groups=(background_sprite_group,
                                                                                            collision_sprites))
-        if obj in tmx_data_home.get_layer_by_name("home exit"):
-            home_exit_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        if obj in tmx_data_old_lady.get_layer_by_name("house exit"):
+            old_lady_house_exit_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
 
     return (background_sprite_group, tiles_group, objects_group,
-            collision_sprites, home_exit_rect)
+            collision_sprites, old_lady_house_exit_rect)
 
 
-def home_area(player):
+def old_lady_house_area(player):
     clock = pygame.time.Clock()
     home_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
 
-    ############################### HOUSE MAP ################################
-
-    tmx_data_home = load_pygame("data/WE HOME/WE HOME MAP.tmx")
+    tmx_data_old_lady_house = load_pygame("data/WE OLD LADY HOUSE/WE OLD LADY HOUSE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, home_exit_rect) = home_setup(tmx_data_home)
-
-    ####################################################################
-
-    # creating an empty group for the player (that was received as input)
+     collision_sprites, old_lady_house_exit_rect) = old_lady_house_setup(tmx_data_old_lady_house)
     player_group = pygame.sprite.Group()
-    # adding the player to the group
     player_group.add(player)
 
     # setting the player initial position on the home
-    player.rect.center = (385, 550)
-    player.state = "down"
-
+    player.rect.center = (111, 270)
+    player.state = "up"
     ###################################### MAIN GAME LOOP #######################################
     running = True
     while running:
@@ -71,8 +59,6 @@ def home_area(player):
                 progress()
                 pygame.quit()
                 exit()
-            # if keys[pygame.K_SPACE]:
-            # paused() # todo: pause is giving circular import
 
         ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset
@@ -98,8 +84,8 @@ def home_area(player):
         # updating the player group
         player_group.update(collision_sprites, display)
 
-        if home_exit_rect and home_exit_rect.colliderect(player.rect):
-            player.just_left_home = True
+        if old_lady_house_exit_rect and old_lady_house_exit_rect.colliderect(player.rect):
+            player.just_left_old_lady_house = True
             return "main"
 
         # display.blit(player_score_surf, player_score_rect)
@@ -112,6 +98,7 @@ def home_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         home_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
+        display.fill("black")
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()

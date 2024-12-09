@@ -102,7 +102,7 @@ def cave_area(player):
             player.just_left_cave = True
             return "main"
 
-        display.blit(player_score_surf, player_score_rect)
+        # display.blit(player_score_surf, player_score_rect)
 
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)

@@ -10,8 +10,9 @@ from progress import *
 from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
+from weapon import Weapon
+from old_lady_house import old_lady_house_area
 from weapon import *
-
 
 def choose_character():
     screen.blit(choose_character_image, (0, 0))
@@ -94,13 +95,15 @@ def game_loop():
             current_state = cave_area(player)
         elif current_state == "home":
             current_state = home_area(player)
+        elif current_state == "old lady house":
+            current_state = old_lady_house_area(player)
         elif current_state == "store":
             current_state = inside_store(player)
 
 
+
 def execute_game(player):
     # SETUP
-    global player_score_surf, player_score_rect
     # using the clock to control the time frame.
     clock = pygame.time.Clock()
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
@@ -111,7 +114,7 @@ def execute_game(player):
 
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
-     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect) = background_setup(tmx_data)
+     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect, old_lady_house_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -199,7 +202,7 @@ def execute_game(player):
             player.rect.y += 150
             player.just_left_cave = False
 
-        display.blit(player_score_surf, player_score_rect)
+        # display.blit(player_score_surf, player_score_rect)
 
         # checking if player enters the store are
         if store_rect and store_rect.colliderect(player.rect):
@@ -213,11 +216,20 @@ def execute_game(player):
         # make the player able to go inside the home
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
+        if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
+            return "old lady house"
+        if player.just_left_old_lady_house:
+            player.rect.center = (325, 160)
+            player.just_left_old_lady_house = False
+
+        # if player.just_left_home:
+            #player.rect.x = player.rect.x
+            #player.rect.y = player.rect.y + 20
+            #player.just_left_home = False
 
         if player.just_left_home:
             player.rect.center = (1150, 150)
             player.just_left_home = False
-
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player
@@ -273,8 +285,8 @@ def execute_game(player):
             if normal_fly.health <= 0:
                 normal_fly.kill()
                 info['score'] += 1
-                player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                player_score_rect = player_score_surf.get_rect(center=(65, 55))
+                # player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
+                # player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
             if player.rect.colliderect(normal_fly.rect):
                 # pygame.draw.rect(screen, red, player.rect)

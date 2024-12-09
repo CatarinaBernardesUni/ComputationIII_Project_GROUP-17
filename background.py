@@ -5,6 +5,7 @@ from collision import CollisionObject
 from store import inside_store
 from player import Player
 
+
 def background_setup(tmx_data):
     # sprite groups for the objects and tiles
     # the background sprite group is a container for all the background sprites in the game
@@ -20,6 +21,7 @@ def background_setup(tmx_data):
     store_rect = None
     cave_entrance_rect = None
     home_rect = None
+    old_lady_house_rect = None
 
     # static tiles
     for layer in tmx_data.layers:
@@ -71,5 +73,8 @@ def background_setup(tmx_data):
         if obj in tmx_data.get_layer_by_name("Blue Roof House"):
             home_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
 
+        if obj in tmx_data.get_layer_by_name("Purple Roof House"):
+            old_lady_house_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
     return (background_sprite_group, tiles_group, animated_tiles_group, objects_group,
-            collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect)
+            collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect, old_lady_house_rect)
