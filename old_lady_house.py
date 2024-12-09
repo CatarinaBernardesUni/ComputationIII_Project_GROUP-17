@@ -2,6 +2,7 @@ from config import *
 from collision import CollisionObject
 from pytmx.util_pygame import load_pygame
 from tile import Tile
+from mouse_position import draw_button
 
 
 def old_lady_house_setup(tmx_data_old_lady):
@@ -50,10 +51,10 @@ def old_lady_house_area(player):
     running = True
     while running:
         # controlling the frame rate
-        frame_time = clock.tick(fps)
+        # frame_time = clock.tick(fps)
 
         # handling events:
-        keys = pygame.key.get_pressed()
+        # keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 progress()
@@ -83,6 +84,9 @@ def old_lady_house_area(player):
 
         # updating the player group
         player_group.update(collision_sprites, display)
+        cutefont = pygame.font.Font("fonts/Minecraft.ttf", 15)
+        draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png", font=cutefont)
+
 
         if old_lady_house_exit_rect and old_lady_house_exit_rect.colliderect(player.rect):
             player.just_left_old_lady_house = True
