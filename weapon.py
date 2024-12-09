@@ -1,5 +1,6 @@
 import os
 from random import random
+<<<<<<< HEAD
 from config import *
 from math import atan2, degrees
 import pygame.sprite
@@ -98,9 +99,23 @@ class Weapon(pygame.sprite.Sprite, ABC):
                                                                       # in some monsters than others
         self.directory_path = weapons[weapon_name]["directory_path"]
 
+=======
+class Weapon:
+    def __init__(self, name, tier, damage, range, attack_speed, durability, crit_chance, crit_multiplier, special_effect=None):
+        self.name = name
+        self.tier = tier
+        self.damage = damage
+        self.range = range
+        self.attack_speed = attack_speed
+        self.durability = durability
+        self.crit_chance = crit_chance  # probability of dealing extra damage
+        self.crit_multiplier = crit_multiplier  # how much extra damage is dealt
+        self.special_effect = special_effect  # burn, freeze, maybe more efficient in some players than others
+>>>>>>> parent of 007b198 (test)
         self.usage_count = 0
         self.upgrade_level = 0
 
+<<<<<<< HEAD
         # connection to the player
         self.player = player
         self.distance = 40
@@ -155,6 +170,8 @@ class Weapon(pygame.sprite.Sprite, ABC):
 ##########################################################################################################
 
 ########################### MECHANICS OF THE WEAPON ######################################################
+=======
+>>>>>>> parent of 007b198 (test)
     def attack(self, target):
         if self.durability <= 0:
             return "This weapon is broken"
@@ -213,6 +230,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
 
 #################################################################################
 
+<<<<<<< HEAD
 ##################### CHILD CLASSES ############################################
 class Sword(Weapon):
     def rotate_weapon(self):
@@ -296,3 +314,47 @@ class Axe(Weapon):
 
         self.image = self.frames[self.current_frame_index]
         # print(f"Current Frame Index: {self.current_frame_index}")
+=======
+weapons = {Weapon(
+    name="Flaming Sword",
+    tier=1,
+    damage=20,
+    range=5,
+    attack_speed=1.5,
+    durability=50,
+    crit_chance=0.1,
+    crit_multiplier=2.0,
+    special_effect="burn"
+), Weapon(
+    name="Frost Axe",
+    tier=2,
+    damage=15,
+    range=3,
+    attack_speed=1.2,
+    durability=40,
+    crit_chance=0.15,
+    crit_multiplier=2.0,
+    special_effect="freeze"
+), Weapon(
+    name="Thunder Hammer",
+    tier=3,
+    damage=25,
+    range=2,
+    attack_speed=0.8,
+    durability=30,
+    crit_chance=0.1,
+    crit_multiplier=1.8,
+    special_effect="stun"
+), Weapon(
+    name="Iron Sword",
+    tier=1,
+    damage=10,
+    range=3,
+    attack_speed=1.5,
+    durability=50,
+    crit_chance=0.05,
+    crit_multiplier=1.5,
+    special_effect=None
+)
+}
+>>>>>>> parent of 007b198 (test)

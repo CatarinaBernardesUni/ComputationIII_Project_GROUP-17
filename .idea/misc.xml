@@ -3,5 +3,9 @@
   <component name="Black">
     <option name="sdkName" value="Game_Env_CIII" />
   </component>
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Game_Env_CIII" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Computation3" project-jdk-type="Python SDK" />
+>>>>>>> parent of 007b198 (test)
 </project>

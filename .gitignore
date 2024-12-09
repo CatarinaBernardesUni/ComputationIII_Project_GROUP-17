@@ -4,6 +4,7 @@ __pycache__/tile.cpython-311.pyc
 =======
 /__pycache__
 >>>>>>> carolinaBestie
+<<<<<<< HEAD
 *.pyc
 *.pyc
 *.pyc
@@ -12,3 +13,5 @@ __pycache__/background.cpython-311.pyc
 /__pycache__
 /__pycache__
 /__pycache__
+=======
+>>>>>>> parent of 007b198 (test)

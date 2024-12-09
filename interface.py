@@ -2,9 +2,7 @@ import pygame.display
 from game import *
 from config import *
 from utils import *
-
-
-# from player import Player
+from player import Player
 
 
 def interface():
@@ -22,12 +20,12 @@ def interface():
     comicsansfont = pygame.font.SysFont("Comic Sans MS", 50)
 
     # render the text (will be used in the game button)
-    # wilderness_text = corbelfont.render("Wilderness Explorer", True, white)
-    # quit_text = corbelfont.render("quit", True, white)
-    # rules_text = corbelfont.render("rules", True, white)
-    # options_text = corbelfont.render("options", True, white)
-    # credits_text = corbelfont.render("credits", True, white)
-    # title_text = comicsansfont.render("Computation III - Project", True, glowing_light_red)
+    #wilderness_text = corbelfont.render("Wilderness Explorer", True, white)
+    #quit_text = corbelfont.render("quit", True, white)
+    #rules_text = corbelfont.render("rules", True, white)
+    #options_text = corbelfont.render("options", True, white)
+    #credits_text = corbelfont.render("credits", True, white)
+    #title_text = comicsansfont.render("Computation III - Project", True, glowing_light_red)
     # main interface loop (will run until the user quits)
     while True:
 
@@ -57,7 +55,7 @@ def interface():
             # wilderness game button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 517 <= mouse[0] <= 753 and 344 <= mouse[1] <= 429:
-                    # wilderness_explorer()
+                    #wilderness_explorer()
                     choose_character()
             # options button
             if ev.type == pygame.MOUSEBUTTONDOWN:
@@ -69,6 +67,7 @@ def interface():
                 if 314 <= mouse[0] <= 472 and 521 <= mouse[1] <= 578:
                     under_construction()
                     rules_()
+
 
         # cursor = pygame.cursors.compile(pygame.cursors.textmarker_strings)
         # pygame.mouse.set_cursor((8, 16), (0, 0), *cursor)
@@ -159,3 +158,9 @@ def credits_():
 
 def rules_():
     print("Displaying rules...")
+
+
+#def wilderness_explorer():
+#   game_loop()
+
+
