@@ -98,7 +98,7 @@ def inside_store(player):
 
         # updating the display
         pygame.display.flip()
-        player_group.update(collision_sprites, display)
+        # player_group.update(collision_sprites, display)
 
 
 def shop_menu(player):

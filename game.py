@@ -224,9 +224,9 @@ def execute_game(player):
             player.shoot(bullets)
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
-                enemy = Enemy()
+                normal_fly = Enemy(player, enemies, "normal_fly", battle_area_rect)
                 # adding the enemy to the group
-                enemies.add(enemy)
+                enemies.add(normal_fly)
 
                 # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
                 enemy_cooldown = fps * 2
@@ -236,13 +236,9 @@ def execute_game(player):
 
             # updating the bullets group
             bullets.update()
-            enemies.update(player)
+            enemies.update(frame_time)
             # todo: put this back
             # weapon_group.update()
-
-            # Testing at home: player becomes red when colliding with an enemy # this display was screen
-            if player.rect.colliderect(enemy.rect):
-                pygame.draw.rect(display, red, player.rect)
 
             # enemies.draw(display)
             for enemy in enemies:
@@ -262,27 +258,25 @@ def execute_game(player):
             # for weapon in weapon_group:
                 # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
-            enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
-
             # checking for collisions between player bullets and enemies
             for bullet in bullets:
                 # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
                 collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
                                                                False)  # False means not kill upon impact
                 for enemy in collided_enemies:
-                    enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
+                    # enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
                     enemy.health -= 5
 
                     # removing the bullet from the screen after hitting the player
                     bullet.kill()
 
-            if enemy.health <= 0:
-                enemy.kill()
+            if normal_fly.health <= 0:
+                normal_fly.kill()
                 info['score'] += 1
                 player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
                 player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
-            if player.rect.colliderect(enemy.rect):
+            if player.rect.colliderect(normal_fly.rect):
                 # pygame.draw.rect(screen, red, player.rect)
                 if info['health'] <= 0:
                     game_over()

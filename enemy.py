@@ -42,7 +42,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # starting the enemy at random valid location on the screen
-        # todo: verify that this is ensuring that the enemies only spawn in the rectangle
+        # todo: verify that this is ensuring that the enemies only spawn in the rectangle IT IS NOT
         self.rect.x = random.randint(0, battle_area_rect.x - enemy_size[0])
         self.rect.y = random.randint(0, battle_area_rect.y - enemy_size[-1])
 
