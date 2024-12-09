@@ -631,7 +631,8 @@
   <object id="505" gid="1338" x="290" y="586" width="64" height="64"/>
   <object id="506" gid="1272" x="349" y="584.5" width="32" height="32"/>
   <object id="507" gid="1272" x="411" y="661.5" width="32" height="32"/>
-  <object id="509" gid="1272" x="567.167" y="550.667" width="32" height="32"/>
+  <object id="508" gid="1272" x="567" y="537.5" width="32" height="32"/>
+  <object id="509" gid="1272" x="564.5" y="548" width="32" height="32"/>
   <object id="510" gid="1272" x="288.5" y="427" width="32" height="32"/>
   <object id="513" gid="1272" x="6.5" y="446.5" width="32" height="32"/>
   <object id="515" gid="1272" x="44.5" y="712.5" width="32" height="32"/>

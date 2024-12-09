@@ -1,5 +1,20 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 {"health": 5, "score": 0, "coins": 0}
 =======
 {"health": -1, "score": 0, "coins": 0}
 >>>>>>> main
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+{"health": 0, "score": 10, "coins": 0}
+=======
+{"health": 5, "score": 0, "coins": 0}
+>>>>>>> e069fa211a1d34dd4aae015314129dfc796fa584
+=======
+{"health": -1, "score": 0, "coins": 0}
+>>>>>>> main
+=======
+{"health": 0, "score": 10, "coins": 0}
+>>>>>>> parent of 007b198 (test)
+>>>>>>> b7367d7ea700e57e0a844807fdd16d027611ca31

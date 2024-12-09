@@ -4,8 +4,8 @@ from pytmx.util_pygame import load_pygame
 
 # from game import paused
 from tile import Tile
-from utils import area_setup
-"""
+
+
 def cave_setup(tmx_data_cave):
     background_sprite_group = pygame.sprite.Group()
     tiles_group = pygame.sprite.Group()
@@ -36,8 +36,6 @@ def cave_setup(tmx_data_cave):
 
     return (background_sprite_group, tiles_group, objects_group,
             collision_sprites, cave_exit_rect)
-
-"""
 def cave_area(player):
     clock = pygame.time.Clock()
     cave_screen = pygame.display.set_mode(resolution)
@@ -45,10 +43,9 @@ def cave_area(player):
 
     ############################### CAVE MAP ################################
 
-    tmx_data = load_pygame("data/WE CAVE/WE CAVE.tmx")
+    tmx_data_cave = load_pygame("data/WE CAVE/WE CAVE.tmx")
     (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions on cave",
-                                                                                "cave exit", None, None)
+     collision_sprites, cave_exit_rect) = cave_setup(tmx_data_cave)
 
     ####################################################################
 
@@ -75,7 +72,7 @@ def cave_area(player):
                 pygame.quit()
                 exit()
             # if keys[pygame.K_SPACE]:
-            # paused() # todo: pause is giving circular import
+                # paused() # todo: pause is giving circular import
 
         ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset
@@ -101,7 +98,7 @@ def cave_area(player):
         # updating the player group
         player_group.update(collision_sprites, display)
 
-        if exit_rect and exit_rect.colliderect(player.rect):
+        if cave_exit_rect and cave_exit_rect.colliderect(player.rect):
             player.just_left_cave = True
             return "main"
 
