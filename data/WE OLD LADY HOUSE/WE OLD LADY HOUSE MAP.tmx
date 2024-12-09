@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="62">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="66">
  <tileset firstgid="1" source="atlas_16x 2.tsx"/>
  <tileset firstgid="769" source="CosyCabin_Objects_Simple 2.tsx"/>
  <tileset firstgid="4531" source="old lady16.tsx"/>
@@ -163,8 +163,8 @@
   <object id="12" x="55.6667" y="185.667" width="44" height="37.6667"/>
   <object id="15" x="80.6667" y="223.333" width="47" height="15.6667"/>
   <object id="16" x="48.3333" y="216.333" width="14.6667" height="87.6667"/>
-  <object id="17" x="56" y="287.333" width="38.6667" height="21.3333"/>
-  <object id="18" x="129" y="288.333" width="94.6667" height="44.3333"/>
+  <object id="17" x="56" y="287.333" width="37.3334" height="21.3333"/>
+  <object id="18" x="132" y="290.666" width="91.6667" height="42"/>
   <object id="20" x="220" y="306.333" width="138.333" height="9.33333"/>
   <object id="21" x="258.667" y="240" width="42.3333" height="33.3333"/>
   <object id="22" x="224" y="177" width="132.333" height="24.3333"/>
@@ -182,10 +182,12 @@
   <object id="44" x="259.333" y="237.333" width="41" height="6.66667"/>
   <object id="46" x="141" y="141.333" width="49.3333" height="7"/>
   <object id="48" x="223.667" y="139.667" width="98" height="8"/>
-  <object id="49" x="129.667" y="285.333" width="93.6667" height="7"/>
+  <object id="49" x="131.667" y="285.333" width="91.6667" height="7"/>
   <object id="57" x="91" y="114" width="50.3333" height="28"/>
   <object id="58" x="63" y="124.333" width="25.6667" height="20"/>
   <object id="59" x="152.25" y="193.25" width="21.25" height="19.75"/>
+  <object id="64" x="101" y="198.667" width="49.6667" height="14"/>
+  <object id="65" x="3.66667" y="160" width="54.3333" height="197"/>
  </objectgroup>
  <objectgroup id="10" name="house exit">
   <object id="54" x="93" y="314.166" width="37" height="6.5"/>
