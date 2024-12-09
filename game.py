@@ -1,13 +1,16 @@
 from background import background_setup
 import pygame
+
+from cave import cave_area
+from home import home_area
 from player import *
 from enemy import Enemy
-from shed import battle_area
 import interface
 from progress import *
 from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
+from weapon import Weapon
 
 
 def choose_character():
@@ -44,16 +47,16 @@ def game_over():
                 exit()
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 157 <= mouse[0] <= 340 and 505 <= mouse[1] <= 598:
+                if 384 <= mouse[0] <= 626 and 489 <= mouse[1] <= 580:
                     info['health'] = 5
                     game_loop()
                     waiting = False
 
-                if 282 <= mouse[0] <= 431 and 502 <= mouse[1] <= 535:
+                if 690 <= mouse[0] <= 935 and 487 <= mouse[1] <= 582:
                     progress()
                     pygame.quit()
                     exit()
-                if 27 <= mouse[0] <= 273 and 187 <= mouse[1] <= 429:
+                if 531 <= mouse[0] <= 771 and 608 <= mouse[1] <= 700:
                     interface.interface()
                     waiting = False
 
@@ -61,7 +64,7 @@ def game_over():
 def paused():
     pause = True
     while pause:
-        screen.blit(pause_image, (width // 2 - 375, height // 2 - 300))
+        screen.blit(pause_image, (0, 0))  # todo: change the amount of different variables called screen
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
@@ -70,25 +73,27 @@ def paused():
                 exit()
             pygame.display.update()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 295 <= mouse[0] <= 600 and 533 <= mouse[1] <= 631:
+                if 443 <= mouse[0] <= 610 and 112 <= mouse[1] <= 169:
                     interface.interface()
-                if 667 <= mouse[0] <= 976 and 533 <= mouse[1] <= 631:
+                if 637 <= mouse[0] <= 802 and 112 <= mouse[1] <= 171:
                     pause = False
         pygame.display.update()
 
 
 def game_loop():
-    # creating the player for the game, it is only defined once
-    player = Player()
     # by default, I start the game in the main area
     current_state = "main"
+    # creating the player for the game, it is only defined once
+    player = Player()
 
     # endeless game loop
     while True:
         if current_state == "main":
             current_state = execute_game(player)
-        elif current_state == "shed":
-            current_state = battle_area(player)
+        elif current_state == "cave":
+            current_state = cave_area(player)
+        elif current_state == "home":
+            current_state = home_area(player)
 
 
 def execute_game(player):
@@ -104,7 +109,7 @@ def execute_game(player):
 
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
-     objects_group, collision_sprites, battle_area_rect, store_rect) = background_setup(tmx_data)
+     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -136,9 +141,9 @@ def execute_game(player):
             if keys[pygame.K_SPACE]:
                 paused()
 
-        display.fill("black")
+        # display.fill("black")
 
-        # Calculate camera offset
+        ################################ Calculate camera offset  #######################
         camera_x = player.rect.centerx - display.get_width() // 2
         camera_y = player.rect.centery - display.get_height() // 2
 
@@ -147,6 +152,7 @@ def execute_game(player):
         camera_y = max(0, min(camera_y, height - display.get_height()))
 
         camera_offset = pygame.Vector2(-camera_x, -camera_y)
+        ###################################################################################
 
         # draw the tiles
         # tiles_group.draw(display)
@@ -162,25 +168,47 @@ def execute_game(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # updating the player group
-        player_group.update(collision_sprites)
+        player_group.update(collision_sprites, display)
 
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
         # return "shed"
 
-        # setting up the background # change to display later
+        # checking if the player entered the cave
+        if cave_entrance_rect and cave_entrance_rect.colliderect(player.rect):
+            return "cave"
+
+        if player.just_left_cave:
+            player.rect.x -= 90
+            player.rect.y += 105
+            player.just_left_cave = False
+
         display.blit(player_score_surf, player_score_rect)
 
         # checking if player enters the store are
         if store_rect and store_rect.colliderect(player.rect):
             inside_store(player)
-
+            # todo: is the store being drawn on top of the background?
             # when player leaves the house it goes here
             player.rect.x = player.rect.x
             player.rect.y = player.rect.y + 20
 
+        # make the player able to go inside the home
+        if home_rect and home_rect.colliderect(player.rect):
+            return "home"
+
+        if player.just_left_home:
+            player.rect.x = 90
+            player.rect.y = 105
+            player.just_left_home = False
+
+        display.blit(player_score_surf, player_score_rect)
+
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
+            weapon_group = pygame.sprite.Group()
+            fire_sword = Weapon(player, "Flaming Sword", 10, 10, 10, 10, 10,
+                                10, 10, weapon_group)
             # automatically shoot bullets from the player
             player.shoot(bullets)
             # spawning enemies every two seconds
@@ -199,6 +227,7 @@ def execute_game(player):
             # updating the bullets group
             bullets.update()
             enemies.update(player)
+            weapon_group.update()
 
             # Testing at home: player becomes red when colliding with an enemy # this display was screen
             if player.rect.colliderect(enemy.rect):
@@ -217,6 +246,9 @@ def execute_game(player):
                     (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
                     bullet.radius
                 )
+            # drawing the weapons
+            for weapon in weapon_group:
+                display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
             enemy_hurt = pygame.image.load("images/monsters/monster 3/enemy_hurt.png")
 
@@ -236,7 +268,7 @@ def execute_game(player):
                 enemy.kill()
                 info['score'] += 1
                 player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                player_score_rect = player_score_surf.get_rect(center=(80, 80))
+                player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
             if player.rect.colliderect(enemy.rect):
                 # pygame.draw.rect(screen, red, player.rect)

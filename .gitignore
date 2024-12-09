@@ -4,3 +4,8 @@ __pycache__/tile.cpython-311.pyc
 =======
 /__pycache__
 >>>>>>> carolinaBestie
+*.pyc
+*.pyc
+*.pyc
+__pycache__/background.cpython-311.pyc
+.idea/misc.xml

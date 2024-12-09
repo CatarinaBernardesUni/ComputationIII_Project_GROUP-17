@@ -18,6 +18,8 @@ def background_setup(tmx_data):
     # storing the rect of the "battle area" and "store"
     battle_area_rect = None
     store_rect = None
+    cave_entrance_rect = None
+    home_rect = None
 
     # static tiles
     for layer in tmx_data.layers:
@@ -63,5 +65,11 @@ def background_setup(tmx_data):
         if obj in tmx_data.get_layer_by_name("Flower Roof House"):
             store_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
 
+        if obj in tmx_data.get_layer_by_name("Cave"):
+            cave_entrance_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
+        if obj in tmx_data.get_layer_by_name("Blue Roof House"):
+            home_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
     return (background_sprite_group, tiles_group, animated_tiles_group, objects_group,
-            collision_sprites, battle_area_rect, store_rect)
+            collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect)
