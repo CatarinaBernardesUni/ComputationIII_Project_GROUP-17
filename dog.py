@@ -9,8 +9,9 @@ class Dog(pygame.sprite.Sprite):
     def __init__(self, player):
         super().__init__()
         self.load_images()
+        self.dog_size = dog_size
         self.state, self.frame_index = "down", 0
-        self.image = pygame.Surface(dog_size)  # we use surface to display any image or draw
+        self.image = self.frames[self.state][self.frame_index]  # we use surface to display any image or draw
         # area where the player will be drawn
         self.rect = self.image.get_rect()
 
@@ -19,7 +20,7 @@ class Dog(pygame.sprite.Sprite):
         self.rect.y = player.rect.y
 
         self.player = player
-
+        # making default as False so dog doesn't exist until bought
         self.bought = False
 
     def load_images(self):
@@ -29,23 +30,23 @@ class Dog(pygame.sprite.Sprite):
             for folder_path, sub_folders, file_names in walk(join("images", "dog", state)):
                 if file_names:
                     for file_name in file_names:
+                        if file_name == ".DS_Store":
+                            continue  # Skip .DS_Store files bc its mac for folders creation and creates and error
                         full_path = join(folder_path, file_name)
-                        print(f"Attempting to load image: {full_path}")  # Debugging statement
-                        if full_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp')):
-                            try:
-                                surf = pygame.image.load(full_path).convert_alpha()
-                                scaled_surf = pygame.transform.scale(surf, player_size)
-                                self.frames[state].append(scaled_surf)
-                                print(f"Successfully loaded image: {full_path}")  # Debugging statement
-                            except pygame.error as e:
-                                print(f"Unable to load image {full_path}: {e}")
-                        else:
-                            print(f"Unsupported image format: {full_path}")
+                        surf = pygame.image.load(full_path).convert_alpha()
+                        scaled_surf = pygame.transform.scale(surf, dog_size)
+                        self.frames[state].append(scaled_surf)
 
     def animate(self):
         self.frame_index += 0.08  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
     def follow_player(self):
+    # Determine the direction to follow the player.
+    # mimics the actions fo the player
+        self.state = self.player.state
+
+        # follows the player
         self.rect.x = self.player.rect.x - 50
         self.rect.y = self.player.rect.y
+        self.animate()

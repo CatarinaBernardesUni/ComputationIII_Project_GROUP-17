@@ -126,10 +126,6 @@ def execute_game(player, dog):
     # adding the player to the group
     player_group.add(player)
 
-    # adding only the dog to the group when its bought
-    if player.dog.bought:
-        player_group.add(player.dog)
-
     # creating an empty bullet group that will be given as input to the player.shoot() method
     bullets = pygame.sprite.Group()
     # creating an enemy group
@@ -195,11 +191,15 @@ def execute_game(player, dog):
         # updating the player group and dog
         player_group.update(collision_sprites, display)
         if player.dog.bought:
+            if player.dog not in player_group:
+                player_group.add(player.dog)
             player.dog.follow_player()
+
 
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
         # return "shed"
+
 
         weapon_group.update(frame_time)
 
