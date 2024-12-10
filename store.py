@@ -111,6 +111,12 @@ def shop_menu(player):
     shopping = True
     custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
 
+    # creating my player group:
+    # creating an empty group for the player (that was received as input)
+    player_group = pygame.sprite.Group()
+    # adding the player to the group
+    player_group.add(player)
+
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2, height // 2))
@@ -172,6 +178,10 @@ def shop_menu(player):
                         print("Can only have one dog")
                     else:
                         player.buy_item('dog')
+                        if not player.dog.bought:
+                            player.dog.bought = True
+                            player_group.add(player.dog)
+
                 # SOUP BUTTON
                 if 499 <= mouse_pos[0] <= 600 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('soup')

@@ -45,6 +45,7 @@ old_lady_speech = [old_lady_1, old_lady_2, old_lady_3]
 
 # SIZES
 player_size = (40, 40)
+dog_size = (30, 30)
 enemy_size = (80, 80)
 bullet_size = 10
 tile_size = 16
