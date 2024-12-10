@@ -167,7 +167,11 @@ def shop_menu(player):
                 # LAST ROW
                 # DOG BUTTON
                 if 347 <= mouse_pos[0] <= 444 and 503 <= mouse_pos[1] <= 546:
-                    player.buy_item('dog')
+                    # allowing the player to only have one dog
+                    if player.inventory['dog'] == 1:
+                        print("Can only have one dog")
+                    else:
+                        player.buy_item('dog')
                 # SOUP BUTTON
                 if 499 <= mouse_pos[0] <= 600 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('soup')
