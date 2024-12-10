@@ -68,13 +68,13 @@ def inside_store(player):
             display.blit(sprite.image, sprite.rect.topleft)
 
         # drawing the buttons
-        shop_button = draw_button(display, 202.5, 237.5, 50, 22, "shop", text_color=brick_color,
+        shop_button = draw_button(display, 212.5, 227.5, 50, 22, "shop", text_color=brick_color,
                                   image_path="images/buttons/basic_button.png", font=cutefont)
-        quit_shop_button = draw_button(display, 267.5, 237.5, 50, 22, "exit", text_color=brick_color,
+        quit_shop_button = draw_button(display, 277.5, 227.5, 50, 22, "exit", text_color=brick_color,
                                        image_path="images/buttons/basic_button.png", font=cutefont)
 
         # Writing the welcome message to the shop
-        draw_button(display, 177.5, 185, 150, 40, "welcome to the shop!", brick_color,
+        draw_button(display, 187.5, 175, 150, 40, "welcome to the shop!", brick_color,
                     "images/dialogs/dialog box big.png", font=cutefont)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
