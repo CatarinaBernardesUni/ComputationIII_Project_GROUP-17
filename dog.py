@@ -3,6 +3,7 @@ from config import *
 import pygame
 from os import walk  # allows us to walk through a folder
 from os.path import join
+import math
 
 
 class Dog(pygame.sprite.Sprite):
@@ -46,7 +47,8 @@ class Dog(pygame.sprite.Sprite):
     # mimics the actions fo the player
         self.state = self.player.state
 
-        # follows the player
-        self.rect.x = self.player.rect.x - 50
+        # FOLLOWS PLAYER
+        self.rect.x = self.player.rect.x - 30  # so its a little behind the player
         self.rect.y = self.player.rect.y
+
         self.animate()
