@@ -1,41 +1,8 @@
-from collision import CollisionObject
+
 from config import *
 from pytmx.util_pygame import load_pygame
 from utils import area_setup
 # from game import paused
-from tile import Tile
-
-"""
-def home_setup(tmx_data_home):
-    background_sprite_group = pygame.sprite.Group()
-    tiles_group = pygame.sprite.Group()
-    objects_group = pygame.sprite.Group()
-    collision_sprites = pygame.sprite.Group()
-    home_exit_rect = None
-
-    # static tiles
-    for layer in tmx_data_home.layers:
-        if hasattr(layer, "data"):
-            for x, y, surface in layer.tiles():
-                pos = (x * tile_size, y * tile_size)
-                Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
-
-    # objects
-    for obj in tmx_data_home.objects:
-        if obj.image:  # no rectangles are entering here because they do not have images
-            scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
-            pos = (obj.x, obj.y)
-            Tile(position=pos, surf=scaled_image, groups=(background_sprite_group, objects_group))
-        if obj in tmx_data_home.get_layer_by_name("collisions on home"):
-            CollisionObject(position=(obj.x, obj.y), size=(obj.width, obj.height), groups=(background_sprite_group,
-                                                                                           collision_sprites))
-        if obj in tmx_data_home.get_layer_by_name("home exit"):
-            home_exit_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
-
-    return (background_sprite_group, tiles_group, objects_group,
-            collision_sprites, home_exit_rect)
-
-"""
 
 
 def home_area(player):

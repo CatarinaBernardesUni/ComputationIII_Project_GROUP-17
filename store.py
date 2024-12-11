@@ -1,29 +1,8 @@
-from player import Player
 from mouse_position import get_mouse_position, draw_button
-import pygame
 from config import *
 from pytmx.util_pygame import load_pygame
-from tile import Tile
 from mouse_position import button_data, show_hover_message
 from utils import area_setup
-
-"""
-def store_setup(tmx_data_store):
-    background_sprite_group = pygame.sprite.Group()
-    tiles_group = pygame.sprite.Group()
-    objects_group = pygame.sprite.Group()
-    collision_sprites = pygame.sprite.Group()
-
-    # static tiles
-    for layer in tmx_data_store.layers:
-        if hasattr(layer, "data"):
-            for x, y, surface in layer.tiles():
-                pos = (x * tile_size, y * tile_size)
-                Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
-
-    return background_sprite_group, tiles_group, objects_group, collision_sprites
-
-"""
 
 
 def inside_store(player):

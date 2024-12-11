@@ -1,43 +1,9 @@
-from collision import CollisionObject
 from config import *
 from pytmx.util_pygame import load_pygame
-
 # from game import paused
-from tile import Tile
 from utils import area_setup
-"""
-def cave_setup(tmx_data_cave):
-    background_sprite_group = pygame.sprite.Group()
-    tiles_group = pygame.sprite.Group()
-    objects_group = pygame.sprite.Group()
-    collision_sprites = pygame.sprite.Group()
-    cave_exit_rect = None
 
-    # todo: add crystals, characters and spikes 1 and 2
 
-    # static tiles
-    for layer in tmx_data_cave.layers:
-        if hasattr(layer, "data"):
-            for x, y, surface in layer.tiles():
-                pos = (x * tile_size, y * tile_size)
-                Tile(position=pos, surf=surface, groups=(background_sprite_group, tiles_group))
-
-    # objects
-    for obj in tmx_data_cave.objects:
-        if obj.image:  # no rectangles are entering here because they do not have images
-            scaled_image = pygame.transform.scale(obj.image, (obj.width, obj.height))
-            pos = (obj.x, obj.y)
-            Tile(position=pos, surf=scaled_image, groups=(background_sprite_group, objects_group))
-        if obj in tmx_data_cave.get_layer_by_name("collisions on cave"):
-            CollisionObject(position=(obj.x, obj.y), size=(obj.width, obj.height), groups=(background_sprite_group,
-                                                                                           collision_sprites))
-        if obj in tmx_data_cave.get_layer_by_name("cave exit"):
-            cave_exit_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
-
-    return (background_sprite_group, tiles_group, objects_group,
-            collision_sprites, cave_exit_rect)
-
-"""
 def cave_area(player):
     clock = pygame.time.Clock()
     cave_screen = pygame.display.set_mode(resolution)
