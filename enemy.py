@@ -8,8 +8,9 @@ enemies = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.
            "normal_fly": {"tier": 1, "element": None, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire", "special_effect": None, "directory_path": "images/monsters/normal_fly"},
            "fire_fly": {"tier": 2, "element": "fire", "health": 40, "speed": 1.5, "attack": 2, "weakness": "ice", "special_effect": None, "directory_path": "images/monsters/fire_fly"},
            "horse_ghost": {"tier": 3, "element": "darkness", "health": 80, "speed": 1.3, "attack": 2.5, "weakness": "light", "special_effect": "fear", "directory_path": "images/monsters/horse_ghost"}, # fear makes the player slower
+           "electric_fly": {"tier": 3, "element": "electricity", "health": 60, "speed": 1.7, "attack": 2, "weakness": "ice", "special_effect": "shock", "directory_path": "images/monsters/electric_fly"}, # shock makes the player paralysed
            "myst_ghost": {"tier": 4, "element": "darkness", "health": 120, "speed": 1.5, "attack": 3, "weakness": "light", "special_effect": "shoot", "directory_path": "images/monsters/myst_ghost"},
-           "electric_enemy": {"tier": 4, "element": "electricity", "health": 100, "speed": 1.8, "attack": 3, "weakness": "ice", "special_effect": "explosion", "directory_path": "images/monsters/eletric_enemy"}}
+           "electric_enemy": {"tier": 4, "element": "electricity", "health": 100, "speed": 1.8, "attack": 3, "weakness": "ice", "special_effect": "explosion", "directory_path": "images/monsters/electric_enemy"}}
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, player, groups, enemy_name, battle_area_rect):
         super().__init__(groups)
