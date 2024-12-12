@@ -1,6 +1,5 @@
 from background import background_setup
-import pygame
-
+from power_up import Power_up
 from cave import cave_area
 from home import home_area
 from player import *
@@ -234,6 +233,7 @@ def execute_game(player):
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player
             player.shoot(bullets)
+
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
                 normal_fly = Enemy(player, enemies, "normal_fly", battle_area_rect)
@@ -274,17 +274,17 @@ def execute_game(player):
             for bullet in bullets:
                 # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
                 collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
-                                                               False)  # False means not kill upon impact
+                                                               True)  # True means kill upon impact
                 for enemy in collided_enemies:
                     # enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
                     enemy.health -= 5
-
+                    info['score'] += 1
                     # removing the bullet from the screen after hitting the player
                     bullet.kill()
 
             if normal_fly.health <= 0:
                 normal_fly.kill()
-                info['score'] += 1
+
                 # player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
                 # player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
