@@ -21,6 +21,7 @@ brick_color = (117, 49, 40)
 
 # font for the game
 cutefont = pygame.font.Font("fonts/pixel_font.ttf", 11)
+inventoryfont = pygame.font.Font("fonts/pixel_font.ttf", 25)
 
 
 full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))

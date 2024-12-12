@@ -101,7 +101,7 @@ def inside_store(player):
 
 def shop_menu(player):
     shopping = True
-    custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
+
 
     # creating my player group so i can add later my dog to it:
     # creating an empty group for the player (that was received as input)
@@ -133,7 +133,7 @@ def shop_menu(player):
         store_screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
 
         # setting up so my gold amount shows on store menu
-        gold_available = custom_font.render(f"My Gold: {player.gold}", True, brick_color)
+        gold_available = cutefont.render(f"My Gold: {player.gold}", True, brick_color)
         store_screen.blit(gold_available, (width // 2 - 310, height // 2 - 220))
 
         for event in pygame.event.get():
