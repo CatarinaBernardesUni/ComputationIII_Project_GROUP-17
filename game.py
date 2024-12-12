@@ -153,7 +153,7 @@ def execute_game(player, dog):
         # controlling the frame rate
         frame_time = clock.tick(fps)
 
-        mouse_pos = get_mouse_position()
+        mouse_pos = pygame.mouse.get_pos()
 
         # drawing the inventory button
         # inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35, text="Inventory",
@@ -319,7 +319,7 @@ def execute_game(player, dog):
             display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
         # drawing the inventory button
-        inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35,
+        inventory_button = draw_button(display, (width // 2) - 80 - 10, y=10, width=70, height=35,
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
@@ -331,12 +331,23 @@ def execute_game(player, dog):
                 progress()
                 pygame.quit()
                 exit()
-            if keys[pygame.K_SPACE]:
-                paused()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    paused()
+                if event.key == pygame.K_ESCAPE:
+                    inventory_menu(player)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()  # Update mouse position on click
+                print("Mouse button down detected")
+                print(f"Updated Mouse Position: {mouse_pos}")
                 if inventory_button.collidepoint(mouse_pos):
+                    print("Inventory button clicked")
                     inventory_menu(player)
+                else:
+                    print("Mouse click not on button")
+                    print(f"Button Rect: {inventory_button}")
+                    print(f"Mouse Position: {mouse_pos}")
 
         # updating the display
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left

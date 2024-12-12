@@ -19,13 +19,18 @@ images_inventory = {
 # lets the user check their inventory:
 def inventory_menu(player):
     on_inventory = True
+    board_image = pygame.image.load("images/store/board.png").convert_alpha()
+
     while on_inventory:
-        screen.blit("images/store/board.png", (0, 0))
+        screen.blit(board_image, (0, 0))
+
         for event in pygame.event.get():
-            mouse = get_mouse_position()
             if event.type == pygame.QUIT:
                 progress()
                 pygame.quit()
                 exit()
-            pygame.display.update()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:  # Allow exiting the inventory with the ESC key
+                    on_inventory = False
+
         pygame.display.update()
