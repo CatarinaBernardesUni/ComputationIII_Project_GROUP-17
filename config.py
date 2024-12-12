@@ -19,10 +19,11 @@ greenish = (182, 215, 168)
 brick_color_transparent = (117, 49, 40, 225)
 brick_color = (117, 49, 40)
 
-
+# hearts
 full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))
 empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (33, 33))
 
+# game over screen
 game_over_image = pygame.transform.scale(pygame.image.load("images/screens/game_over.png"), (1280, 720))
 
 # SCREEN RESOLUTION
@@ -31,17 +32,24 @@ resolution = (1280, 720)  # height/width
 width, height = resolution[0], resolution[1]
 fps = 60
 # screen = pygame.display.set_mode(resolution)
+# some screen images
 pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_image2.png"), (1280, 180))
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 # menu of the store
 menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.png"), (750, 600))
 entrance_store = pygame.transform.scale(pygame.image.load("images/store/store_front.png"), resolution)
 
+# OLD LADY SPEECHES
 old_lady_1 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech1.png"), (150, 100))
 old_lady_2 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech2.png"), (150, 100))
 old_lady_3 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech3.png"), (150, 100))
 
 old_lady_speech = [old_lady_1, old_lady_2, old_lady_3]
+
+# POWER UP IMAGES
+power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (50, 50))
+power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50))
+power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (50, 50))
 
 # SIZES
 player_size = (40, 40)
@@ -55,6 +63,7 @@ mouse = pygame.mouse.get_pos()
 character_choice = "player 1"
 
 
+# this is to store progress when the game is closed
 def progress():
     with open("player_info.txt", "w") as player_file:
         json.dump(info, player_file)
