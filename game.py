@@ -1,3 +1,4 @@
+from dog import Dog
 from background import background_setup
 import pygame
 
@@ -13,6 +14,7 @@ from store import inside_store
 from weapon import Weapon
 from old_lady_house import old_lady_house_area
 from weapon import *
+
 
 def choose_character():
     screen.blit(choose_character_image, (0, 0))
@@ -86,11 +88,12 @@ def game_loop():
     current_state = "main"
     # creating the player for the game, it is only defined once
     player = Player()
+    dog = Dog(player)
 
     # endeless game loop
     while True:
         if current_state == "main":
-            current_state = execute_game(player)
+            current_state = execute_game(player, dog)
         elif current_state == "cave":
             current_state = cave_area(player)
         elif current_state == "home":
@@ -102,7 +105,7 @@ def game_loop():
 
 
 
-def execute_game(player):
+def execute_game(player, dog):
     # SETUP
     # using the clock to control the time frame.
     clock = pygame.time.Clock()
@@ -122,6 +125,7 @@ def execute_game(player):
     player_group = pygame.sprite.Group()
     # adding the player to the group
     player_group.add(player)
+
     # creating an empty bullet group that will be given as input to the player.shoot() method
     bullets = pygame.sprite.Group()
     # creating an enemy group
@@ -184,12 +188,18 @@ def execute_game(player):
         for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
-        # updating the player group
+        # updating the player group and dog
         player_group.update(collision_sprites, display)
+        if player.dog.bought:
+            if player.dog not in player_group:
+                player_group.add(player.dog)
+            player.dog.follow_player()
+
 
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
         # return "shed"
+
 
         weapon_group.update(frame_time)
 

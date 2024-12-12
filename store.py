@@ -27,10 +27,6 @@ def store_setup(tmx_data_store):
 
 
 def inside_store(player):
-    # setting up a background
-    store_owner = pygame.image.load("images/store/store_owner.png")
-    store_owner = pygame.transform.scale(store_owner, (40, 40))
-    store_owner_position = (320, 225)
 
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
@@ -55,9 +51,6 @@ def inside_store(player):
     player.rect.center = (300, 320)
     player.state = "up"
 
-    # setting up fonts for the text
-    cutefont = pygame.font.Font("fonts/Minecraft.ttf", 15)
-
     # creating an event loop
     running = True
     while running:
@@ -70,19 +63,19 @@ def inside_store(player):
         for tile in tiles_group:
             display.blit(tile.image, tile.rect.topleft)
 
-        # displaying the store owner
-        display.blit(store_owner, store_owner_position)
 
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft)
 
         # drawing the buttons
-        shop_button = draw_button(display, 177.5, 167.5, 95, 32.5, "shop", text_color=deep_black,
-                                  image_path="images/store/store_button.png", font=cutefont)
-        quit_shop_button = draw_button(display, 287.5, 167.5, 122.5, 32.5, "leave shop", text_color=deep_black,
-                                       image_path="images/store/store_button.png", font=cutefont)
-        draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png",
-                    font=cutefont)
+        shop_button = draw_button(display, 212.5, 227.5, 50, 22, "shop", text_color=brick_color,
+                                  image_path="images/buttons/basic_button.png", font=cutefont)
+        quit_shop_button = draw_button(display, 277.5, 227.5, 50, 22, "exit", text_color=brick_color,
+                                       image_path="images/buttons/basic_button.png", font=cutefont)
+
+        # Writing the welcome message to the shop
+        draw_button(display, 187.5, 175, 150, 40, "welcome to the shop!", brick_color,
+                    "images/dialogs/dialog box big.png", font=cutefont)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for ev in pygame.event.get():
@@ -110,6 +103,12 @@ def inside_store(player):
 def shop_menu(player):
     shopping = True
     custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
+
+    # creating my player group:
+    # creating an empty group for the player (that was received as input)
+    player_group = pygame.sprite.Group()
+    # adding the player to the group
+    player_group.add(player)
 
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
@@ -167,7 +166,15 @@ def shop_menu(player):
                 # LAST ROW
                 # DOG BUTTON
                 if 347 <= mouse_pos[0] <= 444 and 503 <= mouse_pos[1] <= 546:
-                    player.buy_item('dog')
+                    # allowing the player to only have one dog
+                    if player.inventory['dog'] == 1:
+                        print("Can only have one dog")
+                    else:
+                        player.buy_item('dog')
+                        if not player.dog.bought:
+                            player.dog.bought = True
+                            player_group.add(player.dog)
+
                 # SOUP BUTTON
                 if 499 <= mouse_pos[0] <= 600 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('soup')
