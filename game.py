@@ -160,20 +160,6 @@ def execute_game(player, dog):
                                        #text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        #font=cutefont)
 
-        # handling events:
-        #keys = pygame.key.get_pressed()
-        #for event in pygame.event.get():
-            #if event.type == pygame.QUIT:
-                #progress()
-                #pygame.quit()
-                #exit()
-            #if keys[pygame.K_SPACE]:
-                #paused()
-
-            #if event.type == pygame.MOUSEBUTTONDOWN:
-                #if inventory_button.collidepoint(mouse_pos):
-                    #inventory_menu(player)
-
 
         # display.fill("black")
 
@@ -212,26 +198,6 @@ def execute_game(player, dog):
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
         # return "shed"
-
-        # drawing the inventory button
-        inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35,
-                                       text="Inventory",
-                                       text_color=brick_color, image_path="images/buttons/basic_button.png",
-                                       font=cutefont)
-
-        # handling events:
-        keys = pygame.key.get_pressed()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                progress()
-                pygame.quit()
-                exit()
-            if keys[pygame.K_SPACE]:
-                paused()
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if inventory_button.collidepoint(mouse_pos):
-                    inventory_menu(player)
 
 
         weapon_group.update(frame_time)
@@ -352,6 +318,27 @@ def execute_game(player, dog):
         for weapon in weapon_group:
             display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
+        # drawing the inventory button
+        inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35,
+                                       text="Inventory",
+                                       text_color=brick_color, image_path="images/buttons/basic_button.png",
+                                       font=cutefont)
+
+        # handling events:
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            if keys[pygame.K_SPACE]:
+                paused()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if inventory_button.collidepoint(mouse_pos):
+                    inventory_menu(player)
+
+        # updating the display
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 
         # updates the whole screen since the frame was last drawn
