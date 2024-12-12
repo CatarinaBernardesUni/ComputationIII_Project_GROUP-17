@@ -6,17 +6,16 @@ def get_mouse_position():
 
 # drawing a button, just skeleton does not work on its own:
 def draw_button(screen, x, y, width, height, text, text_color, image_path, font):
-    button_image = pygame.image.load(image_path)
+    button_image = pygame.image.load(image_path).convert_alpha()  # making sure that it handles transparency
     button_image = pygame.transform.scale(button_image, (width, height))
-
-    # setting up font and text for going back
-    back_text = font.render(text, True, text_color)
 
     # Blit the button image onto the screen
     screen.blit(button_image, (x, y))
 
-    back_rect = back_text.get_rect(center=(x + width // 2, y + height // 2))
-    screen.blit(back_text, back_rect)
+    # setting up font and text for going back
+    text_surface = font.render(text, False, text_color)
+    text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
+    screen.blit(text_surface, text_rect)
     # returning my button
     return pygame.Rect(x, y, width, height)
 

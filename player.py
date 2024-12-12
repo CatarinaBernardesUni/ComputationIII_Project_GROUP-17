@@ -5,6 +5,7 @@ from bullet import Bullet
 from os.path import join
 from os import walk  # allows us to walk through a folder
 import config
+from dog import Dog
 
 
 # I had to import the module itself here in import config, so we could actually choose a character, I tried for a
@@ -37,6 +38,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # making the hitbox smaller than the player image
         self.hitbox_rect = self.rect.inflate(-10, -15)
 
+        # being able to receive a dog:
+        self.dog = Dog(self)
+
         # GAMEPLAY VARIABLES
         self.just_left_cave = False
         self.just_left_old_lady_house = False
@@ -61,6 +65,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                           'bow': 0,
                           'key': 0}
         self.gold = 200
+
+        # storing the inventory prices
         self.price_items = {'apple': 5,
                             'mushroom': 10,
                             'speed potion': 25,
@@ -199,6 +205,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.gold -= price
             self.inventory[item_name] += 1
             print(f"bought {item_name}: amount {self.inventory[item_name]} money: {self.gold}")
+            if item_name == 'dog' and self.dog is None:
+                self.dog = Dog(self)
+                self.dog.bought = True
         else:
             print(f"gold is not enough. gold: {self.gold}")  # todo: add here a screen saying not enough money
 
