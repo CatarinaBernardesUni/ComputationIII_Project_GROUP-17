@@ -37,6 +37,8 @@ def old_lady_house_area(player):
                 progress()
                 pygame.quit()
                 exit()
+            if keys[pygame.K_SPACE]:
+                paused()
 
         ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset

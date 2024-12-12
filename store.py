@@ -83,6 +83,7 @@ def inside_store(player):
                 progress()
                 exit()
 
+
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if shop_button.collidepoint(display_mouse):
                     shop_menu(player)

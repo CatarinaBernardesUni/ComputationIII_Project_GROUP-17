@@ -1,7 +1,7 @@
 from config import *
 from pytmx.util_pygame import load_pygame
 # from game import paused
-from utils import area_setup
+from utils import area_setup, paused
 
 
 def cave_area(player):
@@ -40,8 +40,9 @@ def cave_area(player):
                 progress()
                 pygame.quit()
                 exit()
-            # if keys[pygame.K_SPACE]:
-            # paused() # todo: pause is giving circular import
+            if keys[pygame.K_SPACE]:
+                paused()
+
 
         ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset

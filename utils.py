@@ -1,7 +1,27 @@
 from collision import CollisionObject
+import interface
 from config import *
 # from pytmx.util_pygame import load_pygame
 from tile import Tile
+
+
+def paused():
+    pause = True
+    while pause:
+        screen.blit(pause_image, (0, 0))  # todo: change the amount of different variables called screen
+        for event in pygame.event.get():
+            mouse = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            pygame.display.update()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 443 <= mouse[0] <= 610 and 112 <= mouse[1] <= 169:
+                    interface.interface()
+                if 637 <= mouse[0] <= 802 and 112 <= mouse[1] <= 171:
+                    pause = False
+        pygame.display.update()
 
 
 # Function to draw a stick figure with a construction hat

@@ -1,6 +1,6 @@
 from dog import Dog
 from background import background_setup
-from power_up import Power_up
+from power_up import PowerUp
 from cave import cave_area
 from home import home_area
 from player import *
@@ -63,25 +63,6 @@ def game_over():
                 if 531 <= mouse[0] <= 771 and 608 <= mouse[1] <= 700:
                     interface.interface()
                     waiting = False
-
-
-def paused():
-    pause = True
-    while pause:
-        screen.blit(pause_image, (0, 0))  # todo: change the amount of different variables called screen
-        for event in pygame.event.get():
-            mouse = pygame.mouse.get_pos()
-            if event.type == pygame.QUIT:
-                progress()
-                pygame.quit()
-                exit()
-            pygame.display.update()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if 443 <= mouse[0] <= 610 and 112 <= mouse[1] <= 169:
-                    interface.interface()
-                if 637 <= mouse[0] <= 802 and 112 <= mouse[1] <= 171:
-                    pause = False
-        pygame.display.update()
 
 
 def game_loop():
