@@ -14,6 +14,8 @@ from store import inside_store
 from weapon import Weapon
 from old_lady_house import old_lady_house_area
 from weapon import *
+from mouse_position import get_mouse_position, draw_button
+from inventory import inventory_menu
 
 
 def choose_character():
@@ -151,16 +153,27 @@ def execute_game(player, dog):
         # controlling the frame rate
         frame_time = clock.tick(fps)
 
-        # mouse = pygame.mouse.get_pos()
+        mouse_pos = get_mouse_position()
+
+        # drawing the inventory button
+        # inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35, text="Inventory",
+                                       #text_color=brick_color, image_path="images/buttons/basic_button.png",
+                                       #font=cutefont)
+
         # handling events:
-        keys = pygame.key.get_pressed()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                progress()
-                pygame.quit()
-                exit()
-            if keys[pygame.K_SPACE]:
-                paused()
+        #keys = pygame.key.get_pressed()
+        #for event in pygame.event.get():
+            #if event.type == pygame.QUIT:
+                #progress()
+                #pygame.quit()
+                #exit()
+            #if keys[pygame.K_SPACE]:
+                #paused()
+
+            #if event.type == pygame.MOUSEBUTTONDOWN:
+                #if inventory_button.collidepoint(mouse_pos):
+                    #inventory_menu(player)
+
 
         # display.fill("black")
 
@@ -189,16 +202,36 @@ def execute_game(player, dog):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # updating the player group and dog
+        # so dog can appear on screen when bought
         player_group.update(collision_sprites, display)
         if player.dog.bought:
             if player.dog not in player_group:
                 player_group.add(player.dog)
             player.dog.follow_player()
 
-
         # checking if the player moved off-screen from the right to the left area
         # if player.rect.right >= width:
         # return "shed"
+
+        # drawing the inventory button
+        inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35,
+                                       text="Inventory",
+                                       text_color=brick_color, image_path="images/buttons/basic_button.png",
+                                       font=cutefont)
+
+        # handling events:
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            if keys[pygame.K_SPACE]:
+                paused()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if inventory_button.collidepoint(mouse_pos):
+                    inventory_menu(player)
 
 
         weapon_group.update(frame_time)
@@ -226,20 +259,17 @@ def execute_game(player, dog):
         # make the player able to go inside the home
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
+        if player.just_left_home:
+            player.rect.center = (1150, 150)
+            player.just_left_home = False
+
+        # player in the old lady house
         if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
             return "old lady house"
         if player.just_left_old_lady_house:
             player.rect.center = (325, 160)
             player.just_left_old_lady_house = False
 
-        # if player.just_left_home:
-            #player.rect.x = player.rect.x
-            #player.rect.y = player.rect.y + 20
-            #player.just_left_home = False
-
-        if player.just_left_home:
-            player.rect.center = (1150, 150)
-            player.just_left_home = False
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player

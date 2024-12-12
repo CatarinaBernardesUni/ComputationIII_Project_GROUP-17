@@ -1,10 +1,9 @@
 from player import Player
-from mouse_position import get_mouse_position, draw_button
 import pygame
 from config import *
 from pytmx.util_pygame import load_pygame
 from tile import Tile
-from mouse_position import button_data, show_hover_message
+from mouse_position import button_data, show_hover_message, draw_button, get_mouse_position
 from utils import area_setup
 
 """
@@ -47,14 +46,14 @@ def inside_store(player):
     # adding the player to the group
     player_group.add(player)
 
-    # setting the player initial position on the cave
-    player.rect.center = (300, 320)
-    player.state = "up"
+    # setting the player initial position on the store
+    player.rect.center = (350, 320)
+    player.state = "down"
 
     # creating an event loop
     running = True
     while running:
-        mouse = pygame.mouse.get_pos()
+        mouse = get_mouse_position()
         display_mouse = (mouse[0] * (display.get_width() / width), mouse[1] * (display.get_height() / height))
 
         clock.tick(fps)
@@ -63,7 +62,7 @@ def inside_store(player):
         for tile in tiles_group:
             display.blit(tile.image, tile.rect.topleft)
 
-
+        # displaying the player but we cant move it
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft)
 
@@ -104,7 +103,7 @@ def shop_menu(player):
     shopping = True
     custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
 
-    # creating my player group:
+    # creating my player group so i can add later my dog to it:
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
     # adding the player to the group
