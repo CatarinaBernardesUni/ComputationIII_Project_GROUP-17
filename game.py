@@ -300,15 +300,15 @@ def execute_game(player, dog):
 
             if player.rect.colliderect(normal_fly.rect):
                 # pygame.draw.rect(screen, red, player.rect)
-                if info['health'] <= 0:
-                    game_over()
+                # this "if" sees if the difference between the time the player is hit and the last time the
+                # player was hit is bigger than the time it needs to cooldown
+                if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
+                    # here is missing showing hearts as health (I print the health to see if it's working)
+                    remove_health()
+                    player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
 
-            # this "if" sees if the difference between the time the player is hit and the last time the
-            # player was hit is bigger than the time it needs to cooldown
-            if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
-                # here is missing showing hearts as health (I print the health to see if it's working)
-                remove_health()
-                player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
+            if info['health'] <= 0:
+                game_over()
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         # player_group.draw(display)
