@@ -44,10 +44,17 @@ def inventory_menu(player):
         # creating the item spacing
         item_spacing = 95
 
+        # storing each one of the items position and dimensions so i can use it later
+        item_positions = []
+
 
         # displaying the items:
         current_x = first_x
         for current_position, (item, count) in enumerate(player.inventory.items()):
+            # Skip the dog item, dont want it to appear as a part of the inventory
+            # cant take the dog back!!!!
+            if item == 'dog':
+                continue
             # if the player has at least one item, it appears on inventory
             # blits only the image once. keeps counting after that
             if count > 0:
@@ -64,6 +71,9 @@ def inventory_menu(player):
                 # putting the text below the image
                 screen.blit(count_text, (item_x, item_y + item_image.get_height() + 5))
 
+                # store the item position and dimensions
+                item_positions.append((item, item_x, item_y, item_image.get_width(), item_image.get_height()))
+
                 # Update current item position for the next item + the spacing
                 current_x += item_image.get_width() + item_spacing
 
@@ -77,5 +87,14 @@ def inventory_menu(player):
                 # exiting the menu with the esc key
                 if event.key == pygame.K_ESCAPE:
                     on_inventory = False
+            # being able to select my items for further utilization
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = get_mouse_position()
+                # check if the click is within any item bounds
+                for item, item_x, item_y, item_width, item_height in item_positions:
+                    if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
+                        # handle item usage
+                        print(f"it is working {item}")
+
 
         pygame.display.update()
