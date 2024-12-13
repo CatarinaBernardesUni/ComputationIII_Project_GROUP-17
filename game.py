@@ -11,7 +11,6 @@ from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
 from utils import paused
-from weapon import Weapon
 from old_lady_house import old_lady_house_area
 from weapon import *
 from mouse_position import get_mouse_position, draw_button

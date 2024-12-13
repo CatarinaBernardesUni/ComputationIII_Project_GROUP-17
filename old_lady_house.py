@@ -89,8 +89,8 @@ def old_lady_house_area(player):
 
         # display.blit(player_score_surf, player_score_rect)
         if clues_rect and clues_rect.colliderect(player.rect):
-            draw_button(display, 100, 100, 300, 100,
-                        "This is where your grandma stores her belongings.", brick_color,
+            draw_button(display, 100, 100, 320, 100,
+                        "This  is  where  your  grandma  stores  her  belongings.", brick_color,
                         "images/inventory/inventory_menu.png", cutefont)
 
         for sprite in player_group:
