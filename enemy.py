@@ -5,23 +5,30 @@ import math
 import os
 
 enemies = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire",
-                           "special_effect": None, "directory_path": "images/monsters/slime_green"},
+                           "special_effect": None, "directory_path": "images/monsters/slime_green", "size": (100, 100),
+                           "animation_speed": 0.1},
            "normal_fly": {"tier": 1, "element": None, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire",
-                          "special_effect": None, "directory_path": "images/monsters/normal_fly"},
+                          "special_effect": None, "directory_path": "images/monsters/normal_fly", "size": (50, 50),
+                          "animation_speed": 0.1},
            "fire_fly": {"tier": 2, "element": "fire", "health": 40, "speed": 1.5, "attack": 2, "weakness": "ice",
-                        "special_effect": None, "directory_path": "images/monsters/fire_fly"},
+                        "special_effect": None, "directory_path": "images/monsters/fire_fly", "size": (50, 50),
+                        "animation_speed": 0.1},
            "horse_ghost": {"tier": 3, "element": "darkness", "health": 80, "speed": 1.3, "attack": 2.5,
                            "weakness": "light", "special_effect": "fear",
-                           "directory_path": "images/monsters/horse_ghost"},  # fear makes the player slower
+                           "directory_path": "images/monsters/horse_ghost", "size": (50, 50),
+                           "animation_speed": 0.1},  # fear makes the player slower
            "electric_fly": {"tier": 3, "element": "electricity", "health": 60, "speed": 1.7, "attack": 2,
                             "weakness": "ice", "special_effect": "shock",
-                            "directory_path": "images/monsters/electric_fly"},  # shock makes the player paralysed
+                            "directory_path": "images/monsters/electric_fly", "size": (50, 50),
+                            "animation_speed": 0.1},  # shock makes the player paralysed
            "myst_ghost": {"tier": 4, "element": "darkness", "health": 120, "speed": 1.5, "attack": 3,
                           "weakness": "light", "special_effect": "shoot",
-                          "directory_path": "images/monsters/myst_ghost"},
+                          "directory_path": "images/monsters/myst_ghost", "size": (50, 50),
+                          "animation_speed": 0.1},  # shoot makes the player lose health
            "electric_enemy": {"tier": 4, "element": "electricity", "health": 100, "speed": 1.8, "attack": 3,
                               "weakness": "ice", "special_effect": "explosion",
-                              "directory_path": "images/monsters/electric_enemy"}}
+                              "directory_path": "images/monsters/electric_enemy", "size": (50, 50),
+                              "animation_speed": 0.1}} # explosion makes the player lose health
 
 
 class Enemy(pygame.sprite.Sprite):

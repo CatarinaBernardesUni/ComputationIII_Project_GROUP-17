@@ -223,9 +223,9 @@ def execute_game(player, dog):
 
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
-                normal_fly = Enemy(player, enemies, "normal_fly", battle_area_rect)
+                green_slime = Enemy(player, enemies, "green_slime", battle_area_rect)
                 # adding the enemy to the group
-                enemies.add(normal_fly)
+                enemies.add(green_slime)
 
                 # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
                 enemy_cooldown = fps * 2
@@ -269,13 +269,13 @@ def execute_game(player, dog):
                     # removing the bullet from the screen after hitting the player
                     bullet.kill()
 
-            if normal_fly.health <= 0:
-                normal_fly.kill()
+            if green_slime.health <= 0:
+                green_slime.kill()
 
                 # player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
                 # player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
-            if player.rect.colliderect(normal_fly.rect):
+            if player.rect.colliderect(green_slime.rect):
                 # pygame.draw.rect(screen, red, player.rect)
                 # this "if" sees if the difference between the time the player is hit and the last time the
                 # player was hit is bigger than the time it needs to cooldown

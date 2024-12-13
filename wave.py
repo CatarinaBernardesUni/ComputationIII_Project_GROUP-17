@@ -5,11 +5,11 @@ from enemy import Enemy
 
 
 class WaveManager:
-    def __init__(self, player, sprite_group, enemies, battle_area_rect):
+    def __init__(self, player, enemies_group, enemies, battle_area_rect):
         self.current_wave = 0
         self.battle_area_rect = battle_area_rect
         self.enemies = enemies
-        self.sprite_group = sprite_group #todo: check if this attribute is really necessary
+        self.enemies_group = enemies_group
         self.player = player
         self.active_enemies = pygame.sprite.Group()
 
@@ -22,7 +22,7 @@ class WaveManager:
             {"electric_fly": 4, "myst_ghost": 1},  # Wave 6: 4 electric_flies, 1 myst_ghost
             {"myst_ghost": 2, "electric_enemy": 1},  # Wave 7: 2 myst_ghosts, 1 electric_enemy
             {"electric_enemy": 3, "myst_ghost": 2},  # Wave 8: 3 electric_enemies, 2 myst_ghosts
-        ] # todo: change this amounts to be more balanced
+        ]
 
     def start_next_wave(self):
         self.current_wave += 1
