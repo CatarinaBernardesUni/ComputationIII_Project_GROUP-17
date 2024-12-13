@@ -13,3 +13,4 @@ __pycache__/background.cpython-311.pyc
 /__pycache__
 /__pycache__
 /__pycache__
+*.pyc
