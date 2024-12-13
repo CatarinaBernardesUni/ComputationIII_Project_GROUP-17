@@ -1,6 +1,6 @@
 # Config file used to set global variables and other settings
 # COLORS AND PICTURES HERE FOR NOW
-from mouse_position import draw_button
+#from mouse_position import draw_button
 from progress import *
 
 # COLORS
