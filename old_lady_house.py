@@ -17,7 +17,7 @@ def old_lady_house_area(player):
     player_group.add(player)
 
     # setting the player initial position on the home
-    player.rect.center = (111, 265)
+    player.rect.center = (111, 253)
     player.state = "up"
 
     # these variables are for the speech bubble of the old lady
