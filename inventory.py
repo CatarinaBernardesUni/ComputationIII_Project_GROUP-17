@@ -6,15 +6,15 @@ from mouse_position import draw_button, get_mouse_position
 
 # creating a dictionary to store all my pictures for the visual inventory
 images_inventory = {
-                      'apple': pygame.image.load("images/inventory/apple.png"),
-                      'mushroom': pygame.image.load("images/inventory/mushroom.png"),
-                      'speed potion': pygame.image.load("images/inventory/potion.png"),
-                      'dog': pygame.image.load("images/inventory/doggy.png"),
-                      'soup': pygame.image.load("images/inventory/food.png"),
-                      'sword': pygame.image.load("images/inventory/sword.png"),
-                      'bow': pygame.image.load("images/inventory/bow.png"),
-                      'key': pygame.image.load("images/inventory/key.png")
-                    }
+    'apple': pygame.image.load("images/inventory/apple.png"),
+    'mushroom': pygame.image.load("images/inventory/mushroom.png"),
+    'speed potion': pygame.image.load("images/inventory/potion.png"),
+    'dog': pygame.image.load("images/inventory/doggy.png"),
+    'soup': pygame.image.load("images/inventory/food.png"),
+    'sword': pygame.image.load("images/inventory/sword.png"),
+    'bow': pygame.image.load("images/inventory/bow.png"),
+    'key': pygame.image.load("images/inventory/key.png")
+}
 
 # scale all images to the same size
 scaled_images_inventory = {item: pygame.transform.scale(image, (50, 50)) for item, image in images_inventory.items()}
@@ -29,7 +29,6 @@ def inventory_menu(player):
     # sets the color black to be transparent. so everywhere around it that was black before is now transparent
     in_background.set_colorkey((0, 0, 0))
     in_background = pygame.transform.scale(in_background, (1000, 300))
-
 
     while on_inventory:
         screen.blit(in_background, (width // 2 - 500, height - 300 - 200))
@@ -46,7 +45,6 @@ def inventory_menu(player):
 
         # storing each one of the items position and dimensions so i can use it later
         item_positions = []
-
 
         # displaying the items:
         current_x = first_x
@@ -95,6 +93,5 @@ def inventory_menu(player):
                     if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
                         # handle item usage
                         print(f"it is working {item}")
-
 
         pygame.display.update()

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="66">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="71">
  <tileset firstgid="1" source="atlas_16x 2.tsx"/>
  <tileset firstgid="769" source="CosyCabin_Objects_Simple 2.tsx"/>
  <tileset firstgid="4531" source="old lady16.tsx"/>
+ <objectgroup id="14" name="little easter egg">
+  <object id="70" x="63.6667" y="112.667" width="17" height="13"/>
+ </objectgroup>
  <layer id="1" name="first layer" width="80" height="45">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

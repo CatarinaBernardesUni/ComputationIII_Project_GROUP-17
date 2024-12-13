@@ -11,7 +11,8 @@ def old_lady_house_area(player):
     tmx_data = load_pygame("data/WE OLD LADY HOUSE/WE OLD LADY HOUSE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
      collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions on house",
-                                                                                "house exit", None, "old lady talks")
+                                                                                "house exit", "little easter egg",
+                                                                                "old lady talks")
     player_group = pygame.sprite.Group()
     player_group.add(player)
 
@@ -74,15 +75,23 @@ def old_lady_house_area(player):
             if not player_colliding:  # checks if it's the first time colliding
                 # this chooses a random speech from the list of speeches
                 current_speech = random.choice(old_lady_speech)
+                # current_speech = random.choice(old_lady_speech)
                 player_colliding = True  # indicates if collision is happening
             # this "display.blit" is outside the "if not" to keep showing the same current_speech that was set when
             # the player first collided with the old lady
-            display.blit(current_speech, (135, 40))
+            draw_button(display, 170, 80, 150, 100,
+                        current_speech, brick_color,
+                        "images/dialogs/dialog box medium.png", cutefont)
+            # display.blit(current_speech, (135, 40))
         else:
             # when the player stops colliding this is set to false so next time they collide the speech changes
             player_colliding = False
 
         # display.blit(player_score_surf, player_score_rect)
+        if clues_rect and clues_rect.colliderect(player.rect):
+            draw_button(display, 100, 100, 300, 100,
+                        "This is where your grandma stores her belongings.", brick_color,
+                        "images/inventory/inventory_menu.png", cutefont)
 
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
