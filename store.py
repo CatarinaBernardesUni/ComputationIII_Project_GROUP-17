@@ -134,7 +134,7 @@ def shop_menu(player):
         store_screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
 
         # setting up so my gold amount shows on store menu
-        gold_available = cutefont.render(f"My Gold: {player.gold}", True, brick_color)
+        gold_available = inventoryfont.render(f"My Gold: {player.gold}", True, brick_color)
         store_screen.blit(gold_available, (width // 2 - 310, height // 2 - 220))
 
         for event in pygame.event.get():
