@@ -4,6 +4,7 @@ import random
 import math
 import os
 
+# todo: add speed of animation and size
 enemies = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire", "special_effect": None, "directory_path": "images/monsters/slime_green"},
            "normal_fly": {"tier": 1, "element": None, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire", "special_effect": None, "directory_path": "images/monsters/normal_fly"},
            "fire_fly": {"tier": 2, "element": "fire", "health": 40, "speed": 1.5, "attack": 2, "weakness": "ice", "special_effect": None, "directory_path": "images/monsters/fire_fly"},
@@ -79,7 +80,7 @@ class Enemy(pygame.sprite.Sprite):
         # todo: should I add this to the update
         if self.special_effect == "fear":
             self.player.speed *= 0.5
-        elif self.special_effect == "shock":  # took out the enemy that had this
+        elif self.special_effect == "shock":
             self.player.stunned = True
         elif self.special_effect == "shoot":
             self.shoot()
