@@ -1,11 +1,14 @@
+
+
 from config import *
 
 
 class PowerUp(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, image):
         super().__init__()
-        self.image = power_up_invincibility
+        self.image = image
         self.rect = self.image.get_rect
+        self.active = False
 
     def affect_player(self):
         pass
@@ -14,7 +17,7 @@ class PowerUp(pygame.sprite.Sprite):
         pass
 
     def show(self):
-        pass
+        screen.blit(self.image, self.rect)
 
 
 class Invincibility(PowerUp):
