@@ -187,7 +187,7 @@ def execute_game(player, dog):
             return "cave"
 
         if player.just_left_cave:
-            player.rect.x -= 150
+            player.rect.x -= 140
             player.rect.y += 150
             player.just_left_cave = False
 

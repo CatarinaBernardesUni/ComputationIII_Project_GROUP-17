@@ -47,7 +47,7 @@ def inside_store(player):
     player_group.add(player)
 
     # setting the player initial position on the store
-    player.rect.center = (350, 320)
+    player.rect.center = (300, 320)
     player.state = "down"
 
     # creating an event loop

@@ -152,6 +152,10 @@ class Weapon(pygame.sprite.Sprite, ABC):
         player_position = pygame.Vector2(self.player.rect.center)
         self.player_direction = (mouse_position - player_position).normalize()
 
+    def track_enemy(self, enemy):
+        pass
+    # todo: finish this function
+
 ##########################################################################################################
 
 ########################### MECHANICS OF THE WEAPON ######################################################
