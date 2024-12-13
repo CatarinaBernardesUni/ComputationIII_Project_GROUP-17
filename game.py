@@ -187,8 +187,9 @@ def execute_game(player, dog):
             return "cave"
 
         if player.just_left_cave:
-            player.rect.x -= 140
-            player.rect.y += 150
+            #player.rect.x -= 135
+            #player.rect.y += 155
+            player.rect.center = (510, 445)
             player.just_left_cave = False
 
         # display.blit(player_score_surf, player_score_rect)
