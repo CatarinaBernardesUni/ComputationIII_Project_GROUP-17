@@ -352,7 +352,7 @@
   <object id="104" x="516.545" y="519.818" width="76.3636" height="7.27273"/>
   <object id="105" x="767.25" y="519.25" width="192" height="8.5"/>
   <object id="106" x="952.5" y="454.25" width="6.75" height="64"/>
-  <object id="107" x="708.5" y="252.375" width="25.5" height="36.125"/>
-  <object id="108" x="638.25" y="251.375" width="29.25" height="35.375"/>
+  <object id="107" x="708.5" y="252.375" width="25.5" height="28.7917"/>
+  <object id="108" x="638.25" y="251.375" width="29.25" height="29.375"/>
  </objectgroup>
 </map>

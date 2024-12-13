@@ -187,8 +187,9 @@ def execute_game(player, dog):
             return "cave"
 
         if player.just_left_cave:
-            player.rect.x -= 150
-            player.rect.y += 150
+            #player.rect.x -= 135
+            #player.rect.y += 155
+            player.rect.center = (510, 445)
             player.just_left_cave = False
 
         # display.blit(player_score_surf, player_score_rect)
@@ -213,7 +214,7 @@ def execute_game(player, dog):
         if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
             return "old lady house"
         if player.just_left_old_lady_house:
-            player.rect.center = (325, 160)
+            player.rect.center = (325, 170)
             player.just_left_old_lady_house = False
 
         # checking if the player is in the battle area
@@ -244,14 +245,14 @@ def execute_game(player, dog):
                 display.blit(enemy.image, enemy.rect.topleft + camera_offset)
 
             # drawing the bullet sprites # this display was also screen
-            for bullet in bullets:
+            #for bullet in bullets:
                 # bullet.draw(display)
-                pygame.draw.circle(
-                    display,
-                    bullet.color,
-                    (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
-                    bullet.radius
-                )
+                #pygame.draw.circle(
+                    #display,
+                    #bullet.color,
+                    #(bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
+                    #bullet.radius
+                #)
             # drawing the weapons
             # todo: put this back too
             # for weapon in weapon_group:

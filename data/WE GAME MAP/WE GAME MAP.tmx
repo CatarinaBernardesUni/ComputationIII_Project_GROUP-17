@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="683">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="685">
  <tileset firstgid="1" source="tileset_basic_terrain.tsx"/>
  <tileset firstgid="529" source="tileset_mountains.tsx"/>
  <tileset firstgid="1145" source="Objetos PRAIA.tsx"/>
@@ -301,7 +301,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="Objects">
+ <objectgroup id="3" name="Objects" locked="1">
   <object id="53" gid="1382" x="713.333" y="318.667" width="64" height="64"/>
   <object id="54" gid="1382" x="618.667" y="315.333" width="64" height="64"/>
   <object id="55" gid="1384" x="678.667" y="294.667" width="16" height="16"/>
@@ -683,7 +683,7 @@
   <object id="556" x="885.333" y="336" width="120" height="37.3333"/>
   <object id="557" x="652" y="326.667" width="102.667" height="45.3333"/>
   <object id="558" x="614.667" y="329.333" width="56.5" height="155.667"/>
-  <object id="559" x="506.667" y="486.5" width="120" height="15.8333"/>
+  <object id="559" x="503.334" y="497.167" width="120" height="15.8333"/>
   <object id="560" x="553.333" y="466.667" width="81.3333" height="34.6667"/>
   <object id="561" x="590.667" y="393.333" width="24" height="80"/>
   <object id="562" x="556" y="453.333" width="36" height="24"/>
@@ -754,7 +754,6 @@
   <object id="644" x="162" y="275.667" width="42" height="16.3333"/>
   <object id="645" x="207.667" y="65" width="58.3333" height="98.3333"/>
   <object id="646" x="268.333" y="28" width="3.33333" height="15.6667"/>
-  <object id="647" x="273.667" y="77" width="124" height="41"/>
   <object id="648" x="140" y="159.333" width="76.6667" height="37"/>
   <object id="650" x="457" y="83" width="75" height="91.3333"/>
   <object id="651" x="268.5" y="384"/>
@@ -773,6 +772,8 @@
   <object id="671" x="536.25" y="600.25" width="17.875" height="4.5"/>
   <object id="672" x="562" y="328.667" width="52" height="26"/>
   <object id="673" x="197.333" y="417.667" width="21" height="89.6667"/>
+  <object id="683" x="375" y="82" width="23.6667" height="53"/>
+  <object id="684" x="266.667" y="82" width="56" height="53.6667"/>
  </objectgroup>
  <objectgroup id="9" name="FIGHT AREA" locked="1">
   <object id="517" x="638.667" y="338.667" width="636" height="380"/>
@@ -785,8 +786,8 @@
  <objectgroup id="11" name="Flower Roof House" locked="1">
   <object id="674" x="458" y="83.3333" width="73.3333" height="90.6667"/>
  </objectgroup>
- <objectgroup id="12" name="Purple Roof House" locked="1">
-  <object id="675" x="273.333" y="77.3333" width="124" height="48.6667"/>
+ <objectgroup id="12" name="Purple Roof House">
+  <object id="675" x="335" y="120" width="33" height="13.3334"/>
  </objectgroup>
  <objectgroup id="13" name="Pink Roof House" locked="1">
   <object id="676" x="99.3333" y="114" width="42.6667" height="108.667"/>
