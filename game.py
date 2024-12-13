@@ -179,7 +179,6 @@ def execute_game(player, dog):
         # if player.rect.right >= width:
         # return "shed"
 
-
         weapon_group.update(frame_time)
 
         # checking if the player entered the cave
