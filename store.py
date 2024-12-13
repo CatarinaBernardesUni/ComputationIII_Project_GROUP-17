@@ -1,11 +1,7 @@
-from player import Player
-import pygame
 from config import *
 from pytmx.util_pygame import load_pygame
-from tile import Tile
 from mouse_position import button_data, show_hover_message, draw_button, get_mouse_position
 from utils import area_setup
-
 
 def inside_store(player):
 
@@ -64,7 +60,6 @@ def inside_store(player):
                 pygame.quit()
                 progress()
                 exit()
-
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if shop_button.collidepoint(display_mouse):
