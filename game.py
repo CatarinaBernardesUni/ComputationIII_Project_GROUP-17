@@ -1,6 +1,6 @@
 from dog import Dog
 from background import background_setup
-from power_up import PowerUp
+#from power_up import PowerUp
 from cave import cave_area
 from home import home_area
 from player import *
