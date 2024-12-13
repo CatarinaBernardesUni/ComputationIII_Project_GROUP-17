@@ -1,10 +1,9 @@
 from player import Player
-from mouse_position import get_mouse_position, draw_button
 import pygame
 from config import *
 from pytmx.util_pygame import load_pygame
 from tile import Tile
-from mouse_position import button_data, show_hover_message
+from mouse_position import button_data, show_hover_message, draw_button, get_mouse_position
 from utils import area_setup
 
 """
@@ -27,10 +26,6 @@ def store_setup(tmx_data_store):
 
 
 def inside_store(player):
-    # setting up a background
-    store_owner = pygame.image.load("images/store/store_owner.png")
-    store_owner = pygame.transform.scale(store_owner, (40, 40))
-    store_owner_position = (320, 225)
 
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
@@ -51,17 +46,14 @@ def inside_store(player):
     # adding the player to the group
     player_group.add(player)
 
-    # setting the player initial position on the cave
-    player.rect.center = (300, 320)
-    player.state = "up"
-
-    # setting up fonts for the text
-    cutefont = pygame.font.Font("fonts/Minecraft.ttf", 15)
+    # setting the player initial position on the store
+    player.rect.center = (350, 320)
+    player.state = "down"
 
     # creating an event loop
     running = True
     while running:
-        mouse = pygame.mouse.get_pos()
+        mouse = get_mouse_position()
         display_mouse = (mouse[0] * (display.get_width() / width), mouse[1] * (display.get_height() / height))
 
         clock.tick(fps)
@@ -70,19 +62,19 @@ def inside_store(player):
         for tile in tiles_group:
             display.blit(tile.image, tile.rect.topleft)
 
-        # displaying the store owner
-        display.blit(store_owner, store_owner_position)
-
+        # displaying the player but we cant move it
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft)
 
         # drawing the buttons
-        shop_button = draw_button(display, 177.5, 167.5, 95, 32.5, "shop", text_color=deep_black,
-                                  image_path="images/store/store_button.png", font=cutefont)
-        quit_shop_button = draw_button(display, 287.5, 167.5, 122.5, 32.5, "leave shop", text_color=deep_black,
-                                       image_path="images/store/store_button.png", font=cutefont)
-        draw_button(display, 177.5, 95, 225, 60, "welcome to the shop!", deep_black, "images/store/board.png",
-                    font=cutefont)
+        shop_button = draw_button(display, 212.5, 227.5, 50, 22, "shop", text_color=brick_color,
+                                  image_path="images/buttons/basic_button.png", font=cutefont)
+        quit_shop_button = draw_button(display, 277.5, 227.5, 50, 22, "exit", text_color=brick_color,
+                                       image_path="images/buttons/basic_button.png", font=cutefont)
+
+        # Writing the welcome message to the shop
+        draw_button(display, 187.5, 175, 150, 40, "welcome to the shop!", brick_color,
+                    "images/dialogs/dialog box big.png", font=cutefont)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for ev in pygame.event.get():
@@ -90,6 +82,7 @@ def inside_store(player):
                 pygame.quit()
                 progress()
                 exit()
+
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if shop_button.collidepoint(display_mouse):
@@ -109,7 +102,13 @@ def inside_store(player):
 
 def shop_menu(player):
     shopping = True
-    custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
+
+
+    # creating my player group so i can add later my dog to it:
+    # creating an empty group for the player (that was received as input)
+    player_group = pygame.sprite.Group()
+    # adding the player to the group
+    player_group.add(player)
 
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
@@ -135,7 +134,7 @@ def shop_menu(player):
         store_screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
 
         # setting up so my gold amount shows on store menu
-        gold_available = custom_font.render(f"My Gold: {player.gold}", True, brick_color)
+        gold_available = inventoryfont.render(f"My Gold: {player.gold}", True, brick_color)
         store_screen.blit(gold_available, (width // 2 - 310, height // 2 - 220))
 
         for event in pygame.event.get():
@@ -167,7 +166,15 @@ def shop_menu(player):
                 # LAST ROW
                 # DOG BUTTON
                 if 347 <= mouse_pos[0] <= 444 and 503 <= mouse_pos[1] <= 546:
-                    player.buy_item('dog')
+                    # allowing the player to only have one dog
+                    if player.inventory['dog'] == 1:
+                        print("Can only have one dog")
+                    else:
+                        player.buy_item('dog')
+                        if not player.dog.bought:
+                            player.dog.bought = True
+                            player_group.add(player.dog)
+
                 # SOUP BUTTON
                 if 499 <= mouse_pos[0] <= 600 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('soup')

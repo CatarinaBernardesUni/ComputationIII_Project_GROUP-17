@@ -1,6 +1,7 @@
 from utils import *
 from config import resolution, fps, width
 
+
 def battle_area(player):
     # setting up the background and the screen
     background = pygame.image.load("images/screens/Giant_Stump.png")
@@ -33,7 +34,7 @@ def battle_area(player):
         # displaying the farm background on the entirety of the screen and the house
         screen.blit(background, (0, 0))
 
-        screen.blit(player_score_surf, player_score_rect)
+        # screen.blit(player_score_surf, player_score_rect)
 
         # allowing the user to quit even tho they shouldn't because our game is perfect
         for event in pygame.event.get():
