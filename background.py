@@ -2,8 +2,8 @@ import pygame
 from config import *
 from tile import Tile
 from collision import CollisionObject
-from store import inside_store
-from player import Player
+#from store import inside_store
+#from player import Player
 
 
 def background_setup(tmx_data):
