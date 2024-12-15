@@ -218,6 +218,7 @@ def execute_game(player, dog):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
+            # player.shoot(bullets)
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
                 normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
@@ -317,15 +318,15 @@ def execute_game(player, dog):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()  # Update mouse position on click
-                # print("Mouse button down detected")
-                # print(f"Updated Mouse Position: {mouse_pos}")
+                print("Mouse button down detected")
+                print(f"Updated Mouse Position: {mouse_pos}")
                 if inventory_button.collidepoint(mouse_pos):
-                    # print("Inventory button clicked")
+                    print("Inventory button clicked")
                     inventory_menu(player)
                 else:
-                    # print("Mouse click not on button")
-                    # print(f"Button Rect: {inventory_button}")
-                    # print(f"Mouse Position: {mouse_pos}")
+                    print("Mouse click not on button")
+                    print(f"Button Rect: {inventory_button}")
+                    print(f"Mouse Position: {mouse_pos}")
 
         # updating the display
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left

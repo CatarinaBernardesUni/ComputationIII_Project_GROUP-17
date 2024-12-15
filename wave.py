@@ -4,6 +4,8 @@ from config import *
 
 from enemy import Enemy
 
+# todo: everything color related should be in config.py
+# todo: added to many display.flip(), how frequently should this be called?
 class WaveManager:
     def __init__(self, player, enemies, battle_area_rect):
 
@@ -15,6 +17,7 @@ class WaveManager:
         self.active_enemies = pygame.sprite.Group()
         self.enemies_defeated = 0
         self.total_enemies = 0
+        self.is_wave_active = False
 
         # Load wave counter frames
         self.beginning_frames = []
@@ -52,6 +55,7 @@ class WaveManager:
         self.possible_enemies = list(self.enemies_data.keys())
 
     def start_next_wave(self, display):
+        self.is_wave_active = True
         self.current_wave += 1
         self.enemies_defeated = 0
 
@@ -107,6 +111,9 @@ class WaveManager:
 
         return wave_config
 
+    def end_wave(self):
+        self.is_wave_active = False
+
     def reward_player(self, display):
         """Rewards the player and displays the reward message on the screen."""
         # Gold reward
@@ -125,7 +132,7 @@ class WaveManager:
         # Draw a "balloon" background
         balloon_rect = text_rect.inflate(20, 10)  # Add padding around the text
         pygame.draw.rect(display, (0, 0, 0), balloon_rect)  # Black rectangle as the balloon
-        pygame.draw.rect(display, (255, 255, 255), balloon_rect, 3)  # White border
+        pygame.draw.rect(display, white, balloon_rect, 3)  # White border
 
         # Blit text onto the screen
         display.blit(text_surface, text_rect)
@@ -177,6 +184,7 @@ class WaveManager:
         self.display_counter(display)
 
         if not self.active_enemies:
+            self.end_wave()
             self.display_wave_completed_message(display)
             self.reward_player(display)
             self.start_next_wave(display)
@@ -191,3 +199,46 @@ class WaveManager:
         elif drop_chance < 0.3:  # Additional 10% chance to drop a health boost
             print(f"Enemy {enemy.name} dropped a health potion!")
             self.player.health += 5
+
+    def show_wave_complete_popup(self, display):
+        font = pygame.font.Font("pixel_font.ttf", 36)
+        text_color = (255, 255, 255)
+
+        # Create popup message
+        message = "Wave Completed! Start next wave or leave?"
+        text_surface = font.render(message, True, text_color)
+        text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 2 - 50))
+
+        # Buttons for user choice
+        next_wave_button = pygame.Rect(display.get_width() // 2 - 100, display.get_height() // 2 + 50, 200, 50)
+        leave_button = pygame.Rect(display.get_width() // 2 - 100, display.get_height() // 2 + 120, 200, 50)
+
+        pygame.draw.rect(display, (0, 200, 0), next_wave_button)  # Green button for Next Wave
+        pygame.draw.rect(display, (200, 0, 0), leave_button)  # Red button for Leave
+
+        # Render buttons text
+        next_wave_text = font.render("Next Wave", True, (255, 255, 255))
+        leave_text = font.render("Leave", True, (255, 255, 255))
+
+        display.blit(text_surface, text_rect)
+        display.blit(next_wave_text, (next_wave_button.centerx - next_wave_text.get_width() // 2,
+                                      next_wave_button.centery - next_wave_text.get_height() // 2))
+        display.blit(leave_text, (leave_button.centerx - leave_text.get_width() // 2,
+                                  leave_button.centery - leave_text.get_height() // 2))
+
+        pygame.display.flip()
+
+        # Wait for player input to make a choice
+        choice_made = False
+        while not choice_made:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if next_wave_button.collidepoint(event.pos):
+                        self.wave_manager.start_next_wave()  # Start the next wave
+                        choice_made = True
+                    elif leave_button.collidepoint(event.pos):
+                        self.wave_manager.is_wave_active = False  # End the wave
+                        choice_made = True

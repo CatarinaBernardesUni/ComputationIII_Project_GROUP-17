@@ -142,10 +142,17 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             elif self.state == "right":
                 self.state = "idle_right"
 
+        # todo: ask Carolina if this is still needed
         if keys[pygame.K_SPACE]:
             pass
         self.animate()
         self.draw_hearts(display)
+
+    # todo: put this inside of the update
+    def dont_leave_battle(self, wave_manager, battle_area_rect):
+        if wave_manager.is_wave_active:
+            if self.rect.left < battle_area_rect.left:
+                self.rect.left = battle_area_rect.left
 
     def collision(self, direction, collision_sprites):
         for sprite in collision_sprites:
