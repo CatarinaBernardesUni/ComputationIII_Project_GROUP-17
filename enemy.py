@@ -6,7 +6,7 @@ import os
 
 enemies = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire",
                            "special_effect": None, "directory_path": "images/monsters/slime_green", "size": (100, 100),
-                           "animation_speed": 0.05, "inflate_parameters": (-100, -100)},
+                           "animation_speed": 0.05, "inflate_parameters": (-50, -50)},
 
            "normal_fly": {"tier": 1, "element": None, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire",
                           "special_effect": None, "directory_path": "images/monsters/normal_fly", "size": (50, 50),
@@ -78,7 +78,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def update_hitbox(self):
         """Align the hitbox with the rect."""
-        self.hitbox_rect.topleft = self.rect.topleft
+        self.hitbox_rect.center = self.rect.center
 
     def moves_towards_player(self):
         # determining the direction of the movement based on the player location
