@@ -10,6 +10,14 @@ from utils import *
 def interface():
     # initiating pygame
     pygame.init()
+
+    # initiating the music
+    pygame.mixer.init()
+    # load and play the music for the man menu
+    pygame.mixer.music.load("music/main_menu.mp3")
+    pygame.mixer.music.play(-1)  # -1 makes the music play in loop
+
+
     # creating the screen at the set resolution
     # screen = pygame.display.set_mode(resolution)  # show the user something
 
@@ -58,6 +66,10 @@ def interface():
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 517 <= mouse[0] <= 753 and 344 <= mouse[1] <= 429:
                     # wilderness_explorer()
+                    pygame.mixer.music.stop()
+                    # initializing the music for the main game
+                    pygame.mixer.music.load("music/Adventure.mp3")
+                    pygame.mixer.music.play(-1)
                     choose_character()
             # options button
             if ev.type == pygame.MOUSEBUTTONDOWN:

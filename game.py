@@ -94,6 +94,7 @@ def execute_game(player, dog):
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
     screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2, height // 2))
+    in_battle_area = False
 
     ############################### MAP ################################
 
@@ -219,6 +220,13 @@ def execute_game(player, dog):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
+            # initiating the battle area music:
+            if not in_battle_area:
+                in_battle_area = True
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("music/TheGreatBattle.mp3")
+                pygame.mixer.music.play(-1)
+
             # player.shoot(bullets)
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
@@ -285,6 +293,15 @@ def execute_game(player, dog):
 
             if info['health'] <= 0:
                 game_over()
+
+        # leaves battle area and music returns to normal game one
+        else:
+            if in_battle_area:
+                # Player has left the battle area
+                in_battle_area = False
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("music/Adventure.mp3")
+                pygame.mixer.music.play(-1)
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         # player_group.draw(display)
