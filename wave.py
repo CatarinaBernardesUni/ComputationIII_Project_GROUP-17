@@ -14,6 +14,11 @@ from utils import calculate_camera_offset
 class WaveManager:
     def __init__(self, player, enemies_data, battle_area_rect):
 
+        self.text_alpha = None
+        self.text_rect = None
+        self.text_surface = None
+        self.wave_text = None
+        self.wave_display_start_time = None
         self.font = pygame.font.Font("fonts/pixel_font.ttf", 32)
         self.battle_area_rect = battle_area_rect
         self.enemies_data = enemies_data
@@ -87,8 +92,8 @@ class WaveManager:
 
         self.total_enemies = sum(self.current_wave_config.values())  # Track total enemies
 
-    def activate_wave(self, display, event_display_start_wave_message):
-        """Activates the wave and displays the wave announcement."""
+    """def activate_wave(self, display, event_display_start_wave_message):
+        #Activates the wave and displays the wave announcement.
         if not self.is_wave_active:
             print(f"Activating wave {self.current_wave}!")
             self.is_wave_active = True
@@ -108,7 +113,41 @@ class WaveManager:
             pygame.draw.rect(display, white, balloon_rect, 3)  # White border
 
             # Blit text onto the screen
-            display.blit(text_surface, text_rect)
+            display.blit(text_surface, text_rect)"""
+
+    def activate_wave(self, display):
+        """Activates the wave animation using frame time."""
+        if not self.is_wave_active:
+            print(f"Activating wave {self.current_wave}!")
+            self.is_wave_active = True
+            self.animation_active = True
+            self.wave_display_start_time = pygame.time.get_ticks()  # Log the start time
+
+            # Prepare text and its properties
+            self.wave_text = f"Wave {self.current_wave} Starting!"
+            self.text_surface = self.font.render(self.wave_text, True, white)
+            self.text_rect = self.text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
+            self.text_alpha = 255  # Start fully opaque
+
+    def update_wave_animation(self, display, frame_time):
+        """Updates the wave animation and handles fading out the text."""
+        if self.animation_active:
+            elapsed_time = pygame.time.get_ticks() - self.wave_display_start_time
+
+            # Check if the animation should stop (5 seconds total)
+            if elapsed_time > 5000:
+                self.animation_active = False  # Stop the animation
+                return
+
+            # Calculate fade-out effect (255 -> 0 over 5 seconds)
+            self.text_alpha = max(0, 255 - int((elapsed_time / 5000) * 255))
+            # self.text_surface.set_alpha(self.text_alpha)
+
+            # Draw the text with fade effect
+            balloon_rect = self.text_rect.inflate(20, 10)  # Add padding around the text
+
+            # Blit the text onto the display
+            display.blit(self.text_surface, self.text_rect)
 
     def spawn_wave(self, wave_config):
         print(f"Spawning wave {self.current_wave} enemies...")

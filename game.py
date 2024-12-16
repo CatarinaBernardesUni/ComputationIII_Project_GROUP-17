@@ -214,15 +214,10 @@ def execute_game(player, dog):
             for weapon in weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                if event.type == event_display_start_wave_message:
-                    wave_manager.animation_active = False
-                    pygame.time.set_timer(event_display_start_wave_message, 0)
+            wave_manager.update_wave_animation(display, frame_time)
 
             if not wave_manager.is_wave_active:
-                wave_manager.activate_wave(display, event_display_start_wave_message)
+                wave_manager.activate_wave(display)
 
             wave_manager.active_enemies.update(frame_time)
             wave_manager.update(display, frame_time)
