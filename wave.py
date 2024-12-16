@@ -156,6 +156,7 @@ class WaveManager:
                     self.animation_active = False
                     # spawning the enemies here so that they are spawned only once
                     self.spawn_wave(self.current_wave_config)
+                    self.player.is_fighting = True
 
             # while it isn't time to display the next frame, keep displaying the current one - avoid blinking
             if self.current_frame:
@@ -169,3 +170,8 @@ class WaveManager:
             self.active_enemies.update(frame_time)
             for enemy in self.active_enemies:
                 display.blit(enemy.image, enemy.rect.topleft + self.camera_offset)
+
+            collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, True)
+            for enemy in collided_enemies:
+                enemy.health -= 5
+                # info['score'] += 1

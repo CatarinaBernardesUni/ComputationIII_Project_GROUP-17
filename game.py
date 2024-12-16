@@ -169,7 +169,7 @@ def execute_game(player, dog):
 
         # updating the player group and dog
         # so dog can appear on screen when bought
-        player_group.update(collision_sprites, display)
+        player_group.update(collision_sprites, battle_area_rect, display)
         if player.dog.bought:
             if player.dog not in player_group:
                 player_group.add(player.dog)
@@ -228,13 +228,6 @@ def execute_game(player, dog):
 
             wave_manager.update(display, frame_time)
 
-            # for enemy in wave_manager.active_enemies:
-                # display.blit(enemy.image, enemy.rect.topleft + camera_offset)
-
-            # wave_manager.activate_wave(display)
-
-            # player.shoot(bullets)
-
             # spawning enemies every two seconds
             # if enemy_cooldown <= 0:
                 # normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
@@ -247,12 +240,6 @@ def execute_game(player, dog):
             # updating the enemy cooldown
             # enemy_cooldown -= 1
 
-            # wave_manager.active_enemies.update(frame_time)
-            # weapon_group.update(frame_time)
-
-            # for weapon in weapon_group:
-                # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
-
             # drawing the bullet sprites # this display was also screen
             #for bullet in bullets:
                 # bullet.draw(display)
@@ -262,8 +249,6 @@ def execute_game(player, dog):
                     #(bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
                     #bullet.radius
                 #)
-            # drawing the weapons
-            # wave_manager.update(display, frame_time)
             # checking for collisions between player bullets and enemies
             # for bullet in bullets:
                 # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
