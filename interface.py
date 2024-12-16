@@ -85,6 +85,7 @@ def interface():
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 517 <= mouse[0] <= 753 and 344 <= mouse[1] <= 429:
                     # wilderness_explorer()
+                    # stopping the menu music
                     pygame.mixer.music.stop()
                     # initializing the music for the main game
                     pygame.mixer.music.load("music/Adventure.mp3")
