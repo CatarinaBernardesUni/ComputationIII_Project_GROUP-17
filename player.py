@@ -141,9 +141,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 self.state = "idle_left"
             elif self.state == "right":
                 self.state = "idle_right"
-
-        if keys[pygame.K_SPACE]:
-            pass
         self.animate()
         self.draw_hearts(display)
 

@@ -107,7 +107,12 @@ class Chest(PowerUp):
     def __init__(self, pos, image):
         super().__init__(pos, image, duration=5000)
 
-    def chest_choices(self):
+    def affect_player(self, player):
+        chest = True
+        screen.blit(chest_choice, ((width - 1000) // 2, (height - 300) // 2))
+        screen.blit(pick_powerup, (width // 2 - 200, 10))
+
+        # CHEST CHOICES HERE
         powerup_manager = PowerUpManager(width, height)
         filtered_power_ups = []
         for power_up in powerup_manager.power_up_types:
@@ -128,17 +133,7 @@ class Chest(PowerUp):
             x_pos = x_start + i * spacing  # Calculate x position
             screen.blit(image, (x_pos, y_start))
 
-    def affect_player(self, player):
-        chest = True
-        screen.blit(chest_choice, ((width - 1000) // 2, (height - 300) // 2))
-        screen.blit(pick_powerup, (width // 2 - 200, 10))
-        self.chest_choices()
         while chest:
-
-            # screen.blit(self.image, ((width - 1000) // 2, (height - 300) // 2))
-            # screen.blit()
-            # screen.blit()
-
             for event in pygame.event.get():
                 mouse = pygame.mouse.get_pos()
                 if event.type == pygame.QUIT:
@@ -146,11 +141,13 @@ class Chest(PowerUp):
                     pygame.quit()
                     exit()
                 # pygame.display.update()
-                """if event.type == pygame.MOUSEBUTTONDOWN:
-                    if 443 <= mouse[0] <= 610 and 112 <= mouse[1] <= 169:
-                        interface.interface()
-                    if 637 <= mouse[0] <= 802 and 112 <= mouse[1] <= 171:
-                        chest = False"""
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if 177 <= mouse[0] <= 429 and 247 <= mouse[1] <= 460:
+                        chest = False
+                    if 521 <= mouse[0] <= 770 and 247 <= mouse[1] <= 460:
+                        chest = False
+                    if 854 <= mouse[0] <= 1116 and 247 <= mouse[1] <= 460:
+                        chest = False
             pygame.display.update()
 
     def affect_game(self, player):
@@ -184,7 +181,7 @@ class PowerUpManager:
             {
                 "class": Chest,
                 "image": pygame.transform.scale(pygame.image.load("images/chests/chest_brown.png"), (50, 50)),
-                "probability": 0.05
+                "probability": 0.8
             },
             {
                 "class": De_Spawner,
@@ -194,7 +191,7 @@ class PowerUpManager:
             {
                 "class": Invisible,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (50, 50)),
-                "probability": 0.8
+                "probability": 0.05
             }
         ]
 
