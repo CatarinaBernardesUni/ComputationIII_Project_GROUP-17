@@ -1,5 +1,7 @@
 from config import *
 from pytmx.util_pygame import load_pygame
+
+from mouse_position import draw_button
 # from game import paused
 from utils import area_setup, paused
 
@@ -14,7 +16,7 @@ def cave_area(player):
     tmx_data = load_pygame("data/WE CAVE/WE CAVE.tmx")
     (background_sprite_group, tiles_group, objects_group,
      collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions on cave",
-                                                                                "cave exit", None, None)
+                                                                                "cave exit", None, "speech")
 
     ####################################################################
 
@@ -71,6 +73,14 @@ def cave_area(player):
         if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_cave = True
             return "main"
+
+        if speech_bubble_rect and speech_bubble_rect.colliderect(player.rect):
+            draw_button(display, 130, 80, 150, 100,
+                        "Did we fix it?", brick_color,
+                        "images/dialogs/dialog box medium mirrored.png", cutefont)
+            draw_button(display, 365, 60, 150, 100,
+                        "Yes, we did!!!", brick_color,
+                        "images/dialogs/dialog box medium.png", cutefont)
 
         # display.blit(player_score_surf, player_score_rect)
 

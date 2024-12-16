@@ -61,6 +61,8 @@ power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others
 power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50))
 power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (50, 50))
 
+chest_choice = pygame.transform.scale(pygame.image.load("images/chests/chest_choice.png"), (1000, 300))
+pick_powerup = pygame.transform.scale(pygame.image.load("images/chests/pick_powerup.png"), (400, 100))
 # SIZES
 player_size = (40, 40)
 dog_size = (30, 30)

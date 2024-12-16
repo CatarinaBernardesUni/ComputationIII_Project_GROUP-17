@@ -1,13 +1,15 @@
 from dog import Dog
 from background import background_setup
-#from power_up import PowerUp
+# from power_up import PowerUp
 from cave import cave_area
 from home import home_area
-from player import *
+from player import Player
 from enemy import Enemy
 import interface
+from power_up import *
 from progress import *
-from config import *
+# from config import *
+import config
 from pytmx.util_pygame import load_pygame
 from store import inside_store
 from utils import paused
@@ -86,7 +88,6 @@ def game_loop():
             current_state = inside_store(player)
 
 
-
 def execute_game(player, dog):
     # SETUP
     # using the clock to control the time frame.
@@ -94,12 +95,14 @@ def execute_game(player, dog):
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
     screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2, height // 2))
+    power_up_manager = PowerUpManager(width // 2, height // 2)
 
     ############################### MAP ################################
 
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
-     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect, old_lady_house_rect) = background_setup(tmx_data)
+     objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect,
+     old_lady_house_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -107,7 +110,6 @@ def execute_game(player, dog):
     player_group = pygame.sprite.Group()
     # adding the player to the group
     player_group.add(player)
-
     # creating an empty bullet group that will be given as input to the player.shoot() method
     bullets = pygame.sprite.Group()
     # creating an enemy group
@@ -137,9 +139,8 @@ def execute_game(player, dog):
 
         # drawing the inventory button
         # inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35, text="Inventory",
-                                       #text_color=brick_color, image_path="images/buttons/basic_button.png",
-                                       #font=cutefont)
-
+        # text_color=brick_color, image_path="images/buttons/basic_button.png",
+        # font=cutefont)
 
         # display.fill("black")
 
@@ -186,8 +187,8 @@ def execute_game(player, dog):
             return "cave"
 
         if player.just_left_cave:
-            #player.rect.x -= 135
-            #player.rect.y += 155
+            # player.rect.x -= 135
+            # player.rect.y += 155
             player.rect.center = (510, 445)
             player.just_left_cave = False
 
@@ -219,8 +220,16 @@ def execute_game(player, dog):
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player
+            power_up_manager.fight_area = battle_area_rect
             player.shoot(bullets)
+            # Update power-ups
+            power_up_manager.update(player)
 
+            # Draw power-ups
+            power_up_manager.draw(display, camera_offset)
+
+            # Handle collisions between player and power-ups
+            power_up_manager.handle_collision(player)
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
                 green_slime = Enemy(player, enemies, "green_slime", battle_area_rect)
@@ -244,18 +253,18 @@ def execute_game(player, dog):
                 display.blit(enemy.image, enemy.rect.topleft + camera_offset)
 
             # drawing the bullet sprites # this display was also screen
-            #for bullet in bullets:
-                # bullet.draw(display)
-                #pygame.draw.circle(
-                    #display,
-                    #bullet.color,
-                    #(bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
-                    #bullet.radius
-                #)
+            # for bullet in bullets:
+            # bullet.draw(display)
+            # pygame.draw.circle(
+            # display,
+            # bullet.color,
+            # (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
+            # bullet.radius
+            # )
             # drawing the weapons
             # todo: put this back too
             # for weapon in weapon_group:
-                # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
+            # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
             # checking for collisions between player bullets and enemies
             for bullet in bullets:
@@ -281,7 +290,7 @@ def execute_game(player, dog):
                 # player was hit is bigger than the time it needs to cooldown
                 if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
                     # here is missing showing hearts as health (I print the health to see if it's working)
-                    remove_health()
+                    player.remove_health(player)
                     player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
 
             if info['health'] <= 0:

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="109">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="114">
  <tileset firstgid="1" source="cave_tilesets/cave tiles.tsx"/>
  <tileset firstgid="1740" source="Cave objs.tsx"/>
  <tileset firstgid="1800" source="cave_tilesets/cave tiles 2.tsx"/>
@@ -354,5 +354,9 @@
   <object id="106" x="952.5" y="454.25" width="6.75" height="64"/>
   <object id="107" x="708.5" y="252.375" width="25.5" height="28.7917"/>
   <object id="108" x="638.25" y="251.375" width="29.25" height="29.375"/>
+  <object id="113" x="783" y="208.5" width="112.5" height="55.5"/>
+ </objectgroup>
+ <objectgroup id="12" name="speech">
+  <object id="109" x="785" y="259.5" width="12" height="9"/>
  </objectgroup>
 </map>

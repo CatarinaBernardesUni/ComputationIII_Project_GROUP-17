@@ -14,12 +14,6 @@ from dog import Dog
 
 
 # making a player a child of the Sprite class
-
-def remove_health():
-    if info['health'] >= 0:
-        info['health'] -= 1
-
-
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def __init__(self):
@@ -46,7 +40,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.just_left_old_lady_house = False
         self.just_left_home = False
         self.just_left_store = False
-        self.speed = 1.8
+        self.speed = 4
         self.health = info['health']
 
         self.max_health = 5
@@ -54,6 +48,11 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.bullet_cooldown = 0
         self.damage_cooldown = 0  # Initial cooldown time
         self.cooldown_duration = 2000  # Cooldown duration in milliseconds
+
+        # POWER-UPS
+        self.new_speed = 4
+        self.invincible = False
+        self.active_power_ups = []
 
         # INVENTORY AND MONEY (GOLD) START WITH 200
         self.inventory = {'apple': 0,
@@ -192,9 +191,22 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         self.bullet_cooldown -= 1
 
+    def remove_health(self):
+        if not self.invincible:
+            if info['health'] >= 0:
+                info['health'] -= 1
+
     def get_health(self):  # we should use this if the player picks up hearts or something
         if info['health'] < self.max_health:
             info['health'] += 1
+
+    # the next 2 methods are for POWER-UPS
+    def apply_power_up(self, power_up):
+        self.active_power_ups.append(power_up)
+
+    def remove_power_up(self, power_up):
+        if power_up in self.active_power_ups:
+            self.active_power_ups.remove(power_up)
 
     def buy_item(self, item_name):
         # getting the item price from the price_items dictionary
