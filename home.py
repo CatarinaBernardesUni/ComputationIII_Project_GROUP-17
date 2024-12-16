@@ -3,6 +3,7 @@ from config import *
 from pytmx.util_pygame import load_pygame
 from utils import area_setup
 from utils import paused
+from mouse_position import draw_button
 
 
 def home_area(player):
@@ -16,7 +17,7 @@ def home_area(player):
     (background_sprite_group, tiles_group, objects_group,
      collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions on home", "home "
                                                                                                                 "exit",
-                                                                                None, None)
+                                                                                "clue", None)
 
     ####################################################################
 
@@ -29,8 +30,13 @@ def home_area(player):
     player.rect.center = (385, 550)
     player.state = "down"
 
+    # check if the chest is collected
+    chest_opened = False
+    first_chest_show = False
+
     ###################################### MAIN GAME LOOP #######################################
     running = True
+
     while running:
         # controlling the frame rate
         frame_time = clock.tick(fps)
@@ -73,6 +79,31 @@ def home_area(player):
         if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_home = True
             return "main"
+
+        if clues_rect and clues_rect.colliderect(player.rect):
+            print(f"Chest opened: {chest_opened}, First message shown: {first_chest_show}")
+            if not chest_opened and not first_chest_show:
+                draw_button(display, 100, 200, 320, 100,
+                            "100 gold gleams in your grasp, but beware its price.", brick_color,
+                            "images/inventory/inventory_menu.png", cutefont)
+                player.add_gold(100)
+                chest_opened = True
+                first_chest_show = True
+
+            # if the player bumps into the chest again, it does not let it collect the prize again
+            elif chest_opened:
+                 # only show 2nd message when 1st was shown
+                if not first_chest_show:
+                    draw_button(display, 100, 200, 320, 100,
+                                "The prize is already in your possession", brick_color,
+                                "images/inventory/inventory_menu.png", cutefont)
+
+        # resets the message state once the player moves away
+        elif clues_rect and not clues_rect.colliderect(player.rect):
+            print("Player moved away from chest.")
+            if not clues_rect.colliderect(player.rect):
+                first_chest_show = False
+
 
         # display.blit(player_score_surf, player_score_rect)
 

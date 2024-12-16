@@ -10,12 +10,39 @@ from utils import *
 def interface():
     # initiating pygame
     pygame.init()
+
+    # initiating the music
+    pygame.mixer.init()
+    # load and play the music for the man menu
+    pygame.mixer.music.load("music/main_menu.mp3")
+    pygame.mixer.music.play(-1)  # -1 makes the music play in loop
+
+
     # creating the screen at the set resolution
     # screen = pygame.display.set_mode(resolution)  # show the user something
 
     # this was in the execute game function, I put it here to change the title of the window even if we
     # don't click in the "start game"
     pygame.display.set_caption("Game Name")  # set the title of the window
+
+    ########################### SETTING UP CURSOR ####################################
+    # Load the custom cursor image
+    cursor_image = pygame.image.load("mouse/mouse_trial.png")
+
+    #Loading the cursor to a bigger size
+    cursor_image = pygame.transform.scale(cursor_image, (32, 32))
+
+    # Create a surface for the cursor
+    cursor_surface = pygame.Surface((32, 32), pygame.SRCALPHA)
+    cursor_surface.blit(cursor_image, (0, 0))
+
+    # creating a mandatory cursor object to be able to use it as a cursor later
+    cursor = pygame.cursors.Cursor((0, 0), cursor_surface)
+
+    # Set the custom cursor as our default
+    pygame.mouse.set_cursor(cursor)
+
+    ########################################################################
 
     # setting the fonts
     corbelfont = pygame.font.SysFont("Corbel", 50)
@@ -58,6 +85,10 @@ def interface():
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 517 <= mouse[0] <= 753 and 344 <= mouse[1] <= 429:
                     # wilderness_explorer()
+                    pygame.mixer.music.stop()
+                    # initializing the music for the main game
+                    pygame.mixer.music.load("music/Adventure.mp3")
+                    pygame.mixer.music.play(-1)
                     choose_character()
             # options button
             if ev.type == pygame.MOUSEBUTTONDOWN:
