@@ -774,8 +774,8 @@
   <object id="683" x="375" y="82" width="23.6667" height="53"/>
   <object id="684" x="266.667" y="82" width="56" height="53.6667"/>
  </objectgroup>
- <objectgroup id="9" name="FIGHT AREA" locked="1">
-  <object id="517" x="638.667" y="338.667" width="636" height="380"/>
+ <objectgroup id="9" name="FIGHT AREA">
+  <object id="517" x="638.667" y="338.667" width="637" height="380"/>
  </objectgroup>
  <objectgroup id="10" name="Markers">
   <object id="628" name="Player" x="1098.67" y="166.667">

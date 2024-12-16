@@ -32,7 +32,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.image = pygame.Surface(player_size)  # we use surface to display any image or draw
         # area where the player will be drawn
         self.rect = self.image.get_rect()
-        # todo: centering the player in its rectangle?
         # initial position of the player
         self.rect.center = (1150, 150)
         # making the hitbox smaller than the player image
@@ -142,9 +141,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             elif self.state == "right":
                 self.state = "idle_right"
 
-        # todo: ask Carolina if this is still needed
-        if keys[pygame.K_SPACE]:
-            pass
         self.animate()
         self.draw_hearts(display)
 

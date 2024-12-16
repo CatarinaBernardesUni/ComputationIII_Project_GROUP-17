@@ -8,7 +8,7 @@ from tile import Tile
 def paused():
     pause = True
     while pause:
-        screen.blit(pause_image, (0, 0))  # todo: change the amount of different variables called screen
+        screen.blit(pause_image, (0, 0))
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
@@ -161,3 +161,14 @@ def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
 
     return (background_sprite_group, tiles_group, objects_group,
             collision_sprites, exit_rect, speech_bubble_rect, clues_rect)
+
+def calculate_camera_offset(player, display):
+    camera_x = player.rect.centerx - display.get_width() // 2
+    camera_y = player.rect.centery - display.get_height() // 2
+
+    # Clamp the camera within the map boundaries
+    camera_x = max(0, min(camera_x, width - display.get_width()))
+    camera_y = max(0, min(camera_y, height - display.get_height()))
+
+    camera_offset = pygame.Vector2(-camera_x, -camera_y)
+    return camera_offset

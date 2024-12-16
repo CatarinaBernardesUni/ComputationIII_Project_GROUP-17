@@ -4,7 +4,7 @@ import random
 import math
 import os
 
-enemies = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire",
+enemies_data = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire",
                            "special_effect": None, "directory_path": "images/monsters/slime_green", "size": (100, 100),
                            "animation_speed": 0.05, "inflate_parameters": (-50, -50)},
 
@@ -41,7 +41,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, player, groups, enemy_name, battle_area_rect):
         super().__init__(groups)
 
-        enemy_data = enemies[enemy_name]
+        enemy_data = enemies_data[enemy_name]
         self.name = enemy_name
         self.tier = enemy_data["tier"]
         self.element = enemy_data["element"]
@@ -56,6 +56,7 @@ class Enemy(pygame.sprite.Sprite):
         self.inflate_parameters = enemy_data["inflate_parameters"]
         # Reference to player for targeting
         self.player = player
+        self.battle_area_rect = battle_area_rect
 
         # Load enemy images
         self.frames = []
@@ -66,15 +67,18 @@ class Enemy(pygame.sprite.Sprite):
 
         self.current_frame_index = 0
         self.image = self.frames[self.current_frame_index]
-        self.rect = self.image.get_rect()
 
+        # starting the enemy at random valid location on the screen (inside the battle area rect)
+        spawn_x = random.randint(
+            max(self.battle_area_rect.left, self.player.rect.x - 400),
+            min(self.battle_area_rect.right, self.player.rect.x + 400)
+        )
+        spawn_y = random.randint(
+            max(self.battle_area_rect.top, self.player.rect.y - 400),
+            min(self.battle_area_rect.bottom, self.player.rect.y + 400)
+        )
+        self.rect = self.image.get_rect(topleft=(spawn_x, spawn_y))
         self.hitbox_rect = self.rect.inflate(self.inflate_parameters[0], self.inflate_parameters[1])
-
-        # starting the enemy at random valid location on the screen
-        # todo: verify that this is ensuring that the enemies only spawn in the rectangle IT IS NOT
-        # todo: monsters are dying when they collide with the rect
-        # self.rect.x = random.randint(0, battle_area_rect.x - enemy_size[0])
-        # self.rect.y = random.randint(0, battle_area_rect.y - enemy_size[-1])
 
     def update_hitbox(self):
         """Align the hitbox with the rect."""

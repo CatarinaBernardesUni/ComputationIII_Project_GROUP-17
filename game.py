@@ -4,14 +4,15 @@ from background import background_setup
 from cave import cave_area
 from home import home_area
 from player import *
-from enemy import Enemy
+from enemy import Enemy, enemies_data
 import interface
 from progress import *
 from config import *
 from pytmx.util_pygame import load_pygame
 from store import inside_store
-from utils import paused
+from utils import paused, calculate_camera_offset
 from old_lady_house import old_lady_house_area
+from wave import WaveManager
 from weapon import *
 from mouse_position import get_mouse_position, draw_button
 from inventory import inventory_menu
@@ -85,8 +86,6 @@ def game_loop():
         elif current_state == "store":
             current_state = inside_store(player)
 
-
-
 def execute_game(player, dog):
     # SETUP
     # using the clock to control the time frame.
@@ -120,13 +119,20 @@ def execute_game(player, dog):
     # dagger = Sword(player, weapon_group, "dagger")
     # winter_sword = Sword(player, weapon_group, "winter_sword")
 
-    # ghost_bow = Bow(player, weapon_group, "ghost_bow") #too fast and flipped the wrong way
+    # ghost_bow = Bow(player, weapon_group, "ghost_bow")
     # ice_bow = Bow(player, weapon_group, "ice_bow")
     # light_bow = Bow(player, weapon_group, "light_bow")
 
-    # gold_axe = Axe(player, weapon_group, "gold_axe") #flipping is also a bit weird
+    # gold_axe = Axe(player, weapon_group, "gold_axe")
     ruby_axe = Axe(player, weapon_group, "ruby_axe")
 
+    # creating an instance of the wave (it is only going to start once the player enters the battle area)
+    wave_manager = WaveManager(player, enemies_data, battle_area_rect)
+
+    # we can't create this in the loop, or it will create a new one in every iteration
+    wave_manager.start_next_wave()
+
+    event_display_start_wave_message = pygame.USEREVENT + 0
     ###################################### MAIN GAME LOOP #######################################
     running = True
     while running:
@@ -144,22 +150,14 @@ def execute_game(player, dog):
         # display.fill("black")
 
         ################################ Calculate camera offset  #######################
-        camera_x = player.rect.centerx - display.get_width() // 2
-        camera_y = player.rect.centery - display.get_height() // 2
-
-        # Clamp the camera within the map boundaries
-        camera_x = max(0, min(camera_x, width - display.get_width()))
-        camera_y = max(0, min(camera_y, height - display.get_height()))
-
-        camera_offset = pygame.Vector2(-camera_x, -camera_y)
+        camera_offset = calculate_camera_offset(player, display)
         ###################################################################################
 
         # draw the tiles
-        # tiles_group.draw(display)
         for tile in tiles_group:
             display.blit(tile.image, tile.rect.topleft + camera_offset)
         animated_tiles_group.update(frame_time * 3)
-        # animated_tiles_group.draw(display)
+
         for animated_tile in animated_tiles_group:
             display.blit(animated_tile.image, animated_tile.rect.topleft + camera_offset)
 
@@ -174,12 +172,6 @@ def execute_game(player, dog):
             if player.dog not in player_group:
                 player_group.add(player.dog)
             player.dog.follow_player()
-
-        # checking if the player moved off-screen from the right to the left area
-        # if player.rect.right >= width:
-        # return "shed"
-
-        weapon_group.update(frame_time)
 
         # checking if the player entered the cave
         if cave_entrance_rect and cave_entrance_rect.colliderect(player.rect):
@@ -218,28 +210,44 @@ def execute_game(player, dog):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
-            # player.shoot(bullets)
+            weapon_group.update(frame_time)
+            for weapon in weapon_group:
+                display.blit(weapon.image, weapon.rect.topleft + camera_offset)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == event_display_start_wave_message:
+                    wave_manager.animation_active = False
+                    pygame.time.set_timer(event_display_start_wave_message, 0)
+
+            if not wave_manager.is_wave_active:
+                wave_manager.activate_wave(display, event_display_start_wave_message)
+
+            wave_manager.active_enemies.update(frame_time)
+            wave_manager.update(display, frame_time)
+
+            # for enemy in wave_manager.active_enemies:
+                # display.blit(enemy.image, enemy.rect.topleft + camera_offset)
+
+            # wave_manager.activate_wave(display)
             # spawning enemies every two seconds
-            if enemy_cooldown <= 0:
-                normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
+            # if enemy_cooldown <= 0:
+                # normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
                 # adding the enemy to the group
-                enemies.add(normal_fly)
+                # enemies.add(normal_fly)
 
                 # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
-                enemy_cooldown = fps * 2
+                # enemy_cooldown = fps * 2
 
             # updating the enemy cooldown
-            enemy_cooldown -= 1
+            # enemy_cooldown -= 1
 
-            # updating the bullets group
-            bullets.update()
-            enemies.update(frame_time)
-            # todo: put this back
-            # weapon_group.update()
+            # wave_manager.active_enemies.update(frame_time)
+            # weapon_group.update(frame_time)
 
-            # enemies.draw(display)
-            for enemy in enemies:
-                display.blit(enemy.image, enemy.rect.topleft + camera_offset)
+            # for weapon in weapon_group:
+                # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
             # drawing the bullet sprites # this display was also screen
             #for bullet in bullets:
@@ -251,40 +259,37 @@ def execute_game(player, dog):
                     #bullet.radius
                 #)
             # drawing the weapons
-            # todo: put this back too
-            # for weapon in weapon_group:
-                # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
-
+            # wave_manager.update(display, frame_time)
             # checking for collisions between player bullets and enemies
-            for bullet in bullets:
+            # for bullet in bullets:
                 # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-                collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
-                                                               True)  # True means kill upon impact
-                for enemy in collided_enemies:
+                # collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
+                                                               # True)  # True means kill upon impact
+                # for enemy in collided_enemies:
                     # enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
-                    enemy.health -= 5
-                    info['score'] += 1
+                    # enemy.health -= 5
+                    # info['score'] += 1
                     # removing the bullet from the screen after hitting the player
-                    bullet.kill()
+                    # bullet.kill()
 
-            if normal_fly.health <= 0:
-                normal_fly.kill()
+            # if normal_fly.health <= 0:
+                # normal_fly.kill()
 
                 # player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
                 # player_score_rect = player_score_surf.get_rect(center=(65, 55))
 
-            if player.rect.colliderect(normal_fly.rect):
+            # if player.rect.colliderect(normal_fly.rect):
                 # pygame.draw.rect(screen, red, player.rect)
                 # this "if" sees if the difference between the time the player is hit and the last time the
                 # player was hit is bigger than the time it needs to cooldown
-                if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
+                # if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
                     # here is missing showing hearts as health (I print the health to see if it's working)
-                    remove_health()
-                    player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
+                    # remove_health()
+                    # player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
 
             if info['health'] <= 0:
                 game_over()
-
+            # wave_manager.update(display, frame_time)
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         # player_group.draw(display)
         for sprite in player_group:
@@ -293,9 +298,6 @@ def execute_game(player, dog):
         # collision_sprites.draw(display)
         for sprite in collision_sprites:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
-
-        for weapon in weapon_group:
-            display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
         # drawing the inventory button
         inventory_button = draw_button(display, (width // 2) - 80 - 10, y=10, width=70, height=35,
