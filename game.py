@@ -318,16 +318,8 @@ def execute_game(player, dog):
                     inventory_menu(player)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                #mouse_pos = pygame.mouse.get_pos()  # Update mouse position on click
-                print("Mouse button down detected")
-                print(f"Updated Mouse Position: {scaled_mouse_pos}")
                 if inventory_button.collidepoint(scaled_mouse_pos):
-                    print("Inventory button clicked")
                     inventory_menu(player)
-                else:
-                    print("Mouse click not on button")
-                    print(f"Button Rect: {inventory_button}")
-                    print(f"Mouse Position: {scaled_mouse_pos}")
 
         # updating the display
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
