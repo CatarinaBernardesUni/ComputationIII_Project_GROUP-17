@@ -1,20 +1,67 @@
 import random
-import pygame
+import os
+
+import pygame.time
+
+from config import *
 
 from enemy import Enemy
+from utils import calculate_camera_offset
 
 
+# todo: everything color related should be in config.py
+# todo: added too many display.flip(), how frequently should this be called?
 class WaveManager:
-    def __init__(self, player, enemies_group, enemies, battle_area_rect):
-        self.current_wave = 0
+    def __init__(self, player, enemies_data, battle_area_rect):
+
+        self.font = pygame.font.Font("fonts/pixel_font.ttf", 32)
         self.battle_area_rect = battle_area_rect
-        self.enemies = enemies
-        self.enemies_group = enemies_group
+        self.enemies_data = enemies_data
         self.player = player
         self.active_enemies = pygame.sprite.Group()
+        self.current_wave = 0
+        self.enemies_defeated = 0
+        self.total_enemies = 0
+        self.is_wave_active = False
+        self.current_wave_config = None
+        self.animation_countdown = 0
+
+        self.camera_offset = None
+
+        #################### HELL ATTRIBUTES ####################
+        self.wave_timer = 0  # Initialize wave timer
+
+        self.animation_index = 0
+        self.animation_timer = 0  # Track time for frame updates
+
+        self.animation_active = False
+        #########################################################
+
+        # Load wave counter frames
+        self.beginning_frames = []
+        self.progress_frames = []
+
+        base_images_path = "images"
+        wave_counter_path = os.path.join(base_images_path, "wave counter")
+        beginning_folder_path = os.path.join(wave_counter_path, "beginning")
+
+        # Load frames for beginning animation
+        for file_name in sorted(os.listdir(beginning_folder_path)):
+            frame_path = os.path.join(beginning_folder_path, file_name)
+            frame = pygame.image.load(frame_path).convert_alpha()
+            scaled_frame = pygame.transform.scale(frame, (250, 100))
+            self.beginning_frames.append(scaled_frame)
+
+        # Load progress frames
+        for file_name in sorted(os.listdir(wave_counter_path)):
+            frame_path = os.path.join(wave_counter_path, file_name)
+            if os.path.isfile(frame_path):
+                frame = pygame.image.load(frame_path).convert_alpha()
+                scaled_frame = pygame.transform.scale(frame, (250, 100))
+                self.progress_frames.append(scaled_frame)
 
         self.predefined_waves = [
-            {"green_slime": 3},  # Wave 1: 3 green_slimes
+            {"normal_fly": 13},  # Wave 1: 3 green_slimes
             {"green_slime": 5, "normal_fly": 2},  # Wave 2: 5 green_slimes, 2 normal_flies
             {"normal_fly": 5, "fire_fly": 3},  # Wave 3: 5 normal_flies, 3 fire_flies
             {"fire_fly": 4, "horse_ghost": 1},  # Wave 4: 4 fire_flies, 1 horse_ghost
@@ -24,51 +71,86 @@ class WaveManager:
             {"electric_enemy": 3, "myst_ghost": 2},  # Wave 8: 3 electric_enemies, 2 myst_ghosts
         ]
 
+        # Possible enemies for random waves
+        self.possible_enemies = list(self.enemies_data.keys())
+
     def start_next_wave(self):
+        self.is_wave_active = False
         self.current_wave += 1
-        print(f"Wave {self.current_wave} starting!") #todo: print this in a balloon on the screen
+        self.enemies_defeated = 0
 
         # there are 8 predefined waves, if we are out of them, generate a random wave
         if self.current_wave <= len(self.predefined_waves):
-            wave_config = self.predefined_waves[self.current_wave - 1]
+            self.current_wave_config = self.predefined_waves[self.current_wave - 1]
         else:
-            wave_config = self.generate_random_wave()
+            self.current_wave_config = self.generate_random_wave()
 
-        self.spawn_wave(wave_config)
+        self.total_enemies = sum(self.current_wave_config.values())  # Track total enemies
+
+    def activate_wave(self, display, event_display_start_wave_message):
+        """Activates the wave and displays the wave announcement."""
+        if not self.is_wave_active:
+            print(f"Activating wave {self.current_wave}!")
+            self.is_wave_active = True
+            self.animation_index = 0
+            self.animation_active = True
+            self.animation_timer = pygame.time.get_ticks()
+
+            pygame.time.set_timer(event_display_start_wave_message, 10000)
+
+            wave_text = f"Wave {self.current_wave} Starting!"
+            text_surface = self.font.render(wave_text, True, white)  # White text
+            text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
+
+            # Draw a "balloon" background
+            balloon_rect = text_rect.inflate(20, 10)  # Add padding around the text
+            pygame.draw.rect(display, deep_black, balloon_rect)  # Black rectangle as the balloon
+            pygame.draw.rect(display, white, balloon_rect, 3)  # White border
+
+            # Blit text onto the screen
+            display.blit(text_surface, text_rect)
 
     def spawn_wave(self, wave_config):
+        print(f"Spawning wave {self.current_wave} enemies...")
         for enemy_name, count in wave_config.items():
             for _ in range(count):
-                # Spawn the enemy
-                enemy = Enemy(self.player, self.sprite_group, enemy_name, self.player, self.battle_area_rect)
+                enemy = Enemy(self.player, self.active_enemies, enemy_name, self.battle_area_rect)
+                print(f"Spawned {enemy_name}!")
                 self.active_enemies.add(enemy)
-                self.active_enemies.update()
 
-    #def generate_random_wave(self):
-        # the more waves you do the bigger they become
-        # todo: introduce a stopping point
-        #num_enemies = 3 + int(self.current_wave ** 1.2)
+    def display_counter(self, display):
+        # Calculate progress based on enemies defeated
+        if self.total_enemies > 0:
+            progress_index = min(
+                int((self.enemies_defeated / self.total_enemies) * (len(self.progress_frames) - 1)),
+                len(self.progress_frames) - 1,
+            )
+            progress_frame = self.progress_frames[progress_index]
 
-        # Generate a random wave configuration
-        #wave_config = {}
-        #for i in range(num_enemies):
-            #chosen_enemy = random.choices(possible_enemies, weights=weights, k=1)[0]
-            #wave_config[chosen_enemy] = wave_config.get(chosen_enemy, 0) + 1
+            # Display the progress frame
+            display.blit(progress_frame, (195, 7))  # Adjust position as needed
 
-        #return wave_config
+    def update(self, display, frame_time):
+        if self.animation_active:
+            self.animation_timer += frame_time
+            # Handle beginning frames animation
+            if self.animation_timer >= 240:
+                self.animation_timer -= 240
+                if self.animation_index < len(self.beginning_frames):
+                    frame = self.beginning_frames[self.animation_index]
+                    display.blit(frame, (195, 7))
+                    self.animation_index += 1
+                else:
+                    self.animation_active = False
+                    print("Animation completed.")
+                    # self.start_next_wave()
+                    self.spawn_wave(self.current_wave_config)
 
-    def update(self):
-        # Check if all enemies are defeated
-        if not self.active_enemies:
-            print(f"Wave {self.current_wave} completed!")
-            self.reward_player()
-            # todo: introduce a condition to start the next wave
-            self.start_next_wave()
+        if not self.animation_active:
+            self.camera_offset = calculate_camera_offset(self.player, display)
+            # Display progress bar after animation finishes
+            self.display_counter(display)
 
-    def reward_player(self):
-        print(f"Player receives a reward for completing wave {self.current_wave}!")
-        self.player.gold += 50
-        if random.random() < 0.3:
-            pass
-
-# todo: make a function that detects if an enemy died and has a percentage of dropping a reward
+            for enemy in self.active_enemies:
+                #print(f"Rendering enemy at {enemy.rect.topleft + self.camera_offset}")
+                display.blit(enemy.image, enemy.rect.topleft + self.camera_offset)

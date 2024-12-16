@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"health": 5, "score": 443, "coins": 0}
+=======
+{"health": 5, "score": 304, "coins": 0}
+>>>>>>> main

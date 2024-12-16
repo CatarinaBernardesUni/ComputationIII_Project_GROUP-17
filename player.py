@@ -26,7 +26,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.image = pygame.Surface(player_size)  # we use surface to display any image or draw
         # area where the player will be drawn
         self.rect = self.image.get_rect()
-        # todo: centering the player in its rectangle?
         # initial position of the player
         self.rect.center = (1150, 150)
         # making the hitbox smaller than the player image
@@ -141,8 +140,18 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 self.state = "idle_left"
             elif self.state == "right":
                 self.state = "idle_right"
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         self.animate()
         self.draw_hearts(display)
+
+    # todo: put this inside of the update
+    def dont_leave_battle(self, wave_manager, battle_area_rect):
+        if wave_manager.is_wave_active:
+            if self.rect.left < battle_area_rect.left:
+                self.rect.left = battle_area_rect.left
 
     def collision(self, direction, collision_sprites):
         for sprite in collision_sprites:

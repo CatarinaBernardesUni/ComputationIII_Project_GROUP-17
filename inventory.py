@@ -30,7 +30,6 @@ def inventory_menu(player):
     in_background.set_colorkey((0, 0, 0))
     in_background = pygame.transform.scale(in_background, (1000, 450))
 
-
     while on_inventory:
         screen.blit(in_background, (width // 2 - 500, height - 350 - 200))
 
