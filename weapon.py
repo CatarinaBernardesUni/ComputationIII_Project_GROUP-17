@@ -132,6 +132,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         Abstract method to animate the weapon.
         :param frame_time: clock running in the defined fps
         """
+        pass
 
     def update(self, frame_time):
         self.get_direction()

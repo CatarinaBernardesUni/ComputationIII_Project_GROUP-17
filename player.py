@@ -50,9 +50,10 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.cooldown_duration = 2000  # Cooldown duration in milliseconds
 
         # POWER-UPS
-        self.new_speed = 4
         self.invincible = False
         self.active_power_ups = []
+        self.invisible = False
+
 
         # INVENTORY AND MONEY (GOLD) START WITH 200
         self.inventory = {'apple': 0,

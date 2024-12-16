@@ -38,7 +38,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         pass
 
     @abstractmethod
-    def affect_game(self):
+    def affect_game(self, player):
         pass
 
 
@@ -49,7 +49,7 @@ class Invincibility(PowerUp):
     def affect_player(self, player):
         player.invincible = True
 
-    def affect_game(self):
+    def affect_game(self, player):
         pass
 
     def deactivate(self, player):
@@ -64,7 +64,7 @@ class Speed_Boost(PowerUp):
     def affect_player(self, player):
         player.speed += 2
 
-    def affect_game(self):
+    def affect_game(self, player):
         pass
 
     def deactivate(self, player):
@@ -72,18 +72,72 @@ class Speed_Boost(PowerUp):
         player.speed -= 2
 
 
-class Chest(PowerUp):
+class De_Spawner(PowerUp):
     def __init__(self, pos, image):
         super().__init__(pos, image, duration=5000)
 
     def affect_player(self, player):
+        pass
+
+    def affect_game(self, player):
+        pass
+
+    def deactivate(self, player):
+        super().deactivate(player)
+        pass
+
+
+class Invisible(PowerUp):
+    # enemies stop following the player
+    def __init__(self, pos, image):
+        super().__init__(pos, image, duration=5000)
+
+    def affect_player(self, player):
+        player.invisible = True
+
+    def affect_game(self, player):
+        pass
+
+    def deactivate(self, player):
+        super().deactivate(player)
+        player.invisible = False
+
+
+class Chest(PowerUp):
+    def __init__(self, pos, image):
+        super().__init__(pos, image, duration=5000)
+
+    def chest_choices(self):
+        powerup_manager = PowerUpManager(width, height)
+        filtered_power_ups = []
+        for power_up in powerup_manager.power_up_types:
+            if power_up["class"] != Chest:
+                filtered_power_ups.append(power_up)
+
+        # Select 3 unique random power-ups
+        choices = random.sample(filtered_power_ups, 3)
+
+        # Starting positions and spacing for blitting images
+        x_start = (width - 1000) // 2 + 50  # Starting x-coordinate
+        y_start = (height - 300) // 2 + 30  # Starting y-coordinate
+        spacing = 340  # Space between the images
+
+        # Loop through the selected choices and blit their images to the screen
+        for i, choice in enumerate(choices):
+            image = pygame.transform.scale(choice["image"], (200, 200))  # Access the image from the power-up dictionary
+            x_pos = x_start + i * spacing  # Calculate x position
+            screen.blit(image, (x_pos, y_start))
+
+    def affect_player(self, player):
         chest = True
+        screen.blit(chest_choice, ((width - 1000) // 2, (height - 300) // 2))
+        screen.blit(pick_powerup, (width // 2 - 200, 10))
+        self.chest_choices()
         while chest:
-            screen.blit(chest_choice, ((width - 1000) // 2, (height - 300) // 2))
-            screen.blit(pick_powerup, (width // 2 - 200, 10))
-            #screen.blit(self.image, ((width - 1000) // 2, (height - 300) // 2))
-            #screen.blit()
-            #screen.blit()
+
+            # screen.blit(self.image, ((width - 1000) // 2, (height - 300) // 2))
+            # screen.blit()
+            # screen.blit()
 
             for event in pygame.event.get():
                 mouse = pygame.mouse.get_pos()
@@ -99,14 +153,8 @@ class Chest(PowerUp):
                         chest = False"""
             pygame.display.update()
 
-    def affect_game(self):
+    def affect_game(self, player):
         pass
-
-
-"""
-class De_Spawner(PowerUp):
-
-"""
 
 
 class PowerUpManager:
@@ -126,17 +174,27 @@ class PowerUpManager:
             {
                 "class": Invincibility,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (50, 50)),
-                "probability": 0
+                "probability": 0.05
             },
             {
                 "class": Speed_Boost,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50)),
-                "probability": 0
+                "probability": 0.05
             },
             {
                 "class": Chest,
                 "image": pygame.transform.scale(pygame.image.load("images/chests/chest_brown.png"), (50, 50)),
-                "probability": 1
+                "probability": 0.05
+            },
+            {
+                "class": De_Spawner,
+                "image": pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (50, 50)),
+                "probability": 0.05
+            },
+            {
+                "class": Invisible,
+                "image": pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (50, 50)),
+                "probability": 0.8
             }
         ]
 
@@ -144,8 +202,6 @@ class PowerUpManager:
         """Set the bounds for the fight area where power-ups should spawn."""
         if isinstance(fight_area, pygame.Rect):
             self.fight_area = fight_area
-        else:
-            raise ValueError("fight_area must be a pygame.Rect!")
 
     def choose_power_up(self):
         """Choose a power-up class based on defined probabilities."""
@@ -187,9 +243,7 @@ class PowerUpManager:
     def draw(self, screen, camera_offset):
         """Draw all active power-ups on the screen."""
         for power_up in self.active_power_ups:
-            # Adjust position for camera offset
-            screen_position = power_up.rect.topleft + camera_offset
-            screen.blit(power_up.image, screen_position)
+            screen.blit(power_up.image, power_up.rect.topleft + camera_offset)
         # self.active_power_ups.draw(screen)
 
     def handle_collision(self, player):

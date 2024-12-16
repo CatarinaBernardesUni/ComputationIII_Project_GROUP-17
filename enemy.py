@@ -1,9 +1,10 @@
+from player import Player
 from config import *
 import pygame
 import random
 import math
 import os
-
+player = Player()
 enemies = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire",
                            "special_effect": None, "directory_path": "images/monsters/slime_green", "size": (100, 100),
                            "animation_speed": 0.1},
@@ -67,19 +68,20 @@ class Enemy(pygame.sprite.Sprite):
         # self.rect.y = random.randint(0, battle_area_rect.y - enemy_size[-1])
 
     def moves_towards_player(self):
-        # determining the direction of the movement based on the player location
-        dx = self.player.rect.x - self.rect.x
-        dy = self.player.rect.y - self.rect.y
+        if not player.invisible:
+            # determining the direction of the movement based on the player location
+            dx = self.player.rect.x - self.rect.x
+            dy = self.player.rect.y - self.rect.y
 
-        # getting the direction in radius
-        direction = math.atan2(dy, dx)
+            # getting the direction in radius
+            direction = math.atan2(dy, dx)
 
-        # moving the enemy towards the player --> like bullet
-        self.rect.x += self.speed * math.cos(direction)
-        self.rect.y += self.speed * math.sin(direction)
+            # moving the enemy towards the player --> like bullet
+            self.rect.x += self.speed * math.cos(direction)
+            self.rect.y += self.speed * math.sin(direction)
 
-        self.rect.x = int(self.rect.x)
-        self.rect.y = int(self.rect.y)
+            self.rect.x = int(self.rect.x)
+            self.rect.y = int(self.rect.y)
 
     def animate(self, frame_time):
         self.animation_speed += frame_time
