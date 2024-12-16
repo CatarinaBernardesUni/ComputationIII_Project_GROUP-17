@@ -219,12 +219,10 @@ def execute_game(player, dog):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
-            # automatically shoot bullets from the player
-            player.shoot(bullets)
-
+            # player.shoot(bullets)
             # spawning enemies every two seconds
             if enemy_cooldown <= 0:
-                normal_fly = Enemy(player, enemies, "normal_fly", battle_area_rect)
+                normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
                 # adding the enemy to the group
                 enemies.add(normal_fly)
 
