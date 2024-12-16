@@ -212,7 +212,13 @@ def execute_game(player, dog):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
-<<<<<<< HEAD
+            # initiating the battle area music:
+            if not in_battle_area:
+                in_battle_area = True
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("music/TheGreatBattle.mp3")
+                pygame.mixer.music.play(-1)
+
             weapon_group.update(frame_time)
             for weapon in weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
@@ -234,16 +240,9 @@ def execute_game(player, dog):
                 # display.blit(enemy.image, enemy.rect.topleft + camera_offset)
 
             # wave_manager.activate_wave(display)
-=======
-            # initiating the battle area music:
-            if not in_battle_area:
-                in_battle_area = True
-                pygame.mixer.music.stop()
-                pygame.mixer.music.load("music/TheGreatBattle.mp3")
-                pygame.mixer.music.play(-1)
 
             # player.shoot(bullets)
->>>>>>> CarolinaNeves
+
             # spawning enemies every two seconds
             # if enemy_cooldown <= 0:
                 # normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
@@ -302,9 +301,8 @@ def execute_game(player, dog):
 
             if info['health'] <= 0:
                 game_over()
-<<<<<<< HEAD
             # wave_manager.update(display, frame_time)
-=======
+
 
         # leaves battle area and music returns to normal game one
         else:
@@ -315,7 +313,6 @@ def execute_game(player, dog):
                 pygame.mixer.music.load("music/Adventure.mp3")
                 pygame.mixer.music.play(-1)
 
->>>>>>> CarolinaNeves
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         # player_group.draw(display)
         for sprite in player_group:
