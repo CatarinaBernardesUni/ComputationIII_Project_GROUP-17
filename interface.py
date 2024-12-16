@@ -25,6 +25,25 @@ def interface():
     # don't click in the "start game"
     pygame.display.set_caption("Game Name")  # set the title of the window
 
+    ########################### SETTING UP CURSOR ####################################
+    # Load the custom cursor image
+    cursor_image = pygame.image.load("mouse/mouse_trial.png")
+
+    #Loading the cursor to a bigger size
+    cursor_image = pygame.transform.scale(cursor_image, (32, 32))
+
+    # Create a surface for the cursor
+    cursor_surface = pygame.Surface((32, 32), pygame.SRCALPHA)
+    cursor_surface.blit(cursor_image, (0, 0))
+
+    # creating a mandatory cursor object to be able to use it as a cursor later
+    cursor = pygame.cursors.Cursor((0, 0), cursor_surface)
+
+    # Set the custom cursor as our default
+    pygame.mouse.set_cursor(cursor)
+
+    ########################################################################
+
     # setting the fonts
     corbelfont = pygame.font.SysFont("Corbel", 50)
     comicsansfont = pygame.font.SysFont("Comic Sans MS", 50)
