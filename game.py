@@ -130,7 +130,7 @@ def execute_game(player, dog):
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
 
-    # we can't create this in the loop, or it will create a new one in every iteration
+    # starting the first wave
     wave_manager.start_next_wave()
 
     event_display_start_wave_message = pygame.USEREVENT + 0
@@ -223,12 +223,9 @@ def execute_game(player, dog):
             for weapon in weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
-            wave_manager.update_wave_animation(display, frame_time)
-
             if not wave_manager.is_wave_active:
                 wave_manager.activate_wave(display)
 
-            wave_manager.active_enemies.update(frame_time)
             wave_manager.update(display, frame_time)
 
             # for enemy in wave_manager.active_enemies:

@@ -8,18 +8,9 @@ from config import *
 from enemy import Enemy
 from utils import calculate_camera_offset
 
-
-# todo: everything color related should be in config.py
-# todo: added too many display.flip(), how frequently should this be called?
 class WaveManager:
     def __init__(self, player, enemies_data, battle_area_rect):
 
-        self.text_alpha = None
-        self.text_rect = None
-        self.text_surface = None
-        self.wave_text = None
-        self.wave_display_start_time = None
-        self.font = pygame.font.Font("fonts/pixel_font.ttf", 32)
         self.battle_area_rect = battle_area_rect
         self.enemies_data = enemies_data
         self.player = player
@@ -29,17 +20,23 @@ class WaveManager:
         self.total_enemies = 0
         self.is_wave_active = False
         self.current_wave_config = None
-        self.animation_countdown = 0
 
         self.camera_offset = None
 
-        #################### HELL ATTRIBUTES ####################
-        self.wave_timer = 0  # Initialize wave timer
+        # Possible enemies for random waves
+        self.possible_enemies = list(self.enemies_data.keys())
 
+        #################### ANIMATION RELATED ATTRIBUTES ####################
+        self.font = pygame.font.Font("fonts/pixel_font.ttf", 32)
+        self.elapsed_time = 0
         self.animation_index = 0
-        self.animation_timer = 0  # Track time for frame updates
-
         self.animation_active = False
+        self.current_frame = None
+        self.text_alpha = None
+        self.text_rect = None
+        self.text_surface = None
+        self.wave_text = None
+        self.wave_display_start_time = 0
         #########################################################
 
         # Load wave counter frames
@@ -76,9 +73,6 @@ class WaveManager:
             {"electric_enemy": 3, "myst_ghost": 2},  # Wave 8: 3 electric_enemies, 2 myst_ghosts
         ]
 
-        # Possible enemies for random waves
-        self.possible_enemies = list(self.enemies_data.keys())
-
     def start_next_wave(self):
         self.is_wave_active = False
         self.current_wave += 1
@@ -92,69 +86,42 @@ class WaveManager:
 
         self.total_enemies = sum(self.current_wave_config.values())  # Track total enemies
 
-    """def activate_wave(self, display, event_display_start_wave_message):
-        #Activates the wave and displays the wave announcement.
-        if not self.is_wave_active:
-            print(f"Activating wave {self.current_wave}!")
-            self.is_wave_active = True
-            self.animation_index = 0
-            self.animation_active = True
-            self.animation_timer = pygame.time.get_ticks()
-
-            pygame.time.set_timer(event_display_start_wave_message, 10000)
-
-            wave_text = f"Wave {self.current_wave} Starting!"
-            text_surface = self.font.render(wave_text, True, white)  # White text
-            text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
-
-            # Draw a "balloon" background
-            balloon_rect = text_rect.inflate(20, 10)  # Add padding around the text
-            pygame.draw.rect(display, deep_black, balloon_rect)  # Black rectangle as the balloon
-            pygame.draw.rect(display, white, balloon_rect, 3)  # White border
-
-            # Blit text onto the screen
-            display.blit(text_surface, text_rect)"""
-
     def activate_wave(self, display):
-        """Activates the wave animation using frame time."""
+        """Activates the wave animation."""
         if not self.is_wave_active:
             print(f"Activating wave {self.current_wave}!")
             self.is_wave_active = True
             self.animation_active = True
-            self.wave_display_start_time = pygame.time.get_ticks()  # Log the start time
+            self.animation_index = 0  # Reset animation frame index
+            self.elapsed_time = 0  # Reset elapsed time
+            self.wave_display_start_time = pygame.time.get_ticks()  # Track start time
 
-            # Prepare text and its properties
+            # Prepare text properties
             self.wave_text = f"Wave {self.current_wave} Starting!"
             self.text_surface = self.font.render(self.wave_text, True, white)
             self.text_rect = self.text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
             self.text_alpha = 255  # Start fully opaque
 
-    def update_wave_animation(self, display, frame_time):
+    def update_wave_animation(self, display):
         """Updates the wave animation and handles fading out the text."""
         if self.animation_active:
             elapsed_time = pygame.time.get_ticks() - self.wave_display_start_time
 
-            # Check if the animation should stop (5 seconds total)
-            if elapsed_time > 5000:
-                self.animation_active = False  # Stop the animation
+            # Check if the animation should stop
+            if elapsed_time > 5500:
+                self.animation_active = False
                 return
 
-            # Calculate fade-out effect (255 -> 0 over 5 seconds)
-            self.text_alpha = max(0, 255 - int((elapsed_time / 5000) * 255))
-            # self.text_surface.set_alpha(self.text_alpha)
-
-            # Draw the text with fade effect
-            balloon_rect = self.text_rect.inflate(20, 10)  # Add padding around the text
-
-            # Blit the text onto the display
+            # Calculate fade-out effect (255 -> 0 over 8 seconds)
+            self.text_alpha = max(0, 255 - int((elapsed_time / 5500) * 255))
+            self.text_surface.set_alpha(self.text_alpha)
             display.blit(self.text_surface, self.text_rect)
 
     def spawn_wave(self, wave_config):
-        print(f"Spawning wave {self.current_wave} enemies...")
+        # print(f"Spawning wave {self.current_wave} enemies...")
         for enemy_name, count in wave_config.items():
             for _ in range(count):
                 enemy = Enemy(self.player, self.active_enemies, enemy_name, self.battle_area_rect)
-                print(f"Spawned {enemy_name}!")
                 self.active_enemies.add(enemy)
 
     def display_counter(self, display):
@@ -167,29 +134,38 @@ class WaveManager:
             progress_frame = self.progress_frames[progress_index]
 
             # Display the progress frame
-            display.blit(progress_frame, (195, 7))  # Adjust position as needed
+            display.blit(progress_frame, (195, 7))
 
     def update(self, display, frame_time):
+        """Updates the wave animation and ensures smooth transitions."""
+        # display the announcement of the wave
+        self.update_wave_animation(display)
+
+        # entrance animation for the wave counter
         if self.animation_active:
-            self.animation_timer += frame_time
-            # Handle beginning frames animation
-            if self.animation_timer >= 240:
-                self.animation_timer -= 240
+            # Increment elapsed time
+            self.elapsed_time += frame_time
+
+            if self.elapsed_time >= 180:
+                self.elapsed_time -= 180
                 if self.animation_index < len(self.beginning_frames):
-                    frame = self.beginning_frames[self.animation_index]
-                    display.blit(frame, (195, 7))
+                    self.current_frame = self.beginning_frames[self.animation_index]
                     self.animation_index += 1
                 else:
+                    # turns off the animation parameter and in the next iteration the wave will start
                     self.animation_active = False
-                    print("Animation completed.")
-                    # self.start_next_wave()
+                    # spawning the enemies here so that they are spawned only once
                     self.spawn_wave(self.current_wave_config)
 
-        if not self.animation_active:
+            # while it isn't time to display the next frame, keep displaying the current one - avoid blinking
+            if self.current_frame:
+                display.blit(self.current_frame, (195, 7))
+
+        else:
+            # once the animations are over, start the actual wave
             self.camera_offset = calculate_camera_offset(self.player, display)
-            # Display progress bar after animation finishes
             self.display_counter(display)
 
+            self.active_enemies.update(frame_time)
             for enemy in self.active_enemies:
-                #print(f"Rendering enemy at {enemy.rect.topleft + self.camera_offset}")
                 display.blit(enemy.image, enemy.rect.topleft + self.camera_offset)
