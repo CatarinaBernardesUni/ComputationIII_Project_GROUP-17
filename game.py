@@ -93,6 +93,7 @@ def execute_game(player, dog):
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
     screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2, height // 2))
+    in_battle_area = False
 
     ############################### MAP ################################
 
@@ -140,6 +141,7 @@ def execute_game(player, dog):
         frame_time = clock.tick(fps)
 
         mouse_pos = pygame.mouse.get_pos()
+        scaled_mouse_pos = (mouse_pos[0]//2, mouse_pos[1]//2)
 
         # drawing the inventory button
         # inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35, text="Inventory",
@@ -210,6 +212,7 @@ def execute_game(player, dog):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
+<<<<<<< HEAD
             weapon_group.update(frame_time)
             for weapon in weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
@@ -231,6 +234,16 @@ def execute_game(player, dog):
                 # display.blit(enemy.image, enemy.rect.topleft + camera_offset)
 
             # wave_manager.activate_wave(display)
+=======
+            # initiating the battle area music:
+            if not in_battle_area:
+                in_battle_area = True
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("music/TheGreatBattle.mp3")
+                pygame.mixer.music.play(-1)
+
+            # player.shoot(bullets)
+>>>>>>> CarolinaNeves
             # spawning enemies every two seconds
             # if enemy_cooldown <= 0:
                 # normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
@@ -289,7 +302,20 @@ def execute_game(player, dog):
 
             if info['health'] <= 0:
                 game_over()
+<<<<<<< HEAD
             # wave_manager.update(display, frame_time)
+=======
+
+        # leaves battle area and music returns to normal game one
+        else:
+            if in_battle_area:
+                # Player has left the battle area
+                in_battle_area = False
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("music/Adventure.mp3")
+                pygame.mixer.music.play(-1)
+
+>>>>>>> CarolinaNeves
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
         # player_group.draw(display)
         for sprite in player_group:
@@ -300,7 +326,7 @@ def execute_game(player, dog):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         # drawing the inventory button
-        inventory_button = draw_button(display, (width // 2) - 80 - 10, y=10, width=70, height=35,
+        inventory_button = draw_button(display, 550, y=10, width=70, height=35,
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
@@ -319,16 +345,8 @@ def execute_game(player, dog):
                     inventory_menu(player)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()  # Update mouse position on click
-                print("Mouse button down detected")
-                print(f"Updated Mouse Position: {mouse_pos}")
-                if inventory_button.collidepoint(mouse_pos):
-                    print("Inventory button clicked")
+                if inventory_button.collidepoint(scaled_mouse_pos):
                     inventory_menu(player)
-                else:
-                    print("Mouse click not on button")
-                    print(f"Button Rect: {inventory_button}")
-                    print(f"Mouse Position: {mouse_pos}")
 
         # updating the display
         screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
