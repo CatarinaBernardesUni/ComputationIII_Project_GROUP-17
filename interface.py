@@ -2,6 +2,7 @@ import pygame.display
 from game import *
 from config import *
 from utils import *
+import platform
 
 
 # from player import Player
@@ -10,6 +11,13 @@ from utils import *
 def interface():
     # initiating pygame
     pygame.init()
+
+    # changing the game icon
+    pygame_icon = pygame.image.load("images/chests/chest_with_gold.png")
+    pygame.display.set_icon(pygame_icon)
+    # set the title of the window
+    pygame.display.set_caption("Game Title")
+
 
     # initiating the music
     pygame.mixer.init()
@@ -23,7 +31,6 @@ def interface():
 
     # this was in the execute game function, I put it here to change the title of the window even if we
     # don't click in the "start game"
-    pygame.display.set_caption("Game Name")  # set the title of the window
 
     ########################### SETTING UP CURSOR ####################################
     # Load the custom cursor image
