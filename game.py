@@ -1,24 +1,22 @@
-from dog import Dog
-from background import background_setup
-# from power_up import PowerUp
-from cave import cave_area
-from home import home_area
-from player import Player
-from enemy import Enemy, enemies_data
+from pytmx.util_pygame import load_pygame
 
-import interface
-from power_up import *
-from progress import *
 # from config import *
 import config
-from pytmx.util_pygame import load_pygame
+import interface
+# from power_up import PowerUp
+from cave import cave_area
+from dog import Dog
+from enemy import enemies_data
+from home import home_area
+from inventory import inventory_menu
+from mouse_position import draw_button
+from old_lady_house import old_lady_house_area
+from power_up import *
 from store import inside_store
 from utils import paused, calculate_camera_offset
-from old_lady_house import old_lady_house_area
 from wave import WaveManager
 from weapon import *
-from mouse_position import get_mouse_position, draw_button
-from inventory import inventory_menu
+
 
 #player = Player()
 def choose_character():
