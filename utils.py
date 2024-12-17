@@ -3,6 +3,7 @@ import interface
 from config import *
 # from pytmx.util_pygame import load_pygame
 from tile import Tile
+from mouse_position import draw_button, get_mouse_position
 
 
 def paused():
@@ -22,6 +23,43 @@ def paused():
                 if 637 <= mouse[0] <= 802 and 112 <= mouse[1] <= 171:
                     pause = False
         pygame.display.update()
+
+def options_menu():
+    # Set up the display
+    screen = pygame.display.set_mode(resolution)
+
+    # setting a background
+    options_background = pygame.image.load("images/options/options_trial.png")
+
+    # music Bar properties
+    bar_width = 400
+    bar_height = 20
+    bar_x = (resolution[0] - bar_width) // 2
+    bar_y = (resolution[1] - bar_height) // 2
+    bar_value = 0.5  # Initial value of the music (0.0 to 1.0)
+
+    while True:
+        # getting the mouse position
+        mouse = get_mouse_position()
+
+        for ev in pygame.event.get():
+            if ev.type == pygame.QUIT:
+                pygame.quit()
+            #if ev.type == pygame.MOUSEBUTTONDOWN:
+                # checking if the back button was clicked
+                #if shop_button.collidepoint(mouse):
+                    #return
+
+        # Display the background
+        screen.blit(options_background, (0, 0))
+
+        # Draw the music bar and update its value
+        bar_value = music_bar(screen, bar_x, bar_y, bar_width, bar_height, bar_value)
+
+        # Update the display
+        pygame.display.flip()
+        progress()
+        pygame.quit()
 
 
 # Function to draw a stick figure with a construction hat

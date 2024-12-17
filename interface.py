@@ -98,10 +98,11 @@ def interface():
                     pygame.mixer.music.load("music/Adventure.mp3")
                     pygame.mixer.music.play(-1)
                     choose_character()
+
             # options button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 547 <= mouse[0] <= 719 and 517 <= mouse[1] <= 578:
-                    under_construction()
+                    options_menu()
 
             # rules button
             if ev.type == pygame.MOUSEBUTTONDOWN:

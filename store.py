@@ -32,6 +32,7 @@ def inside_store(player):
     running = True
     while running:
         mouse = get_mouse_position()
+        # was giving an error bc of the tiled, so we need to write this:
         display_mouse = (mouse[0] * (display.get_width() / width), mouse[1] * (display.get_height() / height))
 
         clock.tick(fps)

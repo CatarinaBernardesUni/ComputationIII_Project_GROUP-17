@@ -78,3 +78,22 @@ character_choice = "player 1"
 def progress():
     with open("player_info.txt", "w") as player_file:
         json.dump(info, player_file)
+
+
+def music_bar(screen, bar_x, bar_y, bar_width, bar_height, bar_value):
+    # Get the mouse position
+    mouse = pygame.mouse.get_pos()
+
+    for ev in pygame.event.get():
+        if ev.type == pygame.MOUSEBUTTONDOWN:
+            if bar_x <= mouse[0] <= bar_x + bar_width and bar_y <= mouse[1] <= bar_y + bar_height:
+                bar_value = (mouse[0] - bar_x) / bar_width
+                pygame.mixer.music.set_volume(bar_value)  # Adjust the volume
+
+    # Draw the main bar
+    pygame.draw.rect(screen, brick_color, (bar_x, bar_y, bar_width, bar_height))
+    # Draw the slider
+    slider_x = bar_x + (bar_value * bar_width) - (bar_height // 2)
+    pygame.draw.rect(screen, white, (slider_x, bar_y - (bar_height // 2), bar_height, bar_height * 2))
+
+    return bar_value
