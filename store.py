@@ -136,7 +136,10 @@ def shop_menu(player):
                     player.buy_item('mushroom')
                 # POTION BUTTON
                 if 670 <= mouse_pos[0] <= 766 and 291 <= mouse_pos[1] <= 334:
-                    player.buy_item('speed potion')
+                    if player.inventory['speed potion'] == 1:
+                        print("Can only have one speed potion")
+                    else:
+                        player.buy_item('speed potion')
                 # SWORD BUTTON
                 if 834 <= mouse_pos[0] <= 930 and 291 <= mouse_pos[1] <= 334:
                     player.buy_item('sword')
