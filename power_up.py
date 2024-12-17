@@ -57,11 +57,11 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 
     # abstract methods need to be implemented in the other child classes the power ups
     @abstractmethod
-    def affect_player(self, player):
+    def affect_game(self, player):
         pass
 
     @abstractmethod
-    def affect_game(self, player):
+    def affect_player(self, player):
         pass
 
 
@@ -69,10 +69,10 @@ class Invincibility(PowerUp):
     def __init__(self, pos, image):
         super().__init__(pos, image, duration=5000)
 
-    def affect_player(self, player):
+    def affect_game(self, player):
         player.invincible = True
 
-    def affect_game(self, player):
+    def affect_player(self, player):
         power_up_player_look(power_up_invincibility, player)
 
     def deactivate(self, player):
@@ -85,10 +85,10 @@ class Speed_Boost(PowerUp):
     def __init__(self, pos, image):
         super().__init__(pos, image, duration=5000)
 
-    def affect_player(self, player):
+    def affect_game(self, player):
         player.speed += 2
 
-    def affect_game(self, player):
+    def affect_player(self, player):
         power_up_player_look(power_up_speed, player)
 
     def deactivate(self, player):
@@ -102,10 +102,10 @@ class De_Spawner(PowerUp):
     def __init__(self, pos, image):
         super().__init__(pos, image, duration=5000)
 
-    def affect_player(self, player):
+    def affect_game(self, player):
         pass
 
-    def affect_game(self, player):
+    def affect_player(self, player):
         power_up_player_look(power_up_de_spawner, player)
 
     def deactivate(self, player):
@@ -118,10 +118,10 @@ class Invisible(PowerUp):
     def __init__(self, pos, image):
         super().__init__(pos, image, duration=5000)
 
-    def affect_player(self, player):
+    def affect_game(self, player):
         player.invisible = True
 
-    def affect_game(self, player):
+    def affect_player(self, player):
         power_up_player_look(power_up_invisible, player)
 
     def deactivate(self, player):
@@ -135,7 +135,7 @@ class Chest(PowerUp):
         super().__init__(pos, image, duration=5000)
         self.current_power_up = None
 
-    def affect_player(self, player):
+    def affect_game(self, player):
         chest = True
         screen.blit(chest_choice, ((width - 1000) // 2, (height - 300) // 2))
         screen.blit(pick_powerup, (width // 2 - 200, 10))
@@ -185,7 +185,7 @@ class Chest(PowerUp):
 
             pygame.display.update()
 
-    def affect_game(self, player):
+    def affect_player(self, player):
         pass
 
     def deactivate(self, player):
