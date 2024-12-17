@@ -151,7 +151,7 @@ class Chest(PowerUp):
         choices = random.sample(filtered_power_ups, 3)
 
         x_start = (width - 1000) // 2 + 50  # Starting x-coordinate
-        y_start = (height - 300) // 2 + 30  # Starting y-coordinate
+        y_start = (height - 300) // 2 + 35  # Starting y-coordinate
         spacing = 340  # Space between the images
 
         # Loop through the selected choices and blit their images to the screen

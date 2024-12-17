@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.just_left_old_lady_house = False
         self.just_left_home = False
         self.just_left_store = False
-        self.speed = 4
+        self.speed = 2
         self.health = info['health']
 
         self.max_health = 5
