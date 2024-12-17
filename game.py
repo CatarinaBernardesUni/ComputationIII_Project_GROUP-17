@@ -85,6 +85,8 @@ def game_loop():
             current_state = old_lady_house_area(player)
         elif current_state == "store":
             current_state = inside_store(player)
+        elif current_state == "game_over":
+            game_over()
 
 def execute_game(player, dog):
     # SETUP
@@ -271,8 +273,6 @@ def execute_game(player, dog):
 
             if info['health'] <= 0:
                 game_over()
-            # wave_manager.update(display, frame_time)
-
 
         # leaves battle area and music returns to normal game one
         else:

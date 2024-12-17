@@ -6,6 +6,7 @@ import pygame.time
 from config import *
 
 from enemy import Enemy
+from player import remove_health
 from utils import calculate_camera_offset
 
 class WaveManager:
@@ -168,18 +169,18 @@ class WaveManager:
             self.camera_offset = calculate_camera_offset(self.player, display)
             self.display_counter(display)
 
-            """self.player.active_weapon_group.update(frame_time)
-            for weapon in self.player.active_weapon_group:
-                display.blit(weapon.image, weapon.rect.topleft + self.camera_offset)
-                # print(weapon.image, weapon.rect.topleft)"""
-
             # updating and displaying the enemies
             self.active_enemies.update(frame_time)
             for enemy in self.active_enemies:
                 display.blit(enemy.image, enemy.rect.topleft + self.camera_offset)
 
+            # using a ratio instead of the whole rectangle because the transparent area of the images is too big
+            collision_ratio = 0.5
             # adding the hit enemies to a group
-            collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, False)
+            # Collision detection between two sprites, using rects scaled to a ratio:
+            #                                           collide_rect_ratio(ratio) -> collided_callable
+            collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, False,
+                                                           collided=pygame.sprite.collide_rect_ratio(collision_ratio))
             # handling the loss of life of the enemies
             for enemy in collided_enemies:
                 enemy.health -= 5
@@ -188,3 +189,15 @@ class WaveManager:
                     enemy.kill()
                     self.enemies_defeated += 1
                     print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
+
+            # Collision detection between player and enemies
+            collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,
+                                                            collided=pygame.sprite.collide_rect_ratio(collision_ratio))
+
+            for enemy in collided_with_player:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.player.damage_cooldown > self.player.cooldown_duration:
+                    self.player.health -= enemy.attack
+                    remove_health(enemy.attack)
+                    print(f"Player hit by {enemy.name}! Health: {self.player.health}")
+                    self.player.damage_cooldown = current_time

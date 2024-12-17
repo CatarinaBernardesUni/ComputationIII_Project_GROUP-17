@@ -16,9 +16,9 @@ from weapon import *
 
 # making a player a child of the Sprite class
 
-def remove_health():
+def remove_health(health_being_removed):
     if info['health'] >= 0:
-        info['health'] -= 1
+        info['health'] -= health_being_removed
 
 
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
