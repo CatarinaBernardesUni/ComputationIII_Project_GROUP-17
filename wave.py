@@ -64,7 +64,7 @@ class WaveManager:
                 self.progress_frames.append(scaled_frame)
 
         self.predefined_waves = [
-            {"normal_fly": 13},  # Wave 1: 3 green_slimes
+            {"normal_fly": 3},  # Wave 1: 3 green_slimes
             {"green_slime": 5, "normal_fly": 2},  # Wave 2: 5 green_slimes, 2 normal_flies
             {"normal_fly": 5, "fire_fly": 3},  # Wave 3: 5 normal_flies, 3 fire_flies
             {"fire_fly": 4, "horse_ghost": 1},  # Wave 4: 4 fire_flies, 1 horse_ghost
@@ -119,7 +119,7 @@ class WaveManager:
             self.text_surface.set_alpha(self.text_alpha)
             display.blit(self.text_surface, self.text_rect)
 
-    def spawn_wave(self, wave_config):
+    def spawn_wave(self, wave_config, enemy_cooldown):
         # print(f"Spawning wave {self.current_wave} enemies...")
         for enemy_name, count in wave_config.items():
             for _ in range(count):
@@ -146,7 +146,7 @@ class WaveManager:
             self.player.gold += 10
             print(f"Enemy {enemy.name} dropped gold! The player has {self.player.gold} gold")
 
-    def update(self, display, frame_time):
+    def update(self, display, frame_time, enemy_cooldown):
         """Updates the wave animation and ensures smooth transitions."""
         # display the announcement of the wave
         self.update_wave_animation(display)
@@ -165,7 +165,7 @@ class WaveManager:
                     # turns off the animation parameter and in the next iteration the wave will start
                     self.animation_active = False
                     # spawning the enemies here so that they are spawned only once
-                    self.spawn_wave(self.current_wave_config)
+                    self.spawn_wave(self.current_wave_config, enemy_cooldown)
                     self.player.is_fighting = True
 
             # while it isn't time to display the next frame, keep displaying the current one - avoid blinking
@@ -191,7 +191,8 @@ class WaveManager:
                                                            collided=pygame.sprite.collide_rect_ratio(collision_ratio))
             # handling the loss of life of the enemies
             for enemy in collided_enemies:
-                enemy.health -= 5
+                enemy.health -= self.player.active_weapon.damage
+                print(f"Player hit {enemy.name}! Health: {enemy.health}")
                 # info['score'] += 1
                 if enemy.health <= 0:
                     enemy.kill()
@@ -201,7 +202,7 @@ class WaveManager:
 
             # Collision detection between player and enemies
             collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,
-                                                            collided=pygame.sprite.collide_rect_ratio(collision_ratio))
+                                                                collided=pygame.sprite.collide_rect_ratio(collision_ratio))
 
             for enemy in collided_with_player:
                 current_time = pygame.time.get_ticks()
@@ -212,3 +213,63 @@ class WaveManager:
                     remove_health(enemy.attack)
                     print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
+
+            if not self.active_enemies and self.is_wave_active:
+                self.end_wave()
+
+    def end_wave(self):
+        print(f"Wave {self.current_wave} ended!")
+        self.is_wave_active = False
+
+        self.show_choice_popup()
+
+    def show_choice_popup(self):
+        message_lines = [f"Wave {self.current_wave} Completed!",
+                         f"Start next wave or leave?"]
+
+        # Starting position for the text
+        start_x = 500
+        start_y = 200
+        line_spacing = 60
+
+        button_image = pygame.image.load("images/store/store_button.png")
+        next_wave_image = pygame.transform.scale(button_image, (250, 80))
+        leave_image = pygame.transform.scale(button_image, (250, 80))
+        next_wave_button = next_wave_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + 75))
+        leave_button = leave_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + 160))
+
+        # Wait for player input to make a choice
+        choice_made = False
+        while not choice_made:
+
+            screen.blit(next_wave_image, next_wave_button.topleft)
+            screen.blit(leave_image, leave_button.topleft)
+
+            # Render buttons text
+            next_wave_text = self.font.render("Next Wave", True, deep_black)
+            leave_text = self.font.render("Leave", True, deep_black)
+
+            for i, line in enumerate(message_lines):
+                rendered_text = self.font.render(line, True, white)
+                screen.blit(rendered_text, (start_x - i * 50, start_y + i * line_spacing))
+
+            screen.blit(next_wave_text, (next_wave_button.centerx - next_wave_text.get_width() // 2,
+                                         next_wave_button.centery - next_wave_text.get_height() // 2))
+            screen.blit(leave_text, (leave_button.centerx - leave_text.get_width() // 2,
+                                     leave_button.centery - leave_text.get_height() // 2))
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if next_wave_button.collidepoint(event.pos):
+                        self.start_next_wave()  # Start the next wave
+                        choice_made = True
+                    elif leave_button.collidepoint(event.pos):
+                        self.is_wave_active = False  # End the wave
+                        self.player.is_fighting = False  # Allow the player to leave the battle area rect
+                        self.player.is_leaving_battle = True
+                        choice_made = True
+
+                pygame.display.update()

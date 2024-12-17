@@ -48,6 +48,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.just_left_home = False
         self.just_left_store = False
         self.is_fighting = False
+        self.is_leaving_battle = False
         self.speed = 1.8
         self.health = info['health']
 
@@ -176,7 +177,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         self.animate()
         self.draw_hearts(display)
-        self.dont_leave_battle(battle_area_rect, display, frame_time)
+        self.dont_leave_battle(battle_area_rect)
 
         if self.active_weapon is None and battle_area_rect is not None:
             if battle_area_rect.colliderect(self.rect):
@@ -197,7 +198,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 if self.rect.right > battle_area_rect.left:
                     self.rect.right = battle_area_rect.left
 
-    def dont_leave_battle(self, battle_area_rect, display, frame_time):
+    def dont_leave_battle(self, battle_area_rect):
         if self.is_fighting:
             if self.rect.left < battle_area_rect.left:
                 self.rect.left = battle_area_rect.left

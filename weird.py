@@ -11,11 +11,6 @@ def generate_random_wave(self):
 
     return wave_config
 
-def end_wave(self):
-    if not self.active_enemies and self.is_wave_active:
-        print(f"Wave {self.current_wave} ended!")
-        self.is_wave_active = False
-
 
 def reward_player(self, display):
     """Rewards the player and displays the reward message on the screen."""
@@ -45,65 +40,4 @@ def reward_player(self, display):
     # Apply bonus if granted
     if bonus_reward:
         self.player.give_bonus()  # todo: add this method to the player class
-
-def display_wave_completed_message(self, display):
-    message = f"Wave {self.current_wave} completed!"
-    text_color = white
-    font_size = 48
-
-    # Render the text
-    font = pygame.font.Font("fonts/pixel_font.ttf", font_size)
-    text_surface = font.render(message, True, text_color)
-    text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 2))
-
-    display.blit(text_surface, text_rect)
-
-# todo: one of these must have a treasure chest
-    def handle_enemy_drop(self, enemy):
-        """Handles rewards dropped by a defeated enemy."""
-        drop_chance = random.random()
-        if drop_chance < 0.33:  # 20% chance to drop gold
-            print(f"Enemy {enemy.name} dropped gold!")
-            self.player.gold += 10
-
-    def show_wave_complete_popup(self, display):
-        font = pygame.font.Font("pixel_font.ttf", 36)
-        text_color = white
-
-        # Create popup message
-        message = "Wave Completed! Start next wave or leave?"
-        text_surface = font.render(message, True, text_color)
-        text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 2 - 50))
-
-        # Buttons for user choice
-        next_wave_button = pygame.Rect(display.get_width() // 2 - 100, display.get_height() // 2 + 50, 200, 50)
-        leave_button = pygame.Rect(display.get_width() // 2 - 100, display.get_height() // 2 + 120, 200, 50)
-
-        pygame.draw.rect(display, greenish, next_wave_button)  # Green button for Next Wave
-        pygame.draw.rect(display, red, leave_button)  # Red button for Leave
-
-        # Render buttons text
-        next_wave_text = font.render("Next Wave", True, text_color)
-        leave_text = font.render("Leave", True, text_color)
-
-        display.blit(text_surface, text_rect)
-        display.blit(next_wave_text, (next_wave_button.centerx - next_wave_text.get_width() // 2,
-                                      next_wave_button.centery - next_wave_text.get_height() // 2))
-        display.blit(leave_text, (leave_button.centerx - leave_text.get_width() // 2,
-                                  leave_button.centery - leave_text.get_height() // 2))
-
-        # Wait for player input to make a choice
-        choice_made = False
-        while not choice_made:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if next_wave_button.collidepoint(event.pos):
-                        self.start_next_wave()  # Start the next wave
-                        choice_made = True
-                    elif leave_button.collidepoint(event.pos):
-                        self.is_wave_active = False  # End the wave
-                        choice_made = True
 

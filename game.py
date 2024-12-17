@@ -218,10 +218,10 @@ def execute_game(player, dog):
             for weapon in player.active_weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
-            if not wave_manager.is_wave_active:
+            if not wave_manager.is_wave_active and not player.is_leaving_battle:
                 wave_manager.activate_wave(display)
 
-            wave_manager.update(display, frame_time)
+            wave_manager.update(display, frame_time, enemy_cooldown)
 
             # spawning enemies every two seconds
             # if enemy_cooldown <= 0:
