@@ -62,12 +62,9 @@ def display_wave_completed_message(self, display):
     def handle_enemy_drop(self, enemy):
         """Handles rewards dropped by a defeated enemy."""
         drop_chance = random.random()
-        if drop_chance < 0.2:  # 20% chance to drop gold
+        if drop_chance < 0.33:  # 20% chance to drop gold
             print(f"Enemy {enemy.name} dropped gold!")
             self.player.gold += 10
-        elif drop_chance < 0.3:  # Additional 10% chance to drop a health boost
-            print(f"Enemy {enemy.name} dropped a health potion!")
-            self.player.health += 5
 
     def show_wave_complete_popup(self, display):
         font = pygame.font.Font("pixel_font.ttf", 36)

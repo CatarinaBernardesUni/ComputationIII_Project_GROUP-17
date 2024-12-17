@@ -138,6 +138,14 @@ class WaveManager:
             # Display the progress frame
             display.blit(progress_frame, (195, 7))
 
+    # todo: one of these must have a treasure chest
+    def handle_enemy_drop(self, enemy):
+        """Handles rewards dropped by a defeated enemy."""
+        drop_chance = random.random()
+        if drop_chance < 0.33:  # 33% chance to drop gold
+            self.player.gold += 10
+            print(f"Enemy {enemy.name} dropped gold! The player has {self.player.gold} gold")
+
     def update(self, display, frame_time):
         """Updates the wave animation and ensures smooth transitions."""
         # display the announcement of the wave
@@ -187,6 +195,7 @@ class WaveManager:
                 # info['score'] += 1
                 if enemy.health <= 0:
                     enemy.kill()
+                    self.handle_enemy_drop(enemy)
                     self.enemies_defeated += 1
                     print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
 
@@ -198,6 +207,8 @@ class WaveManager:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.player.damage_cooldown > self.player.cooldown_duration:
                     self.player.health -= enemy.attack
+                    # using this function to handle the display of the health bar (hearts) and game over,
+                    # due to circular import
                     remove_health(enemy.attack)
                     print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
