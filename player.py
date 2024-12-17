@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # to be able to pick up hearts in the game
         self.bullet_cooldown = 0
         self.damage_cooldown = 0  # Initial cooldown time
-        self.cooldown_duration = 2000  # Cooldown duration in milliseconds
+        self.cooldown_duration = 2000
 
         # POWER-UPS
         self.invincible = False

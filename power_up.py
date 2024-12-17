@@ -233,7 +233,7 @@ class PowerUpManager:
             {
                 "class": Invisible,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (50, 50)),
-                "probability": 0.05
+                "probability": 0.9
             }
         ]
 

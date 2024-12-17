@@ -4,7 +4,7 @@ import pygame
 import random
 import math
 import os
-player = Player()
+
 
 
 enemies_data = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire",
@@ -88,20 +88,19 @@ class Enemy(pygame.sprite.Sprite):
         self.hitbox_rect.center = self.rect.center
 
     def moves_towards_player(self):
-        if not player.invisible:
-            # determining the direction of the movement based on the player location
-            dx = self.player.rect.x - self.rect.x
-            dy = self.player.rect.y - self.rect.y
+        # determining the direction of the movement based on the player location
+        dx = self.player.rect.x - self.rect.x
+        dy = self.player.rect.y - self.rect.y
 
-            # getting the direction in radius
-            direction = math.atan2(dy, dx)
+        # getting the direction in radius
+        direction = math.atan2(dy, dx)
 
-            # moving the enemy towards the player --> like bullet
-            self.rect.x += self.speed * math.cos(direction)
-            self.rect.y += self.speed * math.sin(direction)
+        # moving the enemy towards the player --> like bullet
+        self.rect.x += self.speed * math.cos(direction)
+        self.rect.y += self.speed * math.sin(direction)
 
-            self.rect.x = int(self.rect.x)
-            self.rect.y = int(self.rect.y)
+        self.rect.x = int(self.rect.x)
+        self.rect.y = int(self.rect.y)
 
         # Update hitbox position
         self.update_hitbox()
@@ -138,5 +137,6 @@ class Enemy(pygame.sprite.Sprite):
         pass
 
     def update(self, frame_time):
-        self.moves_towards_player()
+        if not self.player.invisible:
+            self.moves_towards_player()
         self.animate(frame_time)
