@@ -26,6 +26,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def __init__(self):
         # calling the mother classes init aka Sprite
         super().__init__()
+        self.font = pygame.font.Font("fonts/pixel_font.ttf", 16)
         self.user = config.character_choice
         self.load_images()  # we need to do this before creating image
         self.state, self.frame_index = "left", 0
@@ -105,7 +106,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         else:
             # todo: how to display this message to the player?
             print(f"{weapon_name} not found in inventory.")
-
     ####################################################################################################
 
     def load_images(self):
@@ -177,6 +177,24 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.animate()
         self.draw_hearts(display)
         self.dont_leave_battle(battle_area_rect)
+
+        if self.active_weapon is None and battle_area_rect.colliderect(self.rect):
+            message_lines = [
+                "You better find a weapon before you start fighting,",
+                "explore a bit more....",
+                "I heard that there is a store somewhere in here..."]
+
+            # Starting position for the text
+            start_x = 100
+            start_y = 90
+            line_spacing = 30  # Spacing between lines
+            # Render each line and blit to the screen
+            for i, line in enumerate(message_lines):
+                rendered_text = self.font.render(line, True, white)
+                display.blit(rendered_text, (start_x, start_y + i * line_spacing))
+
+            if self.rect.right > battle_area_rect.left:
+                self.rect.right = battle_area_rect.left
 
     def dont_leave_battle(self, battle_area_rect):
         if self.is_fighting:

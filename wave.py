@@ -171,7 +171,8 @@ class WaveManager:
             for enemy in self.active_enemies:
                 display.blit(enemy.image, enemy.rect.topleft + self.camera_offset)
 
-            collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, True)
-            for enemy in collided_enemies:
-                enemy.health -= 5
+            # todo: the player doesn't have a weapon associated with him yet so this gives an error
+            #collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, True)
+            #for enemy in collided_enemies:
+                #enemy.health -= 5
                 # info['score'] += 1
