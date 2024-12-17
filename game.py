@@ -125,7 +125,7 @@ def execute_game(player, dog):
     # light_bow = Bow(player, weapon_group, "light_bow")
 
     # gold_axe = Axe(player, weapon_group, "gold_axe")
-    ruby_axe = Axe(player, weapon_group, "ruby_axe")
+    # ruby_axe = Axe(player, weapon_group, "ruby_axe")
 
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
@@ -142,14 +142,6 @@ def execute_game(player, dog):
 
         mouse_pos = pygame.mouse.get_pos()
         scaled_mouse_pos = (mouse_pos[0]//2, mouse_pos[1]//2)
-
-        # drawing the inventory button
-        # inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35, text="Inventory",
-                                       #text_color=brick_color, image_path="images/buttons/basic_button.png",
-                                       #font=cutefont)
-
-
-        # display.fill("black")
 
         ################################ Calculate camera offset  #######################
         camera_offset = calculate_camera_offset(player, display)
@@ -169,7 +161,8 @@ def execute_game(player, dog):
 
         # updating the player group and dog
         # so dog can appear on screen when bought
-        player_group.update(collision_sprites, battle_area_rect, display)
+        player_group.update(collision_sprites, display, frame_time, battle_area_rect)
+
         if player.dog.bought:
             if player.dog not in player_group:
                 player_group.add(player.dog)
@@ -219,9 +212,9 @@ def execute_game(player, dog):
                 pygame.mixer.music.load("music/TheGreatBattle.mp3")
                 pygame.mixer.music.play(-1)
 
-            weapon_group.update(frame_time)
+            """weapon_group.update(frame_time)
             for weapon in weapon_group:
-                display.blit(weapon.image, weapon.rect.topleft + camera_offset)
+                display.blit(weapon.image, weapon.rect.topleft + camera_offset)"""
 
             if not wave_manager.is_wave_active:
                 wave_manager.activate_wave(display)
@@ -332,6 +325,3 @@ def execute_game(player, dog):
     progress()
     pygame.quit()
     exit()
-
-    # pygame.display.update()
-    # clock.tick(15)

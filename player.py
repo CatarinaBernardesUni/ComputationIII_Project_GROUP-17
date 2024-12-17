@@ -98,14 +98,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         if not self.active_weapon:  # Auto-select the first weapon if none is active
             self.active_weapon = weapon_instance
+            self.active_weapon_group.add(self.active_weapon)
 
     def switch_weapon(self, weapon_name: str):
+        # todo: mouse clicking on the inventory makes them the primary
         """Switch the currently active weapon."""
         if weapon_name in self.weapons.keys():
             self.active_weapon = self.weapons[weapon_name]
-        else:
-            # todo: how to display this message to the player?
-            print(f"{weapon_name} not found in inventory.")
+            self.active_weapon_group.add(self.active_weapon)
     ####################################################################################################
 
     def load_images(self):
@@ -132,7 +132,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             else:
                 display.blit(empty_heart, (heart * 33, 5))
 
-    def update(self, collision_sprites, battle_area_rect, display):
+    def update(self, collision_sprites, display, frame_time, battle_area_rect=None):
         # getting the keys input
 
         keys = pygame.key.get_pressed()
@@ -176,30 +176,36 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         self.animate()
         self.draw_hearts(display)
-        self.dont_leave_battle(battle_area_rect)
+        self.dont_leave_battle(battle_area_rect, display, frame_time)
 
-        if self.active_weapon is None and battle_area_rect.colliderect(self.rect):
-            message_lines = [
-                "You better find a weapon before you start fighting,",
-                "explore a bit more....",
-                "I heard that there is a store somewhere in here..."]
+        if self.active_weapon is None and battle_area_rect is not None:
+            if battle_area_rect.colliderect(self.rect):
+                message_lines = [
+                    "You better find a weapon before you start fighting,",
+                    "explore a bit more....",
+                    "I heard that there is a store somewhere in here..."]
 
-            # Starting position for the text
-            start_x = 100
-            start_y = 90
-            line_spacing = 30  # Spacing between lines
-            # Render each line and blit to the screen
-            for i, line in enumerate(message_lines):
-                rendered_text = self.font.render(line, True, white)
-                display.blit(rendered_text, (start_x, start_y + i * line_spacing))
+                # Starting position for the text
+                start_x = 100
+                start_y = 90
+                line_spacing = 30  # Spacing between lines
+                # Render each line and blit to the screen
+                for i, line in enumerate(message_lines):
+                    rendered_text = self.font.render(line, True, white)
+                    display.blit(rendered_text, (start_x, start_y + i * line_spacing))
 
-            if self.rect.right > battle_area_rect.left:
-                self.rect.right = battle_area_rect.left
+                if self.rect.right > battle_area_rect.left:
+                    self.rect.right = battle_area_rect.left
 
-    def dont_leave_battle(self, battle_area_rect):
+    def dont_leave_battle(self, battle_area_rect, display, frame_time):
         if self.is_fighting:
             if self.rect.left < battle_area_rect.left:
                 self.rect.left = battle_area_rect.left
+
+            self.active_weapon_group.update(frame_time)
+            for weapon in self.active_weapon_group:
+                display.blit(weapon.image, weapon.rect.topleft)
+                print(weapon.image, weapon.rect.topleft)
 
     def collision(self, direction, collision_sprites):
         for sprite in collision_sprites:
