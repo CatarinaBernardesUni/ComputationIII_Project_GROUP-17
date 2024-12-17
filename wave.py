@@ -76,6 +76,7 @@ class WaveManager:
     def start_next_wave(self):
         self.is_wave_active = False
         self.current_wave += 1
+        # resetting the enemies defeated counter at beginning of each wave
         self.enemies_defeated = 0
 
         # there are 8 predefined waves, if we are out of them, generate a random wave
@@ -167,12 +168,23 @@ class WaveManager:
             self.camera_offset = calculate_camera_offset(self.player, display)
             self.display_counter(display)
 
+            """self.player.active_weapon_group.update(frame_time)
+            for weapon in self.player.active_weapon_group:
+                display.blit(weapon.image, weapon.rect.topleft + self.camera_offset)
+                # print(weapon.image, weapon.rect.topleft)"""
+
+            # updating and displaying the enemies
             self.active_enemies.update(frame_time)
             for enemy in self.active_enemies:
                 display.blit(enemy.image, enemy.rect.topleft + self.camera_offset)
 
-            # todo: the player doesn't have a weapon associated with him yet so this gives an error
-            #collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, True)
-            #for enemy in collided_enemies:
-                #enemy.health -= 5
+            # adding the hit enemies to a group
+            collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, False)
+            # handling the loss of life of the enemies
+            for enemy in collided_enemies:
+                enemy.health -= 5
                 # info['score'] += 1
+                if enemy.health <= 0:
+                    enemy.kill()
+                    self.enemies_defeated += 1
+                    print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")

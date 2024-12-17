@@ -202,11 +202,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             if self.rect.left < battle_area_rect.left:
                 self.rect.left = battle_area_rect.left
 
-            self.active_weapon_group.update(frame_time)
-            for weapon in self.active_weapon_group:
-                display.blit(weapon.image, weapon.rect.topleft)
-                print(weapon.image, weapon.rect.topleft)
-
     def collision(self, direction, collision_sprites):
         for sprite in collision_sprites:
             if sprite.rect.colliderect(self.hitbox_rect):

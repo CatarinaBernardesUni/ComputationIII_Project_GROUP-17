@@ -212,9 +212,9 @@ def execute_game(player, dog):
                 pygame.mixer.music.load("music/TheGreatBattle.mp3")
                 pygame.mixer.music.play(-1)
 
-            """weapon_group.update(frame_time)
-            for weapon in weapon_group:
-                display.blit(weapon.image, weapon.rect.topleft + camera_offset)"""
+            player.active_weapon_group.update(frame_time)
+            for weapon in player.active_weapon_group:
+                display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
             if not wave_manager.is_wave_active:
                 wave_manager.activate_wave(display)
