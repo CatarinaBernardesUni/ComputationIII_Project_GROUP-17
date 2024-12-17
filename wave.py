@@ -13,19 +13,25 @@ class WaveManager:
     def __init__(self, player, enemies_data, battle_area_rect):
 
         self.battle_area_rect = battle_area_rect
-        self.enemies_data = enemies_data
         self.player = player
-        self.active_enemies = pygame.sprite.Group()
         self.current_wave = 0
-        self.enemies_defeated = 0
-        self.total_enemies = 0
         self.is_wave_active = False
         self.current_wave_config = None
-
         self.camera_offset = None
+
+        #################### ENEMY RELATED ATTRIBUTES ####################
+        self.enemies_data = enemies_data
+        self.active_enemies = pygame.sprite.Group()
+        self.enemies_defeated = 0
+        self.total_enemies = 0
 
         # Possible enemies for random waves
         self.possible_enemies = list(self.enemies_data.keys())
+
+        self.enemy_cooldown = 1000  # Default cooldown in milliseconds
+        self.last_enemy_spawn_time = 0
+        self.enemies_to_spawn = []  # Queue for enemies waiting to spawn
+        #####################################################################
 
         #################### ANIMATION RELATED ATTRIBUTES ####################
         self.font = pygame.font.Font("fonts/pixel_font.ttf", 32)
@@ -117,8 +123,9 @@ class WaveManager:
         # print(f"Spawning wave {self.current_wave} enemies...")
         for enemy_name, count in wave_config.items():
             for _ in range(count):
-                enemy = Enemy(self.player, self.active_enemies, enemy_name, self.battle_area_rect)
-                self.active_enemies.add(enemy)
+                """enemy = Enemy(self.player, self.active_enemies, enemy_name, self.battle_area_rect)
+                self.active_enemies.add(enemy)"""
+                self.enemies_to_spawn.append(enemy_name)
 
     def display_counter(self, display):
         # Calculate progress based on enemies defeated
@@ -171,6 +178,14 @@ class WaveManager:
             self.camera_offset = calculate_camera_offset(self.player, display)
             self.display_counter(display)
 
+            # Enemy cooldown logic
+            current_time = pygame.time.get_ticks()
+            if self.enemies_to_spawn and current_time - self.last_enemy_spawn_time >= self.enemy_cooldown:
+                enemy_name = self.enemies_to_spawn.pop(0)  # Get the next enemy to spawn
+                enemy = Enemy(self.player, self.active_enemies, enemy_name, self.battle_area_rect)
+                self.active_enemies.add(enemy)
+                self.last_enemy_spawn_time = current_time  # Reset cooldown timer
+
             # updating and displaying the enemies
             self.active_enemies.update(frame_time)
             for enemy in self.active_enemies:
@@ -208,7 +223,7 @@ class WaveManager:
                     print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
 
-            if not self.active_enemies and self.is_wave_active:
+            if self.total_enemies == self.enemies_defeated and self.is_wave_active:
                 self.end_wave()
 
     def end_wave(self):
