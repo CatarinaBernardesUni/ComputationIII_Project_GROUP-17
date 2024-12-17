@@ -33,10 +33,6 @@ class WaveManager:
         self.animation_index = 0
         self.animation_active = False
         self.current_frame = None
-        self.text_alpha = None
-        self.text_rect = None
-        self.text_surface = None
-        self.wave_text = None
         self.wave_display_start_time = 0
         #########################################################
 
@@ -98,12 +94,6 @@ class WaveManager:
             self.elapsed_time = 0  # Reset elapsed time
             self.wave_display_start_time = pygame.time.get_ticks()  # Track start time
 
-            # Prepare text properties
-            self.wave_text = f"Wave {self.current_wave} Starting!"
-            self.text_surface = self.font.render(self.wave_text, True, white)
-            self.text_rect = self.text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
-            self.text_alpha = 255  # Start fully opaque
-
     def update_wave_animation(self, display):
         """Updates the wave animation and handles fading out the text."""
         if self.animation_active:
@@ -113,11 +103,15 @@ class WaveManager:
             if elapsed_time > 5500:
                 self.animation_active = False
                 return
+                # Prepare text properties
+            wave_text = f"Wave {self.current_wave} Starting!"
+            text_surface = self.font.render(wave_text, True, white)
+            text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
 
             # Calculate fade-out effect (255 -> 0 over 8 seconds)
-            self.text_alpha = max(0, 255 - int((elapsed_time / 5500) * 255))
-            self.text_surface.set_alpha(self.text_alpha)
-            display.blit(self.text_surface, self.text_rect)
+            text_alpha = max(0, 255 - int((elapsed_time / 5500) * 255))
+            text_surface.set_alpha(text_alpha)
+            display.blit(text_surface, text_rect)
 
     def spawn_wave(self, wave_config, enemy_cooldown):
         # print(f"Spawning wave {self.current_wave} enemies...")
