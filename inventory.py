@@ -34,7 +34,7 @@ def inventory_menu(player):
         screen.blit(in_background, (width // 2 - 500, height - 350 - 200))
 
         # setting so my amount of gold appears
-        gold_available = inventoryfont.render(f"My Gold: {player.gold}", True, brick_color)
+        gold_available = inventoryfont.render(f"My Gold: {info['gold']}", True, brick_color)
         in_background.blit(gold_available, (width // 2 - 500, height // 2 - 150 - 160))
 
         # creating the initial position for the 1st item, adapt the others through it

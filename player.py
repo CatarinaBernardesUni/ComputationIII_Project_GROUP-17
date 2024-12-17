@@ -54,15 +54,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.invisible = False
 
         # INVENTORY AND MONEY (GOLD) START WITH 200
-        self.inventory = {'apple': 0,
-                          'mushroom': 0,
-                          'speed potion': 0,
-                          'dog': 0,
-                          'soup': 0,
-                          'sword': 0,
-                          'bow': 0,
-                          'key': 0}
-        self.gold = 1200
+        self.inventory = info['inventory']
+        self.gold = info['gold']
 
         # storing the inventory prices
         self.price_items = {'apple': 5,
@@ -216,15 +209,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         price = self.price_items[item_name]
 
         # checking if the player has enough money to buy the item
-        if self.gold >= price:
-            self.gold -= price
-            self.inventory[item_name] += 1
-            print(f"bought {item_name}: amount {self.inventory[item_name]} money: {self.gold}")
+        if info['gold'] >= price:
+            info['gold'] -= price
+            info['inventory'][item_name] += 1
+            print(f"bought {item_name}: amount {self.inventory[item_name]} money: {info['gold']}")
             if item_name == 'dog' and self.dog is None:
                 self.dog = Dog(self)
                 self.dog.bought = True
         else:
-            print(f"gold is not enough. gold: {self.gold}")  # todo: add here a screen saying not enough money
+            print(f"gold is not enough. gold: {info['gold']}")  # todo: add here a screen saying not enough money
 
     def add_gold(self, amount):
-        self.gold += amount
+        info['gold'] += amount

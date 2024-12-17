@@ -45,9 +45,6 @@ menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.p
 entrance_store = pygame.transform.scale(pygame.image.load("images/store/store_front.png"), resolution)
 
 # OLD LADY SPEECHES
-# old_lady_1 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech1.png"), (150, 100))
-# old_lady_2 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech2.png"), (150, 100))
-# old_lady_3 = pygame.transform.scale(pygame.image.load("images/others/old_lady_speech3.png"), (150, 100))
 old_lady_1 = "Be careful out there!"
 old_lady_2 = "Good to see you!"
 old_lady_3 = "Looking for something?"
