@@ -195,15 +195,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if info['health'] < self.max_health:
             info['health'] += 1
 
-    # the next 2 methods are for POWER-UPS
-    def apply_power_up(self, power_up):
-        self.active_power_ups.append(power_up)
-
-    def remove_power_up(self, power_up):
-        if power_up in self.active_power_ups:
-            self.active_power_ups.remove(power_up)
-
-
     def buy_item(self, item_name):
         # getting the item price from the price_items dictionary
         price = self.price_items[item_name]
