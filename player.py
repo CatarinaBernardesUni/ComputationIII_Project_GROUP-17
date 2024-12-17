@@ -262,6 +262,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             if item_name == 'dog' and self.dog is None:
                 self.dog = Dog(self)
                 self.dog.bought = True
+            elif item_name == 'sword':
+                self.add_weapon("dagger", "Sword")
+                print(self.weapons)
+                print(self.active_weapon)
+            elif item_name == 'bow':
+                self.add_weapon("ghost_bow", "Bow")
+                print(self.weapons)
+                print(self.active_weapon)
         else:
             print(f"gold is not enough. gold: {self.gold}")  # todo: add here a screen saying not enough money
 
