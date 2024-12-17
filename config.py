@@ -56,14 +56,16 @@ old_lady_4 = "You're not alone, kid."
 
 old_lady_speech = [old_lady_1, old_lady_2, old_lady_3, old_lady_4]
 
-# POWER UP IMAGES
-power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (50, 50))
-power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50))
-power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (50, 50))
-power_up_invisible = pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (50, 50))
+# POWER UP IMAGES, these are small because they will appear on top of the player
+# the ones that are sized to be on the screen are on the dictionary in power up manager
+power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (25, 25))
+power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (25, 25))
+power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (25, 25))
+power_up_invisible = pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (25, 25))
 
 chest_choice = pygame.transform.scale(pygame.image.load("images/chests/chest_choice.png"), (1000, 300))
 pick_powerup = pygame.transform.scale(pygame.image.load("images/chests/pick_powerup.png"), (400, 100))
+
 # SIZES
 player_size = (40, 40)
 dog_size = (30, 30)
@@ -75,6 +77,7 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode(resolution)
 mouse = pygame.mouse.get_pos()
 character_choice = "player 1"
+display = pygame.Surface((width // 2, height // 2))
 
 
 # this is to store progress when the game is closed

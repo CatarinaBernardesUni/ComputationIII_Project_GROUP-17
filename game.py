@@ -3,13 +3,9 @@ from background import background_setup
 # from power_up import PowerUp
 from cave import cave_area
 from home import home_area
-<<<<<<< HEAD
 from player import Player
-from enemy import Enemy
-=======
-from player import *
 from enemy import Enemy, enemies_data
->>>>>>> main
+
 import interface
 from power_up import *
 from progress import *
@@ -24,7 +20,7 @@ from weapon import *
 from mouse_position import get_mouse_position, draw_button
 from inventory import inventory_menu
 
-
+#player = Player()
 def choose_character():
     screen.blit(choose_character_image, (0, 0))
 
@@ -93,22 +89,14 @@ def game_loop():
         elif current_state == "store":
             current_state = inside_store(player)
 
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 def execute_game(player, dog):
     # SETUP
     # using the clock to control the time frame.
-    clock = pygame.time.Clock()
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
-    screen = pygame.display.set_mode(resolution)
-    display = pygame.Surface((width // 2, height // 2))
-<<<<<<< HEAD
     power_up_manager = PowerUpManager(width // 2, height // 2)
-=======
     in_battle_area = False
->>>>>>> main
+
 
     ############################### MAP ################################
 
@@ -226,13 +214,11 @@ def execute_game(player, dog):
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
-<<<<<<< HEAD
             # automatically shoot bullets from the player
             power_up_manager.fight_area = battle_area_rect
             player.shoot(bullets)
             # Update power-ups
             power_up_manager.update(player)
-=======
             # initiating the battle area music:
             if not in_battle_area:
                 in_battle_area = True
@@ -263,11 +249,9 @@ def execute_game(player, dog):
             # wave_manager.activate_wave(display)
 
             # player.shoot(bullets)
->>>>>>> main
 
-            # Draw power-ups
+            # POWER UPS
             power_up_manager.draw(display, camera_offset)
-
             # Handle collisions between player and power-ups
             power_up_manager.handle_collision(player)
             # spawning enemies every two seconds
@@ -298,14 +282,13 @@ def execute_game(player, dog):
             # bullet.radius
             # )
             # drawing the weapons
-<<<<<<< HEAD
+
             # todo: put this back too
             # for weapon in weapon_group:
             # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
-=======
             # wave_manager.update(display, frame_time)
->>>>>>> main
+
             # checking for collisions between player bullets and enemies
             # for bullet in bullets:
                 # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
@@ -330,13 +313,10 @@ def execute_game(player, dog):
                 # player was hit is bigger than the time it needs to cooldown
                 # if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
                     # here is missing showing hearts as health (I print the health to see if it's working)
-<<<<<<< HEAD
-                    player.remove_health(player)
-                    player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
-=======
-                    # remove_health()
+                    # player.remove_health(player)
                     # player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
->>>>>>> main
+                    # remove_health()
+
 
             if info['health'] <= 0:
                 game_over()

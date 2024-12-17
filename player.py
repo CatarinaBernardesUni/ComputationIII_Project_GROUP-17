@@ -53,7 +53,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.active_power_ups = []
         self.invisible = False
 
-
         # INVENTORY AND MONEY (GOLD) START WITH 200
         self.inventory = {'apple': 0,
                           'mushroom': 0,
@@ -140,10 +139,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 self.state = "idle_left"
             elif self.state == "right":
                 self.state = "idle_right"
-<<<<<<< HEAD
-=======
-
->>>>>>> main
         self.animate()
         self.draw_hearts(display)
 
@@ -214,6 +209,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def remove_power_up(self, power_up):
         if power_up in self.active_power_ups:
             self.active_power_ups.remove(power_up)
+
 
     def buy_item(self, item_name):
         # getting the item price from the price_items dictionary

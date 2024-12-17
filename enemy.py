@@ -4,14 +4,11 @@ import pygame
 import random
 import math
 import os
-<<<<<<< HEAD
 player = Player()
-enemies = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire",
-=======
+
 
 enemies_data = {"green_slime": {"tier": 1, "element": None, "health": 20, "speed": 0.8, "attack": 1, "weakness": "fire",
->>>>>>> main
-                           "special_effect": None, "directory_path": "images/monsters/slime_green", "size": (100, 100),
+         "special_effect": None, "directory_path": "images/monsters/slime_green", "size": (100, 100),
                            "animation_speed": 0.05, "inflate_parameters": (-50, -50)},
 
            "normal_fly": {"tier": 1, "element": None, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire",
