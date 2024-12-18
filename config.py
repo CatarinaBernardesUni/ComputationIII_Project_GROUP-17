@@ -71,6 +71,7 @@ power_up_invisible = pygame.transform.scale(pygame.image.load("images/others/pow
 
 chest_choice = pygame.transform.scale(pygame.image.load("images/chests/chest_choice.png"), (1000, 300))
 pick_powerup = pygame.transform.scale(pygame.image.load("images/chests/pick_powerup.png"), (400, 100))
+gold_chest = pygame.transform.scale(pygame.image.load("images/chests/chest_with_gold.png"), (50, 50))
 
 # SIZES
 player_size = (40, 40)
