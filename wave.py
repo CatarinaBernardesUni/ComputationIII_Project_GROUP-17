@@ -90,10 +90,26 @@ class WaveManager:
 
         self.total_enemies = sum(self.current_wave_config.values())  # Track total enemies
 
-    def activate_wave(self, display):
+    # todo: test he random wave generation
+    def generate_random_wave(self):
+        # the more waves you do the bigger they become
+        num_enemies = min(10 + self.current_wave, 50)  # Stopping point: max 50 enemies
+
+        # Generate a random wave configuration
+        wave_config = {}
+        for i in range(num_enemies):
+            # considering tiers as weights for the random choice
+            weights = [self.enemies_data[enemy]["tier"] for enemy in self.possible_enemies]
+            chosen_enemy = random.choices(self.possible_enemies, weights=weights, k=1)[0]
+            # takes the value of the key chosen enemy from the wave config dictionary and adds 1 to it
+            wave_config[chosen_enemy] = wave_config.get(chosen_enemy, 0) + 1
+
+        return wave_config
+
+    def activate_wave(self):
         """Activates the wave animation."""
         if not self.is_wave_active:
-            print(f"Activating wave {self.current_wave}!")
+            # print(f"Activating wave {self.current_wave}!")
             self.is_wave_active = True
             self.animation_active = True
             self.animation_index = 0  # Reset animation frame index
@@ -139,13 +155,13 @@ class WaveManager:
             # Display the progress frame
             display.blit(progress_frame, (195, 7))
 
-    # todo: one of these must have a treasure chest
+    # todo: one of these could have a treasure chest
     def handle_enemy_drop(self, enemy):
         """Handles rewards dropped by a defeated enemy."""
         drop_chance = random.random()
         if drop_chance < 0.33:  # 33% chance to drop gold
             self.player.gold += 10
-            print(f"Enemy {enemy.name} dropped gold! The player has {self.player.gold} gold")
+            # print(f"Enemy {enemy.name} dropped gold! The player has {self.player.gold} gold")
 
     def update(self, display, frame_time, enemy_cooldown):
         """Updates the wave animation and ensures smooth transitions."""
@@ -201,13 +217,13 @@ class WaveManager:
             # handling the loss of life of the enemies
             for enemy in collided_enemies:
                 enemy.health -= self.player.active_weapon.damage
-                print(f"Player hit {enemy.name}! Health: {enemy.health}")
+                # print(f"Player hit {enemy.name}! Health: {enemy.health}")
                 # info['score'] += 1
                 if enemy.health <= 0:
                     enemy.kill()
                     self.handle_enemy_drop(enemy)
                     self.enemies_defeated += 1
-                    print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
+                    # print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
 
             # Collision detection between player and enemies
             collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,
@@ -220,24 +236,39 @@ class WaveManager:
                     # using this function to handle the display of the health bar (hearts) and game over,
                     # due to circular import
                     remove_health(enemy.attack)
-                    print(f"Player hit by {enemy.name}! Health: {self.player.health}")
+                    # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
 
             if self.total_enemies == self.enemies_defeated and self.is_wave_active:
                 self.end_wave()
 
     def end_wave(self):
-        print(f"Wave {self.current_wave} ended!")
+        # print(f"Wave {self.current_wave} ended!")
         self.is_wave_active = False
 
         self.show_choice_popup()
 
     def show_choice_popup(self):
+
+        gold_reward = 50 * self.current_wave
+        self.player.gold += gold_reward
+
+        # todo: delete this if we don't want the player to gain bonus at the end of the wave
+        # Determine if a bonus reward is granted
+        bonus_reward = random.random() < 0.3  # 30% chance
+        bonus_text = " and a bonus!" if bonus_reward else "!"
+
         message_lines = [f"Wave {self.current_wave} Completed!",
+                         f"You earned {gold_reward} gold{bonus_text}",
                          f"Start next wave or leave?"]
 
+        # todo: commenting this code because the method give_bonus() doesn't exist in the player class
+        # Apply bonus if granted
+        # if bonus_reward:
+            # self.player.give_bonus()  # todo: add this method to the player class
+
         # Starting position for the text
-        start_x = 500
+        #start_x = 500
         start_y = 200
         line_spacing = 60
 
@@ -260,7 +291,10 @@ class WaveManager:
 
             for i, line in enumerate(message_lines):
                 rendered_text = self.font.render(line, True, white)
-                screen.blit(rendered_text, (start_x - i * 50, start_y + i * line_spacing))
+                text_width = rendered_text.get_width()
+                x_position = (screen.get_width() - text_width) // 2  # Centered horizontally
+                y_position = start_y + i * line_spacing  # Line spacing
+                screen.blit(rendered_text, (x_position, y_position))
 
             screen.blit(next_wave_text, (next_wave_button.centerx - next_wave_text.get_width() // 2,
                                          next_wave_button.centery - next_wave_text.get_height() // 2))

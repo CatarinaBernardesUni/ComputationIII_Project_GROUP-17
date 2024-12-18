@@ -219,21 +219,9 @@ def execute_game(player, dog):
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
             if not wave_manager.is_wave_active and not player.is_leaving_battle:
-                wave_manager.activate_wave(display)
+                wave_manager.activate_wave()
 
             wave_manager.update(display, frame_time, enemy_cooldown)
-
-            # spawning enemies every two seconds
-            # if enemy_cooldown <= 0:
-                # normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
-                # adding the enemy to the group
-                # enemies.add(normal_fly)
-
-                # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
-                # enemy_cooldown = fps * 2
-
-            # updating the enemy cooldown
-            # enemy_cooldown -= 1
 
             # drawing the bullet sprites # this display was also screen
             #for bullet in bullets:
@@ -249,27 +237,6 @@ def execute_game(player, dog):
                 # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
                 # collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
                                                                # True)  # True means kill upon impact
-                # for enemy in collided_enemies:
-                    # enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
-                    # enemy.health -= 5
-                    # info['score'] += 1
-                    # removing the bullet from the screen after hitting the player
-                    # bullet.kill()
-
-            # if normal_fly.health <= 0:
-                # normal_fly.kill()
-
-                # player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                # player_score_rect = player_score_surf.get_rect(center=(65, 55))
-
-            # if player.rect.colliderect(normal_fly.rect):
-                # pygame.draw.rect(screen, red, player.rect)
-                # this "if" sees if the difference between the time the player is hit and the last time the
-                # player was hit is bigger than the time it needs to cooldown
-                # if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
-                    # here is missing showing hearts as health (I print the health to see if it's working)
-                    # remove_health()
-                    # player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
 
             if info['health'] <= 0:
                 game_over()
