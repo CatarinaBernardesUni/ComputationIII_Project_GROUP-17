@@ -25,12 +25,17 @@ def paused():
                     pause = False
         pygame.display.update()
 
+# letting all the sounds be updated throughout the game
+def update_all_volumes(all_sounds, global_volume):
+    for sound in all_sounds:
+        sound.set_volume(global_volume)
+
 # Function to draw the music bar
 def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
 
     # Draw the plus and minus buttons
-    minus_button = draw_button(screen, bar_x - 70 - 10, bar_y + (bar_height - 80) // 2, 70, 80, 'MINUS', white, 'images/store/store_button.png', cutefont)
-    plus_button = draw_button(screen, bar_x + bar_width + 10, bar_y + (bar_height - 80) // 2, 70, 80, 'PLUS', white, 'images/store/store_button.png', cutefont)
+    minus_button = draw_button(screen, bar_x - 100 - 10, bar_y + (bar_height - 90) // 2, 100, 90, 'MINUS', brick_color, 'images/store/store_button.png', settingsfont)
+    plus_button = draw_button(screen, bar_x + bar_width + 10, bar_y + (bar_height - 90) // 2, 100, 90, 'PLUS', brick_color, 'images/store/store_button.png', settingsfont)
 
     # Draw the main bar
     pygame.draw.rect(screen, brick_color, (bar_x, bar_y, bar_width, bar_height))
@@ -72,10 +77,15 @@ def options_menu():
                 # minus sign is clicked
                 if minus_button.collidepoint(mouse):
                     global_volume = max(0, global_volume - 0.1)
+                    update_all_volumes(all_sounds, global_volume)
                 # plus sign is clicked
                 elif plus_button.collidepoint(mouse):
                     global_volume = min(1, global_volume + 0.1)
-                pygame.mixer.music.set_volume(global_volume)
+                    update_all_volumes(all_sounds, global_volume)
+                # quit button:
+                if quit_options_button.collidepoint(mouse):
+                    progress()
+                    return
 
         # Display the background
         screen.blit(options_background, (0, 0))
@@ -88,6 +98,10 @@ def options_menu():
         volume_text = settingsfont.render(f"Volume: {volume_percentage}%", False, white)
         volume_text_rect = volume_text.get_rect(center=(bar_x + bar_width // 2, bar_y + bar_height + 50))
         screen.blit(volume_text, volume_text_rect)
+
+        # drawing the quit button
+        quit_options_button = draw_button(screen, 1000, 520, 150, 80, "EXIT", text_color=brick_color,
+                                          image_path="images/store/store_button.png", font=settingsfont)
 
         # Update the display
         pygame.display.flip()
