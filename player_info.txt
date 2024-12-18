@@ -1,1 +1,1 @@
-{"health": 5, "gold": 1300, "inventory": {"dog": 1, "apple": 2, "mushroom": 0, "speed potion": 0, "sword": 1, "soup": 0, "bow": 1, "key": 0}, "claimed_chest_home": 0, "stolen_grandma": 1, "weapons": {}}
+{"health": 5, "gold": 1300, "inventory": {"dog": 1, "apple": 2, "mushroom": 0, "speed potion": 0, "sword": 1, "soup": 0, "bow": 1, "key": 0}, "claimed_chest_home": 0, "stolen_grandma": 0, "weapons": {}}
