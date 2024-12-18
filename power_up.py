@@ -102,13 +102,14 @@ class De_Spawner(PowerUp):
         super().__init__(pos, image, duration=5000)
 
     def affect_game(self, player):
-        pass
+        player.de_spawner = True
 
     def affect_player(self, player):
         power_up_player_look(power_up_de_spawner, player)
 
     def deactivate(self, player):
         super().deactivate(player)  # Reset the active state
+        player.de_spawner = False
         print("Enemies will now spawn.")
 
 
@@ -212,27 +213,27 @@ class PowerUpManager:
             {
                 "class": Invincibility,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (50, 50)),
-                "probability": 0.05
+                "probability": 0
             },
             {
                 "class": Speed_Boost,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50)),
-                "probability": 0.8
+                "probability": 0
             },
             {
                 "class": Chest,
                 "image": pygame.transform.scale(pygame.image.load("images/chests/chest_brown.png"), (50, 50)),
-                "probability": 0.8
+                "probability": 0
             },
             {
                 "class": De_Spawner,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (50, 50)),
-                "probability": 0.05
+                "probability": 1
             },
             {
                 "class": Invisible,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (50, 50)),
-                "probability": 0.9
+                "probability": 0
             }
         ]
 

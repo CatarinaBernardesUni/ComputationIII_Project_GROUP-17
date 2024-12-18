@@ -44,6 +44,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, player, groups, enemy_name, battle_area_rect):
         super().__init__(groups)
 
+
         enemy_data = enemies_data[enemy_name]
         self.name = enemy_name
         self.tier = enemy_data["tier"]
@@ -73,6 +74,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # loop to make the enemy not spawn on top of the player
         while True:
+
             spawn_x = random.randint(
                 max(self.battle_area_rect.left, self.player.rect.x - 400),
                 min(self.battle_area_rect.right, self.player.rect.x + 400)
@@ -148,3 +150,4 @@ class Enemy(pygame.sprite.Sprite):
         if not self.player.invisible:
             self.moves_towards_player()
         self.animate(frame_time)
+

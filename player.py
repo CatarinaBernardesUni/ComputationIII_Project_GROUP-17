@@ -20,6 +20,7 @@ def remove_health(health_being_removed):
     if info['health'] >= 0:
         info['health'] -= health_being_removed
 
+
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def __init__(self):
@@ -62,6 +63,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.invincible = False
         self.active_power_ups = []
         self.invisible = False
+        self.de_spawner = False
 
         # INVENTORY AND MONEY (GOLD) START WITH 200
         self.inventory = info['inventory']
@@ -105,6 +107,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if weapon_name in self.weapons.keys():
             self.active_weapon = self.weapons[weapon_name]
             self.active_weapon_group.add(self.active_weapon)
+
     ####################################################################################################
 
     def load_images(self):

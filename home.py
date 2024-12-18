@@ -74,6 +74,7 @@ def home_area(player):
                 display.blit(gold_chest, (240, 200))
                 if keys[pygame.K_e]:
                     info['claimed_chest_home'] = 1
+                    player.add_gold(100)
                     # this way the player can only open this chest once in the whole game
             else:
                 draw_button(display, 100, 200, 320, 100,
