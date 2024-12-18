@@ -71,7 +71,7 @@ def home_area(player):
                 draw_button(display, 100, 200, 320, 100,
                             "click  'E'  to  claim  hidden  gold!", brick_color,
                             "images/inventory/inventory_menu.png", cutefont)
-                display.blit(gold_chest, (240, 190))
+                display.blit(gold_chest, (240, 200))
                 if keys[pygame.K_e]:
                     info['claimed_chest_home'] = 1
                     # this way the player can only open this chest once in the whole game

@@ -87,7 +87,7 @@ def old_lady_house_area(player):
                 draw_button(display, 10, 150, 320, 100,
                             "click  'E'  to  steal  gold  from  your  grandma!", brick_color,
                             "images/inventory/inventory_menu.png", cutefont)
-                display.blit(gold_chest, (150, 140))
+                display.blit(gold_chest, (150, 150))
                 if keys[pygame.K_e]:
                     info['stolen_grandma'] = 1
                     # this way the player can only open this chest once in the whole game
