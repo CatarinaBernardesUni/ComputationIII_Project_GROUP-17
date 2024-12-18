@@ -192,6 +192,14 @@ class Bow(Weapon):
         super().__init__(player, groups, weapon_name)
         self.distance = 30
 
+        self.arrow_frames = []
+        folder_path = os.path.normpath("images/weapons/blue_arrow")
+        for file_name in os.listdir(folder_path):
+            frame = pygame.image.load(os.path.join(folder_path, file_name)).convert_alpha()
+            scaled_frame = pygame.transform.scale(frame, (35, 35))
+            # print(f"Loaded frame: {file_name}")
+            self.arrow_frames.append(scaled_frame)
+
     def rotate_weapon(self):
         angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
         flipped_image = pygame.transform.flip(self.image, True, False)

@@ -1,8 +1,8 @@
 import pygame.display
 from game import *
-from config import *
+# from config import *
 from utils import *
-import platform
+# import platform
 
 
 # from player import Player
@@ -16,8 +16,7 @@ def interface():
     pygame_icon = pygame.image.load("images/chests/chest_with_gold.png")
     pygame.display.set_icon(pygame_icon)
     # set the title of the window
-    pygame.display.set_caption("Game Title")
-
+    pygame.display.set_caption("Endless Wilderness Explorer")
 
     # initiating the music
     pygame.mixer.init()
