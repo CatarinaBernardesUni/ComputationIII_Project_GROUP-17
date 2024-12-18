@@ -1,3 +1,4 @@
+import config
 from collision import CollisionObject
 import interface
 from config import *
@@ -25,26 +26,29 @@ def paused():
         pygame.display.update()
 
 def options_menu():
+    global global_volume
     # Set up the display
     screen = pygame.display.set_mode(resolution)
 
     # setting a background
     options_background = pygame.image.load("images/options/options_trial.png")
 
-    # music Bar properties
+    # size of the music bar
     bar_width = 400
     bar_height = 20
     bar_x = (resolution[0] - bar_width) // 2
     bar_y = (resolution[1] - bar_height) // 2
-    bar_value = 0.5  # Initial value of the music (0.0 to 1.0)
 
+    running = True
     while True:
         # getting the mouse position
         mouse = get_mouse_position()
 
-        for ev in pygame.event.get():
-            if ev.type == pygame.QUIT:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                progress()
                 pygame.quit()
+                exit()
             #if ev.type == pygame.MOUSEBUTTONDOWN:
                 # checking if the back button was clicked
                 #if shop_button.collidepoint(mouse):
@@ -54,13 +58,11 @@ def options_menu():
         screen.blit(options_background, (0, 0))
 
         # Draw the music bar and update its value
-        bar_value = music_bar(screen, bar_x, bar_y, bar_width, bar_height, bar_value)
+        global_volume = music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume)
 
         # Update the display
         pygame.display.flip()
         progress()
-        pygame.quit()
-
 
 # Function to draw a stick figure with a construction hat
 def draw_stick_figure_with_hat(screen, x, y):

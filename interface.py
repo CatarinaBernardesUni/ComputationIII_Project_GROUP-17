@@ -23,8 +23,8 @@ def interface():
     pygame.mixer.init()
     # load and play the music for the man menu
     pygame.mixer.music.load("music/main_menu.mp3")
+    pygame.mixer.music.set_volume(config.global_volume)
     pygame.mixer.music.play(-1)  # -1 makes the music play in loop
-
 
     # creating the screen at the set resolution
     # screen = pygame.display.set_mode(resolution)  # show the user something
@@ -96,6 +96,7 @@ def interface():
                     pygame.mixer.music.stop()
                     # initializing the music for the main game
                     pygame.mixer.music.load("music/Adventure.mp3")
+                    pygame.mixer.music.set_volume(config.global_volume)
                     pygame.mixer.music.play(-1)
                     choose_character()
 

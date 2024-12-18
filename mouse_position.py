@@ -5,7 +5,6 @@ from config import *
 def get_mouse_position():
     return pygame.mouse.get_pos()
 
-
 # drawing a button, just skeleton does not work on its own:
 def draw_button(screen, x, y, width, height, text, text_color, image_path, font):
     button_image = pygame.image.load(image_path).convert_alpha()  # making sure that it handles transparency

@@ -217,6 +217,7 @@ def execute_game(player, dog):
                 in_battle_area = True
                 pygame.mixer.music.stop()
                 pygame.mixer.music.load("music/TheGreatBattle.mp3")
+                pygame.mixer.music.set_volume(config.global_volume)
                 pygame.mixer.music.play(-1)
 
             weapon_group.update(frame_time)
@@ -311,6 +312,7 @@ def execute_game(player, dog):
                 in_battle_area = False
                 pygame.mixer.music.stop()
                 pygame.mixer.music.load("music/Adventure.mp3")
+                pygame.mixer.music.set_volume(config.global_volume)
                 pygame.mixer.music.play(-1)
 
         # drawing the player and enemies sprites on the screen # these 2 displays were screen
