@@ -40,9 +40,13 @@ fps = 60
 # some screen images
 pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_image2.png"), (1280, 180))
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
+
+#options screen
+options_1 = pygame.transform.scale(pygame.image.load("images/screens/options1.png"), resolution)
 options_2 = pygame.transform.scale(pygame.image.load("images/screens/options2.png"), resolution)
 
-options_pages = [options_2, game_over_image, choose_character_image, options_2, game_over_image]
+options_pages = [options_1, options_2, choose_character_image, game_over_image]
+
 # menu of the store
 menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.png"), (750, 600))
 entrance_store = pygame.transform.scale(pygame.image.load("images/store/store_front.png"), resolution)
