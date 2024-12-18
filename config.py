@@ -31,6 +31,7 @@ empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_hear
 # font for the game
 cutefont = pygame.font.Font("fonts/pixel_font.ttf", 11)
 inventoryfont = pygame.font.Font("fonts/pixel_font.ttf", 25)
+settingsfont = pygame.font.Font("fonts/Minecraft.ttf", 25)
 
 # game over screen
 game_over_image = pygame.transform.scale(pygame.image.load("images/screens/game_over.png"), (1280, 720))
@@ -86,12 +87,10 @@ def progress():
 
 # Function to draw the music bar
 def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
-    # Get the mouse position
-    mouse = pygame.mouse.get_pos()
 
     # Draw the plus and minus buttons
-    minus_button = draw_button(screen, bar_x - 50 - 10, bar_y + (bar_height - 60) // 2, 50, 60, 'MINUS', white, 'images/store/store_button.png', cutefont)
-    plus_button = draw_button(screen, bar_x + bar_width + 10, bar_y + (bar_height - 60) // 2, 50, 60, 'PLUS', white, 'images/store/store_button.png', cutefont)
+    minus_button = draw_button(screen, bar_x - 70 - 10, bar_y + (bar_height - 80) // 2, 70, 80, 'MINUS', white, 'images/store/store_button.png', cutefont)
+    plus_button = draw_button(screen, bar_x + bar_width + 10, bar_y + (bar_height - 80) // 2, 70, 80, 'PLUS', white, 'images/store/store_button.png', cutefont)
 
     # Draw the main bar
     pygame.draw.rect(screen, brick_color, (bar_x, bar_y, bar_width, bar_height))
@@ -100,16 +99,6 @@ def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
     slider_x = bar_x + (global_volume * bar_width) - (bar_height // 2)
     pygame.draw.rect(screen, white, (slider_x, bar_y - (bar_height // 2), bar_height, bar_height * 2))
 
-    for ev in pygame.event.get():
-        if ev.type == pygame.MOUSEBUTTONDOWN:
-            # Check if the minus sign is clicked
-            if minus_button.collidepoint(mouse):
-                global_volume = max(0, global_volume - 0.1)
-            # Check if the plus sign is clicked
-            elif plus_button.collidepoint(mouse):
-                global_volume = min(1, global_volume + 0.1)
-
-    pygame.mixer.music.set_volume(global_volume)
-    return global_volume
+    return minus_button, plus_button
 
 
