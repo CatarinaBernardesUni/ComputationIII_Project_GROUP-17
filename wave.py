@@ -9,12 +9,13 @@ from enemy import Enemy
 from player import remove_health
 from utils import calculate_camera_offset
 
+
 class WaveManager:
     def __init__(self, player, enemies_data, battle_area_rect):
 
         self.battle_area_rect = battle_area_rect
         self.player = player
-        self.current_wave = 0
+        self.current_wave = info['current_wave']
         self.is_wave_active = False
         # self.is_wave_paused = False  # pause means that the player has left the battle area
         self.current_wave_config = None
@@ -79,13 +80,13 @@ class WaveManager:
 
     def start_next_wave(self):
         self.is_wave_active = False
-        self.current_wave += 1
+        info["current_wave"] += 1
         # resetting the enemies defeated counter at beginning of each wave
         self.enemies_defeated = 0
 
         # there are 8 predefined waves, if we are out of them, generate a random wave
-        if self.current_wave <= len(self.predefined_waves):
-            self.current_wave_config = self.predefined_waves[self.current_wave - 1]
+        if info["current_wave"] <= len(self.predefined_waves):
+            self.current_wave_config = self.predefined_waves[info["current_wave"] - 1]
         else:
             self.current_wave_config = self.generate_random_wave()
 
@@ -93,7 +94,7 @@ class WaveManager:
 
     def generate_random_wave(self):
         # the more waves you do the bigger they become
-        num_enemies = min(10 + self.current_wave, 50)  # Stopping point: max 50 enemies
+        num_enemies = min(10 + info["current_wave"], 50)  # Stopping point: max 50 enemies
 
         # Generate a random wave configuration
         wave_config = {}
@@ -127,7 +128,7 @@ class WaveManager:
                 self.animation_active = False
                 return
                 # Prepare text properties
-            wave_text = f"Wave {self.current_wave} Starting!"
+            wave_text = f"Wave {info['current_wave']} Starting!"
             text_surface = self.font.render(wave_text, True, white)
             text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
 
@@ -225,7 +226,8 @@ class WaveManager:
 
             # Collision detection between player and enemies
             collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,
-                                                                collided=pygame.sprite.collide_rect_ratio(collision_ratio))
+                                                               collided=pygame.sprite.collide_rect_ratio(
+                                                                   collision_ratio))
 
             for enemy in collided_with_player:
                 current_time = pygame.time.get_ticks()
@@ -247,7 +249,7 @@ class WaveManager:
 
     def show_choice_popup(self):
 
-        gold_reward = 50 * self.current_wave
+        gold_reward = 50 * info["current_wave"]
         self.player.gold += gold_reward
 
         # todo: delete this if we don't want the player to gain bonus at the end of the wave
@@ -255,17 +257,17 @@ class WaveManager:
         bonus_reward = random.random() < 0.3  # 30% chance
         bonus_text = " and a bonus!" if bonus_reward else "!"
 
-        message_lines = [f"Wave {self.current_wave} Completed!",
+        message_lines = [f"Wave {info['current_wave']} Completed!",
                          f"You earned {gold_reward} gold{bonus_text}",
                          f"Start next wave or leave?"]
 
         # todo: commenting this code because the method give_bonus() doesn't exist in the player class
         # Apply bonus if granted
         # if bonus_reward:
-            # self.player.give_bonus()  # todo: add this method to the player class
+        # self.player.give_bonus()  # todo: add this method to the player class
 
         # Starting position for the text
-        #start_x = 500
+        # start_x = 500
         start_y = 200
         line_spacing = 60
 
