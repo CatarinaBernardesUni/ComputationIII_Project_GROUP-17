@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"health": 5, "gold": 1340, "inventory": {"dog": 1, "apple": 2, "mushroom": 0, "speed potion": 0, "sword": 3, "soup": 0, "bow": 1, "key": 0}, "claimed_chest_home": 1, "stolen_grandma": 1, "weapons": {}}
-=======
 {"health": 5, "gold": 1195, "inventory": {"dog": 1, "apple": 3, "mushroom": 1, "speed potion": 0, "sword": 4, "soup": 0, "bow": 2, "key": 0}, "claimed_chest_home": 1, "stolen_grandma": 1, "weapons": {}}
->>>>>>> main
