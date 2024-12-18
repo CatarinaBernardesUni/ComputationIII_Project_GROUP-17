@@ -34,7 +34,6 @@ def cave_area(player):
     while running:
         # controlling the frame rate
         frame_time = clock.tick(fps)
-
         # handling events:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():

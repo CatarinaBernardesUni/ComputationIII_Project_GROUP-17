@@ -17,7 +17,6 @@ def interface():
     pygame.mixer.music.load("music/main_menu.mp3")
     pygame.mixer.music.play(-1)  # -1 makes the music play in loop
 
-
     # creating the screen at the set resolution
     # screen = pygame.display.set_mode(resolution)  # show the user something
 
@@ -26,11 +25,8 @@ def interface():
     pygame.display.set_caption("Game Name")  # set the title of the window
 
     ########################### SETTING UP CURSOR ####################################
-    # Load the custom cursor image
-    cursor_image = pygame.image.load("mouse/mouse_trial.png")
-
-    #Loading the cursor to a bigger size
-    cursor_image = pygame.transform.scale(cursor_image, (32, 32))
+    # Load the custom cursor image, and loading the cursor to a bigger size
+    cursor_image = pygame.transform.scale(pygame.image.load("mouse/mouse_trial.png"), (32, 32))
 
     # Create a surface for the cursor
     cursor_surface = pygame.Surface((32, 32), pygame.SRCALPHA)
@@ -45,8 +41,8 @@ def interface():
     ########################################################################
 
     # setting the fonts
-    corbelfont = pygame.font.SysFont("Corbel", 50)
-    comicsansfont = pygame.font.SysFont("Comic Sans MS", 50)
+    # corbelfont = pygame.font.SysFont("Corbel", 50)
+    # comicsansfont = pygame.font.SysFont("Comic Sans MS", 50)
 
     # render the text (will be used in the game button)
     # wilderness_text = corbelfont.render("Wilderness Explorer", True, white)
@@ -98,7 +94,7 @@ def interface():
             # rules button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 314 <= mouse[0] <= 472 and 521 <= mouse[1] <= 578:
-                    under_construction()
+                    # under_construction()
                     rules_()
 
         # cursor = pygame.cursors.compile(pygame.cursors.textmarker_strings)
@@ -189,4 +185,30 @@ def credits_():
 
 
 def rules_():
-    print("Displaying rules...")
+    page_1 = True
+    screen.blit(options_pages[0], (0, 0))
+    current_index = 0
+    while page_1:
+        keys = pygame.key.get_pressed()
+        for ev in pygame.event.get():
+            if ev.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+                if current_index != 0:
+                    screen.blit(options_pages[current_index-1], (0, 0))  # return from where it was before
+                    current_index -= 1
+                else:
+                    interface()
+
+            if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+                if current_index != 1:
+                    screen.blit(options_pages[current_index + 1], (0, 0))
+                    current_index += 1
+                else:
+                    print("That was the last page, babes...")
+
+
+        pygame.display.update()
+

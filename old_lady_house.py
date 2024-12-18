@@ -83,9 +83,18 @@ def old_lady_house_area(player):
 
         # display.blit(player_score_surf, player_score_rect)
         if clues_rect and clues_rect.colliderect(player.rect):
-            draw_button(display, 100, 100, 320, 100,
-                        "This  is  where  your  grandma  stores  her  belongings.", brick_color,
-                        "images/inventory/inventory_menu.png", cutefont)
+            if info['stolen_grandma'] <= 0:
+                draw_button(display, 10, 150, 320, 100,
+                            "click  'E'  to  steal  gold  from  your  grandma!", brick_color,
+                            "images/inventory/inventory_menu.png", cutefont)
+                display.blit(gold_chest, (150, 150))
+                if keys[pygame.K_e]:
+                    info['stolen_grandma'] = 1
+                    # this way the player can only open this chest once in the whole game
+            else:
+                draw_button(display, 10, 150, 320, 100,
+                            "+ 150  gold   (already  claimed)", brick_color,
+                            "images/inventory/inventory_menu.png", cutefont)
 
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
