@@ -133,7 +133,7 @@ def execute_game(player, dog):
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
 
     # starting the first wave
-    wave_manager.start_next_wave()
+    wave_manager.start_next_wave(0)
 
     event_display_start_wave_message = pygame.USEREVENT + 0
     ###################################### MAIN GAME LOOP #######################################
@@ -207,7 +207,7 @@ def execute_game(player, dog):
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
-            wave_manager.start_next_wave()
+            wave_manager.start_next_wave(1)
 
 
         # checking if the player is in the battle area

@@ -78,9 +78,9 @@ class WaveManager:
             {"electric_enemy": 3, "myst_ghost": 2},  # Wave 8: 3 electric_enemies, 2 myst_ghosts
         ]
 
-    def start_next_wave(self):
+    def start_next_wave(self, count):
         self.is_wave_active = False
-        info["current_wave"] += 1
+        info["current_wave"] += count
         # resetting the enemies defeated counter at beginning of each wave
         self.enemies_defeated = 0
 
@@ -306,7 +306,7 @@ class WaveManager:
                     exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if next_wave_button.collidepoint(event.pos):
-                        self.start_next_wave()  # Start the next wave
+                        self.start_next_wave(1)  # Start the next wave
                         choice_made = True
                     elif leave_button.collidepoint(event.pos):
                         self.is_wave_active = False  # End the wave
