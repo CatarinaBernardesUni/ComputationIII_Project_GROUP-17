@@ -1,5 +1,7 @@
 # Config file used to set global variables and other settings
 # COLORS AND PICTURES HERE FOR NOW
+import pygame.mixer
+
 from progress import *
 # from mouse_position import draw_button
 
@@ -21,7 +23,15 @@ brick_color = (117, 49, 40)
 
 # global volume for all music
 global_volume = 0.5
+menu_music = pygame.mixer.Sound("music/main_menu.mp3")
+menu_music.set_volume(global_volume)
+battle_music = pygame.mixer.Sound("music/TheGreatBattle.mp3")
+battle_music.set_volume(global_volume)
+main_music = pygame.mixer.Sound("music/Adventure.mp3")
+main_music.set_volume(global_volume)
 
+# creating a list of all sounds
+all_sounds = [menu_music, battle_music, main_music]
 
 # hearts
 full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))

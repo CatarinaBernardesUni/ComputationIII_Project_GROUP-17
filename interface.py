@@ -20,10 +20,7 @@ def interface():
 
     # initiating the music
     pygame.mixer.init()
-    # load and play the music for the man menu
-    pygame.mixer.music.load("music/main_menu.mp3")
-    pygame.mixer.music.set_volume(config.global_volume)
-    pygame.mixer.music.play(-1)  # -1 makes the music play in loop
+    menu_music.play(-1)
 
     # creating the screen at the set resolution
     # screen = pygame.display.set_mode(resolution)  # show the user something
@@ -89,11 +86,9 @@ def interface():
                 if 517 <= mouse[0] <= 753 and 344 <= mouse[1] <= 429:
                     # wilderness_explorer()
                     # stopping the menu music
-                    pygame.mixer.music.stop()
+                    menu_music.stop()
                     # initializing the music for the main game
-                    pygame.mixer.music.load("music/Adventure.mp3")
-                    pygame.mixer.music.set_volume(config.global_volume)
-                    pygame.mixer.music.play(-1)
+                    main_music.play(-1)
                     choose_character()
 
             # options button
