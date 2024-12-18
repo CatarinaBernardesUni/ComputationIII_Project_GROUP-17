@@ -9,18 +9,12 @@ weapons = {"dagger": {
                 "tier": 1,
                 "damage": 18,
                 "attack_speed": 2.0,
-                "durability": 30,
-                "crit_chance": 0.2,
-                "crit_multiplier": 2.5,
                 "special_effect": None,
                 "directory_path": "images/weapons/dagger"},
            "ghost_bow": {
                  "tier": 1,
                  "damage": 22,
                  "attack_speed": 1.0,
-                 "durability": 40,
-                 "crit_chance": 0.1,
-                 "crit_multiplier": 2.0,
                  "special_effect": None,
                  "directory_path": "images/weapons/ghost_bow"},
 ####################### TIER 2 WEAPONS ########################################
@@ -28,18 +22,12 @@ weapons = {"dagger": {
                "tier": 2,
                "damage": 18,
                "attack_speed": 1.1,
-               "durability": 35,
-               "crit_chance": 0.15,
-               "crit_multiplier": 2.2,
                "special_effect": "freeze",  # slow down enemies
                "directory_path": "images/weapons/winter_sword"},
            "gold_axe": {
                "tier": 2,
                "damage": 22,
                "attack_speed": 0.9,
-               "durability": 30,
-               "crit_chance": 0.1,
-               "crit_multiplier": 1.8,
                "special_effect": "golden touch",  # get more gold from enemies
                "directory_path": "images/weapons/gold_axe"},
 ####################### TIER 3 WEAPONS ########################################
@@ -47,27 +35,18 @@ weapons = {"dagger": {
                "tier": 3,
                "damage": 28,
                "attack_speed": 0.7,
-               "durability": 25,
-               "crit_chance": 0.1,
-               "crit_multiplier": 2.0,
                "special_effect": "burn",
                "directory_path": "images/weapons/fire_sword"},
            "ice_bow": {
                "tier": 3,
                "damage": 24,
                "attack_speed": 1.0,
-               "durability": 30,
-               "crit_chance": 0.12,
-               "crit_multiplier": 1.9,
                "special_effect": "freeze",
                "directory_path": "images/weapons/ice_bow"},
            "light_bow": {
                "tier": 3,
                "damage": 23,
                "attack_speed": 1.0,
-               "durability": 30,
-               "crit_chance": 0.1,
-               "crit_multiplier": 1.8,
                "special_effect": "blindness", # monster stop moving because they can't see for a while or will miss their attacks or start going away from you
                "directory_path": "images/weapons/light_bow"},
 ####################### TIER 4 WEAPON ########################################
@@ -75,9 +54,6 @@ weapons = {"dagger": {
                "tier": 4,
                "damage": 15,
                "attack_speed": 1.2,
-               "durability": 50,
-               "crit_chance": 0.08,
-               "crit_multiplier": 1.6,
                "special_effect": "bleed",  # Causes enemies to lose HP over time
                "directory_path": "images/weapons/ruby_axe"}}
 
@@ -90,14 +66,10 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.tier = weapons[weapon_name]["tier"]
         self.damage = weapons[weapon_name]["damage"]
         self.attack_speed = weapons[weapon_name]["attack_speed"]
-        self.durability = weapons[weapon_name]["durability"]
-        self.crit_chance = weapons[weapon_name]["crit_chance"]  # probability of dealing extra damage
-        self.crit_multiplier = weapons[weapon_name]["crit_multiplier"]  # how much extra damage is dealt
         self.special_effect = weapons[weapon_name]["special_effect"]  # burn, freeze, maybe more efficient
                                                                       # in some monsters than others
         self.directory_path = weapons[weapon_name]["directory_path"]
 
-        self.usage_count = 0
         self.upgrade_level = 0
 
         # connection to the player
@@ -159,27 +131,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
 ##########################################################################################################
 
 ########################### MECHANICS OF THE WEAPON ######################################################
-    def attack(self, target):
-        if self.durability <= 0:
-            return "This weapon is broken"
-            # todo: check if I should use a return or a print here
-
-        damage_dealt = self.damage
-        if self.roll_crit():
-            damage_dealt *= self.crit_multiplier
-
-        if self.special_effect:
-            self.apply_effect(target)
-
-        self.durability -= 1
-        self.usage_count += 1
-        self.adapt()
-
-        return damage_dealt
-
-    def roll_crit(self):
-        return random() <= self.crit_chance
-
     def apply_effect(self, target):
         if self.special_effect == "burn":
             target.take_damage(5)
@@ -193,15 +144,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
             self.upgrade_level += 1
             self.damage *= 1.2
             self.attack_speed *= 1.1
-            self.durability += 10
-            self.crit_chance += 0.02
-
-    def break_weapon(self):
-        self.durability = 0
-        # todo: decide what to do when a weapon breaks
-
-    def repair(self):
-        self.durability = 100
 
     def display_stats(self):
         print(f"Name: {self.name}")
@@ -209,11 +151,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         print(f"Upgrade Level: {self.upgrade_level}")
         print(f"Damage: {self.damage}")
         print(f"Attack Speed: {self.attack_speed}")
-        print(f"Durability: {self.durability}")
-        print(f"Crit Change: {self.crit_chance*100}%")
-        print(f"Crit Multiplier: {self.crit_multiplier}")
         print(f"Special Effect: {self.special_effect}")
-        print(f"Usage Count: {self.usage_count}")
 
 #################################################################################
 
