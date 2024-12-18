@@ -86,6 +86,8 @@ def game_loop():
             current_state = old_lady_house_area(player)
         elif current_state == "store":
             current_state = inside_store(player)
+        elif current_state == "game_over":
+            game_over()
 
 
 def execute_game(player, dog):
@@ -94,7 +96,6 @@ def execute_game(player, dog):
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
     power_up_manager = PowerUpManager(width // 2, height // 2)
     in_battle_area = False
-
 
     ############################### MAP ################################
 
@@ -126,12 +127,12 @@ def execute_game(player, dog):
     # light_bow = Bow(player, weapon_group, "light_bow")
 
     # gold_axe = Axe(player, weapon_group, "gold_axe")
-    ruby_axe = Axe(player, weapon_group, "ruby_axe")
+    # ruby_axe = Axe(player, weapon_group, "ruby_axe")
 
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
 
-    # we can't create this in the loop, or it will create a new one in every iteration
+    # starting the first wave
     wave_manager.start_next_wave()
 
     event_display_start_wave_message = pygame.USEREVENT + 0
@@ -143,13 +144,6 @@ def execute_game(player, dog):
 
         mouse_pos = pygame.mouse.get_pos()
         scaled_mouse_pos = (mouse_pos[0]//2, mouse_pos[1]//2)
-
-        # drawing the inventory button
-        # inventory_button = draw_button(display, x=(width // 2) - 80 - 10, y=10, width=70, height=35, text="Inventory",
-        # text_color=brick_color, image_path="images/buttons/basic_button.png",
-        # font=cutefont)
-
-        # display.fill("black")
 
         ################################ Calculate camera offset  #######################
         camera_offset = calculate_camera_offset(player, display)
@@ -169,7 +163,8 @@ def execute_game(player, dog):
 
         # updating the player group and dog
         # so dog can appear on screen when bought
-        player_group.update(collision_sprites, display)
+        player_group.update(collision_sprites, display, frame_time, battle_area_rect)
+
         if player.dog.bought:
             if player.dog not in player_group:
                 player_group.add(player.dog)
@@ -210,6 +205,11 @@ def execute_game(player, dog):
             player.rect.center = (325, 170)
             player.just_left_old_lady_house = False
 
+        if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
+            player.is_leaving_battle = False
+            wave_manager.start_next_wave()
+
+
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player
@@ -224,102 +224,38 @@ def execute_game(player, dog):
                 pygame.mixer.music.load("music/TheGreatBattle.mp3")
                 pygame.mixer.music.play(-1)
 
-            weapon_group.update(frame_time)
-            for weapon in weapon_group:
+            player.active_weapon_group.update(frame_time)
+            for weapon in player.active_weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                if event.type == event_display_start_wave_message:
-                    wave_manager.animation_active = False
-                    pygame.time.set_timer(event_display_start_wave_message, 0)
-
-            if not wave_manager.is_wave_active:
-                wave_manager.activate_wave(display, event_display_start_wave_message)
-
-            wave_manager.active_enemies.update(frame_time)
-            wave_manager.update(display, frame_time)
-
-            # for enemy in wave_manager.active_enemies:
-                # display.blit(enemy.image, enemy.rect.topleft + camera_offset)
-
-            # wave_manager.activate_wave(display)
-
-            # player.shoot(bullets)
+            if not wave_manager.is_wave_active and not player.is_leaving_battle:
+                wave_manager.activate_wave()
 
             # POWER UPS
             power_up_manager.draw(display, camera_offset)
             # Handle collisions between player and power-ups
             power_up_manager.handle_collision(player)
-            # spawning enemies every two seconds
-            # if enemy_cooldown <= 0:
-                # normal_fly = Enemy(player, enemies, "green_slime", battle_area_rect)
-                # adding the enemy to the group
-                # enemies.add(normal_fly)
 
-                # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
-                # enemy_cooldown = fps * 2
-
-            # updating the enemy cooldown
-            # enemy_cooldown -= 1
-
-            # wave_manager.active_enemies.update(frame_time)
-            # weapon_group.update(frame_time)
-
-            # for weapon in weapon_group:
-                # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
+            wave_manager.update(display, frame_time)
 
             # drawing the bullet sprites # this display was also screen
-            # for bullet in bullets:
-            # bullet.draw(display)
-            # pygame.draw.circle(
-            # display,
-            # bullet.color,
-            # (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
-            # bullet.radius
-            # )
-            # drawing the weapons
-
-            # todo: put this back too
-            # for weapon in weapon_group:
-            # display.blit(weapon.image, weapon.rect.topleft + camera_offset)
-
-            # wave_manager.update(display, frame_time)
+            #for bullet in bullets:
+                # bullet.draw(display)
+                #pygame.draw.circle(
+                    #display,
+                    #bullet.color,
+                    #(bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
+                    #bullet.radius
+                #)
 
             # checking for collisions between player bullets and enemies
             # for bullet in bullets:
                 # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
                 # collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
                                                                # True)  # True means kill upon impact
-                # for enemy in collided_enemies:
-                    # enemy.image = pygame.transform.scale(enemy_hurt, enemy_size)
-                    # enemy.health -= 5
-                    # info['score'] += 1
-                    # removing the bullet from the screen after hitting the player
-                    # bullet.kill()
-
-            # if normal_fly.health <= 0:
-                # normal_fly.kill()
-
-                # player_score_surf = pixel.render(f"score: {info['score']}", True, "black")
-                # player_score_rect = player_score_surf.get_rect(center=(65, 55))
-
-            # if player.rect.colliderect(normal_fly.rect):
-                # pygame.draw.rect(screen, red, player.rect)
-                # this "if" sees if the difference between the time the player is hit and the last time the
-                # player was hit is bigger than the time it needs to cooldown
-                # if pygame.time.get_ticks() - player.damage_cooldown > player.cooldown_duration:
-                    # here is missing showing hearts as health (I print the health to see if it's working)
-                    # player.remove_health(player)
-                    # player.damage_cooldown = pygame.time.get_ticks()  # and here sets the "last time it was hit"
-                    # remove_health()
-
 
             if info['health'] <= 0:
                 game_over()
-            # wave_manager.update(display, frame_time)
-
 
         # leaves battle area and music returns to normal game one
         else:
@@ -353,7 +289,9 @@ def execute_game(player, dog):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE and not wave_manager.animation_active:
+                    # the pause between the animation ending and the spawning of the next
+                    # wave stops the spawning of monsters
                     paused()
                 if event.key == pygame.K_ESCAPE:
                     inventory_menu(player)
@@ -372,6 +310,3 @@ def execute_game(player, dog):
     progress()
     pygame.quit()
     exit()
-
-    # pygame.display.update()
-    # clock.tick(15)

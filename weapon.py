@@ -83,7 +83,6 @@ weapons = {"dagger": {
 
 class Weapon(pygame.sprite.Sprite, ABC):
     def __init__(self, player, groups, weapon_name):
-        # directory_path is like: "images/weapons/fire_sword"
         super().__init__(groups)
 
         # weapon attributes
