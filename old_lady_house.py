@@ -85,7 +85,7 @@ def old_lady_house_area(player):
         if clues_rect and clues_rect.colliderect(player.rect):
             if info['stolen_grandma'] <= 0:
                 draw_button(display, 10, 150, 320, 100,
-                            "click  'E'  to steal gold  from your grandma!", brick_color,
+                            "click  'E'  to  steal  gold  from  your  grandma!", brick_color,
                             "images/inventory/inventory_menu.png", cutefont)
                 display.blit(gold_chest, (150, 140))
                 if keys[pygame.K_e]:
