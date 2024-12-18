@@ -63,8 +63,8 @@ def game_over():
                     pygame.quit()
                     exit()
                 if 531 <= mouse[0] <= 771 and 608 <= mouse[1] <= 700:
-                    interface.interface()
-                    waiting = False
+                    print("here will be the credits.")
+                    # waiting = False
 
 
 def game_loop():

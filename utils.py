@@ -66,8 +66,7 @@ def draw_normal_stick_figure(screen, x, y):
 
 
 def under_construction():
-    # creating the screen at 720x720 pixels
-    screen = pygame.display.set_mode(resolution)
+
 
     # setting up the fonts
     corbelfont = pygame.font.SysFont("Corbel", 50)
