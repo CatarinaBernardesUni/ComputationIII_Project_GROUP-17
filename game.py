@@ -205,6 +205,11 @@ def execute_game(player, dog):
             player.rect.center = (325, 170)
             player.just_left_old_lady_house = False
 
+        if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
+            player.is_leaving_battle = False
+            wave_manager.start_next_wave()
+
+
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # initiating the battle area music:
@@ -221,7 +226,7 @@ def execute_game(player, dog):
             if not wave_manager.is_wave_active and not player.is_leaving_battle:
                 wave_manager.activate_wave()
 
-            wave_manager.update(display, frame_time, enemy_cooldown)
+            wave_manager.update(display, frame_time)
 
             # drawing the bullet sprites # this display was also screen
             #for bullet in bullets:
@@ -273,7 +278,9 @@ def execute_game(player, dog):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE and not wave_manager.animation_active:
+                    # the pause between the animation ending and the spawning of the next
+                    # wave stops the spawning of monsters
                     paused()
                 if event.key == pygame.K_ESCAPE:
                     inventory_menu(player)

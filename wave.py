@@ -16,6 +16,7 @@ class WaveManager:
         self.player = player
         self.current_wave = 0
         self.is_wave_active = False
+        # self.is_wave_paused = False  # pause means that the player has left the battle area
         self.current_wave_config = None
         self.camera_offset = None
 
@@ -66,7 +67,7 @@ class WaveManager:
                 self.progress_frames.append(scaled_frame)
 
         self.predefined_waves = [
-            {"normal_fly": 3},  # Wave 1: 3 green_slimes
+            {"normal_fly": 3},  # Wave 1: 3 normal_flies
             {"green_slime": 5, "normal_fly": 2},  # Wave 2: 5 green_slimes, 2 normal_flies
             {"normal_fly": 5, "fire_fly": 3},  # Wave 3: 5 normal_flies, 3 fire_flies
             {"fire_fly": 4, "horse_ghost": 1},  # Wave 4: 4 fire_flies, 1 horse_ghost
@@ -114,6 +115,7 @@ class WaveManager:
             self.animation_index = 0  # Reset animation frame index
             self.elapsed_time = 0  # Reset elapsed time
             self.wave_display_start_time = pygame.time.get_ticks()  # Track start time
+            self.player.is_fighting = True  # Prevent the player from leaving the battle area rect
 
     def update_wave_animation(self, display):
         """Updates the wave animation and handles fading out the text."""
@@ -134,12 +136,10 @@ class WaveManager:
             text_surface.set_alpha(text_alpha)
             display.blit(text_surface, text_rect)
 
-    def spawn_wave(self, wave_config, enemy_cooldown):
+    def spawn_wave(self, wave_config):
         # print(f"Spawning wave {self.current_wave} enemies...")
         for enemy_name, count in wave_config.items():
             for _ in range(count):
-                """enemy = Enemy(self.player, self.active_enemies, enemy_name, self.battle_area_rect)
-                self.active_enemies.add(enemy)"""
                 self.enemies_to_spawn.append(enemy_name)
 
     def display_counter(self, display):
@@ -162,7 +162,7 @@ class WaveManager:
             self.player.gold += 10
             # print(f"Enemy {enemy.name} dropped gold! The player has {self.player.gold} gold")
 
-    def update(self, display, frame_time, enemy_cooldown):
+    def update(self, display, frame_time):
         """Updates the wave animation and ensures smooth transitions."""
         # display the announcement of the wave
         self.update_wave_animation(display)
@@ -181,8 +181,7 @@ class WaveManager:
                     # turns off the animation parameter and in the next iteration the wave will start
                     self.animation_active = False
                     # spawning the enemies here so that they are spawned only once
-                    self.spawn_wave(self.current_wave_config, enemy_cooldown)
-                    self.player.is_fighting = True
+                    self.spawn_wave(self.current_wave_config)
 
             # while it isn't time to display the next frame, keep displaying the current one - avoid blinking
             if self.current_frame:
@@ -238,13 +237,12 @@ class WaveManager:
                     # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
 
-            if self.total_enemies == self.enemies_defeated and self.is_wave_active:
+            if self.total_enemies == self.enemies_defeated and self.is_wave_active and len(self.enemies_to_spawn) == 0:
                 self.end_wave()
 
     def end_wave(self):
         # print(f"Wave {self.current_wave} ended!")
         self.is_wave_active = False
-
         self.show_choice_popup()
 
     def show_choice_popup(self):
