@@ -132,10 +132,7 @@ def execute_game(player, dog):
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
 
-    # starting the first wave
     wave_manager.start_next_wave()
-
-    event_display_start_wave_message = pygame.USEREVENT + 0
     ###################################### MAIN GAME LOOP #######################################
     running = True
     while running:
@@ -209,12 +206,11 @@ def execute_game(player, dog):
             player.is_leaving_battle = False
             wave_manager.start_next_wave()
 
-
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player
             power_up_manager.fight_area = battle_area_rect
-            player.shoot(bullets)
+            # player.shoot(bullets)
             # Update power-ups
             power_up_manager.update(player)
             # initiating the battle area music:

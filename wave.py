@@ -111,6 +111,7 @@ class WaveManager:
         """Activates the wave animation."""
         if not self.is_wave_active:
             # print(f"Activating wave {self.current_wave}!")
+            #info["current_wave"] += 1
             self.is_wave_active = True
             self.animation_active = True
             self.animation_index = 0  # Reset animation frame index
@@ -226,13 +227,12 @@ class WaveManager:
 
             # Collision detection between player and enemies
             collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,
-                                                               collided=pygame.sprite.collide_rect_ratio(
-                                                                   collision_ratio))
+                                                collided=pygame.sprite.collide_rect_ratio(collision_ratio))
 
             for enemy in collided_with_player:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.player.damage_cooldown > self.player.cooldown_duration:
-                    self.player.health -= enemy.attack
+                    # self.player.health -= enemy.attack
                     # using this function to handle the display of the health bar (hearts) and game over,
                     # due to circular import
                     remove_health(enemy.attack)
@@ -262,6 +262,7 @@ class WaveManager:
                          f"Start next wave or leave?"]
 
         # todo: commenting this code because the method give_bonus() doesn't exist in the player class
+        # todo: maybe this code for the red axe
         # Apply bonus if granted
         # if bonus_reward:
         # self.player.give_bonus()  # todo: add this method to the player class
