@@ -1,6 +1,7 @@
 # Config file used to set global variables and other settings
 # COLORS AND PICTURES HERE FOR NOW
 from progress import *
+from mouse_position import draw_button
 
 # COLORS
 dark_red = (138, 0, 0)  # Dark red for buttons
@@ -18,6 +19,9 @@ greenish = (182, 215, 168)
 brick_color_transparent = (117, 49, 40, 225)
 brick_color = (117, 49, 40)
 
+# global volume for all music
+global_volume = 0.5
+
 
 # hearts
 full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))
@@ -27,6 +31,7 @@ empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_hear
 # font for the game
 cutefont = pygame.font.Font("fonts/pixel_font.ttf", 11)
 inventoryfont = pygame.font.Font("fonts/pixel_font.ttf", 25)
+settingsfont = pygame.font.Font("fonts/Minecraft.ttf", 25)
 
 # game over screen
 game_over_image = pygame.transform.scale(pygame.image.load("images/screens/game_over.png"), (1280, 720))
@@ -90,3 +95,22 @@ display = pygame.Surface((width // 2, height // 2))
 def progress():
     with open("player_info.txt", "w") as player_file:
         json.dump(info, player_file)
+
+
+# Function to draw the music bar
+def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
+
+    # Draw the plus and minus buttons
+    minus_button = draw_button(screen, bar_x - 70 - 10, bar_y + (bar_height - 80) // 2, 70, 80, 'MINUS', white, 'images/store/store_button.png', cutefont)
+    plus_button = draw_button(screen, bar_x + bar_width + 10, bar_y + (bar_height - 80) // 2, 70, 80, 'PLUS', white, 'images/store/store_button.png', cutefont)
+
+    # Draw the main bar
+    pygame.draw.rect(screen, brick_color, (bar_x, bar_y, bar_width, bar_height))
+
+    # Draw the slider
+    slider_x = bar_x + (global_volume * bar_width) - (bar_height // 2)
+    pygame.draw.rect(screen, white, (slider_x, bar_y - (bar_height // 2), bar_height, bar_height * 2))
+
+    return minus_button, plus_button
+
+

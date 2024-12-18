@@ -1,8 +1,10 @@
+import config
 from collision import CollisionObject
 import interface
 from config import *
 # from pytmx.util_pygame import load_pygame
 from tile import Tile
+from mouse_position import draw_button, get_mouse_position
 
 
 def paused():
@@ -23,6 +25,56 @@ def paused():
                     pause = False
         pygame.display.update()
 
+def options_menu():
+    global global_volume
+    # Set up the display
+    screen = pygame.display.set_mode(resolution)
+
+    # setting a background
+    options_background = pygame.image.load("images/options/options_trial.png")
+
+    # size of the music bar
+    bar_width = 400
+    bar_height = 20
+    bar_x = (resolution[0] - bar_width) // 2
+    bar_y = (resolution[1] - bar_height) // 2
+
+    running = True
+    while running:
+        # getting the mouse position
+        mouse = get_mouse_position()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                # Draw the music bar and its most recent value
+                minus_button, plus_button = music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume)
+                # minus sign is clicked
+                if minus_button.collidepoint(mouse):
+                    global_volume = max(0, global_volume - 0.1)
+                # plus sign is clicked
+                elif plus_button.collidepoint(mouse):
+                    global_volume = min(1, global_volume + 0.1)
+                pygame.mixer.music.set_volume(global_volume)
+
+        # Display the background
+        screen.blit(options_background, (0, 0))
+
+        # display the music bar on the screen:
+        music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume)
+
+        # Display the volume percentage
+        volume_percentage = int(global_volume * 100)
+        volume_text = settingsfont.render(f"Volume: {volume_percentage}%", False, white)
+        volume_text_rect = volume_text.get_rect(center=(bar_x + bar_width // 2, bar_y + bar_height + 50))
+        screen.blit(volume_text, volume_text_rect)
+
+        # Update the display
+        pygame.display.flip()
+        progress()
 
 # Function to draw a stick figure with a construction hat
 def draw_stick_figure_with_hat(screen, x, y):

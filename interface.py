@@ -2,6 +2,7 @@ import pygame.display
 from game import *
 from config import *
 from utils import *
+import platform
 
 
 # from player import Player
@@ -11,10 +12,18 @@ def interface():
     # initiating pygame
     pygame.init()
 
+    # changing the game icon
+    pygame_icon = pygame.image.load("images/chests/chest_with_gold.png")
+    pygame.display.set_icon(pygame_icon)
+    # set the title of the window
+    pygame.display.set_caption("Game Title")
+
+
     # initiating the music
     pygame.mixer.init()
     # load and play the music for the man menu
     pygame.mixer.music.load("music/main_menu.mp3")
+    pygame.mixer.music.set_volume(config.global_volume)
     pygame.mixer.music.play(-1)  # -1 makes the music play in loop
 
     # creating the screen at the set resolution
@@ -22,7 +31,6 @@ def interface():
 
     # this was in the execute game function, I put it here to change the title of the window even if we
     # don't click in the "start game"
-    pygame.display.set_caption("Game Name")  # set the title of the window
 
     ########################### SETTING UP CURSOR ####################################
     # Load the custom cursor image, and loading the cursor to a bigger size
@@ -81,15 +89,18 @@ def interface():
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 517 <= mouse[0] <= 753 and 344 <= mouse[1] <= 429:
                     # wilderness_explorer()
+                    # stopping the menu music
                     pygame.mixer.music.stop()
                     # initializing the music for the main game
                     pygame.mixer.music.load("music/Adventure.mp3")
+                    pygame.mixer.music.set_volume(config.global_volume)
                     pygame.mixer.music.play(-1)
                     choose_character()
+
             # options button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 547 <= mouse[0] <= 719 and 517 <= mouse[1] <= 578:
-                    under_construction()
+                    options_menu()
 
             # rules button
             if ev.type == pygame.MOUSEBUTTONDOWN:

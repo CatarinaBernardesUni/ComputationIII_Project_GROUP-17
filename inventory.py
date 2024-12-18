@@ -108,5 +108,4 @@ def inventory_menu(player):
                         # handle item usage
                         print(f"it is working {item}")
 
-
         pygame.display.update()
