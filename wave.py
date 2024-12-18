@@ -90,7 +90,6 @@ class WaveManager:
 
         self.total_enemies = sum(self.current_wave_config.values())  # Track total enemies
 
-    # todo: test he random wave generation
     def generate_random_wave(self):
         # the more waves you do the bigger they become
         num_enemies = min(10 + self.current_wave, 50)  # Stopping point: max 50 enemies

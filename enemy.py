@@ -68,16 +68,24 @@ class Enemy(pygame.sprite.Sprite):
         self.current_frame_index = 0
         self.image = self.frames[self.current_frame_index]
 
-        # starting the enemy at random valid location on the screen (inside the battle area rect)
-        spawn_x = random.randint(
-            max(self.battle_area_rect.left, self.player.rect.x - 400),
-            min(self.battle_area_rect.right, self.player.rect.x + 400)
-        )
-        spawn_y = random.randint(
-            max(self.battle_area_rect.top, self.player.rect.y - 400),
-            min(self.battle_area_rect.bottom, self.player.rect.y + 400)
-        )
-        self.rect = self.image.get_rect(topleft=(spawn_x, spawn_y))
+        # loop to make the enemy not spawn on top of the player
+        while True:
+            spawn_x = random.randint(
+                max(self.battle_area_rect.left, self.player.rect.x - 400),
+                min(self.battle_area_rect.right, self.player.rect.x + 400)
+            )
+            spawn_y = random.randint(
+                max(self.battle_area_rect.top, self.player.rect.y - 400),
+                min(self.battle_area_rect.bottom, self.player.rect.y + 400)
+            )
+
+            # Set the enemy's rectangle
+            self.rect = self.image.get_rect(topleft=(spawn_x, spawn_y))
+
+            # Check if the enemy's rectangle overlaps the player's rectangle
+            if not self.rect.colliderect(self.player.rect):
+                break  # Exit the loop if the spawn position is valid
+
         self.hitbox_rect = self.rect.inflate(self.inflate_parameters[0], self.inflate_parameters[1])
 
     def update_hitbox(self):
