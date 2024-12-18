@@ -23,6 +23,8 @@ class Dog(pygame.sprite.Sprite):
         self.player = player
         # making default as False so dog doesn't exist until bought
         self.bought = False
+        if info['inventory']['dog'] == 1:
+            self.bought = True
 
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],

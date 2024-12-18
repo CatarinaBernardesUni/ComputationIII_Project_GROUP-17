@@ -154,6 +154,7 @@ def shop_menu(player):
                         player.buy_item('dog')
                         if not player.dog.bought:
                             player.dog.bought = True
+                            info['inventory']['dog'] = 1
                             player_group.add(player.dog)
 
                 # SOUP BUTTON
