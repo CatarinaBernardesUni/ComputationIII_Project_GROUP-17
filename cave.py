@@ -17,7 +17,23 @@ def cave_area(player):
     (background_sprite_group, tiles_group, objects_group,
      collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions on cave",
                                                                                 "cave exit", None, "speech")
-
+    # doing this outside the area setup function because it is a specific thing from the cave
+    for obj in tmx_data.objects:
+        if obj in tmx_data.get_layer_by_name("spike rect"):
+            # there are several spike rects
+            spike_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        if obj in tmx_data.get_layer_by_name("purple crystal"):
+            # there is only one purple crystal rect
+            purple_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        if obj in tmx_data.get_layer_by_name("red crystal"):
+            # there is only one red crystal rect
+            red_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        if obj in tmx_data.get_layer_by_name("gold crystal"):
+            # there is only one gold crystal
+            gold_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        if obj in tmx_data.get_layer_by_name("white crystal"):
+            # there is several white crystal rects
+            white_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
     ####################################################################
 
     # creating an empty group for the player (that was received as input)

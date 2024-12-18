@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="114">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="126">
  <tileset firstgid="1" source="cave_tilesets/cave tiles.tsx"/>
  <tileset firstgid="1740" source="Cave objs.tsx"/>
  <tileset firstgid="1800" source="cave_tilesets/cave tiles 2.tsx"/>
@@ -355,6 +355,28 @@
   <object id="107" x="708.5" y="252.375" width="25.5" height="28.7917"/>
   <object id="108" x="638.25" y="251.375" width="29.25" height="29.375"/>
   <object id="113" x="783" y="208.5" width="112.5" height="55.5"/>
+ </objectgroup>
+ <objectgroup id="13" name="spike rect">
+  <object id="114" x="530.667" y="305.333" width="26.6667" height="28.6667"/>
+  <object id="115" x="546.667" y="288.667" width="27.3333" height="14.6667"/>
+  <object id="116" x="546" y="336" width="12" height="26.6667"/>
+  <object id="117" x="612.667" y="450.667" width="55.3333" height="27.3333"/>
+  <object id="118" x="626" y="416.667" width="12" height="31.3333"/>
+  <object id="119" x="640.667" y="433.333" width="26" height="15.3333"/>
+ </objectgroup>
+ <objectgroup id="14" name="purple crystal">
+  <object id="120" x="434.667" y="251" width="58.6667" height="19"/>
+ </objectgroup>
+ <objectgroup id="15" name="red crystal">
+  <object id="121" x="520.667" y="252.333" width="55.3333" height="17.3333"/>
+ </objectgroup>
+ <objectgroup id="16" name="gold crystal">
+  <object id="122" x="434" y="327" width="35.6667" height="34.3333"/>
+ </objectgroup>
+ <objectgroup id="17" name="white crystal">
+  <object id="123" x="483.333" y="426.667" width="34" height="20"/>
+  <object id="124" x="439.667" y="459.333" width="21.6667" height="30.3333"/>
+  <object id="125" x="462.333" y="449.667" width="31.3333" height="10.6667"/>
  </objectgroup>
  <objectgroup id="12" name="speech">
   <object id="109" x="785" y="259.5" width="12" height="9"/>
