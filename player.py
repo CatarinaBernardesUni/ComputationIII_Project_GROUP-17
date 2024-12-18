@@ -6,6 +6,7 @@ from os.path import join
 from os import walk  # allows us to walk through a folder
 import config
 from dog import Dog
+from weapon import *
 
 
 # I had to import the module itself here in import config, so we could actually choose a character, I tried for a
@@ -14,11 +15,17 @@ from dog import Dog
 
 
 # making a player a child of the Sprite class
+
+def remove_health(health_being_removed):
+    if info['health'] >= 0:
+        info['health'] -= health_being_removed
+
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def __init__(self):
         # calling the mother classes init aka Sprite
         super().__init__()
+        self.font = pygame.font.Font("fonts/pixel_font.ttf", 16)
         self.user = config.character_choice
         self.load_images()  # we need to do this before creating image
         self.state, self.frame_index = "left", 0
@@ -39,6 +46,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.just_left_old_lady_house = False
         self.just_left_home = False
         self.just_left_store = False
+
+        self.is_fighting = False
+        self.is_leaving_battle = False
         self.speed = 2
         self.health = info['health']
 
@@ -67,6 +77,36 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                             'bow': 100,
                             'key': 300}
 
+        ########### WEAPONS ########################
+        self.weapons = {key: None for key in weapons}  # A dictionary to store weapon instances
+        self.active_weapon = None  # Currently active weapon
+        self.active_weapon_group = pygame.sprite.Group()  # Group to store the active weapon
+        ###########################################
+
+    ############################## METHODS TO DEAL WITH WEAPONS ########################################
+    def add_weapon(self, weapon_name, weapon_type):
+        """Add a weapon instance to the player's inventory."""
+        if weapon_type == "Sword":
+            weapon_instance = Sword(self, self.active_weapon_group, weapon_name)
+        elif weapon_type == "Bow":
+            weapon_instance = Bow(self, self.active_weapon_group, weapon_name)
+        else:  # a weapon will always be one of these 3 types
+            weapon_instance = Axe(self, self.active_weapon_group, weapon_name)
+
+        self.weapons[weapon_name] = weapon_instance
+
+        if not self.active_weapon:  # Auto-select the first weapon if none is active
+            self.active_weapon = weapon_instance
+            self.active_weapon_group.add(self.active_weapon)
+
+    def switch_weapon(self, weapon_name: str):
+        # todo: mouse clicking on the inventory makes them the primary
+        """Switch the currently active weapon."""
+        if weapon_name in self.weapons.keys():
+            self.active_weapon = self.weapons[weapon_name]
+            self.active_weapon_group.add(self.active_weapon)
+    ####################################################################################################
+
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
@@ -91,7 +131,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             else:
                 display.blit(empty_heart, (heart * 33, 5))
 
-    def update(self, collision_sprites, display):
+    def update(self, collision_sprites, display, frame_time, battle_area_rect=None):
         # getting the keys input
 
         keys = pygame.key.get_pressed()
@@ -134,10 +174,29 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 self.state = "idle_right"
         self.animate()
         self.draw_hearts(display)
+        self.dont_leave_battle(battle_area_rect)
 
-    # todo: put this inside of the update
-    def dont_leave_battle(self, wave_manager, battle_area_rect):
-        if wave_manager.is_wave_active:
+        if self.active_weapon is None and battle_area_rect is not None:
+            if battle_area_rect.colliderect(self.rect):
+                message_lines = [
+                    "You better find a weapon before you start fighting,",
+                    "explore a bit more....",
+                    "I heard that there is a store somewhere in here..."]
+
+                # Starting position for the text
+                start_x = 100
+                start_y = 90
+                line_spacing = 30  # Spacing between lines
+                # Render each line and blit to the screen
+                for i, line in enumerate(message_lines):
+                    rendered_text = self.font.render(line, True, white)
+                    display.blit(rendered_text, (start_x, start_y + i * line_spacing))
+
+                if self.rect.right > battle_area_rect.left:
+                    self.rect.right = battle_area_rect.left
+
+    def dont_leave_battle(self, battle_area_rect):
+        if self.is_fighting:
             if self.rect.left < battle_area_rect.left:
                 self.rect.left = battle_area_rect.left
 
@@ -207,6 +266,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             if item_name == 'dog' and self.dog is None:
                 self.dog = Dog(self)
                 self.dog.bought = True
+            elif item_name == 'sword':
+                self.add_weapon("dagger", "Sword")
+                print(self.weapons)
+                print(self.active_weapon)
+            elif item_name == 'bow':
+                self.add_weapon("ghost_bow", "Bow")
+                print(self.weapons)
+                print(self.active_weapon)
         else:
             print(f"gold is not enough. gold: {info['gold']}")  # todo: add here a screen saying not enough money
 

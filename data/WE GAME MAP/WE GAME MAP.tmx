@@ -797,7 +797,7 @@
  <objectgroup id="15" name="Yellow Roof House" visible="0" locked="1">
   <object id="680" x="66.6667" y="608" width="32.6667" height="58"/>
  </objectgroup>
- <objectgroup id="16" name="Cave" visible="0" locked="1">
-  <object id="682" x="560" y="324.667" width="52.6667" height="54.6667"/>
+ <objectgroup id="16" name="Cave">
+  <object id="682" x="560" y="348.667" width="52.6667" height="30.6667"/>
  </objectgroup>
 </map>

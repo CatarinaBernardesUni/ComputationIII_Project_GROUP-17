@@ -3,7 +3,7 @@ from pytmx.util_pygame import load_pygame
 
 from mouse_position import draw_button
 # from game import paused
-from utils import area_setup, paused
+from utils import area_setup, paused, calculate_camera_offset
 
 
 def cave_area(player):
@@ -47,14 +47,7 @@ def cave_area(player):
 
         ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset
-        camera_x = player.rect.centerx - display.get_width() // 2
-        camera_y = player.rect.centery - display.get_height() // 2
-
-        # Clamp the camera within the map boundaries
-        camera_x = max(0, min(camera_x, width - display.get_width()))
-        camera_y = max(0, min(camera_y, height - display.get_height()))
-
-        camera_offset = pygame.Vector2(-camera_x, -camera_y)
+        camera_offset = calculate_camera_offset(player, display)
         ####################################################################################
 
         # draw the tiles
@@ -67,7 +60,7 @@ def cave_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # updating the player group
-        player_group.update(collision_sprites, display)
+        player_group.update(collision_sprites, display, frame_time)
 
         if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_cave = True

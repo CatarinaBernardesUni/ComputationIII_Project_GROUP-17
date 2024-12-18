@@ -30,7 +30,7 @@ def old_lady_house_area(player):
     running = True
     while running:
         # controlling the frame rate
-        # frame_time = clock.tick(fps)
+        frame_time = clock.tick(fps)
 
         # handling events:
         keys = pygame.key.get_pressed()
@@ -44,14 +44,7 @@ def old_lady_house_area(player):
 
         ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset
-        camera_x = player.rect.centerx - display.get_width() // 2
-        camera_y = player.rect.centery - display.get_height() // 2
-
-        # Clamp the camera within the map boundaries
-        camera_x = max(0, min(camera_x, width - display.get_width()))
-        camera_y = max(0, min(camera_y, height - display.get_height()))
-
-        camera_offset = pygame.Vector2(-camera_x, -camera_y)
+        camera_offset = calculate_camera_offset(player, display)
         ####################################################################################
 
         # draw the tiles
@@ -64,7 +57,7 @@ def old_lady_house_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # updating the player group
-        player_group.update(collision_sprites, display)
+        player_group.update(collision_sprites, display, frame_time)
 
         if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_old_lady_house = True
@@ -106,7 +99,7 @@ def old_lady_house_area(player):
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
-        clock.tick(fps)
+        # clock.tick(fps)
     # the main while loop was terminated
     progress()
     pygame.quit()
