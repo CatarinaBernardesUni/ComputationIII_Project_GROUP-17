@@ -56,9 +56,11 @@ old_lady_1 = "Be careful out there!"
 old_lady_2 = "Good to see you!"
 old_lady_3 = "Looking for something?"
 old_lady_4 = "You're not alone, kid."
+old_lady_5 = "I'm always here for you."
+old_lady_6 = "Are you hungry?"
+old_lady_7 = "I'm so proud of you..."
 
-
-old_lady_speech = [old_lady_1, old_lady_2, old_lady_3, old_lady_4]
+old_lady_speech = [old_lady_1, old_lady_2, old_lady_3, old_lady_4, old_lady_5, old_lady_6, old_lady_7]
 
 # POWER UP IMAGES, these are small because they will appear on top of the player
 # the ones that are sized to be on the screen are on the dictionary in power up manager
