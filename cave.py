@@ -53,11 +53,15 @@ def cave_area(player):
     player.rect.center = (670, 320)
     player.state = "down"
 
-    ###################################### MAIN GAME LOOP #######################################
+    # adding this variable to avoid clicking one time to collect a crystal and collect 7
+    e_key_pressed = False
+
+    ###################################### CAVE GAME LOOP #######################################
     running = True
     while running:
         # controlling the frame rate
         frame_time = clock.tick(fps)
+
         # handling events:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
@@ -101,36 +105,48 @@ def cave_area(player):
                         "Click  'E'  to  collect a purple crystal!", brick_color,
                         "images/dialogs/dialog box medium mirrored.png", cutefont)
             if keys[pygame.K_e]:
-                player.collect_crystal("purple_crystal")
+                if not e_key_pressed:
+                    player.collect_crystal("purple_crystal")
+                    e_key_pressed = True
 
         elif red_crystal_rect and red_crystal_rect.colliderect(player.rect):
             draw_button(display, 80, 110, 250, 50,
                         "Click  'E'  to  collect a red crystal!", brick_color,
                         "images/dialogs/dialog box medium mirrored.png", cutefont)
             if keys[pygame.K_e]:
-                player.collect_crystal("red_crystal")
+                if not e_key_pressed:
+                    player.collect_crystal("red_crystal")
+                    e_key_pressed = True
 
         elif gold_crystal_rect and gold_crystal_rect.colliderect(player.rect):
             draw_button(display, 20, 150, 250, 50,
                         "Click  'E'  to  collect a gold crystal!", brick_color,
                         "images/dialogs/dialog box medium mirrored.png", cutefont)
             if keys[pygame.K_e]:
-                player.collect_crystal("gold_crystal")
+                if not e_key_pressed:
+                    player.collect_crystal("gold_crystal")
+                    e_key_pressed = True
 
         elif blue_crystal_rect and blue_crystal_rect.colliderect(player.rect):
             draw_button(display, 290, 110, 250, 50,
                         "Click  'E'  to  collect a blue crystal!", brick_color,
                         "images/dialogs/dialog box medium.png", cutefont)
             if keys[pygame.K_e]:
-                player.collect_crystal("blue_crystal")
+                if not e_key_pressed:
+                    player.collect_crystal("blue_crystal")
+                    e_key_pressed = True
 
         elif white_crystal_rect and white_crystal_rect.colliderect(player.rect):
             draw_button(display, 20, 110, 250, 50,
                         "Click  'E'  to  collect a white crystal!", brick_color,
                         "images/dialogs/dialog box medium mirrored.png", cutefont)
             if keys[pygame.K_e]:
-                player.collect_crystal("white_crystal")
+                if not e_key_pressed:
+                    player.collect_crystal("white_crystal")
+                    e_key_pressed = True
 
+        if not keys[pygame.K_e]:
+            e_key_pressed = False
         # display.blit(player_score_surf, player_score_rect)
 
         for sprite in player_group:

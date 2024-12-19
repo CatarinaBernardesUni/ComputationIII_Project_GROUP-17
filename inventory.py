@@ -71,8 +71,8 @@ def inventory_menu(player):
 
         # displaying the items:
         for current_position, (item, count) in enumerate(player.inventory.items()):
-            # Skip the dog item, dont want it to appear as a part of the inventory
-            # cant take the dog back!!!!
+            # Skip the dog item, don't want it to appear as a part of the inventory
+            # can't take the dog back!!!!
             if item == 'dog':
                 continue
 
@@ -129,7 +129,7 @@ def inventory_menu(player):
                             if player.active_weapon is None:
                                 player.add_weapon("dagger", "Sword")
                                 info['inventory']['dagger'] -= 1
-                        if item == "bow":
+                        if item == "ghost_bow":
                             if player.active_weapon is None:
                                 info['inventory']['ghost_bow'] -= 1
                                 player.add_weapon("ghost_bow", "Bow")

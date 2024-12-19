@@ -77,8 +77,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                             'speed potion': 25,
                             'dog': 50,
                             'soup': 60,
-                            'sword': 80,
-                            'bow': 100,
+                            'dagger': 80,
+                            'ghost_bow': 100,
                             'key': 300}
 
         ########### WEAPONS ########################
@@ -117,7 +117,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     ###### CRYSTALS ####################################################################################
     def collect_crystal(self, crystal_name):
         """Add a crystal instance to the player's inventory."""
-        crystal_instance = Crystal(self, crystal_name)
+        crystal_instance = Crystal(crystal_name, crystals_data)
         self.crystals[crystal_name] = crystal_instance
         info['inventory'][crystal_name] += 1
 
