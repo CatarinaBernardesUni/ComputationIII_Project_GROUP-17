@@ -216,7 +216,6 @@ def execute_game(player, dog):
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player
             power_up_manager.fight_area = battle_area_rect
-            player.shoot(bullets)
             # Update power-ups
             power_up_manager.update(player)
             # initiating the battle area music:
