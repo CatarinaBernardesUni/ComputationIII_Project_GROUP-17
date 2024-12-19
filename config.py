@@ -33,9 +33,13 @@ coin_music = pygame.mixer.Sound("music/coin.wav")
 coin_music.set_volume(global_volume)
 sparkly_music = pygame.mixer.Sound("music/sparkly.wav")
 sparkly_music.set_volume(global_volume)
+dog_bark = pygame.mixer.Sound("music/dog_bark.mp3")
+dog_bark.set_volume(global_volume)
+game_over_sound = pygame.mixer.Sound("music/game_over_sound.wav")
+game_over_sound.set_volume(global_volume)
 
 # creating a list of all sounds
-all_sounds = [menu_music, battle_music, main_music, coin_music, sparkly_music]
+all_sounds = [menu_music, battle_music, main_music, coin_music, sparkly_music, dog_bark, game_over_sound]
 
 # hearts
 full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))

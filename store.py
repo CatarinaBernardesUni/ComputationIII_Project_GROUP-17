@@ -156,7 +156,7 @@ def shop_menu(player):
                         print("Can only have one dog")
                     else:
                         player.buy_item('dog')
-                        coin_music.play()
+                        dog_bark.play()
                         if not player.dog.bought:
                             player.dog.bought = True
                             info['inventory']['dog'] = 1

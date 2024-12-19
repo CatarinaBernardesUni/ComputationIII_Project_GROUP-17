@@ -41,6 +41,10 @@ def choose_character():
 
 
 def game_over():
+
+    battle_music.stop()
+    game_over_sound.play()
+
     screen.blit(game_over_image, (0, 0))
     pygame.display.update()
     # player = Player()
@@ -65,11 +69,12 @@ def game_over():
                     progress()
                     pygame.quit()
                     exit()
+                    # go back to the interface menu
                 if 531 <= mouse[0] <= 771 and 608 <= mouse[1] <= 700:
-                    interface.interface()
-                    waiting = False
                     battle_music.stop()
                     menu_music.play(-1)
+                    interface.interface()
+                    waiting = False
 
 
 def game_loop():
