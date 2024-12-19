@@ -41,6 +41,10 @@ def choose_character():
 
 
 def game_over():
+
+    battle_music.stop()
+    game_over_sound.play()
+
     screen.blit(game_over_image, (0, 0))
     pygame.display.update()
     # player = Player()
@@ -52,9 +56,12 @@ def game_over():
                 pygame.quit()
                 exit()
             mouse = pygame.mouse.get_pos()
+            # play again
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 384 <= mouse[0] <= 626 and 489 <= mouse[1] <= 580:
                     info['health'] = 5
+                    battle_music.stop()
+                    main_music.play(-1)
                     game_loop()
                     waiting = False
 
@@ -62,7 +69,10 @@ def game_over():
                     progress()
                     pygame.quit()
                     exit()
+                    # go back to the interface menu
                 if 531 <= mouse[0] <= 771 and 608 <= mouse[1] <= 700:
+                    battle_music.stop()
+                    menu_music.play(-1)
                     interface.interface()
                     waiting = False
 

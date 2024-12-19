@@ -105,10 +105,19 @@ def inventory_menu(player):
                 # check if the click is within any item bounds
                 for item, item_x, item_y, item_width, item_height in item_positions:
                     if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
-                        info['inventory'][item] -= 1
+                        # take out the item from the inventory after usage
+                        if item not in ("sword", "bow"):
+                            info['inventory'][item] -= 1
+                        sparkly_music.play()
                         if item in ("apple", "mushroom", "soup"):
                             player.get_health()
-                        # handle item usage
-                        print(f"it is working {item}")
+                        if item == "sword":
+                            if player.active_weapon is None:
+                                player.add_weapon("dagger", "Sword")
+                                info['inventory']['sword'] -= 1
+                        if item == "bow":
+                            if player.active_weapon is None:
+                                info['inventory']['bow'] -= 1
+                                player.add_weapon("ghost_bow", "Bow")
 
         pygame.display.update()

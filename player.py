@@ -50,7 +50,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         self.is_fighting = False
         self.is_leaving_battle = False
-        self.speed = 2
+        self.speed = 6
         self.health = info['health']
 
         self.max_health = 5
@@ -84,6 +84,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.active_weapon = None  # Currently active weapon
         self.active_weapon_group = pygame.sprite.Group()  # Group to store the active weapon
         ###########################################
+
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
     def add_weapon(self, weapon_name, weapon_type):
@@ -184,11 +185,12 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 message_lines = [
                     "You better find a weapon before you start fighting,",
                     "explore a bit more....",
-                    "I heard that there is a store somewhere in here..."]
+                    "I heard that there is a store somewhere in here...",
+                    "to activate a weapon go to your inventory and click on it"]
 
                 # Starting position for the text
                 start_x = 100
-                start_y = 90
+                start_y = 70
                 line_spacing = 30  # Spacing between lines
                 # Render each line and blit to the screen
                 for i, line in enumerate(message_lines):
@@ -277,14 +279,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             if item_name == 'dog' and self.dog is None:
                 self.dog = Dog(self)
                 self.dog.bought = True
-            elif item_name == 'sword':
-                self.add_weapon("dagger", "Sword")
-                print(self.weapons)
-                print(self.active_weapon)
-            elif item_name == 'bow':
-                self.add_weapon("ghost_bow", "Bow")
-                print(self.weapons)
-                print(self.active_weapon)
         else:
             print(f"gold is not enough. gold: {info['gold']}")  # todo: add here a screen saying not enough money
 

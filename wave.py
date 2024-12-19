@@ -130,7 +130,7 @@ class WaveManager:
                 return
                 # Prepare text properties
             wave_text = f"Wave {info['current_wave']} Starting!"
-            text_surface = self.font.render(wave_text, True, white)
+            text_surface = self.font.render(wave_text, True, white).convert_alpha()
             text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
 
             # Calculate fade-out effect (255 -> 0 over 8 seconds)

@@ -73,6 +73,7 @@ def home_area(player):
                             "images/inventory/inventory_menu.png", cutefont)
                 display.blit(gold_chest, (240, 200))
                 if keys[pygame.K_e]:
+                    coin_music.play()
                     info['claimed_chest_home'] = 1
                     player.add_gold(100)
                     # this way the player can only open this chest once in the whole game
