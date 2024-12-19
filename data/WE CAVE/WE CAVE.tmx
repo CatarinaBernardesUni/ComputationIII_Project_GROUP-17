@@ -354,7 +354,7 @@
   <object id="106" x="952.5" y="454.25" width="6.75" height="64"/>
   <object id="107" x="708.5" y="252.375" width="25.5" height="28.7917"/>
   <object id="108" x="638.25" y="251.375" width="29.25" height="29.375"/>
-  <object id="113" x="783" y="208.5" width="112.5" height="55.5"/>
+  <object id="113" x="783" y="208.5" width="69.1667" height="55.5"/>
  </objectgroup>
  <objectgroup id="13" name="spike rect">
   <object id="114" x="530.667" y="305.333" width="26.6667" height="28.6667"/>
