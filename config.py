@@ -29,9 +29,13 @@ battle_music = pygame.mixer.Sound("music/TheGreatBattle.mp3")
 battle_music.set_volume(global_volume)
 main_music = pygame.mixer.Sound("music/Adventure.mp3")
 main_music.set_volume(global_volume)
+coin_music = pygame.mixer.Sound("music/coin.wav")
+coin_music.set_volume(global_volume)
+sparkly_music = pygame.mixer.Sound("music/sparkly.wav")
+sparkly_music.set_volume(global_volume)
 
 # creating a list of all sounds
-all_sounds = [menu_music, battle_music, main_music]
+all_sounds = [menu_music, battle_music, main_music, coin_music, sparkly_music]
 
 # hearts
 full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))

@@ -107,6 +107,7 @@ def inventory_menu(player):
                     if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
                         # take out the item from the inventory after usage
                         info['inventory'][item] -= 1
+                        sparkly_music.play()
                         if item in ("apple", "mushroom", "soup"):
                             player.get_health()
                         # handle item usage
