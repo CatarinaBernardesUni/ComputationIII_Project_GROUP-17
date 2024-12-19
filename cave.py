@@ -17,23 +17,24 @@ def cave_area(player):
     (background_sprite_group, tiles_group, objects_group,
      collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions on cave",
                                                                                 "cave exit", None, "speech")
+    spike_rects = []
     # doing this outside the area setup function because it is a specific thing from the cave
     for obj in tmx_data.objects:
         if obj in tmx_data.get_layer_by_name("spike rect"):
             # there are several spike rects
             spike_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+            spike_rects.append(spike_rect)
+
         if obj in tmx_data.get_layer_by_name("purple crystal"):
-            # there is only one purple crystal rect
             purple_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
         if obj in tmx_data.get_layer_by_name("red crystal"):
-            # there is only one red crystal rect
             red_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
         if obj in tmx_data.get_layer_by_name("gold crystal"):
-            # there is only one gold crystal
             gold_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
         if obj in tmx_data.get_layer_by_name("white crystal"):
-            # there is several white crystal rects
             white_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        if obj in tmx_data.get_layer_by_name("blue crystal"):
+            blue_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
     ####################################################################
 
     # creating an empty group for the player (that was received as input)
@@ -60,11 +61,8 @@ def cave_area(player):
             if keys[pygame.K_SPACE]:
                 paused()
 
-
-        ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset
         camera_offset = calculate_camera_offset(player, display)
-        ####################################################################################
 
         # draw the tiles
         # tiles_group.draw(display)
@@ -76,7 +74,7 @@ def cave_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # updating the player group
-        player_group.update(collision_sprites, display, frame_time)
+        player_group.update(collision_sprites, display, frame_time, spike_rects=spike_rects)
 
         if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_cave = True

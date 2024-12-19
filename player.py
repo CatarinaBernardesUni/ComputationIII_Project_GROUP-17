@@ -134,7 +134,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             else:
                 display.blit(empty_heart, (heart * 33, 5))
 
-    def update(self, collision_sprites, display, frame_time, battle_area_rect=None):
+    def update(self, collision_sprites, display, frame_time, battle_area_rect=None, spike_rects=None):
         # getting the keys input
 
         keys = pygame.key.get_pressed()
@@ -198,6 +198,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 if self.rect.right > battle_area_rect.left:
                     self.rect.right = battle_area_rect.left
 
+        # player takes damage if it hits the spikes in the cave
+        if spike_rects:
+            for spike_rect in spike_rects:
+                if spike_rect.colliderect(self.rect):
+                    remove_health(3)
+                    print("hit by spike")
+
     def dont_leave_battle(self, battle_area_rect):
         if self.is_fighting:
             if self.rect.left < battle_area_rect.left:
@@ -248,6 +255,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         self.bullet_cooldown -= 1
 
+    # todo: ask Carolina if this is needed, there is a very similar function outide the player class
     def remove_health(self):
         if not self.invincible:
             if info['health'] >= 0:

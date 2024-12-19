@@ -140,7 +140,6 @@ def execute_game(player, dog):
     ###################################### MAIN GAME LOOP #######################################
     running = True
     while running:
-        print(wave_manager.current_wave_config)
         # controlling the frame rate
         frame_time = clock.tick(fps)
 

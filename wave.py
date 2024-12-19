@@ -244,8 +244,6 @@ class WaveManager:
 
     def end_wave(self):
         # print(f"Wave {self.current_wave} ended!")
-        # adding 1 to the counter of the waves for the next time it enters the battle
-        # area the wave number will be already set
         # info["current_wave"] += 1
         self.is_wave_active = False
         self.show_choice_popup()
@@ -257,8 +255,8 @@ class WaveManager:
 
         # todo: delete this if we don't want the player to gain bonus at the end of the wave
         # Determine if a bonus reward is granted
-        bonus_reward = random.random() < 0.3  # 30% chance
-        bonus_text = " and a bonus!" if bonus_reward else "!"
+        bonus_reward = random.random() < 0.05  # 5% chance
+        bonus_text = " and a bonus! Check your inventory." if bonus_reward else "!"
 
         message_lines = [f"Wave {info['current_wave']} Completed!",
                          f"You earned {gold_reward} gold{bonus_text}",
