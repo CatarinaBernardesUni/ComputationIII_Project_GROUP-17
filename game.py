@@ -11,6 +11,7 @@ from home import home_area
 from inventory import inventory_menu
 from mouse_position import draw_button
 from old_lady_house import old_lady_house_area
+from pink_house import pink_house_area
 from power_up import *
 from store import inside_store
 from utils import paused, calculate_camera_offset
@@ -94,6 +95,8 @@ def game_loop():
             current_state = home_area(player)
         elif current_state == "old lady house":
             current_state = old_lady_house_area(player)
+        elif current_state == "pink house":
+            current_state = pink_house_area(player)
         elif current_state == "store":
             current_state = inside_store(player)
         elif current_state == "game_over":
@@ -112,7 +115,7 @@ def execute_game(player, dog):
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
      objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect,
-     old_lady_house_rect) = background_setup(tmx_data)
+     old_lady_house_rect, pink_house_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -205,16 +208,33 @@ def execute_game(player, dog):
         # make the player able to go inside the home
         if home_rect and home_rect.colliderect(player.rect):
             return "home"
+
         if player.just_left_home:
             player.rect.center = (1150, 150)
             player.just_left_home = False
 
+        # player in pink house
+        if pink_house_rect and pink_house_rect.colliderect(player.rect):
+            print("Entering Pink House!")
+            return "pink house"
+
+        if player.just_left_pink_house:
+            print(f"Just left Pink House flag: {player.just_left_pink_house}")
+            player.rect.center = (200, 250)
+            print(f"Player position after exiting Pink House: {player.rect.center}")
+            player.just_left_pink_house = False
+            print("Set just_left_pink_house to False")
+
         # player in the old lady house
         if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
             return "old lady house"
+
         if player.just_left_old_lady_house:
-            player.rect.center = (325, 170)
+            print(f"Just left Old Lady House flag: {player.just_left_old_lady_house}")
+            player.rect.center = (325, 165)
+            print(f"Player position after exiting Old Lady House: {player.rect.center}")
             player.just_left_old_lady_house = False
+            print("Set just_left_old_lady_house to False")
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
