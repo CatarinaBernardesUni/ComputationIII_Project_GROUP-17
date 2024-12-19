@@ -215,19 +215,26 @@ def execute_game(player, dog):
 
         # player in pink house
         if pink_house_rect and pink_house_rect.colliderect(player.rect):
+            print("Entering Pink House!")
             return "pink house"
 
         if player.just_left_pink_house:
+            print(f"Just left Pink House flag: {player.just_left_pink_house}")
+            print(f"Player position after exiting Pink House: {player.rect.center}")
             player.rect.center = (200, 250)
             player.just_left_pink_house = False
+            print("Set just_left_pink_house to False")
 
         # player in the old lady house
         if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
             return "old lady house"
 
         if player.just_left_old_lady_house:
-            player.rect.center = (340, 165)
+            print(f"Just left Old Lady House flag: {player.just_left_old_lady_house}")
+            print(f"Player position after exiting Old Lady House: {player.rect.center}")
+            player.rect.center = (325, 165)
             player.just_left_old_lady_house = False
+            print("Set just_left_old_lady_house to False")
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
