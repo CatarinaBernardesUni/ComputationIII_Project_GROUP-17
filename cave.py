@@ -35,6 +35,7 @@ def cave_area(player):
             white_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
         if obj in tmx_data.get_layer_by_name("blue crystal"):
             blue_crystal_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
     ####################################################################
 
     # creating an empty group for the player (that was received as input)
@@ -60,7 +61,7 @@ def cave_area(player):
                 exit()
             if keys[pygame.K_SPACE]:
                 paused()
-
+      
         # Calculate camera offset
         camera_offset = calculate_camera_offset(player, display)
 
