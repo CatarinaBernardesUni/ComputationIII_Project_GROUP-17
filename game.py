@@ -12,6 +12,7 @@ from inventory import inventory_menu
 from mouse_position import draw_button
 from old_lady_house import old_lady_house_area
 from power_up import *
+from shed import shed_area
 from store import inside_store
 from utils import paused, calculate_camera_offset
 from wave import WaveManager
@@ -96,6 +97,8 @@ def game_loop():
             current_state = old_lady_house_area(player)
         elif current_state == "store":
             current_state = inside_store(player)
+        elif current_state == "shed":
+            current_state = shed_area(player)
         elif current_state == "game_over":
             game_over()
 
@@ -112,7 +115,7 @@ def execute_game(player, dog):
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
      objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect,
-     old_lady_house_rect) = background_setup(tmx_data)
+     old_lady_house_rect, shed_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -215,6 +218,13 @@ def execute_game(player, dog):
         if player.just_left_old_lady_house:
             player.rect.center = (325, 170)
             player.just_left_old_lady_house = False
+
+        # player in the shed
+        if shed_rect and shed_rect.colliderect(player.rect):
+            return "shed"
+        if player.just_left_shed:
+            player.rect.center = (220, 660)
+            player.just_left_shed = False
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False

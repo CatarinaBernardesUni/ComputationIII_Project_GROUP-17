@@ -273,9 +273,9 @@ class WaveManager:
         start_y = 200
         line_spacing = 60
 
-        button_image = pygame.image.load("images/store/store_button.png")
+        button_image = pygame.image.load("images/store/store_button.png").convert_alpha()
         next_wave_image = pygame.transform.scale(button_image, (250, 80))
-        leave_image = pygame.transform.scale(button_image, (250, 80))
+        leave_image = pygame.transform.scale(button_image, (300, 80))
         next_wave_button = next_wave_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + 75))
         leave_button = leave_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + 160))
 
@@ -288,10 +288,10 @@ class WaveManager:
 
             # Render buttons text
             next_wave_text = self.font.render("Next Wave", True, deep_black)
-            leave_text = self.font.render("Leave", True, deep_black)
+            leave_text = self.font.render("Save and Leave", True, deep_black)
 
             for i, line in enumerate(message_lines):
-                rendered_text = self.font.render(line, True, white)
+                rendered_text = self.font.render(line, True, white, None)
                 text_width = rendered_text.get_width()
                 x_position = (screen.get_width() - text_width) // 2  # Centered horizontally
                 y_position = start_y + i * line_spacing  # Line spacing

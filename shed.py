@@ -1,61 +1,78 @@
-from utils import *
-from config import resolution, fps, width
+from config import *
+from pytmx.util_pygame import load_pygame
+from utils import area_setup, calculate_camera_offset
+from utils import paused
 
-
-def battle_area(player):
-    # setting up the background and the screen
-    background = pygame.image.load("images/screens/Giant_Stump.png")
-    background = pygame.transform.scale(background, resolution)
-
-    # setting up the screen
-    screen = pygame.display.set_mode(resolution)
-
-    # setting up a clock for fps
+def shed_area(player):
     clock = pygame.time.Clock()
+    shed_screen = pygame.display.set_mode(resolution)
+    display = pygame.Surface((width // 2.2, height // 2.2))
 
-    # since I left the previous area from the right, here I begin on the left
-    player.rect.left = 0
+    ############################### HOUSE MAP ################################
 
-    # creating the player group
+    tmx_data = load_pygame("data/WE SHED/WE SHED.tmx")
+    (background_sprite_group, tiles_group, objects_group,
+     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "Collisions",
+                                                                                "exit",
+                                                                                None, None)
+
+    ####################################################################
+    # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
+    # adding the player to the group
     player_group.add(player)
 
-    # normal main game loop (because reasons, shed area will not have enemies nor bullets)
-    # this is our base implementation and you're allowed to change this!!!
-    # todo: create several areas that player can go to
-
-    # normal main game loop (because reasons shed area will not have enemies nor bullets
-    # this is our base implementation, and you're allowed to change this
-
+    # setting the player initial position on the home
+    player.rect.center = (530, 460)
+    player.state = "up"
+    ###################################### MAIN GAME LOOP #######################################
     running = True
 
-    while True:
-        clock.tick(fps)
-        # displaying the farm background on the entirety of the screen and the house
-        screen.blit(background, (0, 0))
+    while running:
+        # controlling the frame rate
+        frame_time = clock.tick(fps)
 
-        # screen.blit(player_score_surf, player_score_rect)
-
-        # allowing the user to quit even tho they shouldn't because our game is perfect
+        # handling events:
+        keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 progress()
                 pygame.quit()
                 exit()
+            if keys[pygame.K_SPACE]:
+                paused()
 
-        # updating player position
-        player.update()
+        # Calculate camera offset
+        camera_offset = calculate_camera_offset(player, display)
 
-        # allowing the player to return back to the previous area/screen from area 2 to area 1
-        if player.rect.left <= 0:
-            # position the player to the right of the screen
-            player.rect.left = width - player.rect.width
+        # draw the tiles
+        for tile in tiles_group:
+            display.blit(tile.image, tile.rect.topleft + camera_offset)
 
-            # switching back to the main game:
+        # draw the objects in order of their y position
+        for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
+
+        # updating the player group
+        player_group.update(collision_sprites, display, frame_time)
+
+        if exit_rect and exit_rect.colliderect(player.rect):
+            player.just_left_shed = True
             return "main"
 
-        # drawing the player
-        player_group.draw(screen)
+        for sprite in player_group:
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
-        # updating the screen
+        # collision_sprites.draw(display)
+        for sprite in collision_sprites:
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)
+
+        shed_screen.blit(pygame.transform.scale(display, resolution), (0, 0))
+
+        # updates the whole screen since the frame was last drawn
         pygame.display.flip()
+
+    # the main while loop was terminated
+    progress()
+    pygame.quit()
+    exit()
