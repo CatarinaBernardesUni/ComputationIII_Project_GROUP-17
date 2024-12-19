@@ -62,8 +62,6 @@ def old_lady_house_area(player):
         if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_old_lady_house = True
             # player in the old lady house
-            print(f"Player position: {player.rect.center}")
-            print(f"Old Lady House Exit: {exit_rect}")
             return "main"
 
         # To track whether the player is already colliding
