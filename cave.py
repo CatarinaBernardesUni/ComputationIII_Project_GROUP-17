@@ -101,35 +101,35 @@ def cave_area(player):
                         "Click  'E'  to  collect a purple crystal!", brick_color,
                         "images/dialogs/dialog box medium mirrored.png", cutefont)
             if keys[pygame.K_e]:
-                pass
+                player.collect_crystal("purple_crystal")
 
         elif red_crystal_rect and red_crystal_rect.colliderect(player.rect):
             draw_button(display, 80, 110, 250, 50,
                         "Click  'E'  to  collect a red crystal!", brick_color,
                         "images/dialogs/dialog box medium mirrored.png", cutefont)
             if keys[pygame.K_e]:
-                pass
+                player.collect_crystal("red_crystal")
 
         elif gold_crystal_rect and gold_crystal_rect.colliderect(player.rect):
             draw_button(display, 20, 150, 250, 50,
                         "Click  'E'  to  collect a gold crystal!", brick_color,
                         "images/dialogs/dialog box medium mirrored.png", cutefont)
             if keys[pygame.K_e]:
-                pass
+                player.collect_crystal("gold_crystal")
 
         elif blue_crystal_rect and blue_crystal_rect.colliderect(player.rect):
             draw_button(display, 290, 110, 250, 50,
                         "Click  'E'  to  collect a blue crystal!", brick_color,
                         "images/dialogs/dialog box medium.png", cutefont)
             if keys[pygame.K_e]:
-                pass
+                player.collect_crystal("blue_crystal")
 
         elif white_crystal_rect and white_crystal_rect.colliderect(player.rect):
             draw_button(display, 20, 110, 250, 50,
                         "Click  'E'  to  collect a white crystal!", brick_color,
                         "images/dialogs/dialog box medium mirrored.png", cutefont)
             if keys[pygame.K_e]:
-                pass
+                player.collect_crystal("white_crystal")
 
         # display.blit(player_score_surf, player_score_rect)
 

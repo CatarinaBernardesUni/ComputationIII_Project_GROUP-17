@@ -5,15 +5,29 @@ from store import shop_menu
 from mouse_position import draw_button, get_mouse_position
 
 # creating a dictionary to store all my pictures for the visual inventory
-images_inventory = {
-                      'apple': pygame.image.load("images/inventory/apple.png"),
-                      'mushroom': pygame.image.load("images/inventory/mushroom.png"),
-                      'speed potion': pygame.image.load("images/inventory/potion.png"),
-                      'dog': pygame.image.load("images/inventory/doggy.png"),
-                      'soup': pygame.image.load("images/inventory/food.png"),
-                      'sword': pygame.image.load("images/inventory/sword.png"),
-                      'bow': pygame.image.load("images/inventory/bow.png"),
-                      'key': pygame.image.load("images/inventory/key.png")
+images_inventory = {'apple': pygame.image.load("images/inventory/apple.png"),
+                    'mushroom': pygame.image.load("images/inventory/mushroom.png"),
+                    'speed potion': pygame.image.load("images/inventory/potion.png"),
+                    'dog': pygame.image.load("images/inventory/doggy.png"),
+                    'soup': pygame.image.load("images/inventory/food.png"),
+                    'dagger': pygame.image.load("images/weapons/dagger/Moldura 06 (80ms) (replace).png"),
+                    'ghost_bow': pygame.image.load("images/inventory/bow.png"),
+                    'key': pygame.image.load("images/inventory/key.png"),
+
+                    # weapons not in the store
+                    'winter_sword': pygame.image.load("images/weapons/winter_sword/Fundo (80ms).png"),
+                    'gold_axe': pygame.image.load("images/weapons/gold_axe/Fundo (110ms).png"),
+                    'fire_sword': pygame.image.load("images/weapons/fire_sword/fire01.png"),
+                    'ice_bow': pygame.image.load("images/weapons/ice_bow/Moldura 4 (330ms) (replace).png"),
+                    'light_bow': pygame.image.load("images/weapons/light_bow/Moldura 4 (170ms) (replace).png"),
+                    'ruby_axe': pygame.image.load("images/weapons/ruby_axe/Fundo (80ms).png"),
+
+                    # crystals
+                    'red_crystal': pygame.image.load("images/crystals/Dark_red_ crystal2.png"),
+                    'blue_crystal': pygame.image.load("images/crystals/Blue_crystal2.png"),
+                    'gold_crystal': pygame.image.load("images/crystals/Yellow_crystal2.png"),
+                    'purple_crystal': pygame.image.load("images/crystals/Violet_crystal2.png"),
+                    'white_crystal': pygame.image.load("images/crystals/White_crystal2.png")
                     }
 
 # scale all images to the same size
@@ -106,18 +120,18 @@ def inventory_menu(player):
                 for item, item_x, item_y, item_width, item_height in item_positions:
                     if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
                         # take out the item from the inventory after usage
-                        if item not in ("sword", "bow"):
+                        if item not in ("dagger", "ghost_bow"):
                             info['inventory'][item] -= 1
                         sparkly_music.play()
                         if item in ("apple", "mushroom", "soup"):
                             player.get_health()
-                        if item == "sword":
+                        if item == "dagger":
                             if player.active_weapon is None:
                                 player.add_weapon("dagger", "Sword")
-                                info['inventory']['sword'] -= 1
+                                info['inventory']['dagger'] -= 1
                         if item == "bow":
                             if player.active_weapon is None:
-                                info['inventory']['bow'] -= 1
+                                info['inventory']['ghost_bow'] -= 1
                                 player.add_weapon("ghost_bow", "Bow")
 
         pygame.display.update()

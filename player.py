@@ -5,6 +5,7 @@ from bullet import Bullet
 from os.path import join
 from os import walk  # allows us to walk through a folder
 import config
+from crystals import crystals_data, Crystal
 from dog import Dog
 from weapon import *
 
@@ -81,11 +82,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                             'key': 300}
 
         ########### WEAPONS ########################
+        # the inventory holds the amount of weapons the player has and this dict the instances of the weapons
         self.weapons = {key: None for key in weapons}  # A dictionary to store weapon instances
         self.active_weapon = None  # Currently active weapon
         self.active_weapon_group = pygame.sprite.Group()  # Group to store the active weapon
-        ###########################################
 
+        ############### CRYSTALS ##################
+        # similarly to the weapons, this dict holds the instances of the crystals while the inventory holds the amounts
+        self.crystals = {key: None for key in crystals_data}
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
     def add_weapon(self, weapon_name, weapon_type):
@@ -110,7 +114,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.active_weapon = self.weapons[weapon_name]
             self.active_weapon_group.add(self.active_weapon)
 
-    ####################################################################################################
+    ###### CRYSTALS ####################################################################################
+    def collect_crystal(self, crystal_name):
+        """Add a crystal instance to the player's inventory."""
+        crystal_instance = Crystal(self, crystal_name)
+        self.crystals[crystal_name] = crystal_instance
+        info['inventory'][crystal_name] += 1
+
+    ############### ANIMATION AND MOVEMENT ############################################################
 
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],
