@@ -21,6 +21,7 @@ def paused():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 443 <= mouse[0] <= 610 and 112 <= mouse[1] <= 169:
                     main_music.stop()
+                    battle_music.stop()
                     menu_music.play(-1)
                     interface.interface()
                 if 637 <= mouse[0] <= 802 and 112 <= mouse[1] <= 171:
