@@ -132,13 +132,15 @@ def execute_game(player, dog):
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
 
-    # starting the first wave
+    # the zero means that no number is being added to the wave number but the configuration of the wave that
+    # is going to be spawned is being set, this way the number of waves isn't increasing when the player leaves
+    # the main area or leaves the game
     wave_manager.start_next_wave(0)
 
-    event_display_start_wave_message = pygame.USEREVENT + 0
     ###################################### MAIN GAME LOOP #######################################
     running = True
     while running:
+        print(wave_manager.current_wave_config)
         # controlling the frame rate
         frame_time = clock.tick(fps)
 
@@ -207,7 +209,7 @@ def execute_game(player, dog):
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
-            wave_manager.start_next_wave(1)
+            wave_manager.start_next_wave(0)
 
 
         # checking if the player is in the battle area

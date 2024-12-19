@@ -310,6 +310,9 @@ class WaveManager:
                         self.start_next_wave(1)  # Start the next wave
                         choice_made = True
                     elif leave_button.collidepoint(event.pos):
+                        # adding 1 to the counter of the waves for the next time it enters the battle
+                        # area the wave number will be already set
+                        info["current_wave"] += 1
                         self.is_wave_active = False  # End the wave
                         self.player.is_fighting = False  # Allow the player to leave the battle area rect
                         self.player.is_leaving_battle = True
