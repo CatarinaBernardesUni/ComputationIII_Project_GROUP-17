@@ -89,6 +89,7 @@ def old_lady_house_area(player):
                             "images/inventory/inventory_menu.png", cutefont)
                 display.blit(gold_chest, (150, 150))
                 if keys[pygame.K_e]:
+                    coin_music.play()
                     info['stolen_grandma'] = 1
                     player.add_gold(150)
                     # this way the player can only open this chest once in the whole game
