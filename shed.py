@@ -1,7 +1,6 @@
 from config import *
 from pytmx.util_pygame import load_pygame
-from utils import area_setup, calculate_camera_offset
-from utils import paused
+from utils import area_setup, calculate_camera_offset, paused
 
 def shed_area(player):
     clock = pygame.time.Clock()
@@ -12,9 +11,9 @@ def shed_area(player):
 
     tmx_data = load_pygame("data/WE SHED/WE SHED.tmx")
     (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "Collisions",
-                                                                                "exit",
-                                                                                None, None)
+     collision_sprites, exit_rect, work_table_rect, clues_rect) = area_setup(tmx_data, "Collisions",
+                                                                             "exit", None,
+                                                                             "Work table")
 
     ####################################################################
     # creating an empty group for the player (that was received as input)
@@ -60,6 +59,9 @@ def shed_area(player):
             player.just_left_shed = True
             return "main"
 
+        if work_table_rect and work_table_rect.colliderect(player.rect):
+            crafting()
+
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
@@ -73,6 +75,44 @@ def shed_area(player):
         pygame.display.flip()
 
     # the main while loop was terminated
+    progress()
+    pygame.quit()
+    exit()
+
+def crafting():
+    font_for_message = pygame.font.Font("fonts/pixel_font.ttf", 32)
+    message = "Open your inventory and select one weapon and a crystal"
+
+    platform_image = pygame.image.load("images/shed buttons/rect_plat.png")
+    evolve_image = pygame.image.load("images/shed buttons/Evolve-removebg-preview.png")
+
+    # redimentioning the images
+    scaled_platform_image = pygame.transform.scale(platform_image, (230, 240))
+    scaled_platform_image_2 = pygame.transform.scale(platform_image, (230, 240))
+    scaled_evolve_image = pygame.transform.scale(evolve_image, (320, 100))
+
+    # get their rectangles
+    platform_rect = scaled_platform_image.get_rect(topleft=(340, 150))
+    platform_rect_2 = scaled_platform_image_2.get_rect(topleft=(700, 150))
+    evolve_rect = scaled_evolve_image.get_rect(topleft=(490, 400))
+
+    still_crafting = True
+    while still_crafting:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        screen.blit(scaled_platform_image, platform_rect)
+        screen.blit(scaled_platform_image_2, platform_rect_2)
+        screen.blit(scaled_evolve_image, evolve_rect)
+
+        evolve_rect_text = font_for_message.render("Evolve Weapon", True, yellow_torrado)
+        screen.blit(evolve_rect_text, (evolve_rect.centerx - 114, evolve_rect.centery - 10))
+
+        pygame.display.update()
+
     progress()
     pygame.quit()
     exit()

@@ -17,6 +17,7 @@ yellow = (255, 255, 0)
 red = (150, 0, 24)
 cute_purple = (128, 0, 128)
 greenish = (182, 215, 168)
+yellow_torrado = (240, 200, 60)
 
 brick_color_transparent = (117, 49, 40, 225)
 brick_color = (117, 49, 40)

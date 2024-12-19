@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="55">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="57">
  <tileset firstgid="1" source="House objects.tsx"/>
  <tileset firstgid="769" source="House outline.tsx"/>
  <tileset firstgid="1561" source="Actual objects.tsx"/>
@@ -301,8 +301,11 @@
   <object id="49" x="465.072" y="300.938" width="49.6077" height="35.5215"/>
   <object id="50" x="515.904" y="300.325" width="18.9856" height="27.5598"/>
   <object id="51" x="731.483" y="304.612" width="67.9809" height="31.8469"/>
-  <object id="52" x="564.9" y="380.555" width="135.962" height="25.7225"/>
   <object id="53" x="465.072" y="496.919" width="45.3206" height="31.8469"/>
+  <object id="56" x="564.5" y="378.5" width="136" height="19.5"/>
+ </objectgroup>
+ <objectgroup id="9" name="Work table">
+  <object id="55" x="631.063" y="391.5" width="2" height="15.3125"/>
  </objectgroup>
  <objectgroup id="8" name="exit">
   <object id="54" x="518" y="507" width="38" height="19"/>
