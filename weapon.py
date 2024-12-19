@@ -6,56 +6,58 @@ import pygame.sprite
 from abc import ABC, abstractmethod
 
 weapons = {"dagger": {
-                "tier": 1,
-                "damage": 18,
-                "attack_speed": 2.0,
-                "special_effect": None,
-                "directory_path": "images/weapons/dagger"},
-           "ghost_bow": {
-                 "tier": 1,
-                 "damage": 22,
-                 "attack_speed": 1.0,
-                 "special_effect": None,
-                 "directory_path": "images/weapons/ghost_bow"},
-####################### TIER 2 WEAPONS ########################################
-           "winter_sword": {
-               "tier": 2,
-               "damage": 18,
-               "attack_speed": 1.1,
-               "special_effect": "freeze",  # slow down enemies
-               "directory_path": "images/weapons/winter_sword"},
-           "gold_axe": {
-               "tier": 2,
-               "damage": 22,
-               "attack_speed": 0.9,
-               "special_effect": "golden touch",  # get more gold from enemies
-               "directory_path": "images/weapons/gold_axe"},
-####################### TIER 3 WEAPONS ########################################
-           "fire_sword": {
-               "tier": 3,
-               "damage": 28,
-               "attack_speed": 0.7,
-               "special_effect": "burn",
-               "directory_path": "images/weapons/fire_sword"},
-           "ice_bow": {
-               "tier": 3,
-               "damage": 24,
-               "attack_speed": 1.0,
-               "special_effect": "freeze",
-               "directory_path": "images/weapons/ice_bow"},
-           "light_bow": {
-               "tier": 3,
-               "damage": 23,
-               "attack_speed": 1.0,
-               "special_effect": "blindness", # monster stop moving because they can't see for a while or will miss their attacks or start going away from you
-               "directory_path": "images/weapons/light_bow"},
-####################### TIER 4 WEAPON ########################################
-           "ruby_axe": {
-               "tier": 4,
-               "damage": 15,
-               "attack_speed": 1.2,
-               "special_effect": "bleed",  # Causes enemies to lose HP over time
-               "directory_path": "images/weapons/ruby_axe"}}
+    "tier": 1,
+    "damage": 18,
+    "attack_speed": 2.0,
+    "special_effect": None,
+    "directory_path": "images/weapons/dagger"},
+    "ghost_bow": {
+        "tier": 1,
+        "damage": 22,
+        "attack_speed": 1.0,
+        "special_effect": None,
+        "directory_path": "images/weapons/ghost_bow"},
+    ####################### TIER 2 WEAPONS ########################################
+    "winter_sword": {
+        "tier": 2,
+        "damage": 18,
+        "attack_speed": 1.1,
+        "special_effect": "freeze",  # slow down enemies
+        "directory_path": "images/weapons/winter_sword"},
+    "gold_axe": {
+        "tier": 2,
+        "damage": 22,
+        "attack_speed": 0.9,
+        "special_effect": "golden touch",  # get more gold from enemies
+        "directory_path": "images/weapons/gold_axe"},
+    ####################### TIER 3 WEAPONS ########################################
+    "fire_sword": {
+        "tier": 3,
+        "damage": 28,
+        "attack_speed": 0.7,
+        "special_effect": "burn",
+        "directory_path": "images/weapons/fire_sword"},
+    "ice_bow": {
+        "tier": 3,
+        "damage": 24,
+        "attack_speed": 1.0,
+        "special_effect": "freeze",
+        "directory_path": "images/weapons/ice_bow"},
+    "light_bow": {
+        "tier": 3,
+        "damage": 23,
+        "attack_speed": 1.0,
+        "special_effect": "blindness",
+        # monster stop moving because they can't see for a while or will miss their attacks or start going away from you
+        "directory_path": "images/weapons/light_bow"},
+    ####################### TIER 4 WEAPON ########################################
+    "ruby_axe": {
+        "tier": 4,
+        "damage": 15,
+        "attack_speed": 1.2,
+        "special_effect": "bleed",  # Causes enemies to lose HP over time
+        "directory_path": "images/weapons/ruby_axe"}}
+
 
 class Weapon(pygame.sprite.Sprite, ABC):
     def __init__(self, player, groups, weapon_name):
@@ -67,7 +69,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.damage = weapons[weapon_name]["damage"]
         self.attack_speed = weapons[weapon_name]["attack_speed"]
         self.special_effect = weapons[weapon_name]["special_effect"]  # burn, freeze, maybe more efficient
-                                                                      # in some monsters than others
+        # in some monsters than others
         self.directory_path = weapons[weapon_name]["directory_path"]
 
         self.upgrade_level = 0
@@ -76,8 +78,8 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.player = player
         self.distance = 40
         self.player_direction = pygame.Vector2(0, 1)  # weapon at the right (i think) of the player
-                                                      # Matilde said that is left
-                                                      # the side of the screen this arrow is pointing to -->
+        # Matilde said that is left
+        # the side of the screen this arrow is pointing to -->
 
         # Load all weapon frames
         self.frames = []
@@ -96,7 +98,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
 
         self.rect = self.image.get_rect(center=self.player.rect.center + self.player_direction * self.distance)
 
-#################################### DISPLAY OF WEAPON ###########################################
+    #################################### DISPLAY OF WEAPON ###########################################
     @abstractmethod
     def animate(self, frame_time):
         """
@@ -126,11 +128,12 @@ class Weapon(pygame.sprite.Sprite, ABC):
 
     def track_enemy(self, enemy):
         pass
+
     # todo: finish this function
 
-##########################################################################################################
+    ##########################################################################################################
 
-########################### MECHANICS OF THE WEAPON ######################################################
+    ########################### MECHANICS OF THE WEAPON ######################################################
     def apply_effect(self, target):
         if self.special_effect == "burn":
             target.take_damage(5)
@@ -152,6 +155,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         print(f"Damage: {self.damage}")
         print(f"Attack Speed: {self.attack_speed}")
         print(f"Special Effect: {self.special_effect}")
+
 
 #################################################################################
 
@@ -187,6 +191,7 @@ class Sword(Weapon):
         self.image = self.frames[self.current_frame_index]
         # print(f"Current Frame Index: {self.current_frame_index}")
 
+
 class Bow(Weapon):
     def __init__(self, player, groups, weapon_name):
         super().__init__(player, groups, weapon_name)
@@ -220,6 +225,7 @@ class Bow(Weapon):
 
         self.image = self.frames[self.current_frame_index]
         # print(f"Current Frame Index: {self.current_frame_index}")
+
 
 class Axe(Weapon):
     def rotate_weapon(self):
