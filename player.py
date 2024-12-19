@@ -84,6 +84,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.active_weapon = None  # Currently active weapon
         self.active_weapon_group = pygame.sprite.Group()  # Group to store the active weapon
         ###########################################
+        if info['inventory']['sword'] >= 1:
+            self.add_weapon("dagger", "Sword")
+            print(self.weapons)
+            print(self.active_weapon)
+        else:
+            if info['inventory']['bow'] >= 1:
+                self.add_weapon("ghost_bow", "Bow")
+                print(self.weapons)
+                print(self.active_weapon)
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
     def add_weapon(self, weapon_name, weapon_type):
@@ -277,14 +286,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             if item_name == 'dog' and self.dog is None:
                 self.dog = Dog(self)
                 self.dog.bought = True
-            elif item_name == 'sword':
-                self.add_weapon("dagger", "Sword")
-                print(self.weapons)
-                print(self.active_weapon)
-            elif item_name == 'bow':
-                self.add_weapon("ghost_bow", "Bow")
-                print(self.weapons)
-                print(self.active_weapon)
         else:
             print(f"gold is not enough. gold: {info['gold']}")  # todo: add here a screen saying not enough money
 
