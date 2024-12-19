@@ -218,7 +218,7 @@ def execute_game(player, dog):
             return "pink house"
 
         if player.just_left_pink_house:
-            player.rect.center = (150, 250)
+            player.rect.center = (200, 250)
             player.just_left_pink_house = False
 
         # player in the old lady house
