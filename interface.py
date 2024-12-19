@@ -1,4 +1,6 @@
 import pygame.display
+import pygame.image
+
 from game import *
 # from config import *
 from utils import *
@@ -79,7 +81,7 @@ def interface():
             # credits button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 800 <= mouse[0] < 975 and 514 <= mouse[1] < 573:
-                    interface()
+                    credits_()
 
             # wilderness game button
             if ev.type == pygame.MOUSEBUTTONDOWN:
@@ -141,53 +143,37 @@ def interface():
 
 
 def credits_():
-    # screen = pygame.display.set_mode(resolution)
+    # Set up the display
+    screen = pygame.display.set_mode(resolution)
 
-    # in order to print something we need to first create a font, create the text and then blit
-
-    # creating the fonts:
-    corbelfont = pygame.font.SysFont("Corbel", 50)
-    comicsansfont = pygame.font.SysFont("Comic Sans MS", 25)
-
-    # creating the rendered texts for the credits
-    augusto_text = comicsansfont.render("Augusto Santos, ajrsantos@novaims.unl.pt", True, white)
-    diogo_text = comicsansfont.render("Diogo Rastreio, drasteiro@novaims.unl.pt", True, white)
-    liah_text = comicsansfont.render("Liah Rosenfeld, lrosenfeld@novaims.unl.pt", True, white)
+    # main background for credits
+    credits_background = pygame.image.load("images/credits/CREDITS.png")
 
     # main loop to detect user input and display the credits
     while True:
         # getting the position of the users mouse
-        mouse = pygame.mouse.get_pos()
+        mouse = get_mouse_position()
 
         for ev in pygame.event.get():
-
             # allow the user to quit on (x)
             if ev.type == pygame.QUIT:
                 progress()
                 pygame.quit()
                 exit()
+            # creating a button that returns to main menu
+            elif ev.type == pygame.MOUSEBUTTONDOWN:
+                if quit_options_button.collidepoint(mouse):
+                    return
 
-            # checking if the user clicked the back button
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    interface()
+        # Display the background
+        screen.blit(credits_background, (0, 0))
 
-        # display my screen
-    screen.fill(deep_black)  # we can fill the screen with an image instead of deep_black
-    # displaying our texts
-    screen.blit(augusto_text, (0, 0))  # first line
-    screen.blit(diogo_text, (0, 25))
-    screen.blit(liah_text, (0, 50))
+        # drawing the quit button to leave the options menu
+        quit_options_button = draw_button(screen, 1065, 555, 150, 80, "EXIT", text_color=brick_color,
+                                          image_path="images/store/store_button.png", font=settingsfont)
 
-    # drawing and displaying the back button
-    pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
-    back_text = corbelfont.render("back", True, white)
-    back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
-    screen.blit(back_text, back_rect)
-
-    # updating the display
-    pygame.display.update()
-
+        # Update the display
+        pygame.display.flip()
 
 def rules_():
     page_1 = True
