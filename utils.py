@@ -99,7 +99,7 @@ def options_menu():
         volume_text_rect = volume_text.get_rect(center=(bar_x + bar_width // 2, bar_y + bar_height + 50))
         screen.blit(volume_text, volume_text_rect)
 
-        # drawing the quit button
+        # drawing the quit button to leave the options menu
         quit_options_button = draw_button(screen, 1000, 520, 150, 80, "EXIT", text_color=brick_color,
                                           image_path="images/store/store_button.png", font=settingsfont)
 
