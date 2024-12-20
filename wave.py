@@ -232,9 +232,10 @@ class WaveManager:
             for enemy in collided_with_player:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.player.damage_cooldown > self.player.cooldown_duration:
-                    # self.player.health -= enemy.attack
+                    # this line updates the player's attribute
+                    self.player.health -= enemy.attack
                     # using this function to handle the display of the health bar (hearts) and game over,
-                    # due to circular import
+                    # due to circular import. It also updates the player health on the player_info.txt
                     remove_health(enemy.attack)
                     # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time

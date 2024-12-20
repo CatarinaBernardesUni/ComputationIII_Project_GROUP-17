@@ -112,6 +112,7 @@ def crafting(player):
                 if platform_rect.collidepoint(mouse_pos):
                     print("Platform 1 clicked!")
                     chosen_weapon = inventory_menu(player, place="shed", item_type="weapons")
+                    # todo: display the selected item and close the inventory
 
                 if platform_rect_2.collidepoint(mouse_pos):
                     print("Platform 2 clicked!")
