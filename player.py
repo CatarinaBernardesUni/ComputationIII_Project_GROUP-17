@@ -73,7 +73,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                             'dagger': 80,
                             'ghost_bow': 100,
                             'key': 300}
-        self.health_boosts = health_boosts = {"apple": 1, "mushroom": 2, "soup": 5}
+        self.health_boosts = {"apple": 1, "mushroom": 2, "soup": 5}
 
         ########### WEAPONS ########################
         # the inventory holds the amount of weapons the player has and this dict the instances of the weapons
