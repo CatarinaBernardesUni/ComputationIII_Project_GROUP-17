@@ -1,5 +1,7 @@
 from config import *
 from pytmx.util_pygame import load_pygame
+
+from inventory import inventory_menu
 from utils import area_setup, calculate_camera_offset, paused
 
 def shed_area(player):
@@ -60,7 +62,7 @@ def shed_area(player):
             return "main"
 
         if work_table_rect and work_table_rect.colliderect(player.rect):
-            crafting()
+            crafting(player)
 
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
@@ -79,7 +81,7 @@ def shed_area(player):
     pygame.quit()
     exit()
 
-def crafting():
+def crafting(player):
     font_for_message = pygame.font.Font("fonts/pixel_font.ttf", 32)
     message = "Open your inventory and select one weapon and a crystal"
 
@@ -103,6 +105,17 @@ def crafting():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse_pos = pygame.mouse.get_pos()
+
+                if platform_rect.collidepoint(mouse_pos):
+                    print("Platform 1 clicked!")
+                    chosen_weapon = inventory_menu(player, place="shed", item_type="weapons")
+
+                if platform_rect_2.collidepoint(mouse_pos):
+                    print("Platform 2 clicked!")
+                    chosen_crystal = inventory_menu(player, place="shed", item_type="crystals")
 
         screen.blit(scaled_platform_image, platform_rect)
         screen.blit(scaled_platform_image_2, platform_rect_2)

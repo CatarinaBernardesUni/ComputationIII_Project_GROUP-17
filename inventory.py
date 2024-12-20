@@ -35,7 +35,14 @@ scaled_images_inventory = {item: pygame.transform.scale(image, (50, 50)) for ite
 
 
 # lets the user check their inventory:
-def inventory_menu(player):
+def inventory_menu(player, place=None, item_type=None):
+    """
+        Display the inventory menu with optional filtering based on location and item type.
+
+        :param player: The player object.
+        :param place: Optional. Indicates the current location (e.g., "shed").
+        :param item_type: Optional. Filters items to display (e.g., "weapons" or "crystals").
+        """
     on_inventory = True
 
     # setting up the background image for the inventory
@@ -49,7 +56,7 @@ def inventory_menu(player):
 
         # setting so my amount of gold appears
         gold_available = inventoryfont.render(f"My Gold: {info['gold']}", True, brick_color)
-        in_background.blit(gold_available, (width // 2 - 500, height // 2 - 150 - 160))
+        in_background.blit(gold_available, (width // 2 - 500, height // 2 - 150 - 160)) # todo: why not just sum?
 
         # creating the initial position for the 1st item, adapt the others through it
         first_x = width // 2 - 450
@@ -69,69 +76,114 @@ def inventory_menu(player):
         items_per_row = 7
         item_count = 0
 
-        # displaying the items:
-        for current_position, (item, count) in enumerate(player.inventory.items()):
-            # Skip the dog item, don't want it to appear as a part of the inventory
-            # can't take the dog back!!!!
-            if item == 'dog':
-                continue
+        ################################ FOR SHED ########################################
+        # Determine which items to display based on the parameters
+        filtered_items = player.inventory.items()
 
-            # if the player has at least one item, it appears on inventory
-            # blits only the image once. keeps counting after that
-            if count > 0:
-                item_image = scaled_images_inventory[item]
-                # setting the position so its in a single row
-                item_x = current_x
-                item_y = current_y
+        if place == "shed":
+            # todo: I added the .keys()
+            if item_type == "weapons":
+                filtered_items = {name: info["inventory"][name] for name in player.weapons.keys() if
+                                  info["inventory"].get(name, 0) > 0}
+            elif item_type == "crystals":
+                filtered_items = {name: info["inventory"][name] for name in player.crystals.keys() if
+                                  info["inventory"].get(name, 0) > 0}
 
-                # bliting the images on screen and their amounts
-                screen.blit(item_image, (item_x, item_y))
-                count_text = inventoryfont.render(f"x{count}", True, brick_color)
-                screen.blit(count_text, (item_x, item_y + item_image.get_height() + 5))
+            # Display items
+            for item_name, count in filtered_items.items():
+                if count > 0:
+                    item_image = scaled_images_inventory[item_name]
+                    screen.blit(item_image, (current_x, current_y))
+                    count_text = inventoryfont.render(f"x{count}", True, brick_color)
+                    screen.blit(count_text, (current_x, current_y + item_image.get_height() + 5))
 
-                # store the item position and dimensions
-                item_positions.append((item, item_x, item_y, item_image.get_width(), item_image.get_height()))
+                    item_positions.append(
+                        (item_name, current_x, current_y, item_image.get_width(), item_image.get_height()))
 
-                # Update current item position for the next item + the spacing
-                current_x += item_image.get_width() + item_spacing
-                item_count += 1
+                    current_x += item_image.get_width() + item_spacing
+                    if len(item_positions) % items_per_row == 0:
+                        current_x = first_x
+                        current_y += item_image.get_height() + row_spacing
+            # Handling events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        on_inventory = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_x, mouse_y = get_mouse_position()
+                    for item_name, item_x, item_y, item_width, item_height in item_positions:
+                        if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
+                            print(f"{item_name} selected!")
+                            # Handle item selection logic here
+                            return item_name
+        ###################################################################################################
+        else:
+            # displaying the items:
+            for current_position, (item, count) in enumerate(player.inventory.items()):
+                # Skip the dog item, don't want it to appear as a part of the inventory
+                # can't take the dog back!!!!
+                if item == 'dog':
+                    continue
 
-                # move to next row if first row complete > 7:
-                # ensures all multiples of 7 are 0, so it changes row
-                # 14 % 7 = 0 so creates a 3rd line
-                if item_count % items_per_row == 0:
-                    current_x = first_x
-                    current_y += item_image.get_height() + row_spacing
+                # if the player has at least one item, it appears on inventory
+                # blits only the image once. keeps counting after that
+                if count > 0:
+                    item_image = scaled_images_inventory[item]
+                    # setting the position so its in a single row
+                    item_x = current_x
+                    item_y = current_y
 
-        # handling the key events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                progress()
-                pygame.quit()
-                exit()
-            elif event.type == pygame.KEYDOWN:
-                # exiting the menu with the esc key
-                if event.key == pygame.K_ESCAPE:
-                    on_inventory = False
-            # being able to select my items for further utilization
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = get_mouse_position()
-                # check if the click is within any item bounds
-                for item, item_x, item_y, item_width, item_height in item_positions:
-                    if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
-                        # take out the item from the inventory after usage
-                        if item not in ("dagger", "ghost_bow"):
-                            info['inventory'][item] -= 1
-                        sparkly_music.play()
-                        if item in ("apple", "mushroom", "soup"):
-                            player.get_health()
-                        if item == "dagger":
-                            if player.active_weapon is None:
-                                player.add_weapon("dagger", "Sword")
-                                info['inventory']['dagger'] -= 1
-                        if item == "ghost_bow":
-                            if player.active_weapon is None:
-                                info['inventory']['ghost_bow'] -= 1
-                                player.add_weapon("ghost_bow", "Bow")
+                    # bliting the images on screen and their amounts
+                    screen.blit(item_image, (item_x, item_y))
+                    count_text = inventoryfont.render(f"x{count}", True, brick_color)
+                    screen.blit(count_text, (item_x, item_y + item_image.get_height() + 5))
+
+                    # store the item position and dimensions
+                    item_positions.append((item, item_x, item_y, item_image.get_width(), item_image.get_height()))
+
+                    # Update current item position for the next item + the spacing
+                    current_x += item_image.get_width() + item_spacing
+                    item_count += 1
+
+                    # move to next row if first row complete > 7:
+                    # ensures all multiples of 7 are 0, so it changes row
+                    # 14 % 7 = 0 so creates a 3rd line
+                    if item_count % items_per_row == 0:
+                        current_x = first_x
+                        current_y += item_image.get_height() + row_spacing
+
+            # handling the key events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    progress()
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    # exiting the menu with the esc key
+                    if event.key == pygame.K_ESCAPE:
+                        on_inventory = False
+                # being able to select my items for further utilization
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_x, mouse_y = get_mouse_position()
+                    # check if the click is within any item bounds
+                    for item, item_x, item_y, item_width, item_height in item_positions:
+                        if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
+                            # take out the item from the inventory after usage
+                            if item not in ("dagger", "ghost_bow"):
+                                info['inventory'][item] -= 1
+                            sparkly_music.play()
+                            if item in ("apple", "mushroom", "soup"):
+                                player.get_health()
+                            if item == "dagger":
+                                if player.active_weapon is None:
+                                    player.add_weapon("dagger", "Sword")
+                                    info['inventory']['dagger'] -= 1
+                            if item == "ghost_bow":
+                                if player.active_weapon is None:
+                                    info['inventory']['ghost_bow'] -= 1
+                                    player.add_weapon("ghost_bow", "Bow")
 
         pygame.display.update()
