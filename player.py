@@ -278,6 +278,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def get_health(self):  # we should use this if the player picks up hearts or something
         if info['health'] < self.max_health:
             info['health'] += 1
+            self.health = info['health']
 
     def buy_item(self, item_name):
         # getting the item price from the price_items dictionary
@@ -296,3 +297,4 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def add_gold(self, amount):
         info['gold'] += amount
+        self.gold = info['gold']

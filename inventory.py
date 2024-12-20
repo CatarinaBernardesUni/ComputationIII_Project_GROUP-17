@@ -76,45 +76,29 @@ def inventory_menu(player, place=None, item_type=None):
         display_items(screen, filtered_items, item_positions, first_x, first_y, item_spacing, row_spacing,
                       items_per_row)
 
-        if place == "shed":
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    on_inventory = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                selected_item = handle_item_click(item_positions)
+                if selected_item:
+                    if place == "shed":
+                        print(f"Shed: {selected_item} selected")
                         on_inventory = False
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    selected_item = handle_item_click(item_positions)
-                    if selected_item:
-                        on_inventory = False
-                        pygame.display.update()
-                        return selected_item
-        else:
-            # handling the key events
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    progress()
-                    pygame.quit()
-                    exit()
-                elif event.type == pygame.KEYDOWN:
-                    # exiting the menu with the esc key
-                    if event.key == pygame.K_ESCAPE:
-                        on_inventory = False
-                # being able to select my items for further utilization
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    # check if the click is within any item bounds
-                    item = handle_item_click(item_positions)
-                    if item not in ("dagger", "ghost_bow"):
-                        info['inventory'][item] -= 1
-                    sparkly_music.play()
-                    if item in ("apple", "mushroom", "soup"):
-                        player.get_health()
-                    if item == "dagger":
-                        if player.active_weapon is None:
+                    else:
+                        # Handle general inventory interactions
+                        if selected_item not in ("dagger", "ghost_bow"):
+                            info['inventory'][selected_item] -= 1
+                        sparkly_music.play()
+                        if selected_item in ("apple", "mushroom", "soup"):
+                            player.get_health()
+                        if selected_item == "dagger" and player.active_weapon is None:
                             player.add_weapon("dagger", "Sword")
-                    if item == "ghost_bow":
-                        if player.active_weapon is None:
+                        if selected_item == "ghost_bow" and player.active_weapon is None:
                             info['inventory']['ghost_bow'] -= 1
                             player.add_weapon("ghost_bow", "Bow")
 
