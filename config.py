@@ -51,6 +51,7 @@ empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_hear
 cutefont = pygame.font.Font("fonts/pixel_font.ttf", 11)
 inventoryfont = pygame.font.Font("fonts/pixel_font.ttf", 25)
 settingsfont = pygame.font.Font("fonts/Minecraft.ttf", 25)
+font_for_message = pygame.font.Font("fonts/pixel_font.ttf", 32)
 
 # game over screen
 game_over_image = pygame.transform.scale(pygame.image.load("images/screens/game_over.png"), (1280, 720))

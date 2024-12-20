@@ -89,6 +89,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         ############### CRYSTALS ##################
         # similarly to the weapons, this dict holds the instances of the crystals while the inventory holds the amounts
+        # it returns to None if the player leaves the game and comes back
         self.crystals = {key: None for key in crystals_data}
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
@@ -119,9 +120,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     ###### CRYSTALS ####################################################################################
     def collect_crystal(self, crystal_name):
         """Add a crystal instance to the player's inventory."""
-        crystal_instance = Crystal(crystal_name, crystals_data)
-        self.crystals[crystal_name] = crystal_instance
         info['inventory'][crystal_name] += 1
+        self.inventory = info['inventory']
 
     ############### ANIMATION AND MOVEMENT ############################################################
 

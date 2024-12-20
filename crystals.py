@@ -10,4 +10,4 @@ class Crystal:
         # stripped_crystals = [item.replace("_crystal", "") for item in crystals_data.keys()]
         self.name = name
         self.image = pygame.image.load(crystals_data[name])
-        self.rect = self.image.get_rect()
+

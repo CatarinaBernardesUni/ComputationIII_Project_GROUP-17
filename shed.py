@@ -4,6 +4,58 @@ from pytmx.util_pygame import load_pygame
 from inventory import inventory_menu, scaled_images_inventory
 from utils import area_setup, calculate_camera_offset, paused
 
+def evolve_weapon(player, weapon, crystal):
+    if weapon == "dagger" and crystal == "red_crystal":
+        print("I was here")
+        info["inventory"]["dagger"] -= 1
+        info["inventory"]["red_crystal"] -= 1
+        """player.weapons["dagger"] = None if "dagger" not in player.inventory.keys() else player.weapons["dagger"]
+        player.add_weapon("fire_sword", "Sword")"""
+        info["inventory"]["fire_sword"] += 1
+        player.inventory = info["inventory"]
+
+    elif weapon == "dagger" and crystal == "blue_crystal":
+        info["inventory"]["dagger"] -= 1
+        info["inventory"]["blue_crystal"] -= 1
+        """player.weapons["dagger"] = None if "dagger" not in player.inventory.keys() else player.weapons["dagger"]
+        player.add_weapon("ice_sword", "Sword")"""
+        info["inventory"]["ice_sword"] += 1
+        player.inventory = info["inventory"]
+
+    elif weapon == "ghost_bow" and crystal == "white_crystal":
+        info["inventory"]["ghost_bow"] -= 1
+        info["inventory"]["white_crystal"] -= 1
+        """player.weapons["ghost_bow"] = None if "ghost_bow" not in player.inventory.keys() else player.weapons[
+            "ghost_bow"]
+        player.add_weapon("ice_bow", "Bow")"""
+        info["inventory"]["ice_bow"] += 1
+        player.inventory = info["inventory"]
+
+    elif weapon == "ghost_bow" and crystal == "gold_crystal":
+        info["inventory"]["ghost_bow"] -= 1
+        info["inventory"]["gold_crystal"] -= 1
+        """player.weapons["ghost_bow"] = None if "ghost_bow" not in player.inventory.keys() else player.weapons[
+            "ghost_bow"]
+        player.add_weapon("light_bow", "Bow")"""
+        info["inventory"]["light_bow"] += 1
+        player.inventory = info["inventory"]
+
+    # damage increases 20% for that instance of the weapon, not future ones
+    # if you spend your weapon by evolving it to another, the player looses its upgrades
+    elif weapon in player.weapons.keys() and crystal == "purple_crystal":
+        info["inventory"]["purple_crystal"] -= 1
+        # getting the class of the weapon that the player is evolving
+        # weapon_class = player.weapons[weapon].__class__
+        # updating all future instances of the weapon
+        # player.weapons[weapon] = weapon_class(player, player.active_weapon_group, weapon).upgrade()
+
+    else:
+        error_message = "Invalid combination of weapon and crystal or weapon at max level"
+        error_text_to_display = font_for_message.render(error_message, True, red)
+        screen.blit(error_text_to_display, (130, 520))
+
+    progress()
+
 def shed_area(player):
     clock = pygame.time.Clock()
     shed_screen = pygame.display.set_mode(resolution)
@@ -88,7 +140,6 @@ def crafting(player):
     chosen_crystal = None
     chosen_crystal_image = None
 
-    font_for_message = pygame.font.Font("fonts/pixel_font.ttf", 32)
     message = "Open your inventory and select one weapon and a crystal"
 
     platform_image = pygame.image.load("images/shed buttons/rect_plat.png")
@@ -136,6 +187,10 @@ def crafting(player):
                         chosen_crystal_image = pygame.transform.scale(
                             original_image, (original_image.get_width() * 2, original_image.get_height() * 2))
 
+                if evolve_rect.collidepoint(mouse_pos) and chosen_weapon and chosen_crystal:
+                    print("Evolve clicked!")
+                    evolve_weapon(player, chosen_weapon, chosen_crystal)
+
         screen.blit(scaled_platform_image, platform_rect)
         screen.blit(scaled_platform_image_2, platform_rect_2)
         screen.blit(scaled_evolve_image, evolve_rect)
@@ -160,45 +215,3 @@ def crafting(player):
     progress()
     pygame.quit()
     exit()
-
-def evolve_weapon(player, weapon, crystal):
-    if weapon == "dagger" and crystal == "red_crystal":
-        info["inventory"]["dagger"] -= 1
-        info["inventory"]["red_crystal"] -= 1
-        player.weapons["dagger"] = None if "dagger" not in player.inventory.keys() else player.weapons["dagger"]
-        player.add_weapon("fire_sword", "Sword")
-        info["inventory"]["fire_sword"] += 1
-        player.inventory = info["inventory"]
-
-    elif weapon == "dagger" and crystal == "blue_crystal":
-        info["inventory"]["dagger"] -= 1
-        info["inventory"]["blue_crystal"] -= 1
-        player.weapons["dagger"] = None if "dagger" not in player.inventory.keys() else player.weapons["dagger"]
-        player.add_weapon("ice_sword", "Sword")
-        info["inventory"]["ice_sword"] += 1
-        player.inventory = info["inventory"]
-
-    elif weapon == "ghost_bow" and crystal == "white_crystal":
-        info["inventory"]["ghost_bow"] -= 1
-        info["inventory"]["white_crystal"] -= 1
-        player.weapons["ghost_bow"] = None if "ghost_bow" not in player.inventory.keys() else player.weapons["ghost_bow"]
-        player.add_weapon("ice_bow", "Bow")
-        info["inventory"]["ice_bow"] += 1
-        player.inventory = info["inventory"]
-
-    elif weapon == "ghost_bow" and crystal == "gold_crystal":
-        info["inventory"]["ghost_bow"] -= 1
-        info["inventory"]["gold_crystal"] -= 1
-        player.weapons["ghost_bow"] = None if "ghost_bow" not in player.inventory.keys() else player.weapons["ghost_bow"]
-        player.add_weapon("light_bow", "Bow")
-        info["inventory"]["light_bow"] += 1
-        player.inventory = info["inventory"]
-
-    # damage increases 20% for that instance of the weapon, not future ones
-    # if you spend your weapon by evolving it to another, the player looses its upgrades
-    elif weapon in player.weapons.keys() and crystal == "purple_crystal":
-        info["inventory"]["purple_crystal"] -= 1
-        # getting the class of the weapon that the player is evolving
-        weapon_class_name = player.weapons[weapon].__class__
-        # updating the instances of the weapon in the player's list of weapons
-        player.weapons[weapon] = weapon_class_name(player, player.active_weapon_group, weapon).upgrade()

@@ -110,11 +110,12 @@ def inventory_menu(player, place=None, item_type=None):
 def get_filtered_items(player, place=None, item_type=None):
     if place == "shed":
         if item_type == "weapons":
-            return {name: info["inventory"][name] for name in player.weapons.keys() if
-                    info["inventory"].get(name, 0) > 0}
+            return {name: info["inventory"][name] for name in info["inventory"] if
+                    info["inventory"].get(name, 0) > 0 and any(weapon in name for weapon in ["sword", "bow",
+                                                                                             "axe", "dagger"])}
         elif item_type == "crystals":
-            return {name: info["inventory"][name] for name in player.crystals.keys() if
-                    info["inventory"].get(name, 0) > 0}
+            return {name: info["inventory"][name] for name in info["inventory"] if
+                    info["inventory"].get(name, 0) > 0 and "crystal" in name}
     return {item: count for item, count in player.inventory.items() if item != "dog"}
 
 

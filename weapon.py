@@ -57,8 +57,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.name = weapon_name
         self.tier = weapons[weapon_name]["tier"]
         self.damage = weapons[weapon_name]["damage"]
-        self.special_effect = weapons[weapon_name]["special_effect"]  # burn, freeze, maybe more efficient
-                                                                      # in some monsters than others
+        self.special_effect = weapons[weapon_name]["special_effect"]
         self.directory_path = weapons[weapon_name]["directory_path"]
 
         self.upgrade_level = 0
@@ -78,8 +77,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
             scaled_frame = pygame.transform.scale(frame, (35, 35))
             # print(f"Loaded frame: {file_name}")
             self.frames.append(scaled_frame)
-
-        # print(f"Loaded frames: {len(self.frames)}")
 
         self.current_frame_index = 0
         self.animation_speed = 0.1
