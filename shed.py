@@ -1,7 +1,7 @@
 from config import *
 from pytmx.util_pygame import load_pygame
 
-from inventory import inventory_menu
+from inventory import inventory_menu, scaled_images_inventory
 from utils import area_setup, calculate_camera_offset, paused
 
 def shed_area(player):
@@ -9,7 +9,7 @@ def shed_area(player):
     shed_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
 
-    ############################### HOUSE MAP ################################
+    ############################### SHED MAP ################################
 
     tmx_data = load_pygame("data/WE SHED/WE SHED.tmx")
     (background_sprite_group, tiles_group, objects_group,
@@ -26,7 +26,7 @@ def shed_area(player):
     # setting the player initial position on the home
     player.rect.center = (530, 460)
     player.state = "up"
-    ###################################### MAIN GAME LOOP #######################################
+    ###################################### MAIN SHED LOOP #######################################
     running = True
 
     while running:
@@ -82,6 +82,12 @@ def shed_area(player):
     exit()
 
 def crafting(player):
+
+    chosen_weapon = None
+    chosen_weapon_image = None
+    chosen_crystal = None
+    chosen_crystal_image = None
+
     font_for_message = pygame.font.Font("fonts/pixel_font.ttf", 32)
     message = "Open your inventory and select one weapon and a crystal"
 
@@ -103,6 +109,7 @@ def crafting(player):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                progress()
                 pygame.quit()
                 exit()
 
@@ -112,11 +119,22 @@ def crafting(player):
                 if platform_rect.collidepoint(mouse_pos):
                     print("Platform 1 clicked!")
                     chosen_weapon = inventory_menu(player, place="shed", item_type="weapons")
-                    # todo: display the selected item and close the inventory
+                    # using an if to check if the image exists before, or it will give an error if
+                    # we click on an empty space in the inventory
+                    if chosen_weapon:
+                        original_image = scaled_images_inventory[chosen_weapon]
+                        # resizing the image to look better on the platform
+                        chosen_weapon_image = pygame.transform.scale(
+                            original_image, (original_image.get_width() * 1.9, original_image.get_height() * 1.9))
 
                 if platform_rect_2.collidepoint(mouse_pos):
                     print("Platform 2 clicked!")
                     chosen_crystal = inventory_menu(player, place="shed", item_type="crystals")
+                    if chosen_crystal:
+                        original_image = scaled_images_inventory[chosen_crystal]
+                        # resizing the image to look better on the platform
+                        chosen_crystal_image = pygame.transform.scale(
+                            original_image, (original_image.get_width() * 2, original_image.get_height() * 2))
 
         screen.blit(scaled_platform_image, platform_rect)
         screen.blit(scaled_platform_image_2, platform_rect_2)
@@ -125,8 +143,62 @@ def crafting(player):
         evolve_rect_text = font_for_message.render("Evolve Weapon", True, yellow_torrado)
         screen.blit(evolve_rect_text, (evolve_rect.centerx - 114, evolve_rect.centery - 10))
 
-        pygame.display.update()
+        # Display the chosen weapon on platform 1
+        if chosen_weapon_image:
+            weapon_pos = (platform_rect.centerx - chosen_weapon_image.get_width() // 2, platform_rect.centery -
+                          chosen_weapon_image.get_height() // 2)
+            screen.blit(chosen_weapon_image, weapon_pos)
+
+        # Display the chosen crystal on platform 2
+        if chosen_crystal_image:
+            crystal_pos = (platform_rect_2.centerx - chosen_crystal_image.get_width() // 2, platform_rect_2.centery -
+                           chosen_crystal_image.get_height() // 2)
+            screen.blit(chosen_crystal_image, crystal_pos)
+
+        pygame.display.flip()
 
     progress()
     pygame.quit()
     exit()
+
+def evolve_weapon(player, weapon, crystal):
+    if weapon == "dagger" and crystal == "red_crystal":
+        info["inventory"]["dagger"] -= 1
+        info["inventory"]["red_crystal"] -= 1
+        player.weapons["dagger"] = None if "dagger" not in player.inventory.keys() else player.weapons["dagger"]
+        player.add_weapon("fire_sword", "Sword")
+        info["inventory"]["fire_sword"] += 1
+        player.inventory = info["inventory"]
+
+    elif weapon == "dagger" and crystal == "blue_crystal":
+        info["inventory"]["dagger"] -= 1
+        info["inventory"]["blue_crystal"] -= 1
+        player.weapons["dagger"] = None if "dagger" not in player.inventory.keys() else player.weapons["dagger"]
+        player.add_weapon("ice_sword", "Sword")
+        info["inventory"]["ice_sword"] += 1
+        player.inventory = info["inventory"]
+
+    elif weapon == "ghost_bow" and crystal == "white_crystal":
+        info["inventory"]["ghost_bow"] -= 1
+        info["inventory"]["white_crystal"] -= 1
+        player.weapons["ghost_bow"] = None if "ghost_bow" not in player.inventory.keys() else player.weapons["ghost_bow"]
+        player.add_weapon("ice_bow", "Bow")
+        info["inventory"]["ice_bow"] += 1
+        player.inventory = info["inventory"]
+
+    elif weapon == "ghost_bow" and crystal == "gold_crystal":
+        info["inventory"]["ghost_bow"] -= 1
+        info["inventory"]["gold_crystal"] -= 1
+        player.weapons["ghost_bow"] = None if "ghost_bow" not in player.inventory.keys() else player.weapons["ghost_bow"]
+        player.add_weapon("light_bow", "Bow")
+        info["inventory"]["light_bow"] += 1
+        player.inventory = info["inventory"]
+
+    # damage increases 20% for that instance of the weapon, not future ones
+    # if you spend your weapon by evolving it to another, the player looses its upgrades
+    elif weapon in player.weapons.keys() and crystal == "purple_crystal":
+        info["inventory"]["purple_crystal"] -= 1
+        # getting the class of the weapon that the player is evolving
+        weapon_class_name = player.weapons[weapon].__class__
+        # updating the instances of the weapon in the player's list of weapons
+        player.weapons[weapon] = weapon_class_name(player, player.active_weapon_group, weapon).upgrade()

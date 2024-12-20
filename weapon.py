@@ -8,52 +8,44 @@ from abc import ABC, abstractmethod
 weapons = {"dagger": {
                 "tier": 1,
                 "damage": 18,
-                "attack_speed": 2.0,
                 "special_effect": None,
                 "directory_path": "images/weapons/dagger"},
            "ghost_bow": {
                  "tier": 1,
                  "damage": 22,
-                 "attack_speed": 1.0,
                  "special_effect": None,
                  "directory_path": "images/weapons/ghost_bow"},
 ####################### TIER 2 WEAPONS ########################################
            "winter_sword": {
                "tier": 2,
                "damage": 18,
-               "attack_speed": 1.1,
                "special_effect": "freeze",  # slow down enemies
                "directory_path": "images/weapons/winter_sword"},
            "gold_axe": {
                "tier": 2,
                "damage": 22,
-               "attack_speed": 0.9,
                "special_effect": "golden touch",  # get more gold from enemies
                "directory_path": "images/weapons/gold_axe"},
 ####################### TIER 3 WEAPONS ########################################
            "fire_sword": {
                "tier": 3,
                "damage": 28,
-               "attack_speed": 0.7,
                "special_effect": "burn",
                "directory_path": "images/weapons/fire_sword"},
            "ice_bow": {
                "tier": 3,
                "damage": 24,
-               "attack_speed": 1.0,
                "special_effect": "freeze",
                "directory_path": "images/weapons/ice_bow"},
            "light_bow": {
                "tier": 3,
                "damage": 23,
-               "attack_speed": 1.0,
                "special_effect": "blindness", # monster stop moving because they can't see for a while or will miss their attacks or start going away from you
                "directory_path": "images/weapons/light_bow"},
 ####################### TIER 4 WEAPON ########################################
            "ruby_axe": {
                "tier": 4,
                "damage": 15,
-               "attack_speed": 1.2,
                "special_effect": "bleed",  # Causes enemies to lose HP over time
                "directory_path": "images/weapons/ruby_axe"}}
 
@@ -65,7 +57,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.name = weapon_name
         self.tier = weapons[weapon_name]["tier"]
         self.damage = weapons[weapon_name]["damage"]
-        self.attack_speed = weapons[weapon_name]["attack_speed"]
         self.special_effect = weapons[weapon_name]["special_effect"]  # burn, freeze, maybe more efficient
                                                                       # in some monsters than others
         self.directory_path = weapons[weapon_name]["directory_path"]
@@ -124,10 +115,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
         player_position = pygame.Vector2(self.player.rect.center)
         self.player_direction = (mouse_position - player_position).normalize()
 
-    def track_enemy(self, enemy):
-        pass
-    # todo: finish this function
-
 ##########################################################################################################
 
 ########################### MECHANICS OF THE WEAPON ######################################################
@@ -143,14 +130,12 @@ class Weapon(pygame.sprite.Sprite, ABC):
         if self.upgrade_level < 5:
             self.upgrade_level += 1
             self.damage *= 1.2
-            self.attack_speed *= 1.1
 
     def display_stats(self):
         print(f"Name: {self.name}")
         print(f"Tier: {self.tier}")
         print(f"Upgrade Level: {self.upgrade_level}")
         print(f"Damage: {self.damage}")
-        print(f"Attack Speed: {self.attack_speed}")
         print(f"Special Effect: {self.special_effect}")
 
 #################################################################################

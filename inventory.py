@@ -88,8 +88,10 @@ def inventory_menu(player, place=None, item_type=None):
                 selected_item = handle_item_click(item_positions)
                 if selected_item:
                     if place == "shed":
-                        print(f"Shed: {selected_item} selected")
                         on_inventory = False
+                        print(f"Shed: {selected_item} selected")
+
+                        return selected_item
                     else:
                         # Handle general inventory interactions
                         if selected_item not in ("dagger", "ghost_bow"):
@@ -103,7 +105,7 @@ def inventory_menu(player, place=None, item_type=None):
                             player.add_weapon("ghost_bow", "Bow")
                         progress()
 
-        pygame.display.update()
+            pygame.display.flip()
 
 def get_filtered_items(player, place=None, item_type=None):
     if place == "shed":

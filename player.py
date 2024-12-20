@@ -92,6 +92,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.crystals = {key: None for key in crystals_data}
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
+    # do not use to add a weapon to the player, for example, if the player has 1 weapon and you want it to have 2
+    # use it to add an instance of a weapon to the player's dictionary of weapons
     def add_weapon(self, weapon_name, weapon_type):
         """Add a weapon instance to the player's inventory."""
         if weapon_type == "Sword":
