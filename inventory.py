@@ -88,21 +88,22 @@ def inventory_menu(player, place=None, item_type=None):
                 selected_item = handle_item_click(item_positions)
                 if selected_item:
                     if place == "shed":
-                        on_inventory = False
                         print(f"Shed: {selected_item} selected")
-
                         return selected_item
                     else:
                         # Handle general inventory interactions
-                        if selected_item not in ("dagger", "ghost_bow"):
+                        if not any(weapon in selected_item for weapon in ["sword", "bow", "axe", "dagger"]):
                             info['inventory'][selected_item] -= 1
                         sparkly_music.play()
-                        if selected_item in ("apple", "mushroom", "soup"):
-                            player.get_health()
-                        if selected_item == "dagger" and player.active_weapon is None:
-                            player.add_weapon("dagger", "Sword")
-                        if selected_item == "ghost_bow" and player.active_weapon is None:
-                            player.add_weapon("ghost_bow", "Bow")
+                        if selected_item in player.health_boosts.keys():
+                            player.get_health(player.health_boosts[selected_item])
+                        if any(weapon in selected_item for weapon in ["sword", "bow", "axe", "dagger"]):
+                            if "sword" or "dagger" in selected_item:
+                                player.switch_weapon(selected_item, "Sword")
+                            elif "bow" in selected_item:
+                                player.switch_weapon(selected_item, "Bow")
+                            elif "axe" in selected_item:
+                                player.switch_weapon(selected_item, "Axe")
                         progress()
 
             pygame.display.flip()

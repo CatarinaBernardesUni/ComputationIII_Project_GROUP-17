@@ -5,7 +5,6 @@ from bullet import Bullet
 from os.path import join
 from os import walk  # allows us to walk through a folder
 import config
-from crystals import crystals_data, Crystal
 from dog import Dog
 from weapon import *
 
@@ -16,12 +15,6 @@ from weapon import *
 
 
 # making a player a child of the Sprite class
-
-def remove_health(health_being_removed):
-    if info['health'] >= 0:
-        info['health'] -= health_being_removed
-
-
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def __init__(self):
@@ -80,6 +73,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                             'dagger': 80,
                             'ghost_bow': 100,
                             'key': 300}
+        self.health_boosts = health_boosts = {"apple": 1, "mushroom": 2, "soup": 5}
 
         ########### WEAPONS ########################
         # the inventory holds the amount of weapons the player has and this dict the instances of the weapons
@@ -87,35 +81,27 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.active_weapon = None  # Currently active weapon
         self.active_weapon_group = pygame.sprite.Group()  # Group to store the active weapon
 
-        ############### CRYSTALS ##################
+        """############### CRYSTALS ##################
         # similarly to the weapons, this dict holds the instances of the crystals while the inventory holds the amounts
         # it returns to None if the player leaves the game and comes back
-        self.crystals = {key: None for key in crystals_data}
+        self.crystals = {key: None for key in crystals_data}"""
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
     # do not use to add a weapon to the player, for example, if the player has 1 weapon and you want it to have 2
     # use it to add an instance of a weapon to the player's dictionary of weapons
-    def add_weapon(self, weapon_name, weapon_type):
-        """Add a weapon instance to the player's inventory."""
+
+    def switch_weapon(self, weapon_name, weapon_type):
+        if self.active_weapon_group is not None:
+            self.active_weapon_group.remove(self.active_weapon)
+        """Switch the currently active weapon."""
         if weapon_type == "Sword":
             weapon_instance = Sword(self, self.active_weapon_group, weapon_name)
         elif weapon_type == "Bow":
             weapon_instance = Bow(self, self.active_weapon_group, weapon_name)
         else:  # a weapon will always be one of these 3 types
             weapon_instance = Axe(self, self.active_weapon_group, weapon_name)
-
-        self.weapons[weapon_name] = weapon_instance
-
-        if not self.active_weapon:  # Auto-select the first weapon if none is active
-            self.active_weapon = weapon_instance
-            self.active_weapon_group.add(self.active_weapon)
-
-    def switch_weapon(self, weapon_name: str):
-        # todo: mouse clicking on the inventory makes them the primary
-        """Switch the currently active weapon."""
-        if weapon_name in self.weapons.keys():
-            self.active_weapon = self.weapons[weapon_name]
-            self.active_weapon_group.add(self.active_weapon)
+        self.active_weapon = weapon_instance
+        self.active_weapon_group.add(self.active_weapon)
 
     ###### CRYSTALS ####################################################################################
     def collect_crystal(self, crystal_name):
@@ -218,7 +204,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if spike_rects:
             for spike_rect in spike_rects:
                 if spike_rect.colliderect(self.rect):
-                    remove_health(3)
+                    self.remove_health(3)
                     print("hit by spike")
 
     def dont_leave_battle(self, battle_area_rect):
@@ -272,15 +258,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.bullet_cooldown -= 1
 
     # todo: ask Carolina if this is needed, there is a very similar function outide the player class
-    def remove_health(self):
-        if not self.invincible:
-            if info['health'] >= 0:
-                info['health'] -= 1
+    def remove_health(self, health_being_removed):
+        if info['health'] >= 0:
+            info['health'] -= health_being_removed
+        self.health = info['health']
 
-    def get_health(self):  # we should use this if the player picks up hearts or something
-        if info['health'] < self.max_health:
-            info['health'] += 1
-            self.health = info['health']
+    def get_health(self, amount):  # we should use this if the player picks up hearts or something
+        info['health'] = min(info['health'] + amount, self.max_health)
+        self.health = info['health']
 
     def buy_item(self, item_name):
         # getting the item price from the price_items dictionary
