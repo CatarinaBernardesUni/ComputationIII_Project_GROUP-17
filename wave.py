@@ -78,9 +78,8 @@ class WaveManager:
             {"electric_enemy": 3, "myst_ghost": 2},  # Wave 8: 3 electric_enemies, 2 myst_ghosts
         ]
 
-    def start_next_wave(self, count):
+    def start_next_wave(self):
         self.is_wave_active = False
-        info["current_wave"] += count
         # resetting the enemies defeated counter at beginning of each wave
         self.enemies_defeated = 0
 
@@ -245,13 +244,13 @@ class WaveManager:
 
     def end_wave(self):
         # print(f"Wave {self.current_wave} ended!")
-        # info["current_wave"] += 1
+        info["current_wave"] += 1
         self.is_wave_active = False
         self.show_choice_popup()
 
     def show_choice_popup(self):
 
-        gold_reward = 50 * info["current_wave"]
+        gold_reward = 50 * (info["current_wave"] - 1)
         self.player.gold += gold_reward
 
         # todo: delete this if we don't want the player to gain bonus at the end of the wave
@@ -259,7 +258,7 @@ class WaveManager:
         bonus_reward = random.random() < 0.05  # 5% chance
         bonus_text = " and a bonus! Check your inventory." if bonus_reward else "!"
 
-        message_lines = [f"Wave {info['current_wave']} Completed!",
+        message_lines = [f"Wave {info['current_wave'] - 1} Completed!",
                          f"You earned {gold_reward} gold{bonus_text}",
                          f"Start next wave or leave?"]
 
@@ -305,16 +304,16 @@ class WaveManager:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    progress()
                     pygame.quit()
                     exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if next_wave_button.collidepoint(event.pos):
-                        self.start_next_wave(1)  # Start the next wave
+                        self.start_next_wave()  # Start the next wave
                         choice_made = True
                     elif leave_button.collidepoint(event.pos):
                         # adding 1 to the counter of the waves for the next time it enters the battle
                         # area the wave number will be already set
-                        info["current_wave"] += 1
                         self.is_wave_active = False  # End the wave
                         self.player.is_fighting = False  # Allow the player to leave the battle area rect
                         self.player.is_leaving_battle = True

@@ -114,6 +114,3 @@ display = pygame.Surface((width // 2, height // 2))
 def progress():
     with open("player_info.txt", "w") as player_file:
         json.dump(info, player_file)
-
-
-

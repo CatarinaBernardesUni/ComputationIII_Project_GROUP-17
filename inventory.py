@@ -78,6 +78,7 @@ def inventory_menu(player, place=None, item_type=None):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                progress()
                 pygame.quit()
                 exit()
             elif event.type == pygame.KEYDOWN:
@@ -99,8 +100,8 @@ def inventory_menu(player, place=None, item_type=None):
                         if selected_item == "dagger" and player.active_weapon is None:
                             player.add_weapon("dagger", "Sword")
                         if selected_item == "ghost_bow" and player.active_weapon is None:
-                            info['inventory']['ghost_bow'] -= 1
                             player.add_weapon("ghost_bow", "Bow")
+                        progress()
 
         pygame.display.update()
 

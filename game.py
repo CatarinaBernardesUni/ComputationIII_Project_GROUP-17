@@ -61,6 +61,7 @@ def game_over():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 384 <= mouse[0] <= 626 and 489 <= mouse[1] <= 580:
                     info['health'] = 5
+                    info['current_wave'] = 1
                     battle_music.stop()
                     main_music.play(-1)
                     game_loop()
@@ -148,7 +149,7 @@ def execute_game(player, dog):
     # the zero means that no number is being added to the wave number but the configuration of the wave that
     # is going to be spawned is being set, this way the number of waves isn't increasing when the player leaves
     # the main area or leaves the game
-    wave_manager.start_next_wave(0)
+    wave_manager.start_next_wave()
 
     ###################################### MAIN GAME LOOP #######################################
     running = True
@@ -191,7 +192,7 @@ def execute_game(player, dog):
         if player.just_left_cave:
             # player.rect.x -= 135
             # player.rect.y += 155
-            player.rect.center = (510, 445)
+            player.rect.center = (500, 455)
             player.just_left_cave = False
 
         # display.blit(player_score_surf, player_score_rect)
@@ -228,7 +229,7 @@ def execute_game(player, dog):
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
-            wave_manager.start_next_wave(0)
+            wave_manager.start_next_wave()
 
 
         # checking if the player is in the battle area
