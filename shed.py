@@ -217,17 +217,21 @@ def evolve_weapon(player, weapon, crystal):
 
     # damage increases 20% of damage for that weapon, and future one you might create (of the same type)
     elif any(element in weapon for element in ["sword", "bow", "axe", "dagger"]) and crystal == "purple_crystal":
-        info["inventory"]["purple_crystal"] -= 1
         current_damage = info["weapon_attributes_evolved"][weapon]
         default_damage = weapons[weapon]["damage"]
         multiplications = current_damage / default_damage
-        if multiplications < 1.2 ** 5:  # 5 multiplications allowed
+        if multiplications <= 1.2 ** 4:  # 5 multiplications allowed
+            info["inventory"]["purple_crystal"] -= 1
             info["weapon_attributes_evolved"][weapon] *= 1.2
             print(f"{weapon} damage increased to {info['weapon_attributes_evolved'][weapon]}")
+        else:
+            error_message = "Weapon at max level"
+            error_text_to_display = font_for_message.render(error_message, True, red)
+            screen.blit(error_text_to_display, (200, 570))
 
     else:
-        error_message = "Invalid combination of weapon and crystal or weapon at max level"
+        error_message = "Invalid combination of weapon and crystal"
         error_text_to_display = font_for_message.render(error_message, True, red)
-        screen.blit(error_text_to_display, (130, 520))
+        screen.blit(error_text_to_display, (210, 570))
 
     progress()
