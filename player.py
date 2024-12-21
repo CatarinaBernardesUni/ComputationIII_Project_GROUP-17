@@ -134,6 +134,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         movement = False
         # checking which keys where pressed and moving the player accordingly
         # independent movements, independent ifs
+
         if (keys[pygame.K_w] or keys[pygame.K_UP]) and self.rect.top > 0:
             self.rect.y -= self.speed
             self.state = "up"

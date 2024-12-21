@@ -277,35 +277,12 @@ class PowerUpManager:
                     self.active_power_ups.remove(power_up)
                     print(f"Deactivated and removed power-up: {type(power_up).__name__}")
 
-        """
-        current_time = pygame.time.get_ticks()
-        if current_time - self.last_spawn_time > self.spawn_interval:
-            self.spawn_power_up()
-            self.last_spawn_time = current_time
-        for power_up in list(self.active_power_ups):  # Use a copy of the list to avoid modifying it during iteration
-            power_up.update(player)
-            if not power_up.active:
-                self.active_power_ups.remove(power_up)
-                print(f"Removed power-up: {type(power_up).__name__}")"""
-
     def draw(self, screen, camera_offset):
         for power_up in self.active_power_ups:
             screen.blit(power_up.image, power_up.rect.topleft + camera_offset)
             # this camera offset is used so that the power ups stay in place and don't move with the player moving
 
     def handle_collision(self, player):
-        """collided_power_ups = pygame.sprite.spritecollide(player, self.active_power_ups, dokill=False)
-        for power_up in collided_power_ups:
-            if not power_up.collected:  # Only activate if not already picked up
-                print(f"Player picked up power-up: {type(power_up).__name__}")
-                power_up.activate(player)  # Activate the power-up's effects
-                power_up.collected = True  # Mark it as collected
-
-                # Remove the sprite visually
-                self.active_power_ups.remove(power_up)"""
-        # this code ^^ makes the image disappear after, but not its effects
-        # in chest the effects just don't disappear
-
         collided_power_ups = pygame.sprite.spritecollide(player, self.active_power_ups, dokill=False)
         for power_up in collided_power_ups:
             if not power_up.collected:  # Pick up the power-up only if not already collected
