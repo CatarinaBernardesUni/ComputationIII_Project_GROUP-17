@@ -178,7 +178,6 @@ def execute_game(player, dog):
             return "cave"
 
         if player.just_left_cave:
-
             player.rect.center = (500, 455)
             player.just_left_cave = False
 
@@ -235,13 +234,13 @@ def execute_game(player, dog):
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
             wave_manager.start_next_wave()
-
+        #power_up_manager.update(player)
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player
             power_up_manager.fight_area = battle_area_rect
             # Update power-ups
-            power_up_manager.update(player)
+
             # initiating the battle area music:
             if not in_battle_area:
                 in_battle_area = True
@@ -254,11 +253,13 @@ def execute_game(player, dog):
 
             if not wave_manager.is_wave_active and not player.is_leaving_battle:
                 wave_manager.activate_wave()
+                # POWER UPS
+            if player.is_fighting:
 
-            # POWER UPS
-            power_up_manager.draw(display, camera_offset)
-            # Handle collisions between player and power-ups
-            power_up_manager.handle_collision(player)
+                power_up_manager.update(player)
+                power_up_manager.draw(display, camera_offset)
+                # Handle collisions between player and power-ups
+                power_up_manager.handle_collision(player)
 
             wave_manager.update(display, frame_time)
 

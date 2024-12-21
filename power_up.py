@@ -218,7 +218,7 @@ class PowerUpManager:
             {
                 "class": SpeedBoost,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50)),
-                "probability": 0
+                "probability": 1
             },
             {
                 "class": Chest,
@@ -228,7 +228,7 @@ class PowerUpManager:
             {
                 "class": DeSpawner,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (50, 50)),
-                "probability": 1
+                "probability": 0
             },
             {
                 "class": Invisible,
@@ -256,7 +256,6 @@ class PowerUpManager:
         print(f"Spawning power-up of type: {selected['class'].__name__} at ({x}, {y})")
         power_up = selected["class"]((x, y), selected["image"])
         self.active_power_ups.add(power_up)
-        print(f"Total active power-ups: {len(self.active_power_ups)}")
 
     def update(self, player):
 
@@ -275,7 +274,6 @@ class PowerUpManager:
                 # Remove if the power-up has expired
                 if not power_up.active:  # Duration expired
                     self.active_power_ups.remove(power_up)
-                    print(f"Deactivated and removed power-up: {type(power_up).__name__}")
 
     def draw(self, screen, camera_offset):
         for power_up in self.active_power_ups:
