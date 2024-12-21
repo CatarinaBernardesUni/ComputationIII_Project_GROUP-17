@@ -81,7 +81,7 @@ class Invincibility(PowerUp):
         print("Player is no longer invisible.")
 
 
-class Speed_Boost(PowerUp):
+class SpeedBoost(PowerUp):
     def __init__(self, pos, image):
         super().__init__(pos, image, duration=5000)
 
@@ -97,7 +97,7 @@ class Speed_Boost(PowerUp):
         print("Player is no longer fast.")
 
 
-class De_Spawner(PowerUp):
+class DeSpawner(PowerUp):
     def __init__(self, pos, image):
         super().__init__(pos, image, duration=5000)
 
@@ -216,7 +216,7 @@ class PowerUpManager:
                 "probability": 0
             },
             {
-                "class": Speed_Boost,
+                "class": SpeedBoost,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50)),
                 "probability": 0
             },
@@ -226,7 +226,7 @@ class PowerUpManager:
                 "probability": 0
             },
             {
-                "class": De_Spawner,
+                "class": DeSpawner,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (50, 50)),
                 "probability": 1
             },
@@ -313,7 +313,7 @@ class PowerUpManager:
                 power_up.activate(player)  # Activate the power-ups effects
                 power_up.collected = True  # Mark it as collected
         if info['inventory']['speed potion'] >= 1:
-            speed_potion_powerup = Speed_Boost((100, 100), power_up_speed)
+            speed_potion_powerup = SpeedBoost((100, 100), power_up_speed)
             self.active_power_ups.add(speed_potion_powerup)
             speed_potion_powerup.activate(player)
             info['inventory']['speed potion'] -= 1

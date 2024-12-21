@@ -146,7 +146,7 @@ def shop_menu(player):
                         coin_music.play()
                 # SWORD BUTTON
                 if 834 <= mouse_pos[0] <= 930 and 291 <= mouse_pos[1] <= 334:
-                    player.buy_item('sword')
+                    player.buy_item('dagger')
                     coin_music.play()
                 # LAST ROW
                 # DOG BUTTON
@@ -168,7 +168,7 @@ def shop_menu(player):
                     coin_music.play()
                 # BOW BUTTON
                 if 673 <= mouse_pos[0] <= 767 and 503 <= mouse_pos[1] <= 546:
-                    player.buy_item('bow')
+                    player.buy_item('ghost_bow')
                     coin_music.play()
                 # KEY BUTTON
                 if 832 <= mouse_pos[0] <= 926 and 500 <= mouse_pos[1] <= 543:

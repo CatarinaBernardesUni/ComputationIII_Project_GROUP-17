@@ -13,14 +13,12 @@ from mouse_position import draw_button
 from old_lady_house import old_lady_house_area
 from pink_house import pink_house_area
 from power_up import *
+from shed import shed_area
 from store import inside_store
 from utils import paused, calculate_camera_offset
 from wave import WaveManager
 from weapon import *
-from greenhouse import greenhouse_area
 
-
-#player = Player()
 def choose_character():
     screen.blit(choose_character_image, (0, 0))
 
@@ -62,6 +60,7 @@ def game_over():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 384 <= mouse[0] <= 626 and 489 <= mouse[1] <= 580:
                     info['health'] = 5
+                    info['current_wave'] = 1
                     battle_music.stop()
                     main_music.play(-1)
                     game_loop()
@@ -100,8 +99,8 @@ def game_loop():
             current_state = pink_house_area(player)
         elif current_state == "store":
             current_state = inside_store(player)
-        elif current_state == "greenhouse":
-            current_state = greenhouse_area(player)
+        elif current_state == "shed":
+            current_state = shed_area(player)
         elif current_state == "game_over":
             game_over()
 
@@ -118,7 +117,7 @@ def execute_game(player, dog):
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
      objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect,
-     old_lady_house_rect, pink_house_rect, greenhouse_rect) = background_setup(tmx_data)
+     old_lady_house_rect, pink_house_rect, shed_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -128,22 +127,6 @@ def execute_game(player, dog):
     player_group.add(player)
     # creating an empty bullet group that will be given as input to the player.shoot() method
     bullets = pygame.sprite.Group()
-    # creating an enemy group
-    enemies = pygame.sprite.Group()
-    # before starting our main loop, set up the enemy cooldown
-    enemy_cooldown = 0
-
-    weapon_group = pygame.sprite.Group()
-    # fire_sword = Sword(player, weapon_group, "fire_sword")
-    # dagger = Sword(player, weapon_group, "dagger")
-    # winter_sword = Sword(player, weapon_group, "winter_sword")
-
-    # ghost_bow = Bow(player, weapon_group, "ghost_bow")
-    # ice_bow = Bow(player, weapon_group, "ice_bow")
-    # light_bow = Bow(player, weapon_group, "light_bow")
-
-    # gold_axe = Axe(player, weapon_group, "gold_axe")
-    # ruby_axe = Axe(player, weapon_group, "ruby_axe")
 
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
@@ -151,7 +134,7 @@ def execute_game(player, dog):
     # the zero means that no number is being added to the wave number but the configuration of the wave that
     # is going to be spawned is being set, this way the number of waves isn't increasing when the player leaves
     # the main area or leaves the game
-    wave_manager.start_next_wave(0)
+    wave_manager.start_next_wave()
 
     ###################################### MAIN GAME LOOP #######################################
     running = True
@@ -194,7 +177,7 @@ def execute_game(player, dog):
         if player.just_left_cave:
             # player.rect.x -= 135
             # player.rect.y += 155
-            player.rect.center = (510, 445)
+            player.rect.center = (500, 455)
             player.just_left_cave = False
 
         # display.blit(player_score_surf, player_score_rect)
@@ -239,18 +222,16 @@ def execute_game(player, dog):
             player.just_left_old_lady_house = False
             print("Set just_left_old_lady_house to False")
 
-        if greenhouse_rect and greenhouse_rect.colliderect(player.rect):
-            return "greenhouse"
-
-        if player.just_left_greenhouse:
-            player.rect.center = (325, 165)
-            player.just_left_greenhouse = False
-
+        # player in the shed
+        if shed_rect and shed_rect.colliderect(player.rect):
+            return "shed"
+        if player.just_left_shed:
+            player.rect.center = (220, 660)
+            player.just_left_shed = False
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
-            wave_manager.start_next_wave(0)
-
+            wave_manager.start_next_wave()
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):

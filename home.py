@@ -69,7 +69,7 @@ def home_area(player):
         if clues_rect and clues_rect.colliderect(player.rect):
             if info['claimed_chest_home'] <= 0:
                 draw_button(display, 100, 200, 320, 100,
-                            "click  'E'  to  claim  hidden  gold!", brick_color,
+                            "Click  'E'  to  claim  hidden  gold!", brick_color,
                             "images/inventory/inventory_menu.png", cutefont)
                 display.blit(gold_chest, (240, 200))
                 if keys[pygame.K_e]:

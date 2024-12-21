@@ -6,7 +6,6 @@ from config import *
 from tile import Tile
 from mouse_position import draw_button, get_mouse_position
 
-
 def paused():
     pause = True
     while pause:
@@ -239,7 +238,7 @@ def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
         if clues_name:
             if obj in tmx_data.get_layer_by_name(clues_name):
                 clues_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
-        # checks if someone talks or if it's None (this is for the old lady)
+        # checks if someone talks or if it's None (this is for the old lady and cave)
         if someone_talks:
             if obj in tmx_data.get_layer_by_name(someone_talks):
                 speech_bubble_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)

@@ -78,9 +78,8 @@ class WaveManager:
             {"electric_enemy": 3, "myst_ghost": 2},  # Wave 8: 3 electric_enemies, 2 myst_ghosts
         ]
 
-    def start_next_wave(self, count):
+    def start_next_wave(self):
         self.is_wave_active = False
-        info["current_wave"] += count
         # resetting the enemies defeated counter at beginning of each wave
         self.enemies_defeated = 0
 
@@ -232,11 +231,11 @@ class WaveManager:
             for enemy in collided_with_player:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.player.damage_cooldown > self.player.cooldown_duration:
-                    # self.player.health -= enemy.attack
+                    # this line updates the player's attribute
+                    self.player.health -= enemy.attack
                     # using this function to handle the display of the health bar (hearts) and game over,
-                    # due to circular import
-                    player = Player()
-                    player.remove_health(enemy.attack)
+                    # due to circular import. It also updates the player health on the player_info.txt
+                    self.player.remove_health(enemy.attack)
                     # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
 
@@ -245,38 +244,35 @@ class WaveManager:
 
     def end_wave(self):
         # print(f"Wave {self.current_wave} ended!")
-        # info["current_wave"] += 1
+        info["current_wave"] += 1
+        self.current_wave = info["current_wave"]
         self.is_wave_active = False
         self.show_choice_popup()
 
     def show_choice_popup(self):
 
-        gold_reward = 50 * info["current_wave"]
-        self.player.gold += gold_reward
+        gold_reward = 50 * (info["current_wave"] - 1)
+        self.player.add_gold(gold_reward)
 
-        # todo: delete this if we don't want the player to gain bonus at the end of the wave
-        # Determine if a bonus reward is granted
-        bonus_reward = random.random() < 0.05  # 5% chance
+        # putting 5 and 9 because at this point there was already an increment of the wave number
+        bonus_reward = self.current_wave == 5 or self.current_wave == 9
         bonus_text = " and a bonus! Check your inventory." if bonus_reward else "!"
 
-        message_lines = [f"Wave {info['current_wave']} Completed!",
+        message_lines = [f"Wave {info['current_wave'] - 1} Completed!",
                          f"You earned {gold_reward} gold{bonus_text}",
                          f"Start next wave or leave?"]
 
-        # todo: commenting this code because the method give_bonus() doesn't exist in the player class
-        # todo: maybe this code for the red axe
-        # Apply bonus if granted
-        # if bonus_reward:
-        # self.player.give_bonus()  # todo: add this method to the player class
+        if bonus_reward:
+            self.player.give_bonus(self.current_wave)
 
         # Starting position for the text
         # start_x = 500
         start_y = 200
         line_spacing = 60
 
-        button_image = pygame.image.load("images/store/store_button.png")
+        button_image = pygame.image.load("images/store/store_button.png").convert_alpha()
         next_wave_image = pygame.transform.scale(button_image, (250, 80))
-        leave_image = pygame.transform.scale(button_image, (250, 80))
+        leave_image = pygame.transform.scale(button_image, (300, 80))
         next_wave_button = next_wave_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + 75))
         leave_button = leave_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + 160))
 
@@ -289,10 +285,10 @@ class WaveManager:
 
             # Render buttons text
             next_wave_text = self.font.render("Next Wave", True, deep_black)
-            leave_text = self.font.render("Leave", True, deep_black)
+            leave_text = self.font.render("Save and Leave", True, deep_black)
 
             for i, line in enumerate(message_lines):
-                rendered_text = self.font.render(line, True, white)
+                rendered_text = self.font.render(line, True, white, None)
                 text_width = rendered_text.get_width()
                 x_position = (screen.get_width() - text_width) // 2  # Centered horizontally
                 y_position = start_y + i * line_spacing  # Line spacing
@@ -305,16 +301,16 @@ class WaveManager:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    progress()
                     pygame.quit()
                     exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if next_wave_button.collidepoint(event.pos):
-                        self.start_next_wave(1)  # Start the next wave
+                        self.start_next_wave()  # Start the next wave
                         choice_made = True
                     elif leave_button.collidepoint(event.pos):
                         # adding 1 to the counter of the waves for the next time it enters the battle
                         # area the wave number will be already set
-                        info["current_wave"] += 1
                         self.is_wave_active = False  # End the wave
                         self.player.is_fighting = False  # Allow the player to leave the battle area rect
                         self.player.is_leaving_battle = True
