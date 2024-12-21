@@ -29,7 +29,7 @@ class WaveManager:
         # Possible enemies for random waves
         self.possible_enemies = list(self.enemies_data.keys())
 
-        self.enemy_cooldown = 1000  # Default cooldown in milliseconds
+        self.enemy_cooldown = 2000  # Default cooldown in milliseconds
         self.last_enemy_spawn_time = 0
         self.enemies_to_spawn = []  # Queue for enemies waiting to spawn
         #####################################################################
@@ -67,14 +67,14 @@ class WaveManager:
                 self.progress_frames.append(scaled_frame)
 
         self.predefined_waves = [
-            {"normal_fly": 3},  # Wave 1: 3 normal_flies
-            {"green_slime": 5, "normal_fly": 2},  # Wave 2: 5 green_slimes, 2 normal_flies
-            {"normal_fly": 5, "fire_fly": 3},  # Wave 3: 5 normal_flies, 3 fire_flies
-            {"fire_fly": 4, "horse_ghost": 1},  # Wave 4: 4 fire_flies, 1 horse_ghost
-            {"horse_ghost": 3, "electric_fly": 2},  # Wave 5: 3 horse_ghosts, 2 electric_flies
-            {"electric_fly": 4, "myst_ghost": 1},  # Wave 6: 4 electric_flies, 1 myst_ghost
-            {"myst_ghost": 2, "electric_enemy": 1},  # Wave 7: 2 myst_ghosts, 1 electric_enemy
-            {"electric_enemy": 3, "myst_ghost": 2},  # Wave 8: 3 electric_enemies, 2 myst_ghosts
+            {"normal_fly": 10},  # Wave 1
+            {"green_slime": 10, "normal_fly": 8},  # Wave 2
+            {"normal_fly": 15, "fire_fly": 10},  # Wave 3
+            {"fire_fly": 15, "horse_ghost": 10},  # Wave 4
+            {"horse_ghost": 15, "electric_fly": 10},  # Wave 5
+            {"electric_fly": 15, "myst_ghost": 10},  # Wave 6
+            {"myst_ghost": 15, "electric_enemy": 10},  # Wave 7
+            {"electric_enemy": 15, "myst_ghost": 10},  # Wave 8
         ]
 
     def start_next_wave(self):

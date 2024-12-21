@@ -21,7 +21,7 @@ def power_up_player_look(image, player):
 
 
 class PowerUp(ABC, pygame.sprite.Sprite):
-    def __init__(self, pos, image, duration=5000):
+    def __init__(self, pos, image, duration=10000):
         super().__init__()
         self.image = image
         self.rect = self.image.get_rect(center=pos)
@@ -66,9 +66,6 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 
 
 class Invincibility(PowerUp):
-    def __init__(self, pos, image):
-        super().__init__(pos, image, duration=5000)
-
     def affect_game(self, player):
         player.invincible = True
 
@@ -82,9 +79,6 @@ class Invincibility(PowerUp):
 
 
 class SpeedBoost(PowerUp):
-    def __init__(self, pos, image):
-        super().__init__(pos, image, duration=5000)
-
     def affect_game(self, player):
         player.speed += 2
 
@@ -98,9 +92,6 @@ class SpeedBoost(PowerUp):
 
 
 class DeSpawner(PowerUp):
-    def __init__(self, pos, image):
-        super().__init__(pos, image, duration=5000)
-
     def affect_game(self, player):
         player.de_spawner = True
 
@@ -115,9 +106,6 @@ class DeSpawner(PowerUp):
 
 class Invisible(PowerUp):
     # enemies stop following the player
-    def __init__(self, pos, image):
-        super().__init__(pos, image, duration=5000)
-
     def affect_game(self, player):
         player.invisible = True
 
@@ -132,7 +120,7 @@ class Invisible(PowerUp):
 
 class Chest(PowerUp):
     def __init__(self, pos, image):
-        super().__init__(pos, image, duration=5000)
+        super().__init__(pos, image)
         self.current_power_up = None
 
     def affect_game(self, player):
@@ -182,7 +170,6 @@ class Chest(PowerUp):
                         self.current_power_up = selected_power_up["class"]((0, 0), selected_power_up["image"])
                         self.current_power_up.activate(player)
                         chest = False
-
             pygame.display.update()
 
     def affect_player(self, player):
@@ -197,13 +184,10 @@ class Chest(PowerUp):
 
 
 class PowerUpManager:
-    def __init__(self, map_width, map_height, spawn_interval=10000,
-                 duration=5000):  # 30 seconds until next power up (the 1st one
-        # also takes 30 seconds to appear)
+    def __init__(self, map_width, map_height, spawn_interval=30000):  # 30 seconds until next power up
         self.map_width = map_width
         self.map_height = map_height
         self.spawn_interval = spawn_interval
-        self.duration = duration
         self.last_spawn_time = pygame.time.get_ticks()
         self.active_power_ups = pygame.sprite.Group()
         self.fight_area = None
