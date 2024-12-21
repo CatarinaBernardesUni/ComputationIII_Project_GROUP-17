@@ -125,7 +125,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             else:
                 display.blit(empty_heart, (heart * 33, 5))
 
-    def update(self, collision_sprites, display, frame_time, battle_area_rect=None, spike_rects=None):
+    def update(self, collision_sprites, display, frame_time, battle_area_rect=None):
         # getting the keys input
 
         keys = pygame.key.get_pressed()

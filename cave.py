@@ -79,7 +79,7 @@ def cave_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # updating the player group
-        player_group.update(collision_sprites, display, frame_time, spike_rects=spike_rects)
+        player_group.update(collision_sprites, display, frame_time)
 
         if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_cave = True
