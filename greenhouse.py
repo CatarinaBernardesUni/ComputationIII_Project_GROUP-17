@@ -12,8 +12,29 @@ def greenhouse_area(player):
      collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions", "exit",
                                                                                 "water the plants", None)
 
+    animated_tiles_group = pygame.sprite.Group()
 
-    ####################################################################
+    # animated tiles
+    for layer in tmx_data.layers:  # Loop through layers again for animated tiles
+        if hasattr(layer, "data"):
+            for x, y, surface in layer.tiles():
+                gid = layer.data[y][x]  # Get the gid for the current tile
+                if gid in tmx_data.tile_properties:
+                    props = tmx_data.tile_properties[gid]
+                    animation_frames = []
+                    total_duration = 0
+
+                    for animation_frame in props.get("frames", []):
+                        image = tmx_data.get_tile_image_by_gid(animation_frame.gid)
+                        duration = animation_frame.duration
+                        animation_frames.append(image)
+                        total_duration += duration
+
+                    if animation_frames:
+                        pos = (x * tile_size, y * tile_size)
+                        Tile(position=pos, surf=animation_frames[0], groups=(background_sprite_group,
+                                                                             animated_tiles_group),
+                             frames_animation=animation_frames, animation_duration=total_duration)
 
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
@@ -23,7 +44,7 @@ def greenhouse_area(player):
     # setting the player initial position on the home
     player.rect.center = (630, 400)
     player.state = "up"
-    ###################################### MAIN GAME LOOP #######################################
+    ###################################### GREENHOUSE GAME LOOP #######################################
     running = True
     plants_were_watered = False
 
@@ -55,6 +76,11 @@ def greenhouse_area(player):
         for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
+        if plants_were_watered:
+            animated_tiles_group.update(frame_time * 3)
+            for animated_tile in animated_tiles_group:
+                display.blit(animated_tile.image, animated_tile.rect.topleft + camera_offset)
+
         # updating the player group
         player_group.update(collision_sprites, display, frame_time)
 
@@ -70,6 +96,7 @@ def greenhouse_area(player):
                     sparkly_music.play()
                     plants_were_watered = True
                     # this way the player can only open this chest once in the whole game
+
             else:
                 draw_button(display, 50, 200, 320, 100,
                             "Happy  plants,  happy  life!", brick_color,
@@ -83,10 +110,9 @@ def greenhouse_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         home_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
-        display.fill("black")
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
-        clock.tick(fps)
+        # clock.tick(fps)
 
     # the main while loop was terminated
     progress()

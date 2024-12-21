@@ -9,7 +9,7 @@ from dog import Dog
 from enemy import enemies_data
 from home import home_area
 from inventory import inventory_menu
-from mouse_position import draw_button
+from mouse_position import draw_button, get_scaled_mouse_position
 from old_lady_house import old_lady_house_area
 from pink_house import pink_house_area
 from power_up import *
@@ -146,7 +146,7 @@ def execute_game(player, dog):
         frame_time = clock.tick(fps)
 
         mouse_pos = pygame.mouse.get_pos()
-        scaled_mouse_pos = (mouse_pos[0] // 2, mouse_pos[1] // 2)
+        scaled_mouse_pos = get_scaled_mouse_position()
 
         ################################ Calculate camera offset  #######################
         camera_offset = calculate_camera_offset(player, display)
