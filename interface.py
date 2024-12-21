@@ -142,38 +142,7 @@ def interface():
         pygame.display.update()
 
 
-def credits_():
-    # Set up the display
-    screen = pygame.display.set_mode(resolution)
 
-    # main background for credits
-    credits_background = pygame.image.load("images/credits/CREDITS.png")
-
-    # main loop to detect user input and display the credits
-    while True:
-        # getting the position of the users mouse
-        mouse = get_mouse_position()
-
-        for ev in pygame.event.get():
-            # allow the user to quit on (x)
-            if ev.type == pygame.QUIT:
-                progress()
-                pygame.quit()
-                exit()
-            # creating a button that returns to main menu
-            elif ev.type == pygame.MOUSEBUTTONDOWN:
-                if quit_options_button.collidepoint(mouse):
-                    return
-
-        # Display the background
-        screen.blit(credits_background, (0, 0))
-
-        # drawing the quit button to leave the options menu
-        quit_options_button = draw_button(screen, 1065, 555, 150, 80, "EXIT", text_color=brick_color,
-                                          image_path="images/store/store_button.png", font=settingsfont)
-
-        # Update the display
-        pygame.display.flip()
 
 def rules_():
     page_1 = True
