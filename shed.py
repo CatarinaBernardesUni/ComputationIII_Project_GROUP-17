@@ -51,6 +51,11 @@ def shed_area(player):
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
+
+        back_button = draw_button(display, 500, y=270, width=70, height=35,
+                                  text="Back",
+                                  text_color=brick_color, image_path="images/store/store_button.png",
+                                  font=cutefont)
         # handling events:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
@@ -100,11 +105,14 @@ def crafting(player):
     chosen_crystal = None
     chosen_crystal_image = None
 
+    # Create a display surface for crafting
+    display = pygame.Surface((width // 2.2, height // 2.2))
+
     message = "Click on the stones to select a weapon and a crystal"
     message_text_to_display = font_for_message.render(message, True, white)
 
-    platform_image = pygame.image.load("images/shed buttons/rect_plat.png")
-    evolve_image = pygame.image.load("images/shed buttons/Evolve-removebg-preview.png")
+    platform_image = pygame.image.load("images/shed buttons/rect_plat.png").convert_alpha()
+    evolve_image = pygame.image.load("images/shed buttons/Evolve-removebg-preview.png").convert_alpha()
 
     # resizing the images
     scaled_platform_image = pygame.transform.scale(platform_image, (230, 240))
@@ -120,10 +128,17 @@ def crafting(player):
     while still_crafting:
         scaled_mouse_pos = get_scaled_mouse_position()
 
+        # Clear the display surface
+        display.fill((0, 0, 0))
+
         inventory_button = draw_button(display, 500, y=10, width=70, height=35,
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
+        back_button = draw_button(display, 500, y=270, width=70, height=35,
+                                  text="Back",
+                                  text_color=brick_color, image_path="images/store/store_button.png",
+                                  font=pixel)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -136,6 +151,11 @@ def crafting(player):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if inventory_button.collidepoint(scaled_mouse_pos):
                     inventory_menu(player)
+                if back_button.collidepoint(scaled_mouse_pos):
+                    still_crafting = False
+                    # this should be enough for the player to stop colliding with the table
+                    player.rect.centery += 10
+                    print("Back clicked!")
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
@@ -200,7 +220,7 @@ def evolve_weapon(player, weapon, crystal):
     elif weapon == "dagger" and crystal == "blue_crystal":
         info["inventory"]["dagger"] -= 1
         info["inventory"]["blue_crystal"] -= 1
-        info["inventory"]["ice_sword"] += 1
+        info["inventory"]["winter_sword"] += 1
         player.inventory = info["inventory"]
 
     elif weapon == "ghost_bow" and crystal == "white_crystal":
