@@ -56,8 +56,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         # weapon attributes
         self.name = weapon_name
         self.tier = weapons[weapon_name]["tier"]
-        self.damage = weapons[weapon_name]["damage"]
-
+        self.damage = info["weapon_attributes_evolved"][weapon_name]
         self.special_effect = weapons[weapon_name]["special_effect"]
         self.directory_path = weapons[weapon_name]["directory_path"]
 

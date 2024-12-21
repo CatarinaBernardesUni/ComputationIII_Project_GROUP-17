@@ -4,6 +4,8 @@ from pytmx.util_pygame import load_pygame
 from inventory import inventory_menu, scaled_images_inventory
 from mouse_position import draw_button, get_scaled_mouse_position
 from utils import area_setup, calculate_camera_offset, paused
+from weapon import weapons
+
 
 def shed_area(player):
     clock = pygame.time.Clock()
@@ -213,14 +215,15 @@ def evolve_weapon(player, weapon, crystal):
         info["inventory"]["light_bow"] += 1
         player.inventory = info["inventory"]
 
-    # damage increases 20% for that instance of the weapon, not future ones
-    # if you spend your weapon by evolving it to another, the player looses its upgrades
-    elif weapon in player.weapons.keys() and crystal == "purple_crystal":
+    # damage increases 20% of damage for that weapon, and future one you might create (of the same type)
+    elif any(element in weapon for element in ["sword", "bow", "axe", "dagger"]) and crystal == "purple_crystal":
         info["inventory"]["purple_crystal"] -= 1
-        # getting the class of the weapon that the player is evolving
-        # weapon_class = player.weapons[weapon].__class__
-        # updating all future instances of the weapon
-        # player.weapons[weapon] = weapon_class(player, player.active_weapon_group, weapon).upgrade()
+        current_damage = info["weapon_attributes_evolved"][weapon]
+        default_damage = weapons[weapon]["damage"]
+        multiplications = current_damage / default_damage
+        if multiplications < 1.2 ** 5:  # 5 multiplications allowed
+            info["weapon_attributes_evolved"][weapon] *= 1.2
+            print(f"{weapon} damage increased to {info['weapon_attributes_evolved'][weapon]}")
 
     else:
         error_message = "Invalid combination of weapon and crystal or weapon at max level"
