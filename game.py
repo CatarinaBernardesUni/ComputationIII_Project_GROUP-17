@@ -175,8 +175,7 @@ def execute_game(player, dog):
             return "cave"
 
         if player.just_left_cave:
-            # player.rect.x -= 135
-            # player.rect.y += 155
+
             player.rect.center = (500, 455)
             player.just_left_cave = False
 
@@ -205,22 +204,16 @@ def execute_game(player, dog):
             return "pink house"
 
         if player.just_left_pink_house:
-            print(f"Just left Pink House flag: {player.just_left_pink_house}")
             player.rect.center = (200, 250)
-            print(f"Player position after exiting Pink House: {player.rect.center}")
             player.just_left_pink_house = False
-            print("Set just_left_pink_house to False")
 
         # player in the old lady house
         if old_lady_house_rect and old_lady_house_rect.colliderect(player.rect):
             return "old lady house"
 
         if player.just_left_old_lady_house:
-            print(f"Just left Old Lady House flag: {player.just_left_old_lady_house}")
-            player.rect.center = (325, 165)
-            print(f"Player position after exiting Old Lady House: {player.rect.center}")
+            player.rect.center = (425, 165)
             player.just_left_old_lady_house = False
-            print("Set just_left_old_lady_house to False")
 
         # player in the shed
         if shed_rect and shed_rect.colliderect(player.rect):
