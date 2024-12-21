@@ -1,6 +1,7 @@
 from utils import *
 from pytmx.util_pygame import load_pygame
 
+
 def greenhouse_area(player):
     clock = pygame.time.Clock()
     home_screen = pygame.display.set_mode(resolution)
@@ -8,8 +9,7 @@ def greenhouse_area(player):
 
     tmx_data = load_pygame("data/WE OLD LADY HOUSE/WE OLD LADY HOUSE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions",
-                                                                                "exit", None,
+     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions", "exit", None,
                                                                                 None)
     player_group = pygame.sprite.Group()
     player_group.add(player)
@@ -52,7 +52,6 @@ def greenhouse_area(player):
 
         if exit_rect and exit_rect.colliderect(player.rect):
             player.just_left_greenhouse = True
-            # player in the old lady house
             return "main"
 
         for sprite in player_group:
