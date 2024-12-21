@@ -4,6 +4,8 @@ import pygame.image
 from game import *
 # from config import *
 from utils import *
+
+
 # import platform
 
 
@@ -142,11 +144,9 @@ def interface():
         pygame.display.update()
 
 
-
-
 def rules_():
     page_1 = True
-    screen.blit(options_pages[0], (0, 0))
+    screen.blit(rules_pages[0], (0, 0))
     current_index = 0
     while page_1:
         keys = pygame.key.get_pressed()
@@ -157,18 +157,17 @@ def rules_():
                 exit()
             if keys[pygame.K_a] or keys[pygame.K_LEFT]:
                 if current_index != 0:
-                    screen.blit(options_pages[current_index-1], (0, 0))  # return from where it was before
+                    screen.blit(rules_pages[current_index - 1], (0, 0))  # return from where it was before
                     current_index -= 1
                 else:
                     interface()
 
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                if current_index != 1:
-                    screen.blit(options_pages[current_index + 1], (0, 0))
+                if current_index != 2:
+                    # different from the index of the last page
+                    screen.blit(rules_pages[current_index + 1], (0, 0))
                     current_index += 1
                 else:
                     print("That was the last page, babes...")
 
-
         pygame.display.update()
-

@@ -6,48 +6,50 @@ import pygame.sprite
 from abc import ABC, abstractmethod
 
 weapons = {"dagger": {
-                "tier": 1,
-                "damage": 18,
-                "special_effect": None,
-                "directory_path": "images/weapons/dagger"},
-           "ghost_bow": {
-                 "tier": 1,
-                 "damage": 22,
-                 "special_effect": None,
-                 "directory_path": "images/weapons/ghost_bow"},
-####################### TIER 2 WEAPONS ########################################
-           "winter_sword": {
-               "tier": 2,
-               "damage": 18,
-               "special_effect": "freeze",  # slow down enemies
-               "directory_path": "images/weapons/winter_sword"},
-           "gold_axe": {
-               "tier": 2,
-               "damage": 22,
-               "special_effect": "golden touch",  # get more gold at the end of the wave
-               "directory_path": "images/weapons/gold_axe"},
-####################### TIER 3 WEAPONS ########################################
-           "fire_sword": {
-               "tier": 3,
-               "damage": 28,
-               "special_effect": "burn",
-               "directory_path": "images/weapons/fire_sword"},
-           "ice_bow": {
-               "tier": 3,
-               "damage": 24,
-               "special_effect": "freeze",
-               "directory_path": "images/weapons/ice_bow"},
-           "light_bow": {
-               "tier": 3,
-               "damage": 23,
-               "special_effect": "blindness", # monster stop moving because they can't see for a while or will miss their attacks or start going away from you
-               "directory_path": "images/weapons/light_bow"},
-####################### TIER 4 WEAPON ########################################
-           "ruby_axe": {
-               "tier": 4,
-               "damage": 15,
-               "special_effect": "bleed",  # Causes enemies to lose HP over time
-               "directory_path": "images/weapons/ruby_axe"}}
+    "tier": 1,
+    "damage": 18,
+    "special_effect": None,
+    "directory_path": "images/weapons/dagger"},
+    "ghost_bow": {
+        "tier": 1,
+        "damage": 22,
+        "special_effect": None,
+        "directory_path": "images/weapons/ghost_bow"},
+    ####################### TIER 2 WEAPONS ########################################
+    "winter_sword": {
+        "tier": 2,
+        "damage": 18,
+        "special_effect": "freeze",  # slow down enemies
+        "directory_path": "images/weapons/winter_sword"},
+    "gold_axe": {
+        "tier": 2,
+        "damage": 22,
+        "special_effect": "golden touch",  # get more gold at the end of the wave
+        "directory_path": "images/weapons/gold_axe"},
+    ####################### TIER 3 WEAPONS ########################################
+    "fire_sword": {
+        "tier": 3,
+        "damage": 28,
+        "special_effect": "burn",
+        "directory_path": "images/weapons/fire_sword"},
+    "ice_bow": {
+        "tier": 3,
+        "damage": 24,
+        "special_effect": "freeze",
+        "directory_path": "images/weapons/ice_bow"},
+    "light_bow": {
+        "tier": 3,
+        "damage": 23,
+        "special_effect": "blindness",
+        # monster stop moving because they can't see for a while or will miss their attacks or start going away from you
+        "directory_path": "images/weapons/light_bow"},
+    ####################### TIER 4 WEAPON ########################################
+    "ruby_axe": {
+        "tier": 4,
+        "damage": 15,
+        "special_effect": "bleed",  # Causes enemies to lose HP over time
+        "directory_path": "images/weapons/ruby_axe"}}
+
 
 class Weapon(pygame.sprite.Sprite, ABC):
     def __init__(self, player, groups, weapon_name):

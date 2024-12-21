@@ -44,7 +44,6 @@ game_over_sound.set_volume(global_volume)
 # creating a list of all sounds
 all_sounds = [menu_music, battle_music, main_music, coin_music, sparkly_music, dog_bark, game_over_sound]
 
-
 # font for the game
 cutefont = pygame.font.Font("fonts/pixel_font.ttf", 11)
 inventoryfont = pygame.font.Font("fonts/pixel_font.ttf", 25)
@@ -69,14 +68,15 @@ display = pygame.Surface((width // 2, height // 2))
 
 # screen = pygame.display.set_mode(resolution)
 # some screen images
-pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_image2.png"), (1280, 180))
+pause_image = pygame.transform.scale(pygame.image.load("images/screens/pause_image.png"), (1280, 180))
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 
 # options screen
-options_1 = pygame.transform.scale(pygame.image.load("images/screens/options1.png"), resolution)
-options_2 = pygame.transform.scale(pygame.image.load("images/screens/options2.png"), resolution)
+rules_1 = pygame.transform.scale(pygame.image.load("images/rules/rules1.png"), resolution)
+rules_2 = pygame.transform.scale(pygame.image.load("images/rules/rules2.png"), resolution)
+rules_3 = pygame.transform.scale(pygame.image.load("images/rules/rules3.png"), resolution)
 
-options_pages = [options_1, options_2]
+rules_pages = [rules_1, rules_2, rules_3]
 
 # menu of the store
 menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.png"), (750, 600))
@@ -98,7 +98,8 @@ empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_hear
 
 # POWER UP IMAGES, these are small because they will appear on top of the player
 # the ones that are sized to be on the screen are on the dictionary in power up manager
-power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png").convert_alpha(), (25, 25))
+power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png").convert_alpha(),
+                                                (25, 25))
 power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png").convert_alpha(), (25, 25))
 power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png").convert_alpha(), (25, 25))
 power_up_invisible = pygame.transform.scale(pygame.image.load("images/others/power_up4.png").convert_alpha(), (25, 25))
@@ -154,6 +155,7 @@ try:
 except (FileNotFoundError, json.JSONDecodeError):
     print('no file created yet.')
     info = info.copy()
+
 
 def progress():
     with open("player_info.txt", "w") as player_file:
