@@ -187,8 +187,8 @@ def crafting(player):
                 if back_button.collidepoint(scaled_mouse_pos):
                     still_crafting = False
                     # this should be enough for the player to stop colliding with the table
-                    player.rect.centery += 10
                     print("Back clicked!")
+                    shed_area(player)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Handle crafting selections
@@ -204,7 +204,7 @@ def crafting(player):
                 if evolve_rect.collidepoint(scaled_mouse_pos) and chosen_weapon and chosen_crystal:
                     # print("Evolve clicked!")
                     # evolve_weapon(player, display, chosen_weapon, chosen_crystal)
-                    error_message, error_display_duration = evolve_weapon(player, display, chosen_weapon,
+                    error_message, error_display_duration = evolve_weapon(player, chosen_weapon,
                                                                           chosen_crystal)
                     if error_message:
                         error_display_start = pygame.time.get_ticks()
@@ -242,7 +242,7 @@ def crafting(player):
     pygame.quit()
     exit()
 
-def evolve_weapon(player, display, weapon, crystal):
+def evolve_weapon(player, weapon, crystal):
     error_message = None
     display_duration = 4
 
@@ -281,13 +281,9 @@ def evolve_weapon(player, display, weapon, crystal):
             print(f"{weapon} damage increased to {info['weapon_attributes_evolved'][weapon]}")
         else:
             error_message = "Weapon at max level"
-            # error_text_to_display = font_for_message.render(error_message, True, red)
-            # display.blit(error_text_to_display, (100, 300))
 
     else:
         error_message = "Invalid combination of weapon and crystal"
-        # error_text_to_display = font_for_message.render(error_message, True, red)
-        # display.blit(error_text_to_display, (110, 300))
 
     progress()
     return error_message, display_duration
