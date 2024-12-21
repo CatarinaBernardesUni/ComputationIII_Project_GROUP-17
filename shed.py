@@ -52,10 +52,6 @@ def shed_area(player):
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
 
-        back_button = draw_button(display, 500, y=270, width=70, height=35,
-                                  text="Back",
-                                  text_color=brick_color, image_path="images/store/store_button.png",
-                                  font=cutefont)
         # handling events:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
@@ -71,6 +67,7 @@ def shed_area(player):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if inventory_button.collidepoint(scaled_mouse_pos):
                     inventory_menu(player)
+
         # updating the player group
         player_group.update(collision_sprites, display, frame_time)
 
@@ -99,37 +96,70 @@ def shed_area(player):
     exit()
 
 def crafting(player):
-
-    chosen_weapon = None
-    chosen_weapon_image = None
-    chosen_crystal = None
-    chosen_crystal_image = None
-
-    # Create a display surface for crafting
+    clock = pygame.time.Clock()
+    shed_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
+
+    ############################### SHED MAP ################################
+
+    tmx_data = load_pygame("data/WE SHED/WE SHED.tmx")
+    (background_sprite_group, tiles_group, objects_group,
+     collision_sprites, exit_rect, work_table_rect, clues_rect) = area_setup(tmx_data, "Collisions",
+                                                                             "exit", None,
+                                                                             "Work table")
+
+    ####################################################################
+    # creating an empty group for the player (that was received as input)
+    player_group = pygame.sprite.Group()
+    # adding the player to the group
+    player_group.add(player)
 
     message = "Click on the stones to select a weapon and a crystal"
     message_text_to_display = font_for_message.render(message, True, white)
 
-    platform_image = pygame.image.load("images/shed buttons/rect_plat.png").convert_alpha()
+    platform_image = pygame.image.load("images/shed buttons/high_plat_rect-removebg-preview2.png").convert_alpha()
     evolve_image = pygame.image.load("images/shed buttons/Evolve-removebg-preview.png").convert_alpha()
 
     # resizing the images
-    scaled_platform_image = pygame.transform.scale(platform_image, (230, 240))
-    scaled_platform_image_2 = pygame.transform.scale(platform_image, (230, 240))
-    scaled_evolve_image = pygame.transform.scale(evolve_image, (320, 100))
+    scaled_platform_image = pygame.transform.scale(platform_image, (115, 120))
+    scaled_platform_image_2 = pygame.transform.scale(platform_image, (115, 120))
+    scaled_evolve_image = pygame.transform.scale(evolve_image, (160, 50))
 
     # get their rectangles
-    platform_rect = scaled_platform_image.get_rect(topleft=(340, 150))
-    platform_rect_2 = scaled_platform_image_2.get_rect(topleft=(700, 150))
-    evolve_rect = scaled_evolve_image.get_rect(topleft=(490, 400))
+    text_rect = message_text_to_display.get_rect(topleft=(100, 60))
+    text_surface = pygame.Surface(text_rect.size, pygame.SRCALPHA)
+    text_surface.fill((0, 0, 0, 0))  # transparent background
+    text_surface.blit(font_for_message.render(message, True, white), (0, 0))
+
+    platform_rect = scaled_platform_image.get_rect(topleft=(130, 75))
+    platform_rect_2 = scaled_platform_image_2.get_rect(topleft=(320, 75))
+
+    evolve_rect = scaled_evolve_image.get_rect(topleft=(205, 200))
+    evolve_text = font_for_message.render("Evolve Weapon", True, yellow_torrado)
+    evolve_text_rect = evolve_text.get_rect(center=evolve_rect.center)
+    evolve_text_rect.y += 3
+
+    chosen_weapon, chosen_crystal = None, None
+    chosen_weapon_image, chosen_crystal_image = None, None
 
     still_crafting = True
     while still_crafting:
         scaled_mouse_pos = get_scaled_mouse_position()
+        frame_time = clock.tick(fps)
 
-        # Clear the display surface
-        display.fill((0, 0, 0))
+        # Calculate camera offset
+        camera_offset = calculate_camera_offset(player, display)
+
+        # draw the tiles
+        for tile in tiles_group:
+            display.blit(tile.image, tile.rect.topleft + camera_offset)
+
+        # draw the objects in order of their y position
+        for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
+
+        for sprite in player_group:
+            display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         inventory_button = draw_button(display, 500, y=10, width=70, height=35,
                                        text="Inventory",
@@ -138,7 +168,7 @@ def crafting(player):
         back_button = draw_button(display, 500, y=270, width=70, height=35,
                                   text="Back",
                                   text_color=brick_color, image_path="images/store/store_button.png",
-                                  font=pixel)
+                                  font=cutefont)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -158,52 +188,41 @@ def crafting(player):
                     print("Back clicked!")
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-
-                if platform_rect.collidepoint(mouse_pos):
-                    print("Platform 1 clicked!")
+                # Handle crafting selections
+                if platform_rect.collidepoint(scaled_mouse_pos):
                     chosen_weapon = inventory_menu(player, place="shed", item_type="weapons")
-                    # using an if to check if the image exists before, or it will give an error if
-                    # we click on an empty space in the inventory
                     if chosen_weapon:
-                        original_image = scaled_images_inventory[chosen_weapon]
-                        # resizing the image to look better on the platform
-                        chosen_weapon_image = pygame.transform.scale(
-                            original_image, (original_image.get_width() * 1.9, original_image.get_height() * 1.9))
-
-                if platform_rect_2.collidepoint(mouse_pos):
-                    print("Platform 2 clicked!")
+                        chosen_weapon_image = scaled_images_inventory[chosen_weapon]
+                elif platform_rect_2.collidepoint(scaled_mouse_pos):
                     chosen_crystal = inventory_menu(player, place="shed", item_type="crystals")
                     if chosen_crystal:
-                        original_image = scaled_images_inventory[chosen_crystal]
-                        # resizing the image to look better on the platform
-                        chosen_crystal_image = pygame.transform.scale(
-                            original_image, (original_image.get_width() * 2, original_image.get_height() * 2))
+                        chosen_crystal_image = scaled_images_inventory[chosen_crystal]
 
-                if evolve_rect.collidepoint(mouse_pos) and chosen_weapon and chosen_crystal:
+                if evolve_rect.collidepoint(scaled_mouse_pos) and chosen_weapon and chosen_crystal:
                     print("Evolve clicked!")
                     evolve_weapon(player, chosen_weapon, chosen_crystal)
 
-        screen.blit(message_text_to_display, (150, 120))
-        screen.blit(scaled_platform_image, platform_rect)
-        screen.blit(scaled_platform_image_2, platform_rect_2)
-        screen.blit(scaled_evolve_image, evolve_rect)
+        player_group.update(collision_sprites, display, frame_time)
+        display.blit(text_surface, text_rect.topleft)
+        display.blit(scaled_platform_image, platform_rect)
+        display.blit(scaled_platform_image_2, platform_rect_2)
+        display.blit(scaled_evolve_image, evolve_rect)
 
-        evolve_rect_text = font_for_message.render("Evolve Weapon", True, yellow_torrado)
-        screen.blit(evolve_rect_text, (evolve_rect.centerx - 114, evolve_rect.centery - 10))
+        display.blit(evolve_text, evolve_text_rect.topleft)
 
         # Display the chosen weapon on platform 1
         if chosen_weapon_image:
             weapon_pos = (platform_rect.centerx - chosen_weapon_image.get_width() // 2, platform_rect.centery -
                           chosen_weapon_image.get_height() // 2)
-            screen.blit(chosen_weapon_image, weapon_pos)
+            display.blit(chosen_weapon_image, weapon_pos)
 
         # Display the chosen crystal on platform 2
         if chosen_crystal_image:
             crystal_pos = (platform_rect_2.centerx - chosen_crystal_image.get_width() // 2, platform_rect_2.centery -
                            chosen_crystal_image.get_height() // 2)
-            screen.blit(chosen_crystal_image, crystal_pos)
+            display.blit(chosen_crystal_image, crystal_pos)
 
+        shed_screen.blit(pygame.transform.scale(display, resolution), (0, 0))
         pygame.display.flip()
 
     progress()

@@ -53,7 +53,7 @@ empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_hear
 cutefont = pygame.font.Font("fonts/pixel_font.ttf", 11)
 inventoryfont = pygame.font.Font("fonts/pixel_font.ttf", 25)
 settingsfont = pygame.font.Font("fonts/Minecraft.ttf", 25)
-font_for_message = pygame.font.Font("fonts/pixel_font.ttf", 32)
+font_for_message = pygame.font.Font("fonts/pixel_font.ttf", 16)
 pixel = pygame.font.SysFont("Pixel", 35)
 
 # game over screen
@@ -77,7 +77,6 @@ options_pages = [options_1, options_2]
 
 # menu of the store
 menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.png"), (750, 600))
-entrance_store = pygame.transform.scale(pygame.image.load("images/store/store_front.png"), resolution)
 
 # OLD LADY SPEECHES
 old_lady_1 = "Be careful out there!"
