@@ -214,13 +214,13 @@ def crafting(player):
         if chosen_weapon_image:
             weapon_pos = (platform_rect.centerx - chosen_weapon_image.get_width() // 2, platform_rect.centery -
                           chosen_weapon_image.get_height() // 2)
-            display.blit(chosen_weapon_image, weapon_pos)
+            display.blit(chosen_weapon_image.convert_alpha(), weapon_pos)
 
         # Display the chosen crystal on platform 2
         if chosen_crystal_image:
             crystal_pos = (platform_rect_2.centerx - chosen_crystal_image.get_width() // 2, platform_rect_2.centery -
                            chosen_crystal_image.get_height() // 2)
-            display.blit(chosen_crystal_image, crystal_pos)
+            display.blit(chosen_crystal_image.convert_alpha(), crystal_pos)
 
         shed_screen.blit(pygame.transform.scale(display, resolution), (0, 0))
         pygame.display.flip()
