@@ -21,7 +21,7 @@ def greenhouse_area(player):
     player_group.add(player)
 
     # setting the player initial position on the home
-    player.rect.center = (175, 240)
+    player.rect.center = (630, 400)
     player.state = "up"
     ###################################### MAIN GAME LOOP #######################################
     running = True
