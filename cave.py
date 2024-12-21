@@ -78,6 +78,12 @@ def cave_area(player):
         for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
+        # drawing the inventory button
+        inventory_button = draw_button(display, 550, y=10, width=70, height=35,
+                                       text="Inventory",
+                                       text_color=brick_color, image_path="images/buttons/basic_button.png",
+                                       font=cutefont)
+
         # updating the player group
         player_group.update(collision_sprites, display, frame_time)
 

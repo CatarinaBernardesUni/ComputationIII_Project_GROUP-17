@@ -6,7 +6,6 @@ from config import *
 from tile import Tile
 from mouse_position import draw_button, get_mouse_position
 
-
 def paused():
     pause = True
     while pause:

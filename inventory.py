@@ -3,6 +3,7 @@ import pygame
 from config import *
 from store import shop_menu
 from mouse_position import draw_button, get_mouse_position
+from mouse_position import get_scaled_mouse_position
 
 # creating a dictionary to store all my pictures for the visual inventory
 images_inventory = {'apple': pygame.image.load("images/inventory/apple.png"),
@@ -52,6 +53,7 @@ def inventory_menu(player, place=None, item_type=None):
     in_background = pygame.transform.scale(in_background, (1000, 450))
 
     while on_inventory:
+        scaled_mouse_pos = get_scaled_mouse_position()
         screen.blit(in_background, (width // 2 - 500, height - 550))
 
         # setting so my amount of gold appears
@@ -75,6 +77,11 @@ def inventory_menu(player, place=None, item_type=None):
         filtered_items = get_filtered_items(player, place, item_type)
         display_items(screen, filtered_items, item_positions, first_x, first_y, item_spacing, row_spacing,
                       items_per_row)
+        # drawing the inventory button
+        inventory_button = draw_button(display, 550, y=10, width=70, height=35,
+                                       text="Inventory",
+                                       text_color=brick_color, image_path="images/buttons/basic_button.png",
+                                       font=cutefont)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -85,6 +92,8 @@ def inventory_menu(player, place=None, item_type=None):
                 if event.key == pygame.K_ESCAPE:
                     on_inventory = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                if inventory_button.collidepoint(scaled_mouse_pos):
+                    on_inventory = False
                 selected_item = handle_item_click(item_positions)
                 if selected_item:
                     if place == "shed":

@@ -3,7 +3,10 @@ from config import *
 
 def get_mouse_position():
     return pygame.mouse.get_pos()
-
+def get_scaled_mouse_position():
+    mouse_pos = pygame.mouse.get_pos()
+    scaled_mouse_pos = (mouse_pos[0] // 2, mouse_pos[1] // 2)
+    return scaled_mouse_pos
 
 # drawing a button, just skeleton does not work on its own:
 def draw_button(screen, x, y, width, height, text, text_color, image_path, font):

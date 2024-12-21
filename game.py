@@ -126,22 +126,6 @@ def execute_game(player, dog):
     player_group.add(player)
     # creating an empty bullet group that will be given as input to the player.shoot() method
     bullets = pygame.sprite.Group()
-    # creating an enemy group
-    enemies = pygame.sprite.Group()
-    # before starting our main loop, set up the enemy cooldown
-    enemy_cooldown = 0
-
-    weapon_group = pygame.sprite.Group()
-    # fire_sword = Sword(player, weapon_group, "fire_sword")
-    # dagger = Sword(player, weapon_group, "dagger")
-    # winter_sword = Sword(player, weapon_group, "winter_sword")
-
-    # ghost_bow = Bow(player, weapon_group, "ghost_bow")
-    # ice_bow = Bow(player, weapon_group, "ice_bow")
-    # light_bow = Bow(player, weapon_group, "light_bow")
-
-    # gold_axe = Axe(player, weapon_group, "gold_axe")
-    # ruby_axe = Axe(player, weapon_group, "ruby_axe")
 
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
@@ -230,7 +214,6 @@ def execute_game(player, dog):
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
             wave_manager.start_next_wave()
-
 
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
