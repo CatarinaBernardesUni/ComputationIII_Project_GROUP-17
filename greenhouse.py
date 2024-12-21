@@ -58,7 +58,7 @@ def greenhouse_area(player):
         player_group.update(collision_sprites, display, frame_time)
 
         if exit_rect and exit_rect.colliderect(player.rect):
-            #player.just_left_greenhouse = True
+            player.just_left_greenhouse = True
             return "main"
 
         for sprite in player_group:
