@@ -63,7 +63,7 @@ fps = 60
 
 # using the clock to control the time frame
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode(resolution)
+screen = pygame.display.set_mode(resolution, pygame.SRCALPHA)
 character_choice = "player 1"
 display = pygame.Surface((width // 2, height // 2))
 
