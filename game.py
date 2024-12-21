@@ -17,6 +17,7 @@ from store import inside_store
 from utils import paused, calculate_camera_offset
 from wave import WaveManager
 from weapon import *
+from greenhouse import greenhouse_area
 
 
 #player = Player()
@@ -99,6 +100,8 @@ def game_loop():
             current_state = pink_house_area(player)
         elif current_state == "store":
             current_state = inside_store(player)
+        elif current_state == "greenhouse":
+            current_state = greenhouse_area(player)
         elif current_state == "game_over":
             game_over()
 
@@ -115,7 +118,7 @@ def execute_game(player, dog):
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
      objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect,
-     old_lady_house_rect, pink_house_rect) = background_setup(tmx_data)
+     old_lady_house_rect, pink_house_rect, greenhouse_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -235,6 +238,14 @@ def execute_game(player, dog):
             print(f"Player position after exiting Old Lady House: {player.rect.center}")
             player.just_left_old_lady_house = False
             print("Set just_left_old_lady_house to False")
+
+        if greenhouse_rect and greenhouse_rect.colliderect(player.rect):
+            return "greenhouse"
+
+        if player.just_left_greenhouse:
+            player.rect.center = (325, 165)
+            player.just_left_greenhouse = False
+
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False

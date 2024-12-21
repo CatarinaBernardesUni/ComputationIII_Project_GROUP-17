@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="686">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="687">
  <tileset firstgid="1" source="tileset_basic_terrain.tsx"/>
  <tileset firstgid="529" source="tileset_mountains.tsx"/>
  <tileset firstgid="1145" source="Objetos PRAIA.tsx"/>
@@ -652,7 +652,7 @@
   <object id="656" gid="7781" x="33.6667" y="697" width="147.333" height="146.833"/>
   <object id="685" gid="1368" x="823" y="394" width="128" height="128"/>
  </objectgroup>
- <objectgroup id="8" name="COLLISIONS">
+ <objectgroup id="8" name="COLLISIONS" visible="0">
   <object id="518" x="613.333" y="284" width="234.667" height="64"/>
   <object id="519" x="849.333" y="305.333" width="136" height="45.3333"/>
   <object id="520" x="952" y="286.667" width="330.667" height="64"/>
@@ -782,6 +782,9 @@
    <point/>
   </object>
  </objectgroup>
+ <objectgroup id="17" name="Greenhouse">
+  <object id="686" x="708.667" y="76" width="82.6667" height="30.6667"/>
+ </objectgroup>
  <objectgroup id="11" name="Flower Roof House" locked="1">
   <object id="674" x="458" y="83.3333" width="73.3333" height="90.6667"/>
  </objectgroup>
@@ -794,7 +797,7 @@
  <objectgroup id="14" name="Blue Roof House" locked="1">
   <object id="678" x="1158.67" y="62" width="19.3333" height="56.6667"/>
  </objectgroup>
- <objectgroup id="15" name="Yellow Roof House" visible="0" locked="1">
+ <objectgroup id="15" name="Yellow Roof House" locked="1">
   <object id="680" x="66.6667" y="608" width="32.6667" height="58"/>
  </objectgroup>
  <objectgroup id="16" name="Cave">
