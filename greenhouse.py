@@ -77,6 +77,7 @@ def greenhouse_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         if plants_were_watered:
+            animated_tiles_group.update(frame_time * 3)
             for animated_tile in animated_tiles_group:
                 display.blit(animated_tile.image, animated_tile.rect.topleft + camera_offset)
 
