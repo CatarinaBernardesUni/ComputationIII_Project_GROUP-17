@@ -64,7 +64,20 @@ def pink_house_area(player):
             return "main"
 
         if clues_rect and clues_rect.colliderect(player.rect):
-            pass
+            if info['abandoned_chest'] <= 0:
+                draw_button(display, 10, 150, 320, 100,
+                            "click  'E'  to  claim  abandoned  gold!", brick_color,
+                            "images/inventory/inventory_menu.png", cutefont)
+                display.blit(gold_chest, (150, 150))
+                if keys[pygame.K_e]:
+                    coin_music.play()
+                    info['abandoned_chest'] = 1
+                    player.add_gold(150)
+                    # this way the player can only open this chest once in the whole game
+            else:
+                draw_button(display, 10, 150, 320, 100,
+                            "+ 50  gold   (already  claimed)", brick_color,
+                            "images/inventory/inventory_menu.png", cutefont)
 
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)

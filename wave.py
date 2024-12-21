@@ -4,7 +4,7 @@ import os
 import pygame.time
 
 from config import *
-
+from power_up import PowerUpManager
 from enemy import Enemy
 from utils import calculate_camera_offset
 
@@ -189,6 +189,13 @@ class WaveManager:
             # once the animations are over, start the actual wave
             self.camera_offset = calculate_camera_offset(self.player, display)
             self.display_counter(display)
+            if self.player.de_spawner:
+                if len(self.active_enemies) > 2:
+                    for enemy in self.active_enemies:
+                        enemy.kill()
+                        self.handle_enemy_drop(enemy)
+                        self.enemies_defeated += 1
+
 
             # Enemy cooldown logic
             current_time = pygame.time.get_ticks()
