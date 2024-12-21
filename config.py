@@ -44,10 +44,6 @@ game_over_sound.set_volume(global_volume)
 # creating a list of all sounds
 all_sounds = [menu_music, battle_music, main_music, coin_music, sparkly_music, dog_bark, game_over_sound]
 
-# hearts
-full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))
-empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (33, 33))
-
 
 # font for the game
 cutefont = pygame.font.Font("fonts/pixel_font.ttf", 11)
@@ -64,12 +60,19 @@ resolution = (1280, 720)  # height/width
 
 width, height = resolution[0], resolution[1]
 fps = 60
+
+# using the clock to control the time frame
+clock = pygame.time.Clock()
+screen = pygame.display.set_mode(resolution)
+character_choice = "player 1"
+display = pygame.Surface((width // 2, height // 2))
+
 # screen = pygame.display.set_mode(resolution)
 # some screen images
 pause_image = pygame.transform.scale(pygame.image.load("images/others/pause_image2.png"), (1280, 180))
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 
-#options screen
+# options screen
 options_1 = pygame.transform.scale(pygame.image.load("images/screens/options1.png"), resolution)
 options_2 = pygame.transform.scale(pygame.image.load("images/screens/options2.png"), resolution)
 
@@ -89,16 +92,20 @@ old_lady_7 = "I'm so proud of you..."
 
 old_lady_speech = [old_lady_1, old_lady_2, old_lady_3, old_lady_4, old_lady_5, old_lady_6, old_lady_7]
 
+# hearts
+full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png").convert_alpha(), (33, 33))
+empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png").convert_alpha(), (33, 33))
+
 # POWER UP IMAGES, these are small because they will appear on top of the player
 # the ones that are sized to be on the screen are on the dictionary in power up manager
-power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (25, 25))
-power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (25, 25))
-power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (25, 25))
-power_up_invisible = pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (25, 25))
+power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png").convert_alpha(), (25, 25))
+power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png").convert_alpha(), (25, 25))
+power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png").convert_alpha(), (25, 25))
+power_up_invisible = pygame.transform.scale(pygame.image.load("images/others/power_up4.png").convert_alpha(), (25, 25))
 
-chest_choice = pygame.transform.scale(pygame.image.load("images/chests/chest_choice.png"), (1000, 300))
-pick_powerup = pygame.transform.scale(pygame.image.load("images/chests/pick_powerup.png"), (400, 100))
-gold_chest = pygame.transform.scale(pygame.image.load("images/chests/chest_with_gold.png"), (40, 40))
+chest_choice = pygame.transform.scale(pygame.image.load("images/chests/chest_choice.png").convert_alpha(), (1000, 300))
+pick_powerup = pygame.transform.scale(pygame.image.load("images/chests/pick_powerup.png").convert_alpha(), (400, 100))
+gold_chest = pygame.transform.scale(pygame.image.load("images/chests/chest_with_gold.png").convert_alpha(), (40, 40))
 
 # SIZES
 player_size = (40, 40)
@@ -106,11 +113,6 @@ dog_size = (30, 30)
 enemy_size = (80, 80)
 bullet_size = 10
 tile_size = 16
-# using the clock to control the time frame
-clock = pygame.time.Clock()
-screen = pygame.display.set_mode(resolution)
-character_choice = "player 1"
-display = pygame.Surface((width // 2, height // 2))
 
 # this is to store progress when the game is closed
 info = {"health": 4,
