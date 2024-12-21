@@ -86,6 +86,7 @@ def greenhouse_area(player):
         display.fill("black")
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
+        clock.tick(fps)
 
     # the main while loop was terminated
     progress()
