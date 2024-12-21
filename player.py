@@ -76,20 +76,10 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.health_boosts = {"apple": 1, "mushroom": 2, "soup": 5}
 
         ########### WEAPONS ########################
-        # the inventory holds the amount of weapons the player has and this dict the instances of the weapons
-        self.weapons = {key: None for key in weapons}  # A dictionary to store weapon instances
         self.active_weapon = None  # Currently active weapon
         self.active_weapon_group = pygame.sprite.Group()  # Group to store the active weapon
 
-        """############### CRYSTALS ##################
-        # similarly to the weapons, this dict holds the instances of the crystals while the inventory holds the amounts
-        # it returns to None if the player leaves the game and comes back
-        self.crystals = {key: None for key in crystals_data}"""
-
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
-    # do not use to add a weapon to the player, for example, if the player has 1 weapon and you want it to have 2
-    # use it to add an instance of a weapon to the player's dictionary of weapons
-
     def switch_weapon(self, weapon_name, weapon_type):
         if self.active_weapon_group is not None:
             self.active_weapon_group.remove(self.active_weapon)
@@ -200,13 +190,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 if self.rect.right > battle_area_rect.left:
                     self.rect.right = battle_area_rect.left
 
-        # player takes damage if it hits the spikes in the cave
-        if spike_rects:
-            for spike_rect in spike_rects:
-                if spike_rect.colliderect(self.rect):
-                    self.remove_health(3)
-                    print("hit by spike")
-
     def dont_leave_battle(self, battle_area_rect):
         if self.is_fighting:
             if self.rect.left < battle_area_rect.left:
@@ -257,7 +240,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         self.bullet_cooldown -= 1
 
-    # todo: ask Carolina if this is needed, there is a very similar function outide the player class
     def remove_health(self, health_being_removed):
         if info['health'] >= 0:
             info['health'] -= health_being_removed

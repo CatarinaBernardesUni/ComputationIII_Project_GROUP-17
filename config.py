@@ -54,6 +54,7 @@ cutefont = pygame.font.Font("fonts/pixel_font.ttf", 11)
 inventoryfont = pygame.font.Font("fonts/pixel_font.ttf", 25)
 settingsfont = pygame.font.Font("fonts/Minecraft.ttf", 25)
 font_for_message = pygame.font.Font("fonts/pixel_font.ttf", 32)
+pixel = pygame.font.SysFont("Pixel", 35)
 
 # game over screen
 game_over_image = pygame.transform.scale(pygame.image.load("images/screens/game_over.png"), (1280, 720))
@@ -136,7 +137,15 @@ info = {"health": 4,
                       "white_crystal": 0},
         "claimed_chest_home": 0,
         "stolen_grandma": 0,
-        "current_wave": 1}
+        "current_wave": 1,
+        "weapon_attributes_evolved": {"dagger": 18,
+                                      "ghost_bow": 22,
+                                      "winter_sword": 18,
+                                      "gold_axe": 22,
+                                      "fire_sword": 28,
+                                      "ice_bow": 24,
+                                      "light_bow": 23,
+                                      "ruby_axe": 15}}
 
 try:
     with open("player_info.txt") as player_file:

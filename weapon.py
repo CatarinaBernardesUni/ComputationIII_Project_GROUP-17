@@ -24,7 +24,7 @@ weapons = {"dagger": {
            "gold_axe": {
                "tier": 2,
                "damage": 22,
-               "special_effect": "golden touch",  # get more gold from enemies
+               "special_effect": "golden touch",  # get more gold at the end of the wave
                "directory_path": "images/weapons/gold_axe"},
 ####################### TIER 3 WEAPONS ########################################
            "fire_sword": {
