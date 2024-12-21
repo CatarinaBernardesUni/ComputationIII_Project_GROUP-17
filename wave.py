@@ -6,7 +6,6 @@ import pygame.time
 from config import *
 
 from enemy import Enemy
-from player import Player
 from utils import calculate_camera_offset
 
 
@@ -109,8 +108,6 @@ class WaveManager:
     def activate_wave(self):
         """Activates the wave animation."""
         if not self.is_wave_active:
-            # print(f"Activating wave {self.current_wave}!")
-            #info["current_wave"] += 1
             self.is_wave_active = True
             self.animation_active = True
             self.animation_index = 0  # Reset animation frame index
