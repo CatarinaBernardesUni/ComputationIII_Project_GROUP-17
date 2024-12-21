@@ -783,7 +783,7 @@
   </object>
  </objectgroup>
  <objectgroup id="17" name="Greenhouse">
-  <object id="686" x="735.667" y="97.5" width="21.1667" height="4.1667"/>
+  <object id="686" x="713.167" y="101.5" width="67.1667" height="4.1667"/>
  </objectgroup>
  <objectgroup id="11" name="Flower Roof House" locked="1">
   <object id="674" x="458" y="83.3333" width="73.3333" height="90.6667"/>
