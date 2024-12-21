@@ -250,22 +250,18 @@ class WaveManager:
     def show_choice_popup(self):
 
         gold_reward = 50 * (info["current_wave"] - 1)
-        self.player.gold += gold_reward
+        self.player.add_gold(gold_reward)
 
-        # todo: delete this if we don't want the player to gain bonus at the end of the wave
-        # Determine if a bonus reward is granted
-        bonus_reward = random.random() < 0.05  # 5% chance
+        # putting 5 and 9 because at this point there was already an increment of the wave number
+        bonus_reward = self.current_wave == 5 or self.current_wave == 9
         bonus_text = " and a bonus! Check your inventory." if bonus_reward else "!"
 
         message_lines = [f"Wave {info['current_wave'] - 1} Completed!",
                          f"You earned {gold_reward} gold{bonus_text}",
                          f"Start next wave or leave?"]
 
-        # todo: commenting this code because the method give_bonus() doesn't exist in the player class
-        # todo: maybe this code for the red axe
-        # Apply bonus if granted
-        # if bonus_reward:
-        # self.player.give_bonus()  # todo: add this method to the player class
+        if bonus_reward:
+            self.player.give_bonus(self.current_wave)
 
         # Starting position for the text
         # start_x = 500

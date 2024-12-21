@@ -2,6 +2,7 @@ from config import *
 from pytmx.util_pygame import load_pygame
 
 from inventory import inventory_menu, scaled_images_inventory
+from mouse_position import draw_button, get_scaled_mouse_position
 from utils import area_setup, calculate_camera_offset, paused
 
 def shed_area(player):
@@ -29,18 +30,9 @@ def shed_area(player):
     ###################################### MAIN SHED LOOP #######################################
     running = True
     while running:
+        scaled_mouse_pos = get_scaled_mouse_position()
         # controlling the frame rate
         frame_time = clock.tick(fps)
-
-        # handling events:
-        keys = pygame.key.get_pressed()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                progress()
-                pygame.quit()
-                exit()
-            if keys[pygame.K_SPACE]:
-                paused()
 
         # Calculate camera offset
         camera_offset = calculate_camera_offset(player, display)
@@ -53,6 +45,25 @@ def shed_area(player):
         for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
+        inventory_button = draw_button(display, 500, y=10, width=70, height=35,
+                                       text="Inventory",
+                                       text_color=brick_color, image_path="images/buttons/basic_button.png",
+                                       font=cutefont)
+        # handling events:
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            if keys[pygame.K_SPACE]:
+                paused()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    inventory_menu(player)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if inventory_button.collidepoint(scaled_mouse_pos):
+                    inventory_menu(player)
         # updating the player group
         player_group.update(collision_sprites, display, frame_time)
 
@@ -105,14 +116,26 @@ def crafting(player):
 
     still_crafting = True
     while still_crafting:
+        scaled_mouse_pos = get_scaled_mouse_position()
+
+        inventory_button = draw_button(display, 500, y=10, width=70, height=35,
+                                       text="Inventory",
+                                       text_color=brick_color, image_path="images/buttons/basic_button.png",
+                                       font=cutefont)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 progress()
                 pygame.quit()
                 exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    inventory_menu(player)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if inventory_button.collidepoint(scaled_mouse_pos):
+                    inventory_menu(player)
 
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
 
                 if platform_rect.collidepoint(mouse_pos):

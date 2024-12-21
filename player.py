@@ -267,3 +267,11 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def add_gold(self, amount):
         info['gold'] += amount
         self.gold = info['gold']
+
+    def give_bonus(self, current_wave):
+        if current_wave == 5:
+            info["inventory"]["gold_axe"] += 1
+            self.inventory = info["inventory"]
+        elif current_wave == 9:
+            info["inventory"]["ruby_axe"] += 1
+            self.inventory = info["inventory"]

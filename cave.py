@@ -1,7 +1,8 @@
 from config import *
 from pytmx.util_pygame import load_pygame
 
-from mouse_position import draw_button
+from inventory import inventory_menu
+from mouse_position import draw_button, get_scaled_mouse_position
 # from game import paused
 from utils import area_setup, paused, calculate_camera_offset
 
@@ -55,16 +56,7 @@ def cave_area(player):
     while running:
         # controlling the frame rate
         frame_time = clock.tick(fps)
-
-        # handling events:
-        keys = pygame.key.get_pressed()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                progress()
-                pygame.quit()
-                exit()
-            if keys[pygame.K_SPACE]:
-                paused()
+        scaled_mouse_pos = get_scaled_mouse_position()
       
         # Calculate camera offset
         camera_offset = calculate_camera_offset(player, display)
@@ -79,10 +71,25 @@ def cave_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         # drawing the inventory button
-        inventory_button = draw_button(display, 550, y=10, width=70, height=35,
+        inventory_button = draw_button(display, 500, y=10, width=70, height=35,
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
+        # handling events:
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            if keys[pygame.K_SPACE]:
+                paused()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    inventory_menu(player)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if inventory_button.collidepoint(scaled_mouse_pos):
+                    inventory_menu(player)
 
         # updating the player group
         player_group.update(collision_sprites, display, frame_time)
