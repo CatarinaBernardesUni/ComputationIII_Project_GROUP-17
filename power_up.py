@@ -218,12 +218,12 @@ class PowerUpManager:
             {
                 "class": SpeedBoost,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50)),
-                "probability": 1
+                "probability": 0
             },
             {
                 "class": Chest,
                 "image": pygame.transform.scale(pygame.image.load("images/chests/chest_brown.png"), (50, 50)),
-                "probability": 0
+                "probability": 1
             },
             {
                 "class": DeSpawner,
