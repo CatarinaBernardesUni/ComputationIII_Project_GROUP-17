@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="86">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="89">
  <tileset firstgid="1" source="atlas_16x 2.tsx"/>
  <tileset firstgid="769" source="CosyCabin_Objects_Simple 2.tsx"/>
  <tileset firstgid="4531" source="old lady16.tsx"/>
@@ -295,5 +295,7 @@
   <object id="57" x="91" y="114" width="50.3333" height="28"/>
   <object id="58" x="63" y="124.333" width="25.6667" height="20"/>
   <object id="65" x="3.66667" y="160" width="54.3333" height="197"/>
+  <object id="86" x="58.6667" y="185" width="67" height="38.6667"/>
+  <object id="87" x="150" y="188.667" width="26.6667" height="15.3333"/>
  </objectgroup>
 </map>

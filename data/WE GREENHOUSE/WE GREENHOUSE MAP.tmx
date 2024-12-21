@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="20" nextobjectid="26">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="21" nextobjectid="29">
  <tileset firstgid="1" source="../WE OLD LADY HOUSE/atlas_16x 2.tsx"/>
  <tileset firstgid="769" source="../WE GAME MAP/crops.tsx"/>
+ <tileset firstgid="4865" source="watering can.tsx"/>
  <layer id="11" name="layer zero" width="80" height="45">
   <data encoding="csv">
 721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,721,
@@ -394,14 +395,19 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="16" name="watering can"/>
+ <objectgroup id="20" name="water the plants">
+  <object id="27" x="584.333" y="294.667" width="73.3333" height="49.3333"/>
+ </objectgroup>
+ <objectgroup id="16" name="watering can">
+  <object id="26" gid="4865" x="589.25" y="396.75" width="29" height="31"/>
+ </objectgroup>
  <objectgroup id="15" name="exit">
   <object id="7" x="603.834" y="464.834" width="38.25" height="5.16667"/>
  </objectgroup>
  <objectgroup id="14" name="collisions">
   <object id="2" x="422.167" y="325" width="91.8333" height="47.3333"/>
   <object id="4" x="421.667" y="370.5" width="184.083" height="144.5"/>
-  <object id="5" x="646.833" y="369.5" width="162.167" height="166.5"/>
+  <object id="5" x="663.833" y="373.833" width="145.167" height="162.167"/>
   <object id="6" x="733" y="316.5" width="76.833" height="92"/>
   <object id="17" x="592.333" y="370.333" width="22" height="13.6667"/>
   <object id="18" x="592" y="401.333" width="11.6667" height="46.6667"/>
