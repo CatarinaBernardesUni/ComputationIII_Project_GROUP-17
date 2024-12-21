@@ -102,8 +102,8 @@ def game_loop():
             current_state = inside_store(player)
         elif current_state == "shed":
             current_state = shed_area(player)
-        elif current_state == greenhouse_area(player):
-            current_state = "greenhouse"
+        elif current_state == "greenhouse":
+            current_state = greenhouse_area(player)
         elif current_state == "game_over":
             game_over()
 
@@ -229,7 +229,7 @@ def execute_game(player, dog):
         if greenhouse_rect and greenhouse_rect.colliderect(player.rect):
             return "greenhouse"
         if player.just_left_greenhouse:
-            player.rect.center = (500, 240)
+            player.rect.center = (785, 160)
             player.just_left_greenhouse = False
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
