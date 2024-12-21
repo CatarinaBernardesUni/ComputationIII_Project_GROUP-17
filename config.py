@@ -45,8 +45,8 @@ game_over_sound.set_volume(global_volume)
 all_sounds = [menu_music, battle_music, main_music, coin_music, sparkly_music, dog_bark, game_over_sound]
 
 # hearts
-full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png"), (33, 33))
-empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png"), (33, 33))
+full_heart = pygame.transform.scale(pygame.image.load("images/others/full_heart.png").convert_alpha(), (33, 33))
+empty_heart = pygame.transform.scale(pygame.image.load("images/others/empty_heart.png").convert_alpha(), (33, 33))
 
 
 # font for the game
@@ -91,14 +91,14 @@ old_lady_speech = [old_lady_1, old_lady_2, old_lady_3, old_lady_4, old_lady_5, o
 
 # POWER UP IMAGES, these are small because they will appear on top of the player
 # the ones that are sized to be on the screen are on the dictionary in power up manager
-power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (25, 25))
-power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (25, 25))
-power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (25, 25))
-power_up_invisible = pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (25, 25))
+power_up_invincibility = pygame.transform.scale(pygame.image.load("images/others/power_up1.png").convert_alpha(), (25, 25))
+power_up_speed = pygame.transform.scale(pygame.image.load("images/others/power_up2.png").convert_alpha(), (25, 25))
+power_up_de_spawner = pygame.transform.scale(pygame.image.load("images/others/power_up3.png").convert_alpha(), (25, 25))
+power_up_invisible = pygame.transform.scale(pygame.image.load("images/others/power_up4.png").convert_alpha(), (25, 25))
 
-chest_choice = pygame.transform.scale(pygame.image.load("images/chests/chest_choice.png"), (1000, 300))
-pick_powerup = pygame.transform.scale(pygame.image.load("images/chests/pick_powerup.png"), (400, 100))
-gold_chest = pygame.transform.scale(pygame.image.load("images/chests/chest_with_gold.png"), (40, 40))
+chest_choice = pygame.transform.scale(pygame.image.load("images/chests/chest_choice.png").convert_alpha(), (1000, 300))
+pick_powerup = pygame.transform.scale(pygame.image.load("images/chests/pick_powerup.png").convert_alpha(), (400, 100))
+gold_chest = pygame.transform.scale(pygame.image.load("images/chests/chest_with_gold.png").convert_alpha(), (40, 40))
 
 # SIZES
 player_size = (40, 40)
