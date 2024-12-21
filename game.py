@@ -15,7 +15,7 @@ from pink_house import pink_house_area
 from power_up import *
 from shed import shed_area
 from store import inside_store
-from utils import paused, calculate_camera_offset
+from utils import paused, calculate_camera_offset, credits_
 from wave import WaveManager
 from weapon import *
 from greenhouse import greenhouse_area
@@ -53,6 +53,7 @@ def game_over():
     while waiting:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                info['health'] = player.max_health
                 progress()
                 pygame.quit()
                 exit()
@@ -60,7 +61,7 @@ def game_over():
             # play again
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 384 <= mouse[0] <= 626 and 489 <= mouse[1] <= 580:
-                    info['health'] = 5
+                    info['health'] = player.max_health
                     info['current_wave'] = 1
                     battle_music.stop()
                     main_music.play(-1)
@@ -68,14 +69,13 @@ def game_over():
                     waiting = False
 
                 if 690 <= mouse[0] <= 935 and 487 <= mouse[1] <= 582:
+                    info['health'] = player.max_health
                     progress()
                     pygame.quit()
                     exit()
                     # go back to the interface menu
                 if 531 <= mouse[0] <= 771 and 608 <= mouse[1] <= 700:
-                    battle_music.stop()
-                    menu_music.play(-1)
-                    interface.interface()
+                    credits_()
                     waiting = False
 
 

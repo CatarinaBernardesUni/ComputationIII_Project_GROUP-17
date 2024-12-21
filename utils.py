@@ -6,6 +6,7 @@ from config import *
 from tile import Tile
 from mouse_position import draw_button, get_mouse_position
 
+
 def paused():
     pause = True
     while pause:
@@ -27,17 +28,20 @@ def paused():
                     pause = False
         pygame.display.update()
 
+
 # letting all the sounds be updated throughout the game
 def update_all_volumes(all_sounds, global_volume):
     for sound in all_sounds:
         sound.set_volume(global_volume)
 
+
 # Function to draw the music bar
 def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
-
     # Draw the plus and minus buttons
-    minus_button = draw_button(screen, bar_x - 100 - 10, bar_y + (bar_height - 90) // 2, 100, 90, 'MINUS', brick_color, 'images/store/store_button.png', settingsfont)
-    plus_button = draw_button(screen, bar_x + bar_width + 10, bar_y + (bar_height - 90) // 2, 100, 90, 'PLUS', brick_color, 'images/store/store_button.png', settingsfont)
+    minus_button = draw_button(screen, bar_x - 100 - 10, bar_y + (bar_height - 90) // 2, 100, 90, 'MINUS', brick_color,
+                               'images/store/store_button.png', settingsfont)
+    plus_button = draw_button(screen, bar_x + bar_width + 10, bar_y + (bar_height - 90) // 2, 100, 90, 'PLUS',
+                              brick_color, 'images/store/store_button.png', settingsfont)
 
     # Draw the main bar
     pygame.draw.rect(screen, brick_color, (bar_x, bar_y, bar_width, bar_height))
@@ -109,6 +113,7 @@ def options_menu():
         pygame.display.flip()
         progress()
 
+
 # Function to draw a stick figure with a construction hat
 def draw_stick_figure_with_hat(screen, x, y):
     # head
@@ -151,8 +156,6 @@ def draw_normal_stick_figure(screen, x, y):
 
 
 def under_construction():
-
-
     # setting up the fonts
     corbelfont = pygame.font.SysFont("Corbel", 50)
     conversation_font = pygame.font.SysFont("Arial", 30)
@@ -246,6 +249,7 @@ def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
     return (background_sprite_group, tiles_group, objects_group,
             collision_sprites, exit_rect, speech_bubble_rect, clues_rect)
 
+
 def calculate_camera_offset(player, display):
     camera_x = player.rect.centerx - display.get_width() // 2
     camera_y = player.rect.centery - display.get_height() // 2
@@ -256,3 +260,37 @@ def calculate_camera_offset(player, display):
 
     camera_offset = pygame.Vector2(-camera_x, -camera_y)
     return camera_offset
+
+
+def credits_():
+    # Set up the display
+    screen = pygame.display.set_mode(resolution)
+
+    # main background for credits
+    credits_background = pygame.image.load("images/credits/CREDITS.png")
+
+    # main loop to detect user input and display the credits
+    while True:
+        # getting the position of the users mouse
+        mouse = get_mouse_position()
+
+        for ev in pygame.event.get():
+            # allow the user to quit on (x)
+            if ev.type == pygame.QUIT:
+                progress()
+                pygame.quit()
+                exit()
+            # creating a button that returns to main menu
+            elif ev.type == pygame.MOUSEBUTTONDOWN:
+                if quit_options_button.collidepoint(mouse):
+                    return
+
+        # Display the background
+        screen.blit(credits_background, (0, 0))
+
+        # drawing the quit button to leave the options menu
+        quit_options_button = draw_button(screen, 1065, 555, 150, 80, "EXIT", text_color=brick_color,
+                                          image_path="images/store/store_button.png", font=settingsfont)
+
+        # Update the display
+        pygame.display.flip()
