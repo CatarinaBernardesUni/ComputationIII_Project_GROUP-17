@@ -77,7 +77,7 @@ def greenhouse_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
         if plants_were_watered:
-            animated_tiles_group.update(frame_time * 3)
+            animated_tiles_group.update(frame_time * 3, loop=False)
             for animated_tile in animated_tiles_group:
                 display.blit(animated_tile.image, animated_tile.rect.topleft + camera_offset)
 
@@ -95,7 +95,6 @@ def greenhouse_area(player):
                 if keys[pygame.K_e]:
                     sparkly_music.play()
                     plants_were_watered = True
-                    # this way the player can only open this chest once in the whole game
 
             else:
                 draw_button(display, 50, 200, 320, 100,
