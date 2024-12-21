@@ -7,18 +7,25 @@ def greenhouse_area(player):
     home_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
 
-    tmx_data = load_pygame("data/WE OLD LADY HOUSE/WE OLD LADY HOUSE MAP.tmx")
+    tmx_data = load_pygame("data/WE GREENHOUSE/WE GREENHOUSE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions", "exit", None,
-                                                                                None)
+     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions", "exit",
+                                                                                None, None)
+
+
+    ####################################################################
+
+    # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
+    # adding the player to the group
     player_group.add(player)
 
     # setting the player initial position on the home
-    player.rect.center = (111, 253)
+    player.rect.center = (175, 240)
     player.state = "up"
     ###################################### MAIN GAME LOOP #######################################
     running = True
+
     while running:
         # controlling the frame rate
         frame_time = clock.tick(fps)
@@ -63,11 +70,14 @@ def greenhouse_area(player):
 
         home_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
         display.fill("black")
-
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
-        # clock.tick(fps)
+
     # the main while loop was terminated
     progress()
     pygame.quit()
     exit()
+
+
+
+
