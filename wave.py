@@ -320,4 +320,5 @@ class WaveManager:
                         self.player.is_leaving_battle = True
                         choice_made = True
 
+                screen.blit(pygame.transform.scale(display, resolution), (0, 0))
                 pygame.display.update()
