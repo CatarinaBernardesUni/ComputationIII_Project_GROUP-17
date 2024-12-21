@@ -1,6 +1,6 @@
 import random
 import pygame
-from power_up import PowerUp, Invincibility, Speed_Boost, Chest
+from power_up import PowerUp, Invincibility, SpeedBoost, Chest
 from background import *
 from player import Player
 

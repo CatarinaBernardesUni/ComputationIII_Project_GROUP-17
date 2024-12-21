@@ -15,10 +15,6 @@ from weapon import *
 
 
 # making a player a child of the Sprite class
-
-
-
-
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def __init__(self):
@@ -46,6 +42,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.just_left_home = False
         self.just_left_store = False
         self.just_left_pink_house = False
+        self.just_left_shed = False
 
         self.is_fighting = False
         self.is_leaving_battle = False
@@ -74,40 +71,36 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                             'speed potion': 25,
                             'dog': 50,
                             'soup': 60,
-                            'sword': 80,
-                            'bow': 100,
+                            'dagger': 80,
+                            'ghost_bow': 100,
                             'key': 300}
+        self.health_boosts = {"apple": 1, "mushroom": 2, "soup": 5}
 
         ########### WEAPONS ########################
-        self.weapons = {key: None for key in weapons}  # A dictionary to store weapon instances
         self.active_weapon = None  # Currently active weapon
         self.active_weapon_group = pygame.sprite.Group()  # Group to store the active weapon
-        ###########################################
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
-    def add_weapon(self, weapon_name, weapon_type):
-        """Add a weapon instance to the player's inventory."""
+    def switch_weapon(self, weapon_name, weapon_type):
+        if self.active_weapon_group is not None:
+            self.active_weapon_group.remove(self.active_weapon)
+        """Switch the currently active weapon."""
         if weapon_type == "Sword":
             weapon_instance = Sword(self, self.active_weapon_group, weapon_name)
         elif weapon_type == "Bow":
             weapon_instance = Bow(self, self.active_weapon_group, weapon_name)
         else:  # a weapon will always be one of these 3 types
             weapon_instance = Axe(self, self.active_weapon_group, weapon_name)
+        self.active_weapon = weapon_instance
+        self.active_weapon_group.add(self.active_weapon)
 
-        self.weapons[weapon_name] = weapon_instance
+    ###### CRYSTALS ####################################################################################
+    def collect_crystal(self, crystal_name):
+        """Add a crystal instance to the player's inventory."""
+        info['inventory'][crystal_name] += 1
+        self.inventory = info['inventory']
 
-        if not self.active_weapon:  # Auto-select the first weapon if none is active
-            self.active_weapon = weapon_instance
-            self.active_weapon_group.add(self.active_weapon)
-
-    def switch_weapon(self, weapon_name: str):
-        # todo: mouse clicking on the inventory makes them the primary
-        """Switch the currently active weapon."""
-        if weapon_name in self.weapons.keys():
-            self.active_weapon = self.weapons[weapon_name]
-            self.active_weapon_group.add(self.active_weapon)
-
-    ####################################################################################################
+    ############### ANIMATION AND MOVEMENT ############################################################
 
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],
@@ -133,7 +126,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             else:
                 display.blit(empty_heart, (heart * 33, 5))
 
-    def update(self, collision_sprites, display, frame_time, battle_area_rect=None, spike_rects=None):
+    def update(self, collision_sprites, display, frame_time, battle_area_rect=None):
         # getting the keys input
 
         keys = pygame.key.get_pressed()
@@ -198,13 +191,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 if self.rect.right > battle_area_rect.left:
                     self.rect.right = battle_area_rect.left
 
-        # player takes damage if it hits the spikes in the cave
-        if spike_rects:
-            for spike_rect in spike_rects:
-                if spike_rect.colliderect(self.rect):
-                    self.remove_health(3)
-                    print("hit by spike")
-
     def dont_leave_battle(self, battle_area_rect):
         if self.is_fighting:
             if self.rect.left < battle_area_rect.left:
@@ -255,15 +241,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         self.bullet_cooldown -= 1
 
-    # todo: ask Carolina if this is needed, there is a very similar function outide the player class
     def remove_health(self, health_being_removed):
         if not self.invisible:
             if info['health'] >= 0:
                 info['health'] -= health_being_removed
+            self.health = info['health']
 
-    def get_health(self):  # we should use this if the player picks up hearts or something
-        if info['health'] < self.max_health:
-            info['health'] += 1
+    def get_health(self, amount):  # we should use this if the player picks up hearts or something
+        info['health'] = min(info['health'] + amount, self.max_health)
+        self.health = info['health']
 
     def buy_item(self, item_name):
         # getting the item price from the price_items dictionary
@@ -282,6 +268,12 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def add_gold(self, amount):
         info['gold'] += amount
+        self.gold = info['gold']
 
-
-
+    def give_bonus(self, current_wave):
+        if current_wave == 5:
+            info["inventory"]["gold_axe"] += 1
+            self.inventory = info["inventory"]
+        elif current_wave == 9:
+            info["inventory"]["ruby_axe"] += 1
+            self.inventory = info["inventory"]

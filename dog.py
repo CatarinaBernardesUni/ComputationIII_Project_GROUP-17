@@ -1,9 +1,7 @@
-from images import dog
 from config import *
 import pygame
 from os import walk  # allows us to walk through a folder
 from os.path import join
-import math
 
 
 class Dog(pygame.sprite.Sprite):
@@ -45,12 +43,12 @@ class Dog(pygame.sprite.Sprite):
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
     def follow_player(self):
-    # Determine the direction to follow the player.
-    # mimics the actions fo the player
+        # Determine the direction to follow the player.
+        # mimics the actions fo the player
         self.state = self.player.state
 
         # FOLLOWS PLAYER
-        self.rect.x = self.player.rect.x - 30  # so its a little behind the player
+        self.rect.x = self.player.rect.x - 30  # so it is a little behind the player
         self.rect.y = self.player.rect.y
 
         self.animate()
