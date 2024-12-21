@@ -16,9 +16,7 @@ from weapon import *
 
 # making a player a child of the Sprite class
 
-def remove_health(health_being_removed):
-    if info['health'] >= 0:
-        info['health'] -= health_being_removed
+
 
 
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
@@ -85,7 +83,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.active_weapon = None  # Currently active weapon
         self.active_weapon_group = pygame.sprite.Group()  # Group to store the active weapon
         ###########################################
-
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
     def add_weapon(self, weapon_name, weapon_type):
@@ -205,7 +202,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if spike_rects:
             for spike_rect in spike_rects:
                 if spike_rect.colliderect(self.rect):
-                    remove_health(3)
+                    self.remove_health(3)
                     print("hit by spike")
 
     def dont_leave_battle(self, battle_area_rect):
@@ -259,10 +256,10 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.bullet_cooldown -= 1
 
     # todo: ask Carolina if this is needed, there is a very similar function outide the player class
-    def remove_health(self):
-        if not self.invincible:
+    def remove_health(self, health_being_removed):
+        if not self.invisible:
             if info['health'] >= 0:
-                info['health'] -= 1
+                info['health'] -= health_being_removed
 
     def get_health(self):  # we should use this if the player picks up hearts or something
         if info['health'] < self.max_health:
@@ -285,3 +282,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def add_gold(self, amount):
         info['gold'] += amount
+
+
+
