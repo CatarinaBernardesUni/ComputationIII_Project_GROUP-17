@@ -6,7 +6,6 @@ from mouse_position import draw_button, get_scaled_mouse_position
 from utils import area_setup, calculate_camera_offset, paused
 from weapon import weapons
 
-
 def shed_area(player):
     clock = pygame.time.Clock()
     shed_screen = pygame.display.set_mode(resolution)
@@ -142,6 +141,10 @@ def crafting(player):
     chosen_weapon, chosen_crystal = None, None
     chosen_weapon_image, chosen_crystal_image = None, None
 
+    error_message = None
+    error_display_start = None
+    error_display_duration = 0
+
     still_crafting = True
     while still_crafting:
         scaled_mouse_pos = get_scaled_mouse_position()
@@ -199,8 +202,12 @@ def crafting(player):
                         chosen_crystal_image = scaled_images_inventory[chosen_crystal]
 
                 if evolve_rect.collidepoint(scaled_mouse_pos) and chosen_weapon and chosen_crystal:
-                    print("Evolve clicked!")
-                    evolve_weapon(player, chosen_weapon, chosen_crystal)
+                    # print("Evolve clicked!")
+                    # evolve_weapon(player, display, chosen_weapon, chosen_crystal)
+                    error_message, error_display_duration = evolve_weapon(player, display, chosen_weapon,
+                                                                          chosen_crystal)
+                    if error_message:
+                        error_display_start = pygame.time.get_ticks()
 
         player_group.update(collision_sprites, display, frame_time)
         display.blit(text_surface, text_rect.topleft)
@@ -222,6 +229,12 @@ def crafting(player):
                            chosen_crystal_image.get_height() // 2)
             display.blit(chosen_crystal_image.convert_alpha(), crystal_pos)
 
+        if error_message and pygame.time.get_ticks() - error_display_start < error_display_duration * 1000:
+            error_text_to_display = font_for_message.render(error_message, True, red)
+            display.blit(error_text_to_display, (110, 300))
+        elif error_message:  # Reset message after duration
+            error_message = None
+
         shed_screen.blit(pygame.transform.scale(display, resolution), (0, 0))
         pygame.display.flip()
 
@@ -229,7 +242,10 @@ def crafting(player):
     pygame.quit()
     exit()
 
-def evolve_weapon(player, weapon, crystal):
+def evolve_weapon(player, display, weapon, crystal):
+    error_message = None
+    display_duration = 4
+
     if weapon == "dagger" and crystal == "red_crystal":
         info["inventory"]["dagger"] -= 1
         info["inventory"]["red_crystal"] -= 1
@@ -265,12 +281,13 @@ def evolve_weapon(player, weapon, crystal):
             print(f"{weapon} damage increased to {info['weapon_attributes_evolved'][weapon]}")
         else:
             error_message = "Weapon at max level"
-            error_text_to_display = font_for_message.render(error_message, True, red)
-            screen.blit(error_text_to_display, (200, 570))
+            # error_text_to_display = font_for_message.render(error_message, True, red)
+            # display.blit(error_text_to_display, (100, 300))
 
     else:
         error_message = "Invalid combination of weapon and crystal"
-        error_text_to_display = font_for_message.render(error_message, True, red)
-        screen.blit(error_text_to_display, (210, 570))
+        # error_text_to_display = font_for_message.render(error_message, True, red)
+        # display.blit(error_text_to_display, (110, 300))
 
     progress()
+    return error_message, display_duration
