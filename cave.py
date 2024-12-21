@@ -114,6 +114,7 @@ def cave_area(player):
             if keys[pygame.K_e]:
                 if not e_key_pressed:
                     player.collect_crystal("purple_crystal")
+                    sparkly_music.play()
                     e_key_pressed = True
 
         elif red_crystal_rect and red_crystal_rect.colliderect(player.rect):
@@ -123,6 +124,7 @@ def cave_area(player):
             if keys[pygame.K_e]:
                 if not e_key_pressed:
                     player.collect_crystal("red_crystal")
+                    sparkly_music.play()
                     e_key_pressed = True
 
         elif gold_crystal_rect and gold_crystal_rect.colliderect(player.rect):
@@ -132,6 +134,7 @@ def cave_area(player):
             if keys[pygame.K_e]:
                 if not e_key_pressed:
                     player.collect_crystal("gold_crystal")
+                    sparkly_music.play()
                     e_key_pressed = True
 
         elif blue_crystal_rect and blue_crystal_rect.colliderect(player.rect):
@@ -141,6 +144,7 @@ def cave_area(player):
             if keys[pygame.K_e]:
                 if not e_key_pressed:
                     player.collect_crystal("blue_crystal")
+                    sparkly_music.play()
                     e_key_pressed = True
 
         elif white_crystal_rect and white_crystal_rect.colliderect(player.rect):
@@ -150,6 +154,7 @@ def cave_area(player):
             if keys[pygame.K_e]:
                 if not e_key_pressed:
                     player.collect_crystal("white_crystal")
+                    sparkly_music.play()
                     e_key_pressed = True
 
         if not keys[pygame.K_e]:
