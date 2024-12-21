@@ -12,7 +12,7 @@ def old_lady_house_area(player):
     tmx_data = load_pygame("data/WE OLD LADY HOUSE/WE OLD LADY HOUSE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
      collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions on house",
-                                                                                "house exit", "little easter egg",
+                                                                                "old lady exit", "little easter egg",
                                                                                 "old lady talks")
     player_group = pygame.sprite.Group()
     player_group.add(player)
