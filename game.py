@@ -18,6 +18,8 @@ from store import inside_store
 from utils import paused, calculate_camera_offset
 from wave import WaveManager
 from weapon import *
+from greenhouse import greenhouse_area
+
 
 def choose_character():
     screen.blit(choose_character_image, (0, 0))
@@ -41,7 +43,6 @@ def choose_character():
 
 
 def game_over():
-
     battle_music.stop()
     game_over_sound.play()
 
@@ -101,6 +102,8 @@ def game_loop():
             current_state = inside_store(player)
         elif current_state == "shed":
             current_state = shed_area(player)
+        elif current_state == greenhouse_area(player):
+            current_state = "greenhouse"
         elif current_state == "game_over":
             game_over()
 
@@ -117,7 +120,7 @@ def execute_game(player, dog):
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
      objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect,
-     old_lady_house_rect, pink_house_rect, shed_rect) = background_setup(tmx_data)
+     old_lady_house_rect, pink_house_rect, shed_rect, greenhouse_rect) = background_setup(tmx_data)
 
     ####################################################################
 
@@ -143,7 +146,7 @@ def execute_game(player, dog):
         frame_time = clock.tick(fps)
 
         mouse_pos = pygame.mouse.get_pos()
-        scaled_mouse_pos = (mouse_pos[0]//2, mouse_pos[1]//2)
+        scaled_mouse_pos = (mouse_pos[0] // 2, mouse_pos[1] // 2)
 
         ################################ Calculate camera offset  #######################
         camera_offset = calculate_camera_offset(player, display)
@@ -222,6 +225,13 @@ def execute_game(player, dog):
             player.rect.center = (220, 660)
             player.just_left_shed = False
 
+        # player in the greenhouse
+        if greenhouse_rect and greenhouse_rect.colliderect(player.rect):
+            return "greenhouse"
+        if player.just_left_greenhouse:
+            player.rect.center = (500, 240)
+            player.just_left_greenhouse = False
+
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
             wave_manager.start_next_wave()
@@ -253,20 +263,20 @@ def execute_game(player, dog):
             wave_manager.update(display, frame_time)
 
             # drawing the bullet sprites # this display was also screen
-            #for bullet in bullets:
-                # bullet.draw(display)
-                #pygame.draw.circle(
-                    #display,
-                    #bullet.color,
-                    #(bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
-                    #bullet.radius
-                #)
+            # for bullet in bullets:
+            # bullet.draw(display)
+            # pygame.draw.circle(
+            # display,
+            # bullet.color,
+            # (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
+            # bullet.radius
+            # )
 
             # checking for collisions between player bullets and enemies
             # for bullet in bullets:
-                # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-                # collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
-                                                               # True)  # True means kill upon impact
+            # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
+            # collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
+            # True)  # True means kill upon impact
 
             if info['health'] <= 0:
                 game_over()

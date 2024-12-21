@@ -43,6 +43,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.just_left_store = False
         self.just_left_pink_house = False
         self.just_left_shed = False
+        self.just_left_greenhouse = False
 
         self.is_fighting = False
         self.is_leaving_battle = False

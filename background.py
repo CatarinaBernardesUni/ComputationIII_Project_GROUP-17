@@ -24,6 +24,7 @@ def background_setup(tmx_data):
     old_lady_house_rect = None
     pink_house_rect = None
     shed_rect = None
+    greenhouse_rect = None
 
     # static tiles
     for layer in tmx_data.layers:
@@ -84,7 +85,10 @@ def background_setup(tmx_data):
         if obj in tmx_data.get_layer_by_name("Yellow Roof House"):
             shed_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
 
+        if obj in tmx_data.get_layer_by_name("Greenhouse"):
+            greenhouse_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+
     return (background_sprite_group, tiles_group, animated_tiles_group, objects_group,
             collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect, old_lady_house_rect,
-            pink_house_rect, shed_rect)
+            pink_house_rect, shed_rect, greenhouse_rect)
 
