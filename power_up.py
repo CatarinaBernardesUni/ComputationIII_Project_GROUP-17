@@ -197,27 +197,27 @@ class PowerUpManager:
             {
                 "class": Invincibility,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (50, 50)),
-                "probability": 0
+                "probability": 0.2375
             },
             {
                 "class": SpeedBoost,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up2.png"), (50, 50)),
-                "probability": 0
+                "probability": 0.2375
             },
             {
                 "class": Chest,
                 "image": pygame.transform.scale(pygame.image.load("images/chests/chest_brown.png"), (50, 50)),
-                "probability": 1
+                "probability": 0.05
             },
             {
                 "class": DeSpawner,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up3.png"), (50, 50)),
-                "probability": 0
+                "probability": 0.2375
             },
             {
                 "class": Invisible,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up4.png"), (50, 50)),
-                "probability": 0
+                "probability": 0.2375
             }
         ]
 
