@@ -277,3 +277,4 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         elif current_wave == 9:
             info["inventory"]["ruby_axe"] += 1
             self.inventory = info["inventory"]
+        progress()

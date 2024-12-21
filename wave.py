@@ -245,6 +245,7 @@ class WaveManager:
     def end_wave(self):
         # print(f"Wave {self.current_wave} ended!")
         info["current_wave"] += 1
+        self.current_wave = info["current_wave"]
         self.is_wave_active = False
         self.show_choice_popup()
 
