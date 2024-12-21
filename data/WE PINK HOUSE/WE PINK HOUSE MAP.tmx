@@ -425,6 +425,6 @@
   <object id="31" x="383.5" y="298.5" width="17.5" height="28"/>
  </objectgroup>
  <objectgroup id="11" name="exit house">
-  <object id="32" x="559.5" y="492.5" width="50" height="36.5"/>
+  <object id="32" x="559.5" y="507" width="33.75" height="4.25"/>
  </objectgroup>
 </map>

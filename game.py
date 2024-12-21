@@ -215,7 +215,7 @@ def execute_game(player, dog):
             return "old lady house"
 
         if player.just_left_old_lady_house:
-            player.rect.center = (425, 165)
+            player.rect.center = (370, 210)
             player.just_left_old_lady_house = False
 
         # player in the shed
@@ -229,7 +229,7 @@ def execute_game(player, dog):
         if greenhouse_rect and greenhouse_rect.colliderect(player.rect):
             return "greenhouse"
         if player.just_left_greenhouse:
-            player.rect.center = (785, 160)
+            player.rect.center = (785, 150)
             player.just_left_greenhouse = False
 
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):

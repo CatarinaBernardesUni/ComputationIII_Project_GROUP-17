@@ -252,14 +252,14 @@
  <objectgroup id="17" name="old lady">
   <object id="85" gid="4561" x="142.818" y="238.068" width="39.5" height="53"/>
  </objectgroup>
- <objectgroup id="11" name="old lady talks">
+ <objectgroup id="11" name="old lady talks" locked="1">
   <object id="61" x="151.5" y="193.75" width="23.5" height="20.75"/>
  </objectgroup>
  <objectgroup id="14" name="little easter egg">
   <object id="81" x="63.25" y="112" width="26.75" height="12"/>
  </objectgroup>
  <objectgroup id="10" name="old lady exit">
-  <object id="54" x="93" y="314.166" width="37" height="6.5"/>
+  <object id="54" x="121.364" y="297.621" width="9.54545" height="6.5"/>
  </objectgroup>
  <objectgroup id="8" name="collisions on house">
   <object id="2" x="59" y="27.6667" width="138.333" height="19"/>
@@ -270,9 +270,7 @@
   <object id="7" x="97.6667" y="57" width="11.6667" height="7.66667"/>
   <object id="9" x="40" y="28" width="23" height="126"/>
   <object id="10" x="59" y="144.667" width="132" height="41"/>
-  <object id="11" x="103.333" y="185.667" width="30.6667" height="14.6667"/>
-  <object id="12" x="55.6667" y="185.667" width="44" height="37.6667"/>
-  <object id="15" x="80.6667" y="223.333" width="47" height="15.6667"/>
+  <object id="15" x="82.6667" y="223.333" width="43" height="15.6667"/>
   <object id="16" x="48.3333" y="216.333" width="14.6667" height="87.6667"/>
   <object id="17" x="56" y="287.333" width="37.3334" height="21.3333"/>
   <object id="18" x="132" y="290.666" width="91.6667" height="42"/>
@@ -296,8 +294,6 @@
   <object id="49" x="131.667" y="285.333" width="91.6667" height="7"/>
   <object id="57" x="91" y="114" width="50.3333" height="28"/>
   <object id="58" x="63" y="124.333" width="25.6667" height="20"/>
-  <object id="59" x="152.25" y="193.25" width="21.25" height="19.75"/>
-  <object id="64" x="101" y="198.667" width="49.6667" height="14"/>
   <object id="65" x="3.66667" y="160" width="54.3333" height="197"/>
  </objectgroup>
 </map>
