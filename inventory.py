@@ -56,23 +56,23 @@ def inventory_menu(player, place=None, item_type=None):
     on_inventory = True
 
     # setting up the background image for the inventory
-    in_background = pygame.image.load("images/inventory/inventory_2_floor.png").convert_alpha()
+    in_background = pygame.image.load("images/inventory/inventory_3_floor.png").convert_alpha()
     # sets the color black to be transparent. so everywhere around it that was black before is now transparent
     in_background.set_colorkey((0, 0, 0))
-    in_background = pygame.transform.scale(in_background, (1000, 450))
+    in_background = pygame.transform.scale(in_background, (1000, 600))
 
     while on_inventory:
         mouse_pos = pygame.mouse.get_pos()
         scaled_mouse_pos = get_scaled_mouse_position()
-        screen.blit(in_background, (width // 2 - 500, height - 550))
+        screen.blit(in_background, (width // 2 - 500, height - 650))
 
         # setting so my amount of gold appears
         gold_available = inventoryfont.render(f"My Gold: {info['gold']}", True, brick_color)
-        in_background.blit(gold_available, (width // 2 - 500, height // 2 - 310))
+        in_background.blit(gold_available, (width // 2 - 500, height // 2 - 320))
 
         # creating the initial position for the 1st item, adapt the others through it
         first_x = width // 2 - 450
-        first_y = height // 2 - 70
+        first_y = height // 2 - 180
         # creating the item spacing
         item_spacing = 95
         row_spacing = 130
@@ -82,7 +82,6 @@ def inventory_menu(player, place=None, item_type=None):
 
         # limit the number of items per row
         items_per_row = 7
-        item_count = 0
 
         filtered_items = get_filtered_items(player, place, item_type)
         display_items(screen, filtered_items, item_positions, first_x, first_y, item_spacing, row_spacing,
