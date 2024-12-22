@@ -9,7 +9,6 @@ from bullet import Bullet
 weapons = {"dagger": {
     "tier": 1,
     "damage": 18,
-    "special_effect": None,
     "directory_path": "images/weapons/dagger"},
     "ghost_bow": {
         "tier": 1,

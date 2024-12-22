@@ -5,39 +5,33 @@ import random
 import math
 import os
 
-
-
 enemies_data = {"green_slime": {"tier": 1, "health": 20, "speed": 0.8, "attack": 1,
-                                "special_effect": None, "directory_path": "images/monsters/slime_green", "size": (100, 100),
+                                "directory_path": "images/monsters/slime_green", "size": (100, 100),
                                 "animation_speed": 0.05, "inflate_parameters": (-50, -50)},
 
                "normal_fly": {"tier": 1, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire",
-                              "special_effect": None, "directory_path": "images/monsters/normal_fly", "size": (50, 50),
+                              "directory_path": "images/monsters/normal_fly", "size": (50, 50),
                               "animation_speed": 0.1, "inflate_parameters": (-10, -15)},
 
                "fire_fly": {"tier": 2, "health": 40, "speed": 1.5, "attack": 2, "weakness": "ice",
-                            "special_effect": None, "directory_path": "images/monsters/fire_fly", "size": (65, 65),
+                            "directory_path": "images/monsters/fire_fly", "size": (65, 65),
                             "animation_speed": 0.2, "inflate_parameters": (-10, -15)},
 
                "horse_ghost": {"tier": 3, "health": 80, "speed": 1.3, "attack": 2.5,
-                               "special_effect": "fear",
                                "directory_path": "images/monsters/horse_ghost", "size": (70, 70),
-                               "animation_speed": 0.3, "inflate_parameters": (-10, -15)},  # fear makes the player slower
+                               "animation_speed": 0.3, "inflate_parameters": (-10, -15)},
 
                "electric_fly": {"tier": 3, "health": 60, "speed": 1.7, "attack": 2,
-                                "special_effect": "shock",
                                 "directory_path": "images/monsters/electric_fly", "size": (100, 100),
-                                "animation_speed": 0.0005, "inflate_parameters": (-10, -15)},  # shock makes the player paralysed
+                                "animation_speed": 0.0005, "inflate_parameters": (-10, -15)},
 
                "myst_ghost": {"tier": 4, "health": 120, "speed": 1.5, "attack": 3,
-                              "special_effect": "shoot",
                               "directory_path": "images/monsters/myst_ghost", "size": (60, 90),
-                              "animation_speed": 0.05, "inflate_parameters": (-10, -15)},  # shoot makes the player lose health
+                              "animation_speed": 0.05, "inflate_parameters": (-10, -15)},
 
                "electric_enemy": {"tier": 4, "health": 100, "speed": 1.8, "attack": 3,
-                                  "special_effect": "explosion",
                                   "directory_path": "images/monsters/electric_enemy", "size": (100, 100),
-                                  "animation_speed": 0.05, "inflate_parameters": (-10, -15)}} # explosion makes the player lose health
+                                  "animation_speed": 0.05, "inflate_parameters": (-10, -15)}}
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -50,7 +44,6 @@ class Enemy(pygame.sprite.Sprite):
         self.health = enemy_data["health"]
         self.speed = enemy_data["speed"]
         self.attack = enemy_data["attack"]
-        self.special_effect = enemy_data["special_effect"]
         self.directory_path = enemy_data["directory_path"]
         self.animation_speed = enemy_data["animation_speed"]
         self.size = enemy_data["size"]
@@ -124,24 +117,6 @@ class Enemy(pygame.sprite.Sprite):
                 self.current_frame_index = 0
 
         self.image = self.frames[self.current_frame_index]
-
-    def apply_special_effect(self):
-        # Apply special effects based on enemy type
-        # todo: should I add this to the update
-        if self.special_effect == "fear":
-            self.player.speed *= 0.5
-        elif self.special_effect == "shock":  # took out the enemy that had this
-            self.player.stunned = True
-        elif self.special_effect == "shoot":
-            self.shoot()
-        elif self.special_effect == "explosion":
-            self.explode()
-
-    def shoot(self):
-        pass
-
-    def explode(self):
-        pass
 
     def update(self, frame_time):
         if not self.player.invisible:
