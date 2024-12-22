@@ -50,7 +50,6 @@ def update_all_volumes(all_sounds, global_volume):
 def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
     """
     This function draws a music volume bar with buttons to increase or decrease the volume.
-    The slider is updated everytime the user clicks on a button, based on the global_volume and the bar itself.
     The function returns the minus and plus button so the volume is implemented later.
 
     Parameters
@@ -73,6 +72,10 @@ def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
     -----------
     minus button
     plus button
+
+    Notes
+    ---------
+    The slider is updated everytime the user clicks on a button, based on the global_volume and the bar itself.
 
     """
     # Draw the plus and minus buttons
@@ -169,7 +172,8 @@ def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
 
     Parameters
      ----------
-    tmx_data: TMX data containing the map information.
+    tmx_data: TiledMap (a .tmx file)
+        The Tiled map data containing information about layers, tiles, and objects.
     collisions_name: string
         the name of the layer containing the collisions objects.
     exit_name: string

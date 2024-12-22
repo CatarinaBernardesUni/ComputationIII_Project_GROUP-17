@@ -126,5 +126,11 @@ except (FileNotFoundError, json.JSONDecodeError):
 
 
 def progress():
+    """
+    Saves the player's progress in a file.
+
+    This function writes the player's information to a file named 'player_info.txt'
+
+    """
     with open("player_info.txt", "w") as player_file:
         json.dump(info, player_file)
