@@ -129,7 +129,6 @@ def inventory_menu(player, place=None, item_type=None):
                         if selected_item in player.health_boosts.keys():
                             player.get_health(player.health_boosts[selected_item])
                         if any(weapon in selected_item for weapon in ["sword", "bow", "axe", "dagger"]):
-                            print(selected_item)
                             if "sword" in selected_item or "dagger" in selected_item:
                                 player.switch_weapon(selected_item, "Sword")
                             elif "bow" in selected_item:

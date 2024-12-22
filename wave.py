@@ -230,15 +230,16 @@ class WaveManager:
                     collided_enemies.extend(collided)
 
             for enemy in collided_enemies:
-                # the damage of the "bullets"/arrows of the bows is defined in the weapon damage attribute
-                enemy.health -= self.player.active_weapon.damage
-                # print(f"Player hit {enemy.name}! Health: {enemy.health}")
-                # info['score'] += 1
-                if enemy.health <= 0:
-                    enemy.kill()
-                    self.handle_enemy_drop(enemy)
-                    self.enemies_defeated += 1
-                    # print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
+                current_time = pygame.time.get_ticks()
+                if current_time - enemy.last_hit_time >= enemy.hit_cooldown:
+                    enemy.last_hit_time = current_time
+                    # the damage of the "bullets"/arrows of the bows is defined in the weapon damage attribute
+                    enemy.health -= self.player.active_weapon.damage
+                    if enemy.health <= 0:
+                        enemy.kill()
+                        self.handle_enemy_drop(enemy)
+                        self.enemies_defeated += 1
+                        # print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
 
             # Collision detection between player and enemies
             collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,

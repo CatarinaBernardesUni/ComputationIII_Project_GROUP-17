@@ -3,9 +3,6 @@ import math
 import pygame
 import os
 
-from utils import calculate_camera_offset
-
-
 # everything that moves has to be a child of sprite
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
@@ -49,4 +46,3 @@ class Bullet(pygame.sprite.Sprite):
                 self.current_frame_index = 0
             self.image = self.frames[self.current_frame_index]
             self.image = pygame.transform.rotate(self.image, -math.degrees(self.direction))
-
