@@ -52,7 +52,7 @@ def game_over():
     info['health'] = player.max_health
     info['gold'] = 50
     info['inventory'] = {key: 0 for key in info['inventory']}
-    info["claimed_chest_home"], info["stolen_grandma"] = 0, 0
+    info["claimed_chest_home"], info["stolen_grandma"], info['abandoned_chest'] = 0, 0, 0
     info['current_wave'] = 1
     waiting = True
     while waiting:
@@ -257,13 +257,14 @@ def execute_game(player, dog):
             for weapon in player.active_weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
+            # if player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
+            # if player.active_weapon and player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
             player.active_weapon.bullets.update()
             for bullet in player.active_weapon.bullets:
                 display.blit(bullet.image, bullet.rect.topleft + camera_offset)
 
             if not wave_manager.is_wave_active and not player.is_leaving_battle:
                 wave_manager.activate_wave()
-                # POWER UPS
             if player.is_fighting:
 
                 power_up_manager.update(player)
