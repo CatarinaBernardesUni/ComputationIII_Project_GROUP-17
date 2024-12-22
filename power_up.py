@@ -10,12 +10,12 @@ player = Player()
 def power_up_player_look(image, player):
     if not hasattr(player, "original_frames"):
         player.original_frames = {
-            key: [frame.copy() for frame in frames]
+            key: [frame.copy().convert_alpha() for frame in frames]
             for key, frames in player.frames.items()
         }
     for key, frames in player.frames.items():
         for i in range(len(frames)):
-            frame = frames[i].copy()  # Copy the original frame
+            frame = frames[i].copy().convert_alpha()  # Copy the original frame
             frame.blit(image, (7, 15))  # Blit the overlay on the frame
             frames[i] = frame  # Update the frame with the overlay
 

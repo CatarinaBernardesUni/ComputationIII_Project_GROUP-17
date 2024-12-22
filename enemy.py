@@ -77,11 +77,16 @@ class Enemy(pygame.sprite.Sprite):
             # Set the enemy's rectangle
             self.rect = self.image.get_rect(topleft=(spawn_x, spawn_y))
 
-            # Check if the enemy's rectangle overlaps the player's rectangle
+            # Check if the enemy's rect overlaps the player's rect
             if not self.rect.colliderect(self.player.rect):
-                break  # Exit the loop if the spawn position is valid
+                break
 
         self.hitbox_rect = self.rect.inflate(self.inflate_parameters[0], self.inflate_parameters[1])
+
+        # enemies are dying too quickly so the cooldown will make them not loose heath for the whole period of time
+        # in which the weapon or arrow are colliding with them
+        self.last_hit_time = 0
+        self.hit_cooldown = 500
 
     def update_hitbox(self):
         """Align the hitbox with the rect."""

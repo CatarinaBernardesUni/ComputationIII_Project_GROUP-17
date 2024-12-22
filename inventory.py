@@ -49,10 +49,14 @@ def inventory_menu(player, place=None, item_type=None):
     """
         Display the inventory menu with optional filtering based on location and item type.
 
-        :param player: The player object.
-        :param place: Optional. Indicates the current location (e.g., "shed").
-        :param item_type: Optional. Filters items to display (e.g., "weapons" or "crystals").
-        """
+    Parameters
+    ----------
+    player: pygame.sprite.Sprite
+        The player object.
+    place: Optional. Indicates the current location (e.g., "shed").
+    item_type: Optional. Filters items to display (e.g., "weapons" or "crystals").
+
+    """
     on_inventory = True
 
     # setting up the background image for the inventory
@@ -129,7 +133,6 @@ def inventory_menu(player, place=None, item_type=None):
                         if selected_item in player.health_boosts.keys():
                             player.get_health(player.health_boosts[selected_item])
                         if any(weapon in selected_item for weapon in ["sword", "bow", "axe", "dagger"]):
-                            print(selected_item)
                             if "sword" in selected_item or "dagger" in selected_item:
                                 player.switch_weapon(selected_item, "Sword")
                             elif "bow" in selected_item:
@@ -157,14 +160,24 @@ def display_items(screen, filtered_items, positions, first_x, first_y, item_spac
     """
     Display items on the screen and store their positions for later interaction.
 
-    :param screen: The game screen.
-    :param filtered_items: Dictionary of items to display with their counts.
-    :param positions: List to store the positions of displayed items.
-    :param first_x: Starting x-coordinate.
-    :param first_y: Starting y-coordinate.
-    :param item_spacing: Horizontal spacing between items.
-    :param row_spacing: Vertical spacing between rows of items.
-    :param items_per_row: Maximum number of items per row.
+    Parameters
+    ----------
+    screen: The game screen.
+    filtered_items: dict
+        dictionary of items to display with their counts.
+    positions: list
+        to store the positions of displayed items.
+    first_x: int
+        starting x-coordinate.
+    first_y: int
+        starting y-coordinate.
+    item_spacing: int
+        Horizontal spacing between items.
+    row_spacing: int
+        Vertical spacing between rows of items.
+    items_per_row: int
+        Maximum number of items per row.
+
     """
     current_x, current_y = first_x, first_y
     for item_name, count in filtered_items.items():
@@ -184,8 +197,15 @@ def handle_item_click(positions):
     """
     Handle item selection on mouse click.
 
-    :param positions: List of item positions and dimensions.
-    :return: The name of the selected item, if any.
+    Parameters
+    ----------
+    positions: list
+         item positions and dimensions.
+
+    Returns
+    -----------
+    The name of the selected item, if any.
+
     """
     mouse_x, mouse_y = get_mouse_position()
     for item_name, item_x, item_y, item_width, item_height in positions:

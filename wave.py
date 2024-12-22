@@ -127,12 +127,13 @@ class WaveManager:
                 return
                 # Prepare text properties
             wave_text = f"Wave {info['current_wave']} Starting!"
-            text_surface = self.font.render(wave_text, True, white).convert_alpha()
+            text_surface = self.font.render(wave_text, True, white, None).convert_alpha()
             text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
 
             # Calculate fade-out effect (255 -> 0 over 8 seconds)
             text_alpha = max(0, 255 - int((elapsed_time / 5500) * 255))
             text_surface.set_alpha(text_alpha)
+            display.set_colorkey((0, 0, 0))
             display.blit(text_surface, text_rect)
 
     def spawn_wave(self, wave_config):
@@ -230,15 +231,16 @@ class WaveManager:
                     collided_enemies.extend(collided)
 
             for enemy in collided_enemies:
-                # the damage of the "bullets"/arrows of the bows is defined in the weapon damage attribute
-                enemy.health -= self.player.active_weapon.damage
-                # print(f"Player hit {enemy.name}! Health: {enemy.health}")
-                # info['score'] += 1
-                if enemy.health <= 0:
-                    enemy.kill()
-                    self.handle_enemy_drop(enemy)
-                    self.enemies_defeated += 1
-                    # print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
+                current_time = pygame.time.get_ticks()
+                if current_time - enemy.last_hit_time >= enemy.hit_cooldown:
+                    enemy.last_hit_time = current_time
+                    # the damage of the "bullets"/arrows of the bows is defined in the weapon damage attribute
+                    enemy.health -= self.player.active_weapon.damage
+                    if enemy.health <= 0:
+                        enemy.kill()
+                        self.handle_enemy_drop(enemy)
+                        self.enemies_defeated += 1
+                        # print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
 
             # Collision detection between player and enemies
             collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,
@@ -297,16 +299,16 @@ class WaveManager:
         # Wait for player input to make a choice
         choice_made = False
         while not choice_made:
-
+            screen.set_colorkey((0, 0, 0))
             screen.blit(next_wave_image, next_wave_button.topleft)
             screen.blit(leave_image, leave_button.topleft)
 
             # Render buttons text
-            next_wave_text = self.font.render("Next Wave", True, deep_black)
-            leave_text = self.font.render("Save and Leave", True, deep_black)
+            next_wave_text = self.font.render("Next Wave", True, deep_black, None).convert_alpha()
+            leave_text = self.font.render("Save and Leave", True, deep_black, None).convert_alpha()
 
             for i, line in enumerate(message_lines):
-                rendered_text = self.font.render(line, True, white, None)
+                rendered_text = self.font.render(line, True, white, None).convert_alpha()
                 text_width = rendered_text.get_width()
                 x_position = (screen.get_width() - text_width) // 2  # Centered horizontally
                 y_position = start_y + i * line_spacing  # Line spacing
