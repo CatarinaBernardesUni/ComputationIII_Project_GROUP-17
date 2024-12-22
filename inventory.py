@@ -74,8 +74,8 @@ def inventory_menu(player, place=None, item_type=None):
         first_x = width // 2 - 450
         first_y = height // 2 - 180
         # creating the item spacing
-        item_spacing = 95
-        row_spacing = 130
+        item_spacing = 90
+        row_spacing = 120
 
         # storing each one of the items position and dimensions so i can use it later
         item_positions = []
