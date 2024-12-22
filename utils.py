@@ -31,12 +31,33 @@ def paused():
 
 # letting all the sounds be updated throughout the game
 def update_all_volumes(all_sounds, global_volume):
+    """
+    Updates all sounds in the list throughout the game.
+    :param all_sounds: a list of all the sounds in the game
+    :param global_volume: a global volume variable for all the sounds in the game.
+
+    :return: None
+    """
     for sound in all_sounds:
         sound.set_volume(global_volume)
 
 
 # Function to draw the music bar
 def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
+    """
+    This function draws a music volume bar with buttons to increase or decrease the volume.
+    The slider is updated everytime the user clicks on a button, based on the global_volume and the bar itself.
+    The function returns the minus and plus button so the volume is implemented later.
+
+    :param screen: the screen where the music bar will be displayed
+    :param bar_x: the x-coordinate of the music bar.
+    :param bar_y: the y-coordinate of the music bar.
+    :param bar_width: the width of the music bar.
+    :param bar_height: the height of the music bar.
+    :param global_volume: the current global volume level (from 0.0 to 1.0).
+
+    :return: minus and plus button volume
+    """
     # Draw the plus and minus buttons
     minus_button = draw_button(screen, bar_x - 100 - 10, bar_y + (bar_height - 90) // 2, 100, 90, 'MINUS', brick_color,
                                'images/store/store_button.png', settingsfont)
@@ -54,6 +75,17 @@ def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
 
 
 def options_menu():
+
+    """
+    This function creates an option menu where the user will be able to adjust the volume of the game.
+
+    The music bar is implemented in this screen. If the user hits the minus button, teh global_volume
+    is decreased by 0.1, or vice versa if hit the plus button.
+    Then, the music_bar() function is updated and all the music throughout the game is updated through the
+    update_all_sounds() function.
+
+    :return: None
+    """
     global global_volume
     # Set up the display
     screen = pygame.display.set_mode(resolution)
@@ -114,102 +146,21 @@ def options_menu():
         progress()
 
 
-# Function to draw a stick figure with a construction hat
-def draw_stick_figure_with_hat(screen, x, y):
-    # head
-    pygame.draw.circle(screen, (255, 255, 255), (x, y), 20, 2)  # White head outline
-
-    # body
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 20), (x, y + 60), 2)  # Body
-
-    # arms
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 40), (x - 30, y + 40), 2)  # Left arm
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 40), (x + 30, y + 40), 2)  # Right arm
-
-    # legs
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 60), (x - 20, y + 100), 2)  # Left leg
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 60), (x + 20, y + 100), 2)  # Right leg
-
-    # hat
-    hat_color = (255, 215, 0)
-
-    # drawing the construction hat
-    pygame.draw.rect(screen, hat_color, [x - 25, y - 30, 50, 10])  # Hat's brim
-    pygame.draw.rect(screen, hat_color, [x - 20, y - 40, 40, 20])  # Hat's dome
-
-
-# Function to draw a normal stick figure (without a hat)
-def draw_normal_stick_figure(screen, x, y):
-    # head
-    pygame.draw.circle(screen, (255, 255, 255), (x, y), 20, 2)  # White head outline
-
-    # body
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 20), (x, y + 60), 2)  # Body
-
-    # arms
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 40), (x - 30, y + 40), 2)  # Left arm
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 40), (x + 30, y + 40), 2)  # Right arm
-
-    # legs
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 60), (x - 20, y + 100), 2)  # Left leg
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 60), (x + 20, y + 100), 2)  # Right leg
-
-
-def under_construction():
-    # setting up the fonts
-    corbelfont = pygame.font.SysFont("Corbel", 50)
-    conversation_font = pygame.font.SysFont("Arial", 30)
-
-    # setting my texts:
-    back_text = corbelfont.render("back", True, white)
-    construction_text = corbelfont.render("UNDER CONSTRUCTION", True, white)
-    first_speech = conversation_font.render("Can we fix it?", True, white)
-    bob_speech = conversation_font.render("Probably not...", True, white)
-
-    # setting up the "images" position
-    bob_x_position = 460
-    bob_y_position = 450
-
-    normal_x_position = 260
-    normal_y_position = 450
-
-    # same old, same old... while True loop
-    while True:
-        # getting the mouse position
-        mouse = pygame.mouse.get_pos()  # probably good idea to create a function to write this
-
-        for ev in pygame.event.get():
-            if ev.type == pygame.QUIT:
-                pygame.quit()
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                # checking if the back button was clicked
-                if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    return  # return from where it was before
-
-        # displaying the screen:
-        screen.fill(deep_black)
-
-        # displaying the main UNDER CONSTRUCTION TEXT
-        construction_rect = construction_text.get_rect(center=(720 // 2, 300))
-        screen.blit(construction_text, construction_rect)
-
-        # drawing the back button
-        pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
-        back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
-        screen.blit(back_text, back_rect)
-
-        # stick figures text and "images"
-        draw_normal_stick_figure(screen, normal_x_position, normal_y_position)
-        draw_stick_figure_with_hat(screen, bob_x_position, bob_y_position)
-
-        screen.blit(first_speech, (normal_x_position - 60, normal_y_position - 80))
-        screen.blit(bob_speech, (bob_x_position - 60, bob_y_position - 80))
-
-        # finally, as always, updating our screen
-        pygame.display.update()
-
-
 def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
+    """
+    Sets up the area by loading tiles, objects and collision data from the TMX data.
+    This function helps to implement the interior of the houses and other TMX related data.
+
+    :param tmx_data: TMX data containing the map information.
+    :param collisions_name: the name of the layer containing the collisions objects.
+    :param exit_name: the name of the layer containing the exit object.
+    :param clues_name: the name of the layer containing the clue object.
+    :param someone_talks: the name of the layer containing objects that trigger speech bubbles.
+
+    :return: Returns a tuple containing the background sprite group, tiles group, objects group,
+        collision sprites group, exit rectangle, speech bubble rectangle, and clues rectangle.
+    """
+
     background_sprite_group = pygame.sprite.Group()
     tiles_group = pygame.sprite.Group()
     objects_group = pygame.sprite.Group()
@@ -251,6 +202,15 @@ def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
 
 
 def calculate_camera_offset(player, display):
+    """
+    Calculates the camera offset to center the player on the screen while placing the
+    camera within the map boundaries.
+
+    :param player: The player object containing the player's position and rectangle.
+    :param display: The display surface to render the game.
+    :return: An object representing the camera offset.
+    """
+
     camera_x = player.rect.centerx - display.get_width() // 2
     camera_y = player.rect.centery - display.get_height() // 2
 
@@ -263,6 +223,12 @@ def calculate_camera_offset(player, display):
 
 
 def credits_():
+    """
+    Displays the credits screen and handles to return to the main menu.
+
+    :return: previous screen
+    """
+
     # Set up the display
     screen = pygame.display.set_mode(resolution)
 
@@ -297,6 +263,11 @@ def credits_():
 
 
 def reset_progress():
+    """
+    Resets the player's progress by setting default values for health, gold, inventory, and other game attributes.
+
+    :return: None
+    """
     info['health'] = 10
     info['gold'] = 50
     info['inventory'] = {key: 0 for key in info['inventory']}

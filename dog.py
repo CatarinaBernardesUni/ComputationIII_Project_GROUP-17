@@ -5,6 +5,13 @@ from os.path import join
 
 
 class Dog(pygame.sprite.Sprite):
+    """
+    This class represents a dog that follows the player around in the main area of the game and in the battlefield.
+    The dog is set to False until the player buys it in the store, only then it will execute.
+
+    :param player: pygame.sprite.Sprite: the player sprite that the dog will follow.
+    """
+
     def __init__(self, player):
         super().__init__()  # just to have a default
         self.load_images()
@@ -27,6 +34,12 @@ class Dog(pygame.sprite.Sprite):
             self.bought = True
 
     def load_images(self):
+        """
+        This function loads the image of the dog for its animation.
+        Also, scales the dog size and converts its image for transparency.
+
+        """
+
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
 
@@ -43,10 +56,19 @@ class Dog(pygame.sprite.Sprite):
                         self.frames[state].append(scaled_surf)
 
     def animate(self):
+        """
+        Animates the dog by updating its frame index, so the speed of the movement.
+
+        """
         self.frame_index += 0.08  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
     def follow_player(self):
+        """
+        Allows the dog to follow the player, so each direction the player moves, the dog moves. Also mimics the states of the player.
+        Updates the dog's position and state based on the player. Then calls the animate function to animate the dog's movements.
+
+        """
         # Determine the direction to follow the player.
         # mimics the actions fo the player
         self.state = self.player.state

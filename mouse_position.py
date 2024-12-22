@@ -57,6 +57,19 @@ def draw_button(screen, x, y, width, height, text, text_color, image_path, font)
 # make a message appear when hover over my rectangles
 # help: https://stackoverflow.com/questions/69833827/how-do-i-make-a-text-box-pop-up-when-i-hover-over-a-button-in-pygame
 def show_hover_message(screen, mouse_pos, button_rect, description, on_inventory=False):
+    """
+    Shows a message when the mouse is over a button.
+    Relates an object of the store to its description such as price and its utilization.
+
+    :param screen: the screen where the hover message will be displayed
+    :param mouse_pos: receives the mouse position as a tuple (x, y)
+    :param button_rect: receives the rectangle representing the button's position and size
+    :param description: receives a string as the description that needs to appear when hover message.
+    :param on_inventory: determines if the hover message is for an inventory item (default as False)
+
+    :return: None
+    """
+
     custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
     tip_surface = custom_font.render(description, True, white)
 
