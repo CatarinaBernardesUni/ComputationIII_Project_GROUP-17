@@ -68,7 +68,7 @@ display = pygame.Surface((width // 2, height // 2))
 
 # screen = pygame.display.set_mode(resolution)
 # some screen images
-pause_image = pygame.transform.scale(pygame.image.load("images/screens/pause_image.png"), (1280, 180))
+pause_image = pygame.transform.scale(pygame.image.load("images/screens/pause_image.png"), (1280, 180)).convert_alpha()
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 
 # options screen
