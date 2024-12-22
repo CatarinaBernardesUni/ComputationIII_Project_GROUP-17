@@ -133,6 +133,7 @@ class WaveManager:
             # Calculate fade-out effect (255 -> 0 over 8 seconds)
             text_alpha = max(0, 255 - int((elapsed_time / 5500) * 255))
             text_surface.set_alpha(text_alpha)
+            display.set_colorkey((0, 0, 0))
             display.blit(text_surface, text_rect)
 
     def spawn_wave(self, wave_config):
@@ -298,7 +299,7 @@ class WaveManager:
         # Wait for player input to make a choice
         choice_made = False
         while not choice_made:
-
+            screen.set_colorkey((0, 0, 0))
             screen.blit(next_wave_image, next_wave_button.topleft)
             screen.blit(leave_image, leave_button.topleft)
 
