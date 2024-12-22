@@ -3,6 +3,8 @@ import math
 import pygame
 import os
 
+from utils import calculate_camera_offset
+
 
 # everything that moves has to be a child of sprite
 class Bullet(pygame.sprite.Sprite):
@@ -31,7 +33,9 @@ class Bullet(pygame.sprite.Sprite):
         # updating the bullets position based in the speed and direction
         # (x, y) --> (cos, sin)
         self.rect.x += int(self.speed * math.cos(self.direction))
+        print(f"Bullet x: {self.rect.x}")
         self.rect.y += int(self.speed * math.sin(self.direction))
+        print(f"Bullet y: {self.rect.y}")
 
         # killing the bullet if it goes off-screen
         if self.rect.x < 0 or self.rect.x > width or self.rect.y < 0 or self.rect.y > height:
@@ -46,5 +50,3 @@ class Bullet(pygame.sprite.Sprite):
                 self.current_frame_index = 0
             self.image = self.frames[self.current_frame_index]
 
-    def draw(self, screen):
-        screen.blit(self.image, self.rect.topleft)

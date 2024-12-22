@@ -97,7 +97,6 @@ def inventory_menu(player, place=None, item_type=None):
             # print(f"{item_name}: x={item_x}, y={item_y}, width={item_width}, height={item_height}")
             item_rect = pygame.Rect(item_x, item_y, item_width, item_height)
             if item_rect.collidepoint(mouse_pos):
-                print(f"{item_name} passed over")
                 if item_name in hover_inventory_messages:
                     show_hover_message(screen, mouse_pos, item_rect, hover_inventory_messages[item_name], True)
 
@@ -122,7 +121,6 @@ def inventory_menu(player, place=None, item_type=None):
                 selected_item = handle_item_click(item_positions)
                 if selected_item:
                     if place == "shed":
-                        print(f"Shed: {selected_item} selected")
                         return selected_item
                     else:
                         # Handle general inventory interactions
@@ -132,7 +130,8 @@ def inventory_menu(player, place=None, item_type=None):
                         if selected_item in player.health_boosts.keys():
                             player.get_health(player.health_boosts[selected_item])
                         if any(weapon in selected_item for weapon in ["sword", "bow", "axe", "dagger"]):
-                            if "sword" or "dagger" in selected_item:
+                            print(selected_item)
+                            if "sword" in selected_item or "dagger" in selected_item:
                                 player.switch_weapon(selected_item, "Sword")
                             elif "bow" in selected_item:
                                 player.switch_weapon(selected_item, "Bow")
@@ -192,6 +191,5 @@ def handle_item_click(positions):
     mouse_x, mouse_y = get_mouse_position()
     for item_name, item_x, item_y, item_width, item_height in positions:
         if item_x <= mouse_x <= item_x + item_width and item_y <= mouse_y <= item_y + item_height:
-            print(f"{item_name} selected!")
             return item_name
     return None

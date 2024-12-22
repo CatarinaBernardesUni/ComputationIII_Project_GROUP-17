@@ -135,13 +135,14 @@ class Sword(Weapon):
         self.image = self.frames[self.current_frame_index]
         # print(f"Current Frame Index: {self.current_frame_index}")
 
-
 class Bow(Weapon):
     def __init__(self, player, groups, weapon_name):
         super().__init__(player, groups, weapon_name)
+        # self.animation_speed = 0.9
         self.distance = 30
         self.cooldown_time = 1000
         self.last_shot_time = pygame.time.get_ticks()
+        self.bullets = pygame.sprite.Group()
 
         self.arrow_frames = []
         folder_path = os.path.normpath("images/weapons/blue_arrow")
@@ -172,13 +173,26 @@ class Bow(Weapon):
         self.image = self.frames[self.current_frame_index]
         # print(f"Current Frame Index: {self.current_frame_index}")
 
-    def shoot(self, bullet_group):
+    def update(self, frame_time):
+        super().update(frame_time)
+        self.shoot()
+        print(f"Number of bullets: {len(self.bullets)}")
+        self.bullets.update()
+        for bullet in self.bullets:
+            bullet.update()
+
+    def shoot(self):
+        print(self.player.rect)
+        print(self.rect)
         current_time = pygame.time.get_ticks()
         if current_time - self.last_shot_time >= self.cooldown_time:
             # Calculate bullet direction based on weapon orientation
             angle = atan2(self.player_direction.y, self.player_direction.x)
-            bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
-            bullet_group.add(bullet)
+            firing_position = self.rect.center
+            # Create the bullet
+            bullet = Bullet(firing_position[0], firing_position[1], angle)
+            # Add the bullet to the group
+            self.bullets.add(bullet)
             self.last_shot_time = current_time
 
 class Axe(Weapon):
@@ -205,4 +219,3 @@ class Axe(Weapon):
                 self.current_frame_index = 0
 
         self.image = self.frames[self.current_frame_index]
-        # print(f"Current Frame Index: {self.current_frame_index}")

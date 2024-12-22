@@ -240,7 +240,7 @@ def execute_game(player, dog):
         if player.is_leaving_battle and not battle_area_rect.colliderect(player.rect):
             player.is_leaving_battle = False
             wave_manager.start_next_wave()
-        #power_up_manager.update(player)
+
         # checking if the player is in the battle area
         if battle_area_rect.colliderect(player.rect):
             # automatically shoot bullets from the player
@@ -257,6 +257,10 @@ def execute_game(player, dog):
             for weapon in player.active_weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
+            player.active_weapon.bullets.update()
+            for bullet in player.active_weapon.bullets:
+                display.blit(bullet.image, bullet.rect.topleft + camera_offset)
+
             if not wave_manager.is_wave_active and not player.is_leaving_battle:
                 wave_manager.activate_wave()
                 # POWER UPS
@@ -268,16 +272,6 @@ def execute_game(player, dog):
                 power_up_manager.handle_collision(player)
 
             wave_manager.update(display, frame_time)
-
-            # drawing the bullet sprites # this display was also screen
-            # for bullet in bullets:
-            # bullet.draw(display)
-            # pygame.draw.circle(
-            # display,
-            # bullet.color,
-            # (bullet.rect.centerx + camera_offset.x, bullet.rect.centery + camera_offset.y),
-            # bullet.radius
-            # )
 
             # checking for collisions between player bullets and enemies
             # for bullet in bullets:
