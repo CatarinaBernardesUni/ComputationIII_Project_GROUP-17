@@ -1,7 +1,4 @@
-from player import Player
-import pygame
 from config import *
-from store import shop_menu
 from mouse_position import draw_button, get_mouse_position, show_hover_message
 from mouse_position import get_scaled_mouse_position
 from weapon import weapons
@@ -43,18 +40,19 @@ hover_inventory_messages = {'red_crystal': "Red Crystal: Used to upgrade a dagge
 # scale all images to the same size
 scaled_images_inventory = {item: pygame.transform.scale(image, (50, 50)) for item, image in images_inventory.items()}
 
-
 # lets the user check their inventory:
 def inventory_menu(player, place=None, item_type=None):
     """
-        Display the inventory menu with optional filtering based on location and item type.
+    Display the inventory menu with optional filtering based on location and item type.
 
     Parameters
     ----------
-    player: pygame.sprite.Sprite
+    player: Player
         The player object.
-    place: Optional. Indicates the current location (e.g., "shed").
-    item_type: Optional. Filters items to display (e.g., "weapons" or "crystals").
+    place: str or None
+        Optional. Indicates the current location (e.g., "shed").
+    item_type: str or None
+        Optional. Filters items to display (e.g., "weapons" or "crystals").
 
     """
     on_inventory = True
@@ -145,6 +143,31 @@ def inventory_menu(player, place=None, item_type=None):
 
 
 def get_filtered_items(player, place=None, item_type=None):
+    """
+    Filters and retrieves items from a player's inventory or a specific place.
+
+    Parameters
+    ----------
+    player : Player
+        An object representing the player, which has an `inventory` attribute (a dictionary of item names and counts).
+    place : str, optional
+        The location to filter items from (default is None). If "shed", items will be filtered based on `item_type`.
+    item_type : str, optional
+        The type of items to filter when `place` is "shed" (default is None). Supported values are:
+        - "weapons": Filters items containing "sword", "bow", "axe", or "dagger".
+        - "crystals": Filters items containing "crystal".
+
+    Returns
+    -------
+    dict
+        A dictionary of filtered items, where keys are item names, and values are their counts. The filtering criteria
+        depend on the `place` and `item_type` parameters:
+        - When `place` is "shed":
+            - If `item_type` is "weapons", returns items classified as weapons.
+            - If `item_type` is "crystals", returns items classified as crystals.
+        - Otherwise, returns all items in the player's inventory except "dog".
+    """
+
     if place == "shed":
         if item_type == "weapons":
             return {name: info["inventory"][name] for name in info["inventory"] if
@@ -153,8 +176,7 @@ def get_filtered_items(player, place=None, item_type=None):
         elif item_type == "crystals":
             return {name: info["inventory"][name] for name in info["inventory"] if
                     info["inventory"].get(name, 0) > 0 and "crystal" in name}
-    return {item: count for item, count in player.inventory.items() if item != "dog" and item != "cat"}
-
+    return {item: count for item, count in player.inventory.items() if item != "dog"}
 
 def display_items(screen, filtered_items, positions, first_x, first_y, item_spacing, row_spacing, items_per_row):
     """
@@ -162,7 +184,8 @@ def display_items(screen, filtered_items, positions, first_x, first_y, item_spac
 
     Parameters
     ----------
-    screen: The game screen.
+    screen: pygame.Surface
+        The game screen.
     filtered_items: dict
         dictionary of items to display with their counts.
     positions: list
@@ -183,11 +206,16 @@ def display_items(screen, filtered_items, positions, first_x, first_y, item_spac
     for item_name, count in filtered_items.items():
         if count > 0:
             item_image = scaled_images_inventory[item_name]
+            # Draw the item image at the current position on the screen
             screen.blit(item_image, (current_x, current_y))
+            # count the items
             count_text = inventoryfont.render(f"x{count}", True, brick_color)
             screen.blit(count_text, (current_x, current_y + item_image.get_height() + 5))
+
             positions.append((item_name, current_x, current_y, item_image.get_width(), item_image.get_height()))
             current_x += item_image.get_width() + item_spacing
+
+            # If the current row is full, reset x-coordinate and move to the next row
             if len(positions) % items_per_row == 0:
                 current_x = first_x
                 current_y += item_image.get_height() + row_spacing

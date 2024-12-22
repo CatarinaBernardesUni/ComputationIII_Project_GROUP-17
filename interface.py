@@ -82,8 +82,6 @@ def interface():
                     # under_construction()
                     rules_()
 
-        # cursor = pygame.cursors.compile(pygame.cursors.textmarker_strings)
-        # pygame.mouse.set_cursor((8, 16), (0, 0), *cursor)
         # filling the screen
         bg = pygame.image.load("images/screens/menu.png")
         bg = pygame.transform.scale(bg, resolution)
@@ -91,11 +89,9 @@ def interface():
         # update the display so that the loop changes will appear
         pygame.display.update()
 
-
 def rules_():
     """
     Handles the display and navigation of the game rules
-
     """
     page_1 = True
     screen.blit(rules_pages[0], (0, 0))

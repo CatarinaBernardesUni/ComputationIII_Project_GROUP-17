@@ -1,6 +1,5 @@
 from config import *
 
-
 def get_mouse_position():
     """
     Gets the current mouse position.
