@@ -1,1 +1,4 @@
 https://github.com/CatarinaBernardesUni/ComputationIII_Project_GROUP-17.git
+
+Boa noite Professores, devido ao limite de 50 MB do Moodle o nosso projeto não está completo na referida plataforma,
+mas está disponível no repositório do GitHub.
