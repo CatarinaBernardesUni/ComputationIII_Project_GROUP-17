@@ -2,10 +2,21 @@ from config import *
 
 
 def get_mouse_position():
+    """
+    Gets the current mouse position.
+    Created to be more efficient.
+
+    :return: the current mouse position as a tuple (x, y)
+    """
     return pygame.mouse.get_pos()
 
 
 def get_scaled_mouse_position():
+    """
+    Gets the current mouse position and scales it down by 2.
+
+    :return: the scaled mouse position as a tuple (x, y)
+    """
     mouse_pos = pygame.mouse.get_pos()
     scaled_mouse_pos = (mouse_pos[0] // 2, mouse_pos[1] // 2)
     return scaled_mouse_pos
@@ -13,6 +24,22 @@ def get_scaled_mouse_position():
 
 # drawing a button, just skeleton does not work on its own:
 def draw_button(screen, x, y, width, height, text, text_color, image_path, font):
+    """
+    Draws a button on the screen with the user's desired definitions, such as size, image, font, text color, etc.
+
+    :param screen: The surface where the button will be drawn on.
+    :param x: The x-coordinate of the button's top-left corner.
+    :param y: The y-coordinate of the button's top-left corner.
+    :param width: The width of the button.
+    :param height: The height of the button.
+    :param text: The text that should be displayed on the button.
+    :param text_color: The color the text will be displayed in.
+    :param image_path: The file path to the button's image.
+    :param font: The font to use for the button's text.
+
+    :return: The rectangle representing the button's position and size: pygame.Rect
+    """
+
     button_image = pygame.image.load(image_path).convert_alpha()  # making sure that it handles transparency
     button_image = pygame.transform.scale(button_image, (width, height))
 

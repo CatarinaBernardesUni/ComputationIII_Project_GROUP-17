@@ -3,7 +3,17 @@ from pytmx.util_pygame import load_pygame
 from mouse_position import button_data, show_hover_message, draw_button, get_mouse_position
 from utils import area_setup
 
+
 def inside_store(player):
+
+    """
+    Handles the logic of the player inside the store
+    Sets up the inside of the store, including the leave and shop button.
+    The loop handles the interaction within the store, such as going to shop_menu().
+
+    :param player: pygame.sprite.Sprite
+    :return: if the player leaves the store returns 'main'
+    """
 
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
@@ -79,6 +89,15 @@ def inside_store(player):
 
 
 def shop_menu(player):
+
+    """
+    Handles the logic between the player interaction with the store menu.
+    The player buys items inside of this function, which will then be added to their inventory.
+    Also handles an event loop which when the mouse hovers over it, returns the description of the objects.
+
+    :param player: pygame.sprite.Sprite
+    :return: nothing
+    """
     shopping = True
 
 
