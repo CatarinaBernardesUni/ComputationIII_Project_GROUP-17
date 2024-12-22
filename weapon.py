@@ -1,6 +1,5 @@
 import math
 import os
-from random import random
 from config import *
 from math import atan2, degrees
 import pygame.sprite
@@ -74,7 +73,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
     player_direction : pygame.math.Vector2
         Direction vector from the player to the weapon.
     frames : list
-        List of Pygame surfaces representing weapon frames.
+        The list of Pygame surfaces representing weapon frames.
     current_frame_index : int
         Index of the current animation frame.
     animation_speed : float
@@ -84,6 +83,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
     rect : pygame.Rect
         Rectangular boundary of the weapon.
     """
+
     def __init__(self, player, groups, weapon_name):
         super().__init__(groups)
 
@@ -157,11 +157,13 @@ class Weapon(pygame.sprite.Sprite, ABC):
         player_position = pygame.Vector2(self.player.rect.center)
         self.player_direction = (mouse_position - player_position).normalize()
 
+
 ##################### CHILD CLASSES ############################################
 class Sword(Weapon):
     """
     A weapon class with specific rotation and animation logic for the swords.
     """
+
     def rotate_weapon(self):
         """
         Rotate the weapon based on the player's direction.
@@ -203,10 +205,12 @@ class Sword(Weapon):
         self.image = self.frames[self.current_frame_index]
         # print(f"Current Frame Index: {self.current_frame_index}")
 
+
 class Bow(Weapon):
     """
     A weapon capable of shooting bullets ("arrows").
     """
+
     def __init__(self, player, groups, weapon_name):
         super().__init__(player, groups, weapon_name)
         # self.animation_speed = 0.9
@@ -289,10 +293,12 @@ class Bow(Weapon):
             self.bullets.add(bullet)
             self.last_shot_time = current_time
 
+
 class Axe(Weapon):
     """
     A weapon with distinct animation and rotation behavior for axes.
     """
+
     def rotate_weapon(self):
         """
         Rotate the weapon based on the player's direction.

@@ -1,10 +1,7 @@
 import random
 import os
-
 import pygame.time
-
 from config import *
-from power_up import PowerUpManager
 from enemy import Enemy
 from utils import calculate_camera_offset
 from weapon import Bow
@@ -40,13 +37,13 @@ class WaveManager:
     enemies_data : dict
         Data about the available enemies.
     active_enemies : pygame.sprite.Group
-        Group of enemies currently in the battle.
+        The group of enemies currently in the battle.
     enemies_defeated : int
         Count of enemies defeated in the current wave.
     total_enemies : int
         Total number of enemies in the current wave.
     possible_enemies : list
-        List of enemies available for random wave generation.
+        The list of enemies available for random wave generation.
     enemy_cooldown : int
         Cooldown time in milliseconds between enemy spawns.
     last_enemy_spawn_time : int
@@ -54,7 +51,7 @@ class WaveManager:
     enemies_to_spawn : list
         Queue of enemies waiting to spawn.
     font : pygame.font.Font
-        Font used for displaying wave-related text.
+        The font used for displaying wave-related text.
     elapsed_time : int
         Time elapsed since the start of the wave animation.
     animation_index : int
@@ -70,9 +67,10 @@ class WaveManager:
     progress_frames : list
         Frames for the progress wave animation (the animated counter of how much it is still left in the wave).
     predefined_waves : list
-        List of predefined wave configurations.
+        The list of predefined wave configurations.
 
     """
+
     def __init__(self, player, enemies_data, battle_area_rect):
 
         self.battle_area_rect = battle_area_rect
@@ -306,7 +304,6 @@ class WaveManager:
                         self.handle_enemy_drop()
                         self.enemies_defeated += 1
 
-
             # Enemy cooldown logic
             current_time = pygame.time.get_ticks()
             if self.enemies_to_spawn and current_time - self.last_enemy_spawn_time >= self.enemy_cooldown:
@@ -328,13 +325,14 @@ class WaveManager:
             if not isinstance(self.player.active_weapon, Bow):
                 # Check collision directly with the weapon if it's not a Bow
                 collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, False,
-                    collided=pygame.sprite.collide_rect_ratio(collision_ratio))
+                                                               collided=pygame.sprite.collide_rect_ratio(
+                                                                   collision_ratio))
             else:
                 # Handle Bow specifically: Check collisions for each bullet in the Bow's group
                 collided_enemies = []
                 for bullet in self.player.active_weapon.bullets:
                     collided = pygame.sprite.spritecollide(bullet, self.active_enemies, False,
-                        collided=pygame.sprite.collide_rect_ratio(collision_ratio))
+                                                           collided=pygame.sprite.collide_rect_ratio(collision_ratio))
                     # adding to the end of the list, not sure if it will cause problems otherwise
                     collided_enemies.extend(collided)
 
@@ -352,7 +350,8 @@ class WaveManager:
 
             # Collision detection between player and enemies
             collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,
-                                                collided=pygame.sprite.collide_rect_ratio(collision_ratio))
+                                                               collided=pygame.sprite.collide_rect_ratio(
+                                                                   collision_ratio))
 
             for enemy in collided_with_player:
                 current_time = pygame.time.get_ticks()
