@@ -74,7 +74,7 @@ class Invincibility(PowerUp):
 
     def deactivate(self, player):
         super().deactivate(player)
-        player.invisible = False
+        player.invincible = False
         print("Player is no longer invisible.")
 
 
@@ -197,7 +197,7 @@ class PowerUpManager:
             {
                 "class": Invincibility,
                 "image": pygame.transform.scale(pygame.image.load("images/others/power_up1.png"), (50, 50)),
-                "probability": 1  # 0.2375
+                "probability": 0.2375
             },
             {
                 "class": SpeedBoost,
