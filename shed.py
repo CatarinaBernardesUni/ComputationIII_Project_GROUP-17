@@ -1,10 +1,10 @@
 from config import *
 from pytmx.util_pygame import load_pygame
-
 from inventory import inventory_menu, scaled_images_inventory
 from mouse_position import draw_button, get_scaled_mouse_position
 from utils import area_setup, calculate_camera_offset, paused
 from weapon import weapons
+
 
 def shed_area(player):
     """
@@ -36,7 +36,6 @@ def shed_area(player):
     ####################################################################
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
-    # adding the player to the group
     player_group.add(player)
 
     # setting the player initial position on the home
@@ -91,7 +90,6 @@ def shed_area(player):
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
-        # collision_sprites.draw(display)
         for sprite in collision_sprites:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
@@ -100,13 +98,12 @@ def shed_area(player):
 
         shed_screen.blit(pygame.transform.scale(display, resolution), (0, 0))
 
-        # updates the whole screen since the frame was last drawn
         pygame.display.flip()
 
-    # the main while loop was terminated
     progress()
     pygame.quit()
     exit()
+
 
 def crafting(player):
     """
@@ -228,8 +225,6 @@ def crafting(player):
                         chosen_crystal_image = scaled_images_inventory[chosen_crystal]
 
                 if evolve_rect.collidepoint(scaled_mouse_pos) and chosen_weapon and chosen_crystal:
-                    # print("Evolve clicked!")
-                    # evolve_weapon(player, display, chosen_weapon, chosen_crystal)
                     error_message, error_display_duration = evolve_weapon(player, chosen_weapon,
                                                                           chosen_crystal)
                     if error_message:
@@ -267,6 +262,7 @@ def crafting(player):
     progress()
     pygame.quit()
     exit()
+
 
 def evolve_weapon(player, weapon, crystal):
     """

@@ -97,9 +97,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         # connection to the player
         self.player = player
         self.distance = 40
-        self.player_direction = pygame.Vector2(0, 1)  # weapon at the right (i think) of the player
-        # Matilde said that is left
-        # the side of the screen this arrow is pointing to -->
+        self.player_direction = pygame.Vector2(0, 1)
 
         # Load all weapon frames
         self.frames = []
@@ -203,7 +201,6 @@ class Sword(Weapon):
                 self.current_frame_index = 0
 
         self.image = self.frames[self.current_frame_index]
-        # print(f"Current Frame Index: {self.current_frame_index}")
 
 
 class Bow(Weapon):
@@ -224,7 +221,6 @@ class Bow(Weapon):
         for file_name in os.listdir(folder_path):
             frame = pygame.image.load(os.path.join(folder_path, file_name)).convert_alpha()
             scaled_frame = pygame.transform.scale(frame, (35, 35))
-            # print(f"Loaded frame: {file_name}")
             self.arrow_frames.append(scaled_frame)
 
     def rotate_weapon(self):
@@ -257,7 +253,6 @@ class Bow(Weapon):
                 self.current_frame_index = 0
 
         self.image = self.frames[self.current_frame_index]
-        # print(f"Current Frame Index: {self.current_frame_index}")
 
     def update(self, frame_time):
         """
@@ -270,7 +265,6 @@ class Bow(Weapon):
         """
         super().update(frame_time)
         self.shoot()
-        print(f"Number of bullets: {len(self.bullets)}")
         self.bullets.update()
         for bullet in self.bullets:
             bullet.update()

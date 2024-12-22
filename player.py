@@ -6,17 +6,13 @@ from dog import Dog
 from weapon import *
 
 
-# I had to import the module itself here in import config, so we could actually choose a character, I tried for a
-# long time and found no other way, I found it was the only way to connect the player to the game without
-# importing the game in player because it causes a circular import
-
-
 # making a player a child of the Sprite class
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     """
     A class that represents the player in the game.
 
     """
+
     def __init__(self):
         # calling the mother classes init aka Sprite
         super().__init__()
@@ -49,9 +45,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.is_leaving_battle = False
         self.speed = 3
         self.health = info['health']
-
         self.max_health = 5
-        # to be able to pick up hearts in the game
+        # to be able to get more hearts in the game
         self.bullet_cooldown = 0
         self.damage_cooldown = 0  # Initial cooldown time
         self.cooldown_duration = 2000
@@ -135,7 +130,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                         surf = pygame.image.load(full_path).convert_alpha()
                         scaled_surf = pygame.transform.scale(surf, player_size)
                         self.frames[state].append(scaled_surf)
-                        # self.frames[state].append(surf)
 
     def animate(self):
         """
@@ -168,7 +162,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         Parameters
         ----------
         collision_sprites: pygame.sprite.Group
-            Group of sprites to check for collisions.
+            The group of sprites to check for collisions.
         display: pygame.Surface
             The surface on which to draw the player and other elements.
         frame_time: float
@@ -177,7 +171,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             The rectangular area defining the battle zone.
 
         """
-        # getting the keys input
+
 
         keys = pygame.key.get_pressed()
         movement = False

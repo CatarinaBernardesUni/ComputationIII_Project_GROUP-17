@@ -35,9 +35,6 @@ def old_lady_house_area(player):
     player.rect.center = (111, 253)
     player.state = "up"
 
-    # these variables are for the speech bubble of the old lady
-    # if I didn't do this code, she would keep spamming random speech bubbles
-    # basically,
     current_speech = None
     player_colliding = False
     ###################################### MAIN GAME LOOP #######################################
@@ -84,8 +81,6 @@ def old_lady_house_area(player):
                 current_speech = random.choice(old_lady_speech)
                 # current_speech = random.choice(old_lady_speech)
                 player_colliding = True  # indicates if collision is happening
-            # this "display.blit" is outside the "if not" to keep showing the same current_speech that was set when
-            # the player first collided with the old lady
             draw_button(display, 170, 80, 150, 100,
                         current_speech, brick_color,
                         "images/dialogs/dialog box medium.png", cutefont)
@@ -94,7 +89,6 @@ def old_lady_house_area(player):
             # when the player stops colliding this is set to false so next time they collide the speech changes
             player_colliding = False
 
-        # display.blit(player_score_surf, player_score_rect)
         if clues_rect and clues_rect.colliderect(player.rect):
             if info['stolen_grandma'] <= 0:
                 draw_button(display, 10, 150, 320, 100,
@@ -121,9 +115,8 @@ def old_lady_house_area(player):
         home_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
         display.fill("black")
 
-        # updates the whole screen since the frame was last drawn
         pygame.display.flip()
-    # the main while loop was terminated
+
     progress()
     pygame.quit()
     exit()

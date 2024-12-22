@@ -84,12 +84,10 @@ def inside_store(player):
                     player.just_left_store = True
                     return "main"
 
-        # scalling and bliting the screen to the surface
+        # scaling and drawing the screen to the surface
         store_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 
-        # updating the display
         pygame.display.flip()
-        # player_group.update(collision_sprites, display)
 
 
 def shop_menu(player):
@@ -104,7 +102,7 @@ def shop_menu(player):
 
     """
     shopping = True
-    # creating my player group so I can add later my dog to it:
+    # creating my player group, so I can add my dog to it later:
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
     # adding the player to the group
@@ -165,8 +163,6 @@ def shop_menu(player):
                         screen.blit(text, (400, 300))
                         pygame.display.update()
                         pygame.time.wait(700)
-
-                        print("Can only have one speed potion")
                     else:
                         player.buy_item('speed potion')
                 # SWORD BUTTON
@@ -182,8 +178,6 @@ def shop_menu(player):
                         screen.blit(text, (400, 300))
                         pygame.display.update()
                         pygame.time.wait(700)
-
-                        print("Can only have one dog")
                     else:
                         player.buy_item('dog')
                         if info['gold'] >= player.price_items['dog']:

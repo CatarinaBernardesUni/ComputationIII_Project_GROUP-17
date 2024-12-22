@@ -95,7 +95,6 @@ def inventory_menu(player, place=None, item_type=None):
                                        font=cutefont)
         # Detect hover and show messages
         for item_name, item_x, item_y, item_width, item_height in item_positions:
-            # print(f"{item_name}: x={item_x}, y={item_y}, width={item_width}, height={item_height}")
             item_rect = pygame.Rect(item_x, item_y, item_width, item_height)
             if item_rect.collidepoint(mouse_pos):
                 if item_name in hover_inventory_messages:
