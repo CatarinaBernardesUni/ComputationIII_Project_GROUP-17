@@ -153,7 +153,7 @@ class WaveManager:
             # Display the progress frame
             display.blit(progress_frame, (195, 7))
 
-    def handle_enemy_drop(self, enemy):
+    def handle_enemy_drop(self):
         """Handles rewards dropped by a defeated enemy."""
         drop_chance = random.random()
         if drop_chance < 0.33:  # 33% chance to drop gold
@@ -193,7 +193,7 @@ class WaveManager:
                 if len(self.active_enemies) > 2:
                     for enemy in self.active_enemies:
                         enemy.kill()
-                        self.handle_enemy_drop(enemy)
+                        self.handle_enemy_drop()
                         self.enemies_defeated += 1
 
 
@@ -236,7 +236,7 @@ class WaveManager:
                     enemy.health -= self.player.active_weapon.damage
                     if enemy.health <= 0:
                         enemy.kill()
-                        self.handle_enemy_drop(enemy)
+                        self.handle_enemy_drop()
                         self.enemies_defeated += 1
                         # print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
 
@@ -252,7 +252,7 @@ class WaveManager:
                     self.player.remove_health(enemy.attack)
                     if self.player.invincible:
                         enemy.kill()
-                        self.handle_enemy_drop(enemy)
+                        self.handle_enemy_drop()
                         self.enemies_defeated += 1
                     # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
