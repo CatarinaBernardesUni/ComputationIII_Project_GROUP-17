@@ -258,7 +258,7 @@ class WaveManager:
         if drop_chance < 0.33:  # 33% chance to drop gold
             self.player.gold += 10
 
-    def update(self, display, frame_time):
+    def update(self, display, frame_time, power_up_manager):
         """
         Updates the game state, including animations, spawning, and player-enemy interactions.
 
@@ -364,9 +364,9 @@ class WaveManager:
                     self.player.damage_cooldown = current_time
 
             if self.total_enemies == self.enemies_defeated and self.is_wave_active and len(self.enemies_to_spawn) == 0:
-                self.end_wave()
+                self.end_wave(power_up_manager)
 
-    def end_wave(self):
+    def end_wave(self, power_up_manager):
         """
         Ends the current wave, increments the wave counter, and shows a choice popup.
         """
@@ -374,6 +374,8 @@ class WaveManager:
         info["current_wave"] += 1
         self.current_wave = info["current_wave"]
         self.is_wave_active = False
+        for power_up in power_up_manager.active_power_ups:
+            power_up.deactivate(self.player)
         self.show_choice_popup()
 
     def show_choice_popup(self):

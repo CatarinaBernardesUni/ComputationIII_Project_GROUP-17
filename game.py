@@ -288,7 +288,7 @@ def execute_game(player, dog):
                         speed_potion_powerup.activate(player)
                         info['inventory']['speed potion'] -= 1
 
-            wave_manager.update(display, frame_time)
+            wave_manager.update(display, frame_time, power_up_manager)
 
             if info['health'] <= 0:
                 game_over()

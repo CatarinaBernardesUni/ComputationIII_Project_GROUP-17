@@ -26,8 +26,8 @@ def power_up_player_look(image, player):
         }
     for key, frames in player.frames.items():
         for i in range(len(frames)):
-            frame = frames[i].copy().convert_alpha()
-            frame.blit(image, (7, 15))
+            frame = frames[i].copy().convert_alpha()  # Copy the original frame
+            frame.blit(image, (7, 15))  # Blit the overlay on the frame
             frames[i] = frame  # Update the frame with the overlay
 
 
@@ -44,7 +44,6 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         duration: int, optional
             The duration for which the power-up is active (default is 10000 milliseconds).
     """
-
     def __init__(self, pos, image, duration=10000):
         super().__init__()
         self.image = image
@@ -97,6 +96,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.active = False
         self.collected = False
         self.start_time = None  # Reset the timer
+        print(f"Deactivated and removed: {type(self).__name__}")
         if hasattr(player, "original_frames"):
             player.frames = {
                 key: [frame.copy() for frame in frames]
@@ -104,6 +104,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
             }
             del player.original_frames
 
+    # abstract methods need to be implemented in the other child classes the power ups
     @abstractmethod
     def affect_game(self, player):
         """
@@ -167,6 +168,7 @@ class Invincibility(PowerUp):
         """
         super().deactivate(player)
         player.invincible = False
+        print("Player is no longer invisible.")
 
 
 class SpeedBoost(PowerUp):
@@ -206,6 +208,7 @@ class SpeedBoost(PowerUp):
         """
         super().deactivate(player)  # Reset the active state
         player.speed -= 2
+        print("Player is no longer fast.")
 
 
 class DeSpawner(PowerUp):
@@ -245,6 +248,8 @@ class DeSpawner(PowerUp):
         """
         super().deactivate(player)  # Reset the active state
         player.de_spawner = False
+        print("Enemies will now spawn.")
+
 
 class Invisible(PowerUp):
     # enemies stop following the player
@@ -284,6 +289,7 @@ class Invisible(PowerUp):
         """
         super().deactivate(player)  # Reset the active state
         player.invisible = False
+        print("Player is no longer invisible.")
 
 
 class Chest(PowerUp):
@@ -298,7 +304,6 @@ class Chest(PowerUp):
             The image representing the chest.
 
     """
-
     def __init__(self, pos, image):
         super().__init__(pos, image)
         self.current_power_up = None
@@ -327,9 +332,9 @@ class Chest(PowerUp):
         # Select 3 unique random power-ups
         choices = random.sample(filtered_power_ups, 3)
 
-        x_start = (width - 1000) // 2 + 50
-        y_start = (height - 300) // 2 + 35
-        spacing = 340
+        x_start = (width - 1000) // 2 + 50  # Starting x-coordinate
+        y_start = (height - 300) // 2 + 35  # Starting y-coordinate
+        spacing = 340  # Space between the images
 
         # Loop through the selected choices and blit their images to the screen
         for i, choice in enumerate(choices):
@@ -385,6 +390,7 @@ class Chest(PowerUp):
         super().deactivate(player)
         if self.current_power_up and self.current_power_up.active:
             self.current_power_up.deactivate(player)
+            print(f"Deactivated power-up from Chest: {type(self.current_power_up).__name__}")
             self.current_power_up = None  # Reset the tracked power-up
 
 
@@ -410,7 +416,6 @@ class PowerUpManager:
     - Drawing the power-ups on the screen with appropriate camera offsets.
 
     """
-
     def __init__(self, map_width, map_height, spawn_interval=30000):  # 30 seconds until next power up
         self.map_width = map_width
         self.map_height = map_height
@@ -483,6 +488,7 @@ class PowerUpManager:
         x = random.randint(self.fight_area.left, self.fight_area.right)
         y = random.randint(self.fight_area.top, self.fight_area.bottom)
 
+        print(f"Spawning power-up of type: {selected['class'].__name__} at ({x}, {y})")
         power_up = selected["class"]((x, y), selected["image"])
         self.active_power_ups.add(power_up)
 
@@ -512,8 +518,14 @@ class PowerUpManager:
                 # Remove if the power-up has expired
                 if not power_up.active:  # Duration expired
                     self.active_power_ups.remove(power_up)
-            if player not in self.fight_area:
-                self.active_power_ups.remove(power_up)
+            # if player not in self.fight_area:
+                # self.active_power_ups.remove(power_up)
+            ################################################### CATHE TRYING ##############################
+        if player not in self.fight_area:
+            for power_up in self.active_power_ups:
+                if power_up.collected:
+                    power_up.deactivate(player)
+            self.active_power_ups.empty()
 
     def draw(self, screen, camera_offset):
         """
@@ -536,12 +548,14 @@ class PowerUpManager:
 
         Parameters
         ----------
-        player : Player
+        player : TSprite
             The player object to check for collisions with power-ups.
 
         """
         collided_power_ups = pygame.sprite.spritecollide(player, self.active_power_ups, dokill=False)
         for power_up in collided_power_ups:
             if not power_up.collected:  # Pick up the power-up only if not already collected
+                print(f"Player picked up power-up: {type(power_up).__name__}")
                 power_up.activate(player)  # Activate the power-ups effects
                 power_up.collected = True  # Mark it as collected
+    # this code makes the deactivation work but the power up image stays in the game until its effect is gone
