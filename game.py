@@ -147,6 +147,7 @@ def execute_game(player, dog):
 
         ################################ Calculate camera offset  #######################
         camera_offset = calculate_camera_offset(player, display)
+        print(camera_offset)
         ###################################################################################
 
         # draw the tiles
