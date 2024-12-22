@@ -10,7 +10,7 @@ player = Player()
 def power_up_player_look(image, player):
     if not hasattr(player, "original_frames"):
         player.original_frames = {
-            key: [frame.copy().set_colorkey(0, 0, 0) for frame in frames]
+            key: [frame.copy() for frame in frames]
             for key, frames in player.frames.items()
         }
     for key, frames in player.frames.items():
