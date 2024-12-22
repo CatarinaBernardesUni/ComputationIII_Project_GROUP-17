@@ -1,9 +1,5 @@
 from pytmx.util_pygame import load_pygame
-
-# from config import *
 import config
-import interface
-# from power_up import PowerUp
 from cave import cave_area
 from dog import Dog
 from enemy import enemies_data
@@ -20,12 +16,10 @@ from wave import WaveManager
 from weapon import *
 from greenhouse import greenhouse_area
 
-
 def choose_character():
     """
     Displays a screen where the user can choose between 2 characters.
     Handles the choice of the user.
-
     """
     screen.blit(choose_character_image, (0, 0))
 
@@ -48,7 +42,6 @@ def choose_character():
 
 
 def game_over():
-
     """
     Handles the game over screen after the player dies in battle.
     The user can restart, quit or see the credits of the game.
@@ -63,7 +56,6 @@ def game_over():
 
     screen.blit(game_over_image, (0, 0))
     pygame.display.update()
-    # player = Player()
     reset_progress()
     waiting = True
     while waiting:
@@ -94,7 +86,6 @@ def game_over():
 def game_loop():
     """
     Handles different game states through the game and transitions between them.
-
     """
     # by default, I start the game in the main area
     current_state = "main"
@@ -123,7 +114,6 @@ def game_loop():
         elif current_state == "game_over":
             game_over()
 
-
 def execute_game(player, dog):
     """
     Executes the main game logic, including handling player movement, interactions and transitions between areas.
@@ -139,29 +129,21 @@ def execute_game(player, dog):
     --------
     str
         the next game state based on players interactions and area transitions
-
     """
-    # SETUP
-    # using the clock to control the time frame.
-    # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
     power_up_manager = PowerUpManager(width // 2, height // 2)
     in_battle_area = False
 
     ############################### MAP ################################
-
     tmx_data = load_pygame("data/WE GAME MAP/WE GAME MAP.tmx")
     (background_sprite_group, tiles_group, animated_tiles_group,
      objects_group, collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect,
      old_lady_house_rect, pink_house_rect, shed_rect, greenhouse_rect) = background_setup(tmx_data)
-
     ####################################################################
 
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
     # adding the player to the group
     player_group.add(player)
-    # creating an empty bullet group that will be given as input to the player.shoot() method
-    bullets = pygame.sprite.Group()
 
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
@@ -182,7 +164,6 @@ def execute_game(player, dog):
 
         ################################ Calculate camera offset  #######################
         camera_offset = calculate_camera_offset(player, display)
-        print(camera_offset)
         ###################################################################################
 
         # draw the tiles
@@ -297,7 +278,6 @@ def execute_game(player, dog):
                 wave_manager.activate_wave()
             if player.is_fighting:
 
-
                 power_up_manager.update(player)
                 power_up_manager.draw(display, camera_offset)
                 # Handle collisions between player and power-ups
@@ -308,7 +288,6 @@ def execute_game(player, dog):
                         power_up_manager.active_power_ups.add(speed_potion_powerup)
                         speed_potion_powerup.activate(player)
                         info['inventory']['speed potion'] -= 1
-
 
             wave_manager.update(display, frame_time)
 

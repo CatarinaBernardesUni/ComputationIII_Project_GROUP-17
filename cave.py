@@ -11,8 +11,8 @@ def cave_area(player):
     The player is able to collect crystals which will be added to their inventory.
 
     Parameters
-     ----------
-     player: pygame.sprite.Sprite
+    ----------
+    player: Player
 
     Returns
     -----------

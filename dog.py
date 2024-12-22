@@ -10,14 +10,13 @@ class Dog(pygame.sprite.Sprite):
     The dog is set to False until the player buys it in the store, only then it will execute.
 
     Parameters
-     ----------
-    player: pygame.sprite.Sprite
+    ----------
+    player: Player
         the player sprite that the dog will follow.
 
     """
-
     def __init__(self, player):
-        super().__init__()  # just to have a default
+        super().__init__()
         self.load_images()
         # self.load_images()
         self.dog_size = dog_size
@@ -41,9 +40,7 @@ class Dog(pygame.sprite.Sprite):
         """
         This function loads the image of the dog for its animation.
         Also, scales the dog size and converts its image for transparency.
-
         """
-
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
 
@@ -62,7 +59,6 @@ class Dog(pygame.sprite.Sprite):
     def animate(self):
         """
         Animates the dog by updating its frame index, so the speed of the movement.
-
         """
         self.frame_index += 0.08  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]

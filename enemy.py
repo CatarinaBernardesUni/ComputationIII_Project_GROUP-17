@@ -40,9 +40,9 @@ class Enemy(pygame.sprite.Sprite):
 
     Parameters
     ----------
-    player: pygame.sprite.Sprite
+    player: Player
         The player sprite object that the enemy targets.
-    groups: list
+    groups: pygame.sprite.Group
         The sprite groups that the enemy belongs to.
     enemy_name: str
         The name of the enemy, used to fetch enemy data.
@@ -66,7 +66,6 @@ class Enemy(pygame.sprite.Sprite):
         # Reference to player for targeting
         self.player = player
         self.battle_area_rect = battle_area_rect
-
 
         # Load enemy images
         self.frames = []
@@ -138,8 +137,8 @@ class Enemy(pygame.sprite.Sprite):
 
         Parameters
         --------
-        frame_time: float
-            the time since the last frame update.
+        frame_time: int
+            The time since the last frame update.
 
         """
         self.animation_speed += frame_time
@@ -160,9 +159,8 @@ class Enemy(pygame.sprite.Sprite):
 
         Parameters
         ----------
-        frame_time: float
+        frame_time: int
             the time since the last frame update.
-
         """
         if not self.player.invisible:
             self.moves_towards_player()

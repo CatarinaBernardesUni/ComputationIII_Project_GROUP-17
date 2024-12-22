@@ -4,7 +4,6 @@ from utils import area_setup, calculate_camera_offset
 from utils import paused
 from mouse_position import draw_button
 
-
 def home_area(player):
     """
     Handles the game logic for the home area.
@@ -18,8 +17,6 @@ def home_area(player):
     ----------
     str
         returns 'main' when player leaves home
-
-
     """
     clock = pygame.time.Clock()
     home_screen = pygame.display.set_mode(resolution)
