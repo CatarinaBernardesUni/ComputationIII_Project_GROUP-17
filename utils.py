@@ -294,3 +294,19 @@ def credits_():
 
         # Update the display
         pygame.display.flip()
+
+
+def reset_progress():
+    info['health'] = 10
+    info['gold'] = 50
+    info['inventory'] = {key: 0 for key in info['inventory']}
+    info["claimed_chest_home"], info["stolen_grandma"], info['abandoned_chest'] = 0, 0, 0
+    info['current_wave'] = 1
+    info["weapon_attributes_evolved"]["dagger"] = 18
+    info["weapon_attributes_evolved"]["ghost_bow"] = 22
+    info["weapon_attributes_evolved"]["winter_sword"] = 18
+    info["weapon_attributes_evolved"]["gold_axe"] = 22
+    info["weapon_attributes_evolved"]["fire_sword"] = 28
+    info["weapon_attributes_evolved"]["ice_bow"] = 24
+    info["weapon_attributes_evolved"]["light_bow"] = 23
+    info["weapon_attributes_evolved"]["ruby_axe"] = 15

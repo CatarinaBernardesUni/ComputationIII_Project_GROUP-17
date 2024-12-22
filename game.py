@@ -15,7 +15,7 @@ from pink_house import pink_house_area
 from power_up import *
 from shed import shed_area
 from store import inside_store
-from utils import paused, calculate_camera_offset, credits_
+from utils import paused, calculate_camera_offset, credits_, reset_progress
 from wave import WaveManager
 from weapon import *
 from greenhouse import greenhouse_area
@@ -49,19 +49,7 @@ def game_over():
     screen.blit(game_over_image, (0, 0))
     pygame.display.update()
     # player = Player()
-    info['health'] = player.max_health
-    info['gold'] = 50
-    info['inventory'] = {key: 0 for key in info['inventory']}
-    info["claimed_chest_home"], info["stolen_grandma"], info['abandoned_chest'] = 0, 0, 0
-    info['current_wave'] = 1
-    info["weapon_attributes_evolved"]["dagger"] = 18
-    info["weapon_attributes_evolved"]["ghost_bow"] = 22
-    info["weapon_attributes_evolved"]["winter_sword"] = 18
-    info["weapon_attributes_evolved"]["gold_axe"] = 22
-    info["weapon_attributes_evolved"]["fire_sword"] = 28
-    info["weapon_attributes_evolved"]["ice_bow"] = 24
-    info["weapon_attributes_evolved"]["light_bow"] = 23
-    info["weapon_attributes_evolved"]["ruby_axe"] = 15
+    reset_progress()
     waiting = True
     while waiting:
         for event in pygame.event.get():
@@ -267,9 +255,10 @@ def execute_game(player, dog):
 
             # if player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
             # if player.active_weapon and player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
-            player.active_weapon.bullets.update()
-            for bullet in player.active_weapon.bullets:
-                display.blit(bullet.image, bullet.rect.topleft + camera_offset)
+            if isinstance(player.active_weapon, Bow):
+                player.active_weapon.bullets.update()
+                for bullet in player.active_weapon.bullets:
+                    display.blit(bullet.image, bullet.rect.topleft + camera_offset)
 
             if not wave_manager.is_wave_active and not player.is_leaving_battle:
                 wave_manager.activate_wave()

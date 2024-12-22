@@ -50,7 +50,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.speed = 3
         self.health = info['health']
 
-        self.max_health = 5
+        self.max_health = 10
         # to be able to pick up hearts in the game
         self.bullet_cooldown = 0
         self.damage_cooldown = 0  # Initial cooldown time
