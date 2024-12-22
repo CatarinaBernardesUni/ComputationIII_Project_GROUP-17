@@ -543,7 +543,7 @@ class PowerUpManager:
 
         Parameters
         ----------
-        player : Player
+        player : TSprite
             The player object to check for collisions with power-ups.
 
         """
