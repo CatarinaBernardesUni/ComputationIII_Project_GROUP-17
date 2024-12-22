@@ -7,7 +7,7 @@ from mouse_position import get_scaled_mouse_position
 
 # creating a dictionary to store all my pictures for the visual inventory
 images_inventory = {'apple': pygame.image.load("images/inventory/apple.png"),
-                    'mushroom': pygame.image.load("images/inventory/mushroom.png"),
+                    'cat': pygame.image.load("images/inventory/cat.png"),
                     'speed potion': pygame.image.load("images/inventory/potion.png"),
                     'dog': pygame.image.load("images/inventory/doggy.png"),
                     'soup': pygame.image.load("images/inventory/food.png"),
@@ -117,6 +117,7 @@ def inventory_menu(player, place=None, item_type=None):
 
             pygame.display.flip()
 
+
 def get_filtered_items(player, place=None, item_type=None):
     if place == "shed":
         if item_type == "weapons":
@@ -126,7 +127,7 @@ def get_filtered_items(player, place=None, item_type=None):
         elif item_type == "crystals":
             return {name: info["inventory"][name] for name in info["inventory"] if
                     info["inventory"].get(name, 0) > 0 and "crystal" in name}
-    return {item: count for item, count in player.inventory.items() if item != "dog"}
+    return {item: count for item, count in player.inventory.items() if item != "dog" and item != "cat"}
 
 
 def display_items(screen, filtered_items, positions, first_x, first_y, item_spacing, row_spacing, items_per_row):

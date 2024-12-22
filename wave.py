@@ -237,9 +237,9 @@ class WaveManager:
                 if current_time - self.player.damage_cooldown > self.player.cooldown_duration:
                     # this line updates the player's attribute
                     self.player.health -= enemy.attack
-                    # using this function to handle the display of the health bar (hearts) and game over,
-                    # due to circular import. It also updates the player health on the player_info.txt
                     self.player.remove_health(enemy.attack)
+                    if self.player.invincible:
+                        enemy.kill()
                     # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
 

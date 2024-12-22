@@ -49,11 +49,15 @@ def game_over():
     screen.blit(game_over_image, (0, 0))
     pygame.display.update()
     # player = Player()
+    info['health'] = player.max_health
+    info['gold'] = 50
+    info['inventory'] = {key: 0 for key in info['inventory']}
+    info["claimed_chest_home"], info["stolen_grandma"] = 0, 0
+    info['current_wave'] = 1
     waiting = True
     while waiting:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                info['health'] = player.max_health
                 progress()
                 pygame.quit()
                 exit()
@@ -61,15 +65,12 @@ def game_over():
             # play again
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 384 <= mouse[0] <= 626 and 489 <= mouse[1] <= 580:
-                    info['health'] = player.max_health
-                    info['current_wave'] = 1
                     battle_music.stop()
                     main_music.play(-1)
                     game_loop()
                     waiting = False
 
                 if 690 <= mouse[0] <= 935 and 487 <= mouse[1] <= 582:
-                    info['health'] = player.max_health
                     progress()
                     pygame.quit()
                     exit()

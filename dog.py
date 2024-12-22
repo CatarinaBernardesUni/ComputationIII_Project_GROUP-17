@@ -7,9 +7,17 @@ from os.path import join
 class Dog(pygame.sprite.Sprite):
     def __init__(self, player):
         super().__init__()
+        self.user = "cat"  # just to have a default
+        self.bought = False
+        if info['inventory']['dog'] == 1:
+            self.bought = True
+        elif info['inventory']['cat'] == 1:
+            self.bought = True
         self.load_images()
+        # self.load_images()
         self.dog_size = dog_size
         self.state, self.frame_index = "down", 0
+
         self.image = self.frames[self.state][self.frame_index]  # we use surface to display any image or draw
         # area where the player will be drawn
         self.rect = self.image.get_rect()
@@ -20,15 +28,14 @@ class Dog(pygame.sprite.Sprite):
 
         self.player = player
         # making default as False so dog doesn't exist until bought
-        self.bought = False
-        if info['inventory']['dog'] == 1:
-            self.bought = True
+
 
     def load_images(self):
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
+
         for state in self.frames.keys():
-            for folder_path, sub_folders, file_names in walk(join("images", "dog", state)):
+            for folder_path, sub_folders, file_names in walk(join("images", "pets", self.user, state)):
                 if file_names:
                     for file_name in file_names:
                         if file_name == ".DS_Store":
