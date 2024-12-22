@@ -29,21 +29,30 @@ def get_scaled_mouse_position():
 
 
 # drawing a button, just skeleton does not work on its own:
-def draw_button(screen, x, y, width, height, text, text_color, image_path, font):
+def draw_button(screen, x, y, width_of_button, height_of_button, text, text_color, image_path, font):
     """
     Draws a button on the screen with the user's desired definitions, such as size, image, font, text color, etc.
 
-     Parameters
-     ----------
-    screen: The surface where the button will be drawn on.
-    x: The x-coordinate of the button's top-left corner.
-    y: The y-coordinate of the button's top-left corner.
-    width: The width of the button.
-    height: The height of the button.
-    text: The text that should be displayed on the button.
-    text_color: The color the text will be displayed in.
-    image_path: The file path to the button's image.
-    font: The font to use for the button's text.
+    Parameters
+    ----------
+    screen: pygame.Surface
+        The surface where the button will be drawn on.
+    x: int
+        The x-coordinate of the button's top-left corner.
+    y: int
+        The y-coordinate of the button's top-left corner.
+    width_of_button: int
+        The width of the button.
+    height_of_button: int
+        The height of the button.
+    text: str
+        The text that should be displayed on the button.
+    text_color: rgb tuple
+        The color the text will be displayed in.
+    image_path: str
+        The file path to the button's image.
+    font: pygame.font.Font
+        The font to use for the button's text.
 
     Returns
     -----------
@@ -53,17 +62,17 @@ def draw_button(screen, x, y, width, height, text, text_color, image_path, font)
     """
 
     button_image = pygame.image.load(image_path).convert_alpha()  # making sure that it handles transparency
-    button_image = pygame.transform.scale(button_image, (width, height))
+    button_image = pygame.transform.scale(button_image, (width_of_button, height_of_button))
 
     # Blit the button image onto the screen
     screen.blit(button_image, (x, y))
 
     # setting up font and text for going back
     text_surface = font.render(text, False, text_color)
-    text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
+    text_rect = text_surface.get_rect(center=(x + width_of_button // 2, y + height_of_button // 2))
     screen.blit(text_surface, text_rect)
     # returning my button
-    return pygame.Rect(x, y, width, height)
+    return pygame.Rect(x, y, width_of_button, height_of_button)
 
 
 # make a message appear when hover over my rectangles
@@ -73,18 +82,19 @@ def show_hover_message(screen, mouse_pos, button_rect, description, on_inventory
     Shows a message when the mouse is over a button.
     Relates an object of the store to its description such as price and its utilization.
 
-     Parameters
-     ----------
-     screen: the screen where the hover message will be displayed
-     mouse_pos: tuple (x, y)
+    Parameters
+    ----------
+    screen: pygame.Surface
+        the screen where the hover message will be displayed
+    mouse_pos: tuple (x, y)
         receives the mouse position.
-     button_rect: receives the rectangle representing the button's position and size
-     description: receives a string as the description that needs to appear when hover message.
-     on_inventory: boolean
+    button_rect: pygame.Rect
+        receives the rectangle representing the button's position and size
+    description: str
+        receives a string as the description that needs to appear when hover message.
+    on_inventory: boolean
         determines if the hover message is for an inventory item (default as False)
-
     """
-
     custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
     tip_surface = custom_font.render(description, True, white)
 

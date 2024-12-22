@@ -89,7 +89,7 @@ def inventory_menu(player, place=None, item_type=None):
         display_items(screen, filtered_items, item_positions, first_x, first_y, item_spacing, row_spacing,
                       items_per_row)
         # drawing the inventory button
-        inventory_button = draw_button(display, 550, y=10, width=70, height=35,
+        inventory_button = draw_button(display, 550, y=10, width_of_button=70, height_of_button=35,
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)

@@ -60,7 +60,7 @@ def shed_area(player):
         for sprite in sorted(objects_group, key=lambda sprite_obj: sprite_obj.rect.centery):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)  # camera offset added for movement
 
-        inventory_button = draw_button(display, 500, y=10, width=70, height=35,
+        inventory_button = draw_button(display, 500, y=10, width_of_button=70, height_of_button=35,
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
@@ -187,11 +187,11 @@ def crafting(player):
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
-        inventory_button = draw_button(display, 500, y=10, width=70, height=35,
+        inventory_button = draw_button(display, 500, y=10, width_of_button=70, height_of_button=35,
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
-        back_button = draw_button(display, 500, y=270, width=70, height=35,
+        back_button = draw_button(display, 500, y=270, width_of_button=70, height_of_button=35,
                                   text="Back",
                                   text_color=brick_color, image_path="images/store/store_button.png",
                                   font=cutefont)
