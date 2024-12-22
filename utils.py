@@ -297,7 +297,7 @@ def credits_():
 
 
 def reset_progress():
-    info['health'] = 10
+    info['health'] = 5
     info['gold'] = 50
     info['inventory'] = {key: 0 for key in info['inventory']}
     info["claimed_chest_home"], info["stolen_grandma"], info['abandoned_chest'] = 0, 0, 0
