@@ -268,12 +268,6 @@ def execute_game(player, dog):
 
             wave_manager.update(display, frame_time)
 
-            # checking for collisions between player bullets and enemies
-            # for bullet in bullets:
-            # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-            # collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
-            # True)  # True means kill upon impact
-
             if info['health'] <= 0:
                 game_over()
 

@@ -221,28 +221,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 # Sync the hitbox with the rect after collision
                 self.hitbox_rect.center = self.rect.center
 
-    def shoot(self, bullets):
-        """
-        bullets --> pygame group where I will add bullets
-        """
-        # todo: different weapons have different cooldowns
-        # cooldown ==> how many frames I need to wait until I can shoot again
-        if self.bullet_cooldown <= 0:
-            # defining the directions in which the bullets will fly
-            # these 4 directions, are in order, right, left, up and down
-            for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
-                # Creating a bullet for each angle
-                # I will use self.rect.centerx to make the x position of the bullet the same as the
-                # x position of the player, thus making the bullet come out of them
-                # finally, the direction of the bullet is the angle
-                bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
-                bullets.add(bullet)
-
-            # resetting the cooldown
-            self.bullet_cooldown = fps
-
-        self.bullet_cooldown -= 1
-
     def remove_health(self, health_being_removed):
         if not self.invincible:
             if info['health'] >= 0:
@@ -261,7 +239,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if info['gold'] >= price:
             info['gold'] -= price
             info['inventory'][item_name] += 1
-            print(f"bought {item_name}: amount {self.inventory[item_name]} money: {info['gold']}")
             if item_name == 'dog' and self.dog is None:
                 self.dog = Dog(self)
                 self.dog.bought = True

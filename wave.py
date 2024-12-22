@@ -154,7 +154,6 @@ class WaveManager:
             # Display the progress frame
             display.blit(progress_frame, (195, 7))
 
-    # todo: one of these could have a treasure chest
     def handle_enemy_drop(self, enemy):
         """Handles rewards dropped by a defeated enemy."""
         drop_chance = random.random()
