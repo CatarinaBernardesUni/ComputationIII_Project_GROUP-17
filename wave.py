@@ -7,6 +7,7 @@ from config import *
 from power_up import PowerUpManager
 from enemy import Enemy
 from utils import calculate_camera_offset
+from weapon import Bow
 
 
 class WaveManager:
@@ -215,10 +216,21 @@ class WaveManager:
             # adding the hit enemies to a group
             # Collision detection between two sprites, using rects scaled to a ratio:
             #                                           collide_rect_ratio(ratio) -> collided_callable
-            collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, False,
-                                                           collided=pygame.sprite.collide_rect_ratio(collision_ratio))
-            # handling the loss of life of the enemies
+            if not isinstance(self.player.active_weapon, Bow):
+                # Check collision directly with the weapon if it's not a Bow
+                collided_enemies = pygame.sprite.spritecollide(self.player.active_weapon, self.active_enemies, False,
+                    collided=pygame.sprite.collide_rect_ratio(collision_ratio))
+            else:
+                # Handle Bow specifically: Check collisions for each bullet in the Bow's group
+                collided_enemies = []
+                for bullet in self.player.active_weapon.bullets:
+                    collided = pygame.sprite.spritecollide(bullet, self.active_enemies, False,
+                        collided=pygame.sprite.collide_rect_ratio(collision_ratio))
+                    # adding to the end of the list, not sure if it will cause problems otherwise
+                    collided_enemies.extend(collided)
+
             for enemy in collided_enemies:
+                # the damage of the "bullets"/arrows of the bows is defined in the weapon damage attribute
                 enemy.health -= self.player.active_weapon.damage
                 # print(f"Player hit {enemy.name}! Health: {enemy.health}")
                 # info['score'] += 1
