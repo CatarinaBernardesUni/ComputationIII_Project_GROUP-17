@@ -9,7 +9,11 @@ class Dog(pygame.sprite.Sprite):
     This class represents a dog that follows the player around in the main area of the game and in the battlefield.
     The dog is set to False until the player buys it in the store, only then it will execute.
 
-    :param player: pygame.sprite.Sprite: the player sprite that the dog will follow.
+    Parameters
+     ----------
+    player: pygame.sprite.Sprite
+        the player sprite that the dog will follow.
+
     """
 
     def __init__(self, player):
