@@ -163,11 +163,9 @@ def rules_():
                     interface()
 
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                if current_index != 2:
+                if current_index != 8:
                     # different from the index of the last page
                     screen.blit(rules_pages[current_index + 1], (0, 0))
                     current_index += 1
-                else:
-                    print("That was the last page, babes...")
 
         pygame.display.update()

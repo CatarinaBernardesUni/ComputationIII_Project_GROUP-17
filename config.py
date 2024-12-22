@@ -77,8 +77,13 @@ choose_character_image = pygame.transform.scale(pygame.image.load("images/screen
 rules_1 = pygame.transform.scale(pygame.image.load("images/rules/rules1.png"), resolution)
 rules_2 = pygame.transform.scale(pygame.image.load("images/rules/rules2.png"), resolution)
 rules_3 = pygame.transform.scale(pygame.image.load("images/rules/rules3.png"), resolution)
-
-rules_pages = [rules_1, rules_2, rules_3]
+rules_4 = pygame.transform.scale(pygame.image.load("images/rules/rules4.png"), resolution)
+rules_5 = pygame.transform.scale(pygame.image.load("images/rules/rules5.png"), resolution)
+rules_6 = pygame.transform.scale(pygame.image.load("images/rules/rules6.png"), resolution)
+rules_7 = pygame.transform.scale(pygame.image.load("images/rules/rules7.png"), resolution)
+rules_8 = pygame.transform.scale(pygame.image.load("images/rules/rules8.png"), resolution)
+rules_9 = pygame.transform.scale(pygame.image.load("images/rules/rules9.png"), resolution)
+rules_pages = [rules_1, rules_2, rules_3, rules_4, rules_5, rules_6, rules_7, rules_8, rules_9]
 
 # menu of the store
 menu_store = pygame.transform.scale(pygame.image.load("images/store/menu_store.png"), (750, 600))
