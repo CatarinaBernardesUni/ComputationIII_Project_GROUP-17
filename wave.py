@@ -211,12 +211,14 @@ class WaveManager:
                 return
                 # Prepare text properties
             wave_text = f"Wave {info['current_wave']} Starting!"
-            text_surface = self.font.render(wave_text, True, white, None).convert_alpha()
+            text_surface = self.font.render(wave_text, True, white).convert_alpha()
+            text_surface.set_colorkey((255, 255, 0))
             text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
 
             # Calculate fade-out effect (255 -> 0 over 8 seconds)
             text_alpha = max(0, 255 - int((elapsed_time / 5500) * 255))
             text_surface.set_alpha(text_alpha)
+
             display.blit(text_surface, text_rect)
 
     def spawn_wave(self, wave_config):
@@ -404,6 +406,7 @@ class WaveManager:
         line_spacing = 60
 
         button_image = pygame.image.load("images/store/store_button.png").convert_alpha()
+        button_image.set_colorkey((0, 0, 0))
         next_wave_image = pygame.transform.scale(button_image, (250, 80))
         leave_image = pygame.transform.scale(button_image, (300, 80))
         next_wave_button = next_wave_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + 75))
@@ -421,6 +424,8 @@ class WaveManager:
 
             for i, line in enumerate(message_lines):
                 rendered_text = self.font.render(line, True, white, None).convert_alpha()
+                # little thing so it appears on macbooks
+                rendered_text.set_colorkey((255, 255, 0))
                 text_width = rendered_text.get_width()
                 x_position = (screen.get_width() - text_width) // 2  # Centered horizontally
                 y_position = start_y + i * line_spacing  # Line spacing

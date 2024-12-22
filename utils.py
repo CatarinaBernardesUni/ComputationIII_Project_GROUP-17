@@ -305,11 +305,10 @@ def credits_():
 
 def reset_progress():
     """
-    Resets the player's progress by setting default values for health, gold, inventory, and other game attributes.
+    Resets the player's progress by setting default values for health, inventory, and other game attributes.
 
     """
     info['health'] = 5
-    info['gold'] = 50
     info['inventory'] = {key: 0 for key in info['inventory']}
     info["claimed_chest_home"], info["stolen_grandma"], info['abandoned_chest'] = 0, 0, 0
     info['current_wave'] = 1

@@ -78,7 +78,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                             'dagger': 100,
                             'ghost_bow': 200,
                             'key': 300}
-        self.health_boosts = {"apple": 1, "soup": 5}
+        self.health_boosts = {"apple": 1, "mushroom": 2, "soup": 5}
 
         ########### WEAPONS ########################
         self.active_weapon = None  # Currently active weapon
