@@ -13,7 +13,7 @@ class CollisionObject(pygame.sprite.Sprite):
         the (x, y) position of the collision object.
     size: tuple
         the (width, height) size of the collision object.
-    groups: list
+    groups: tuple of pygame.sprite.Group
         the sprite groups that the collision object belongs to.
 
     """

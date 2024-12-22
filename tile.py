@@ -2,22 +2,22 @@ import pygame
 
 class Tile(pygame.sprite.Sprite):
     """
-            Initialize a Tile sprite.
+    Initialize a Tile sprite.
 
-            Parameters
-            ----------
-            position: tuple
-                The (x, y) position of the tile.
-            surf: pygame.Surface
-                The surface representing the tile.
-            groups: list
-                The sprite groups the tile belongs to.
-            frames_animation: list, optional
-                A list of surfaces for animation frames.
-            animation_duration: float, optional
-                The duration for each animation frame.
+    Parameters
+    ----------
+    position: tuple
+        The (x, y) position of the tile.
+    surf: pygame.Surface
+        The surface representing the tile.
+    groups: tuple of pygame.sprite.Group
+        The sprite groups the tile belongs to.
+    frames_animation: list, optional
+        A list of surfaces for animation frames.
+    animation_duration: float, optional
+        The duration for each animation frame.
 
-            """
+    """
     def __init__(self, position, surf, groups, frames_animation=None, animation_duration=None):
         super().__init__(groups)
         self.image = surf

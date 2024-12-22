@@ -174,13 +174,13 @@ def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
      ----------
     tmx_data: TiledMap (a .tmx file)
         The Tiled map data containing information about layers, tiles, and objects.
-    collisions_name: string
+    collisions_name: string or None
         the name of the layer containing the collisions objects.
-    exit_name: string
+    exit_name: string or None
         the name of the layer containing the exit object.
-    clues_name: string
+    clues_name: string or None
         the name of the layer containing the clue object.
-    someone_talks: string
+    someone_talks: string or None
         the name of the layer containing objects that trigger speech bubbles.
 
     Returns

@@ -12,8 +12,8 @@ def inside_store(player):
     The loop handles the interaction within the store, such as going to shop_menu().
 
     Parameters
-     ----------
-     player: pygame.sprite.Sprite
+    ----------
+    player: Player
 
     Returns
     -----------
@@ -102,7 +102,7 @@ def shop_menu(player):
 
     Parameters
     ----------
-    player: pygame.sprite.Sprite
+    player: Player
 
     """
     shopping = True
