@@ -93,7 +93,6 @@ def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
 
 
 def options_menu():
-
     """
     This function creates an option menu where the user will be able to adjust the volume of the game.
 
@@ -155,8 +154,6 @@ def options_menu():
         volume_text = settingsfont.render(f"Volume: {volume_percentage}%", False, white)
         volume_text_rect = volume_text.get_rect(center=(bar_x + bar_width // 2, bar_y + bar_height + 50))
         screen.blit(volume_text, volume_text_rect)
-
-
 
         pygame.display.flip()
         progress()
@@ -293,8 +290,6 @@ def credits_():
 
         # Display the background
         screen.blit(credits_background, (0, 0))
-
-
 
         pygame.display.flip()
 

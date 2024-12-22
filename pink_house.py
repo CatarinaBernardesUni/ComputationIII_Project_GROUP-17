@@ -4,6 +4,7 @@ from utils import area_setup, calculate_camera_offset
 from utils import paused
 from mouse_position import draw_button
 
+
 def pink_house_area(player):
     """
     Handles the game logic inside the abandoned house area.

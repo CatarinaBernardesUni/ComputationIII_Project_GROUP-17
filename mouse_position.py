@@ -1,5 +1,6 @@
 from config import *
 
+
 def get_mouse_position():
     """
     Gets the current mouse position.
@@ -136,7 +137,8 @@ def show_hover_message(screen, mouse_pos, button_rect, description, on_inventory
 
 
 button_data = {
-    "apple": {"rect": pygame.Rect(348, 291, 97, 43), "description": "30 gold. A delicious apple that restores 1 heart."},
+    "apple": {"rect": pygame.Rect(348, 291, 97, 43),
+              "description": "30 gold. A delicious apple that restores 1 heart."},
     "mushroom": {"rect": pygame.Rect(509, 291, 96, 43), "description": "50 gold. A mushroom that restores 2 hearts."},
     "speed potion": {"rect": pygame.Rect(670, 291, 96, 43),
                      "description": "70 gold. A potion that increases your speed."},

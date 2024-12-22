@@ -216,7 +216,6 @@ def execute_game(player, dog):
 
         # player in pink house
         if pink_house_rect and pink_house_rect.colliderect(player.rect):
-            print("Entering Pink House!")
             return "pink house"
 
         if player.just_left_pink_house:

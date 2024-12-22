@@ -207,7 +207,7 @@ class WaveManager:
             if elapsed_time > 5500:
                 self.animation_active = False
                 return
-                # Prepare text properties
+            # Prepare text properties
             wave_text = f"Wave {info['current_wave']} Starting!"
             text_surface = self.font.render(wave_text, True, white).convert_alpha()
             text_surface.set_colorkey((255, 255, 0))
@@ -257,7 +257,6 @@ class WaveManager:
         drop_chance = random.random()
         if drop_chance < 0.33:  # 33% chance to drop gold
             self.player.gold += 10
-            # print(f"Enemy {enemy.name} dropped gold! The player has {self.player.gold} gold")
 
     def update(self, display, frame_time, power_up_manager):
         """
@@ -346,7 +345,6 @@ class WaveManager:
                         enemy.kill()
                         self.handle_enemy_drop()
                         self.enemies_defeated += 1
-                        # print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
 
             # Collision detection between player and enemies
             collided_with_player = pygame.sprite.spritecollide(self.player, self.active_enemies, False,
@@ -363,7 +361,6 @@ class WaveManager:
                         enemy.kill()
                         self.handle_enemy_drop()
                         self.enemies_defeated += 1
-                    # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
 
             if self.total_enemies == self.enemies_defeated and self.is_wave_active and len(self.enemies_to_spawn) == 0:
@@ -402,7 +399,6 @@ class WaveManager:
             self.player.give_bonus(self.current_wave)
 
         # Starting position for the text
-        # start_x = 500
         start_y = 200
         line_spacing = 60
 
@@ -454,5 +450,4 @@ class WaveManager:
                         self.player.is_leaving_battle = True
                         choice_made = True
 
-                # screen.blit(pygame.transform.scale(display, resolution), (0, 0))
                 pygame.display.update()
