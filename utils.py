@@ -1,8 +1,6 @@
-# import config
 from collision import CollisionObject
 import interface
 from config import *
-# from pytmx.util_pygame import load_pygame
 from tile import Tile
 from mouse_position import draw_button, get_mouse_position
 
@@ -122,7 +120,9 @@ def options_menu():
     while running:
         # getting the mouse position
         mouse = get_mouse_position()
-
+        # drawing the quit button to leave the options menu
+        quit_options_button = draw_button(screen, 1000, 520, 150, 80, "EXIT", text_color=brick_color,
+                                          image_path="images/store/store_button.png", font=settingsfont)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 progress()
@@ -156,11 +156,8 @@ def options_menu():
         volume_text_rect = volume_text.get_rect(center=(bar_x + bar_width // 2, bar_y + bar_height + 50))
         screen.blit(volume_text, volume_text_rect)
 
-        # drawing the quit button to leave the options menu
-        quit_options_button = draw_button(screen, 1000, 520, 150, 80, "EXIT", text_color=brick_color,
-                                          image_path="images/store/store_button.png", font=settingsfont)
 
-        # Update the display
+
         pygame.display.flip()
         progress()
 
@@ -275,7 +272,9 @@ def credits_():
 
     # main background for credits
     credits_background = pygame.image.load("images/credits/CREDITS.png")
-
+    # drawing the quit button to leave the options menu
+    quit_options_button = draw_button(screen, 1065, 555, 150, 80, "EXIT", text_color=brick_color,
+                                      image_path="images/store/store_button.png", font=settingsfont)
     # main loop to detect user input and display the credits
     while True:
         # getting the position of the users mouse
@@ -295,11 +294,8 @@ def credits_():
         # Display the background
         screen.blit(credits_background, (0, 0))
 
-        # drawing the quit button to leave the options menu
-        quit_options_button = draw_button(screen, 1065, 555, 150, 80, "EXIT", text_color=brick_color,
-                                          image_path="images/store/store_button.png", font=settingsfont)
 
-        # Update the display
+
         pygame.display.flip()
 
 

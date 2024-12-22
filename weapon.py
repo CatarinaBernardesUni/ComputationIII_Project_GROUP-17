@@ -82,6 +82,7 @@ class Weapon(pygame.sprite.Sprite, ABC):
         Current image of the weapon.
     rect : pygame.Rect
         Rectangular boundary of the weapon.
+    rect:
     """
 
     def __init__(self, player, groups, weapon_name):
@@ -111,7 +112,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.current_frame_index = 0
         self.animation_speed = 0.1
         self.image = self.frames[self.current_frame_index]
-
         self.rect = self.image.get_rect(center=self.player.rect.center + self.player_direction * self.distance)
 
     #################################### DISPLAY OF WEAPON ###########################################

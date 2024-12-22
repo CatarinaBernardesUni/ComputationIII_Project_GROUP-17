@@ -5,7 +5,6 @@ from utils import area_setup
 
 
 def inside_store(player):
-
     """
     Handles the logic of the player inside the store
     Sets up the inside of the store, including the leave and shop button.
@@ -94,7 +93,6 @@ def inside_store(player):
 
 
 def shop_menu(player):
-
     """
     Handles the logic between the player interaction with the store menu.
     The player buys items inside of this function, which will then be added to their inventory.
