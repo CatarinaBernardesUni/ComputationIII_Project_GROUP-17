@@ -1,3 +1,4 @@
+import math
 import os
 from random import random
 from config import *
@@ -188,6 +189,7 @@ class Bow(Weapon):
         if current_time - self.last_shot_time >= self.cooldown_time:
             # Calculate bullet direction based on weapon orientation
             angle = atan2(self.player_direction.y, self.player_direction.x)
+            angle -= math.radians(40)
             firing_position = self.rect.center
             # Create the bullet
             bullet = Bullet(firing_position[0], firing_position[1], angle)
