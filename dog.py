@@ -37,7 +37,7 @@ class Dog(pygame.sprite.Sprite):
                         if file_name == ".DS_Store":
                             continue  # Skip .DS_Store files bc its mac for folders creation and creates and error
                         full_path = join(folder_path, file_name)
-                        surf = pygame.image.load(full_path).convert_alpha()
+                        surf = pygame.image.load(full_path)  # .convert_alpha()
                         scaled_surf = pygame.transform.scale(surf, dog_size)
                         self.frames[state].append(scaled_surf)
 
