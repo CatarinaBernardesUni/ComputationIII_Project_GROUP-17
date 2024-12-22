@@ -22,6 +22,11 @@ from greenhouse import greenhouse_area
 
 
 def choose_character():
+    """
+    Displays a screen where the user can choose between 2 characters.
+    Handles the choice of the user.
+
+    """
     screen.blit(choose_character_image, (0, 0))
 
     while True:
@@ -43,6 +48,16 @@ def choose_character():
 
 
 def game_over():
+
+    """
+    Handles the game over screen after the player dies in battle.
+    The user can restart, quit or see the credits of the game.
+
+    Notes
+    ------
+    The function also handles the game_over_sound and stopping the battle music.
+
+    """
     battle_music.stop()
     game_over_sound.play()
 
@@ -77,6 +92,10 @@ def game_over():
 
 
 def game_loop():
+    """
+    Handles different game states through the game and transitions between them.
+
+    """
     # by default, I start the game in the main area
     current_state = "main"
     # creating the player for the game, it is only defined once
@@ -106,6 +125,22 @@ def game_loop():
 
 
 def execute_game(player, dog):
+    """
+    Executes the main game logic, including handling player movement, interactions and transitions between areas.
+
+    Parameters
+    ---------
+    player: Player
+        the player object representing the main character
+    dog: Dog
+        the dog object associated with the player
+
+    Returns
+    --------
+    str
+        the next game state based on players interactions and area transitions
+
+    """
     # SETUP
     # using the clock to control the time frame.
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
@@ -147,6 +182,7 @@ def execute_game(player, dog):
 
         ################################ Calculate camera offset  #######################
         camera_offset = calculate_camera_offset(player, display)
+        print(camera_offset)
         ###################################################################################
 
         # draw the tiles
@@ -267,12 +303,6 @@ def execute_game(player, dog):
                 power_up_manager.handle_collision(player)
 
             wave_manager.update(display, frame_time)
-
-            # checking for collisions between player bullets and enemies
-            # for bullet in bullets:
-            # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-            # collided_enemies = pygame.sprite.spritecollide(bullet, enemies,
-            # True)  # True means kill upon impact
 
             if info['health'] <= 0:
                 game_over()

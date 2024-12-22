@@ -35,6 +35,21 @@ enemies_data = {"green_slime": {"tier": 1, "health": 20, "speed": 0.8, "attack":
 
 
 class Enemy(pygame.sprite.Sprite):
+    """
+    A class that represents an enemy in the game.
+
+    Parameters
+    ----------
+    player: pygame.sprite.Sprite
+        The player sprite object that the enemy targets.
+    groups: list
+        The sprite groups that the enemy belongs to.
+    enemy_name: str
+        The name of the enemy, used to fetch enemy data.
+    battle_area_rect: pygame.Rect
+        The rectangular area within which the enemy can spawn and move.
+
+    """
     def __init__(self, player, groups, enemy_name, battle_area_rect):
         super().__init__(groups)
 
@@ -51,6 +66,7 @@ class Enemy(pygame.sprite.Sprite):
         # Reference to player for targeting
         self.player = player
         self.battle_area_rect = battle_area_rect
+
 
         # Load enemy images
         self.frames = []
@@ -89,10 +105,16 @@ class Enemy(pygame.sprite.Sprite):
         self.hit_cooldown = 500
 
     def update_hitbox(self):
-        """Align the hitbox with the rect."""
+        """
+        Align the hitbox with the rect.
+        """
         self.hitbox_rect.center = self.rect.center
 
     def moves_towards_player(self):
+        """
+        This function allows the enemy to move towards the player.
+
+        """
         # determining the direction of the movement based on the player location
         dx = self.player.rect.x - self.rect.x
         dy = self.player.rect.y - self.rect.y
@@ -111,6 +133,15 @@ class Enemy(pygame.sprite.Sprite):
         self.update_hitbox()
 
     def animate(self, frame_time):
+        """
+        Animates the enemy based on the frame time.
+
+        Parameters
+        --------
+        frame_time: float
+            the time since the last frame update.
+
+        """
         self.animation_speed += frame_time
         # Check if it's time to update the animation frame
         if self.animation_speed >= 75:
@@ -124,6 +155,15 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.frames[self.current_frame_index]
 
     def update(self, frame_time):
+        """
+        Updates the enemy's position, animation and other properties.
+
+        Parameters
+        ----------
+        frame_time: float
+            the time since the last frame update.
+
+        """
         if not self.player.invisible:
             self.moves_towards_player()
         self.animate(frame_time)
