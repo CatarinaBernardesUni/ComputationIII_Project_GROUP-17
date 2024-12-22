@@ -220,7 +220,12 @@ def execute_game(player, dog):
 
         # player in the shed
         if shed_rect and shed_rect.colliderect(player.rect):
-            return "shed"
+            if info['inventory']['key'] >= 1:
+                return "shed"
+            else:
+                font = pygame.font.Font("fonts/pixel_font.ttf", 16)
+                rendered_text = font.render("you need a key to enter!", True, white)
+                display.blit(rendered_text, (10, 230))
         if player.just_left_shed:
             player.rect.center = (220, 660)
             player.just_left_shed = False
