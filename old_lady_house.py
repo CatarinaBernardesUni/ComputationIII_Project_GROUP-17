@@ -62,7 +62,6 @@ def old_lady_house_area(player):
         ####################################################################################
 
         # draw the tiles
-        # tiles_group.draw(display)
         for tile in tiles_group:
             display.blit(tile.image, tile.rect.topleft + camera_offset)
 
@@ -79,7 +78,6 @@ def old_lady_house_area(player):
             return "main"
 
         # To track whether the player is already colliding
-
         if speech_bubble_rect and speech_bubble_rect.colliderect(player.rect):
             if not player_colliding:  # checks if it's the first time colliding
                 # this chooses a random speech from the list of speeches
@@ -91,7 +89,7 @@ def old_lady_house_area(player):
             draw_button(display, 170, 80, 150, 100,
                         current_speech, brick_color,
                         "images/dialogs/dialog box medium.png", cutefont)
-            # display.blit(current_speech, (135, 40))
+
         else:
             # when the player stops colliding this is set to false so next time they collide the speech changes
             player_colliding = False
@@ -125,7 +123,6 @@ def old_lady_house_area(player):
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
-        # clock.tick(fps)
     # the main while loop was terminated
     progress()
     pygame.quit()

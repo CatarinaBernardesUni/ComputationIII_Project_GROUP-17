@@ -27,7 +27,9 @@ def pink_house_area(player):
 
     tmx_data = load_pygame("data/WE PINK HOUSE/WE PINK HOUSE MAP.tmx")
     (background_sprite_group, tiles_group, objects_group,
-     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions", "exit house", "prize", None)
+     collision_sprites, exit_rect, speech_bubble_rect, clues_rect) = area_setup(tmx_data, "collisions",
+                                                                                "exit house",
+                                                                                "prize", None)
 
     ####################################################################
 
@@ -56,13 +58,10 @@ def pink_house_area(player):
             if keys[pygame.K_SPACE]:
                 paused()
 
-        ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset
         camera_offset = calculate_camera_offset(player, display)
-        ####################################################################################
 
         # draw the tiles
-        # tiles_group.draw(display)
         for tile in tiles_group:
             display.blit(tile.image, tile.rect.topleft + camera_offset)
 

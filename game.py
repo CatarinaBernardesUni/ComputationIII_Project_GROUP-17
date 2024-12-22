@@ -312,7 +312,7 @@ def execute_game(player, dog):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         # drawing the inventory button
-        inventory_button = draw_button(display, 550, y=10, width=70, height=35,
+        inventory_button = draw_button(display, 550, y=10, width_of_button=70, height_of_button=35,
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
