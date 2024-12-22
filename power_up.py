@@ -35,6 +35,21 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     """
     Initialize a PowerUp object.
 
+        Attributes
+    ----------
+    image : pygame.Surface
+        The visual representation of the power-up.
+    rect : pygame.Rect
+        The rectangle defining the position and dimensions of the power-up for rendering and collisions.
+    active : bool
+        Indicates whether the power-up is currently active.
+    collected : bool
+        Indicates whether the power-up has been picked up by the player.
+    start_time : int or None
+        The timestamp (in milliseconds) when the power-up was activated. None if not activated.
+    duration : int
+        The duration (in milliseconds) for which the power-up remains active.
+
         Parameters
         ----------
         pos: Tuple[int, int]
@@ -296,12 +311,18 @@ class Chest(PowerUp):
     """
     Initialize a Chest object.
 
-        Parameters
-        ----------
-        pos: Tuple[int, int]
-            The position where the chest will be placed.
-        image: pygame.Surface
-            The image representing the chest.
+    Attributes
+    ----------
+    current_power_up : PowerUp or None
+        The power-up granted by the chest. None until a power-up is selected.
+
+
+    Parameters
+    ----------
+    pos: Tuple[int, int]
+        The position where the chest will be placed.
+    image: pygame.Surface
+        The image representing the chest.
 
     """
     def __init__(self, pos, image):

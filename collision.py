@@ -5,6 +5,13 @@ class CollisionObject(pygame.sprite.Sprite):
     """
     Class that represents a static collision object in the game.
 
+    Attributes
+    ----------
+    image : pygame.Surface
+        The surface representing the visual appearance of the collision object.
+    rect : pygame.Rect
+        The rectangle defining the position and dimensions of the collision object, used for collisions.
+
     Parameters
      ----------
     position: tuple

@@ -1,5 +1,4 @@
 from player import Player
-from config import *
 import pygame
 import random
 import math
@@ -37,6 +36,45 @@ enemies_data = {"green_slime": {"tier": 1, "health": 20, "speed": 0.8, "attack":
 class Enemy(pygame.sprite.Sprite):
     """
     A class that represents an enemy in the game.
+
+    Attributes
+    ----------
+    name : str
+        The name of the enemy, used for fetching enemy data.
+    tier : int
+        The difficulty or level tier of the enemy.
+    health : int
+        The current health of the enemy.
+    speed : float
+        The movement speed of the enemy.
+    attack : int
+        The damage dealt by the enemy during an attack.
+    directory_path : str
+        The file path to the enemy's animation frames.
+    animation_speed : float
+        The speed at which the enemy's animation plays.
+    size : tuple
+        The (width, height) dimensions of the enemy sprite.
+    inflate_parameters : tuple
+        The (width, height) values to adjust the size of the hitbox relative to the sprite.
+    player : Player
+        A reference to the player sprite that the enemy targets.
+    battle_area_rect : pygame.Rect
+        The rectangular area within which the enemy can spawn and move.
+    frames : list of pygame.Surface
+        The list of animation frames for the enemy sprite.
+    current_frame_index : int
+        The index of the current animation frame being displayed.
+    image : pygame.Surface
+        The current visual representation of the enemy sprite.
+    rect : pygame.Rect
+        The rectangle defining the position and dimensions of the enemy for rendering and collisions.
+    hitbox_rect : pygame.Rect
+        An adjusted rectangle used for more accurate collision detection.
+    last_hit_time : int
+        The timestamp of the last time the enemy was hit.
+    hit_cooldown : int
+        The cooldown time (in milliseconds) during which the enemy cannot take additional damage.
 
     Parameters
     ----------

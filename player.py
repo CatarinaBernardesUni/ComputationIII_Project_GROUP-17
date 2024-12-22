@@ -11,6 +11,74 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     """
     A class that represents the player in the game.
 
+    Attributes
+    ----------
+    font : pygame.font.Font
+        The font used for rendering text associated with the player.
+    user : str
+        The selected character for the player.
+    state : str
+        The current state of the player's animation (e.g., "left", "idle").
+    frame_index : int
+        The index of the current animation frame.
+    image : pygame.Surface
+        The current visual representation of the player sprite.
+    rect : pygame.Rect
+        The rectangle defining the position and dimensions of the player for rendering and collisions.
+    hitbox_rect : pygame.Rect
+        A smaller rectangle for precise collision detection.
+    dog : Dog
+        The player's dog companion, if purchased.
+    just_left_cave : bool
+        Indicates whether the player has just left the cave.
+    just_left_old_lady_house : bool
+        Indicates whether the player has just left the old lady's house.
+    just_left_home : bool
+        Indicates whether the player has just left their home.
+    just_left_store : bool
+        Indicates whether the player has just left the store.
+    just_left_pink_house : bool
+        Indicates whether the player has just left the pink house.
+    just_left_shed : bool
+        Indicates whether the player has just left the shed.
+    just_left_greenhouse : bool
+        Indicates whether the player has just left the greenhouse.
+    is_fighting : bool
+        Indicates whether the player is currently in a battle.
+    is_leaving_battle : bool
+        Indicates whether the player is leaving a battle area.
+    speed : int
+        The player's movement speed.
+    health : int
+        The player's current health.
+    max_health : int
+        The player's maximum health.
+    bullet_cooldown : int
+        The cooldown time (in frames) for firing bullets.
+    damage_cooldown : int
+        The cooldown time (in milliseconds) for taking damage.
+    cooldown_duration : int
+        The duration (in milliseconds) of the damage cooldown.
+    invincible : bool
+        Indicates whether the player is invincible.
+    active_power_ups : list
+        A list of active power-ups affecting the player.
+    invisible : bool
+        Indicates whether the player is invisible to enemies.
+    de_spawner : bool
+        Indicates whether the player has the ability to prevent enemies from spawning.
+    inventory : dict
+        A dictionary representing the player's inventory items and their quantities.
+    gold : int
+        The amount of gold the player currently has.
+    price_items : dict
+        A dictionary mapping item names to their prices in gold.
+    health_boosts : dict
+        A dictionary mapping item names to the amount of health they restore.
+    active_weapon : pygame.sprite.Sprite or None
+        The currently active weapon equipped by the player.
+    active_weapon_group : pygame.sprite.Group
+        A sprite group containing the player's active weapon.
     """
 
     def __init__(self):

@@ -9,6 +9,23 @@ class Dog(pygame.sprite.Sprite):
     This class represents a dog that follows the player around in the main area of the game and in the battlefield.
     The dog is set to False until the player buys it in the store, only then it will execute.
 
+    Attributes
+    ----------
+    player : Player
+        The player sprite that the dog will follow.
+    dog_size : tuple
+        The dimensions (width, height) of the dog sprite.
+    state : str
+        The current state of the dog's animation (e.g., "down").
+    frame_index : int
+        The index of the current animation frame.
+    image : pygame.Surface
+        The current visual representation of the dog sprite.
+    rect : pygame.Rect
+        The rectangle defining the position and dimensions of the dog for rendering and collision purposes.
+    bought : bool
+        Indicates whether the dog has been purchased by the player (True) or not (False).
+
     Parameters
     ----------
     player: Player

@@ -5,6 +5,21 @@ class Tile(pygame.sprite.Sprite):
     """
     Initialize a Tile sprite.
 
+     Attributes
+    ----------
+    image : pygame.Surface
+        The current visual representation of the tile.
+    rect : pygame.Rect
+        The rectangle defining the position and dimensions of the tile for rendering and collisions.
+    current_anim_index : int
+        The index of the current frame in the animation sequence.
+    animation_frames : list of pygame.Surface
+        A list of surfaces representing the animation frames for the tile. Empty if no animation is provided.
+    animation_duration : float
+        The duration (in seconds) for each animation frame. Defaults to 1 if not specified.
+    animation_time : int
+        The elapsed time used to track the animation progress.
+
     Parameters
     ----------
     position: tuple
