@@ -3,10 +3,13 @@ from config import *
 
 def get_mouse_position():
     return pygame.mouse.get_pos()
+
+
 def get_scaled_mouse_position():
     mouse_pos = pygame.mouse.get_pos()
     scaled_mouse_pos = (mouse_pos[0] // 2, mouse_pos[1] // 2)
     return scaled_mouse_pos
+
 
 # drawing a button, just skeleton does not work on its own:
 def draw_button(screen, x, y, width, height, text, text_color, image_path, font):
@@ -69,12 +72,11 @@ def show_hover_message(screen, mouse_pos, button_rect, description, on_inventory
 
 button_data = {
     "apple": {"rect": pygame.Rect(348, 291, 97, 43), "description": "5 gold. A delicious apple that restores health."},
-    "mushroom": {"rect": pygame.Rect(509, 291, 96, 43),
-                 "description": "10 gold. A mysterious mushroom that increases stamina."},
+    "cat": {"rect": pygame.Rect(509, 291, 96, 43), "description": "200 gold. A cat companion for the journey."},
     "speed potion": {"rect": pygame.Rect(670, 291, 96, 43),
                      "description": "25 gold. A potion that increases your speed."},
     "dagger": {"rect": pygame.Rect(834, 291, 96, 43), "description": "50 gold. A sword to defend yourself."},
-    "dog": {"rect": pygame.Rect(347, 503, 97, 43), "description": "50 gold. A dog companion for the journey."},
+    "dog": {"rect": pygame.Rect(347, 503, 97, 43), "description": "200 gold. A dog companion for the journey."},
     "soup": {"rect": pygame.Rect(499, 503, 101, 43), "description": "80 gold. A bowl of soup to restore health."},
     "ghost_bow": {"rect": pygame.Rect(673, 503, 94, 43), "description": "100 gold. A bow for ranged attacks."},
     "key": {"rect": pygame.Rect(832, 500, 94, 43), "description": "300 gold. A key to unlock special things."}

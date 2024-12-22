@@ -695,9 +695,9 @@
   <object id="568" x="1165.33" y="626.333" width="69.3333" height="99"/>
   <object id="569" x="1097.33" y="686.667" width="65.3333" height="34.6667"/>
   <object id="570" x="565.333" y="582.833" width="70.6667" height="134.5"/>
-  <object id="571" x="637.333" y="605.333" width="14.6667" height="113.333"/>
-  <object id="572" x="654.333" y="619.833" width="16" height="100"/>
-  <object id="573" x="670.667" y="644.167" width="17.3333" height="62.6667"/>
+  <object id="571" x="637.333" y="612.833" width="14.6667" height="105.833"/>
+  <object id="572" x="654.333" y="630.333" width="16" height="89.5"/>
+  <object id="573" x="670.667" y="644.167" width="13.8333" height="35.1667"/>
   <object id="574" x="534.667" y="605" width="26.6667" height="116.333"/>
   <object id="575" x="512" y="657.667" width="18.6667" height="58.3333"/>
   <object id="576" x="450.333" y="702.667" width="75" height="18.6667"/>
@@ -774,7 +774,7 @@
   <object id="683" x="375" y="82" width="23.6667" height="53"/>
   <object id="684" x="266.667" y="82" width="56" height="53.6667"/>
  </objectgroup>
- <objectgroup id="9" name="FIGHT AREA">
+ <objectgroup id="9" name="FIGHT AREA" visible="0">
   <object id="517" x="638.667" y="338.667" width="637" height="380"/>
  </objectgroup>
  <objectgroup id="10" name="Markers">

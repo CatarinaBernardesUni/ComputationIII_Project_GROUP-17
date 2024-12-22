@@ -135,8 +135,18 @@ def shop_menu(player):
                     coin_music.play()
                 # MUSHROOM BUTTON
                 if 509 <= mouse_pos[0] <= 605 and 291 <= mouse_pos[1] <= 334:
-                    player.buy_item('mushroom')
-                    coin_music.play()
+                    if player.inventory['cat'] == 1:
+                        print("Can only have one cat")
+                    elif player.inventory['dog'] == 1:
+                        print("You already have a dog")
+                    else:
+                        player.buy_item('cat')
+                        coin_music.play()
+                        if not player.dog.bought:
+                            player.dog.bought = True
+                            player.dog.user = "cat"
+                            info['inventory']['cat'] = 1
+                            player_group.add(player.dog)
                 # POTION BUTTON
                 if 670 <= mouse_pos[0] <= 766 and 291 <= mouse_pos[1] <= 334:
                     if player.inventory['speed potion'] == 1:
@@ -154,11 +164,14 @@ def shop_menu(player):
                     # allowing the player to only have one dog
                     if player.inventory['dog'] == 1:
                         print("Can only have one dog")
+                    elif player.inventory['cat'] == 1:
+                        print("You already have a cat")
                     else:
                         player.buy_item('dog')
                         dog_bark.play()
                         if not player.dog.bought:
                             player.dog.bought = True
+                            player.dog.user = "cat"
                             info['inventory']['dog'] = 1
                             player_group.add(player.dog)
 

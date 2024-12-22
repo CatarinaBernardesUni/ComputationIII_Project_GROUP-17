@@ -68,14 +68,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # storing the inventory prices
         self.price_items = {'apple': 5,
-                            'mushroom': 10,
+                            'cat': 200,
                             'speed potion': 25,
-                            'dog': 50,
+                            'dog': 200,
                             'soup': 60,
                             'dagger': 80,
                             'ghost_bow': 100,
                             'key': 300}
-        self.health_boosts = {"apple": 1, "mushroom": 2, "soup": 5}
+        self.health_boosts = {"apple": 1, "soup": 5}
 
         ########### WEAPONS ########################
         self.active_weapon = None  # Currently active weapon
@@ -244,7 +244,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.bullet_cooldown -= 1
 
     def remove_health(self, health_being_removed):
-        if not self.invisible:
+        if not self.invincible:
             if info['health'] >= 0:
                 info['health'] -= health_being_removed
             self.health = info['health']
