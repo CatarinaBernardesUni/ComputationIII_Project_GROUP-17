@@ -174,10 +174,13 @@ def crafting(player):
                                   font=cutefont)
 
         for event in pygame.event.get():
+            keys = pygame.key.get_pressed()
             if event.type == pygame.QUIT:
                 progress()
                 pygame.quit()
                 exit()
+            if keys[pygame.K_SPACE]:
+                paused()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     inventory_menu(player)

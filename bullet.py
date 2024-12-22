@@ -17,7 +17,7 @@ class Bullet(pygame.sprite.Sprite):
         self.animation_path = "images/weapons/blue_arrow"
         self.animation_speed = 0.1
         self.current_frame_index = 0
-        self.speed = 7
+        self.speed = 4
         # Load animation frames
         self.frames = []
         folder_path = os.path.normpath(self.animation_path)
