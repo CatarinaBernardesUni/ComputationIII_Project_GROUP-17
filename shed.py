@@ -287,7 +287,6 @@ def evolve_weapon(player, weapon, crystal):
         if multiplications <= 1.2 ** 4:  # 5 multiplications allowed
             info["inventory"]["purple_crystal"] -= 1
             info["weapon_attributes_evolved"][weapon] *= 1.2
-            print(f"{weapon} damage increased to {info['weapon_attributes_evolved'][weapon]}")
             sparkly_music.play()
         else:
             error_message = "Weapon at max level"

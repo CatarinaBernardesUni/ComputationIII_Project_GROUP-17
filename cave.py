@@ -8,6 +8,20 @@ from utils import area_setup, paused, calculate_camera_offset
 
 
 def cave_area(player):
+    """
+    The function handles the game logic inside the cave.
+    The player is able to collect crystals which will be added to their inventory.
+
+    Parameters
+     ----------
+     player: pygame.sprite.Sprite
+
+    Returns
+    -----------
+    str
+        returns 'main' if player leaves the cave
+
+    """
     clock = pygame.time.Clock()
     cave_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))

@@ -133,7 +133,6 @@ class WaveManager:
             # Calculate fade-out effect (255 -> 0 over 8 seconds)
             text_alpha = max(0, 255 - int((elapsed_time / 5500) * 255))
             text_surface.set_alpha(text_alpha)
-            display.set_colorkey((0, 0, 0))
             display.blit(text_surface, text_rect)
 
     def spawn_wave(self, wave_config):
@@ -154,8 +153,7 @@ class WaveManager:
             # Display the progress frame
             display.blit(progress_frame, (195, 7))
 
-    # todo: one of these could have a treasure chest
-    def handle_enemy_drop(self, enemy):
+    def handle_enemy_drop(self):
         """Handles rewards dropped by a defeated enemy."""
         drop_chance = random.random()
         if drop_chance < 0.33:  # 33% chance to drop gold
@@ -195,7 +193,7 @@ class WaveManager:
                 if len(self.active_enemies) > 2:
                     for enemy in self.active_enemies:
                         enemy.kill()
-                        self.handle_enemy_drop(enemy)
+                        self.handle_enemy_drop()
                         self.enemies_defeated += 1
 
 
@@ -238,7 +236,7 @@ class WaveManager:
                     enemy.health -= self.player.active_weapon.damage
                     if enemy.health <= 0:
                         enemy.kill()
-                        self.handle_enemy_drop(enemy)
+                        self.handle_enemy_drop()
                         self.enemies_defeated += 1
                         # print(f"Enemy {enemy.name} defeated! Total: {self.enemies_defeated}/{self.total_enemies}")
 
@@ -254,7 +252,7 @@ class WaveManager:
                     self.player.remove_health(enemy.attack)
                     if self.player.invincible:
                         enemy.kill()
-                        self.handle_enemy_drop(enemy)
+                        self.handle_enemy_drop()
                         self.enemies_defeated += 1
                     # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
@@ -299,7 +297,6 @@ class WaveManager:
         # Wait for player input to make a choice
         choice_made = False
         while not choice_made:
-            screen.set_colorkey((0, 0, 0))
             screen.blit(next_wave_image, next_wave_button.topleft)
             screen.blit(leave_image, leave_button.topleft)
 

@@ -16,7 +16,10 @@ from weapon import *
 
 # making a player a child of the Sprite class
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
+    """
+    A class that represents the player in the game.
 
+    """
     def __init__(self):
         # calling the mother classes init aka Sprite
         super().__init__()
@@ -83,6 +86,17 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
     def switch_weapon(self, weapon_name, weapon_type):
+        """
+        function to be able to switch the currently active weapon.
+
+        Parameters
+        ----------
+        weapon_name: str
+            the name of the weapon the user wants to switch to
+        weapon_type: str
+            the type of the weapon (e.g. "Sword", "Bow", "Axe")
+
+        """
         if self.active_weapon_group is not None:
             self.active_weapon_group.remove(self.active_weapon)
         """Switch the currently active weapon."""
@@ -97,13 +111,25 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     ###### CRYSTALS ####################################################################################
     def collect_crystal(self, crystal_name):
-        """Add a crystal instance to the player's inventory."""
+        """
+        Add a crystal instance to the player's inventory.
+
+        Parameters
+        ----------
+        crystal_name : str
+            The name of the crystal to collect.
+
+        """
         info['inventory'][crystal_name] += 1
         self.inventory = info['inventory']
 
     ############### ANIMATION AND MOVEMENT ############################################################
 
     def load_images(self):
+        """
+        The images for the player character and store them in the frames dictionary.
+
+        """
         self.frames = {"up": [], "down": [], "left": [], "right": [],
                        "idle_down": [], "idle_up": [], "idle_left": [], "idle_right": []}
         for state in self.frames.keys():
@@ -117,10 +143,23 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                         # self.frames[state].append(surf)
 
     def animate(self):
+        """
+        Update the player's animation by the frame index and setting the current image.
+
+        """
         self.frame_index += 0.08  # increments frame index at a fixed fps (animation speed)
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
     def draw_hearts(self, display):
+        """
+        Draw the player's health hearts on the display.
+
+        Parameters
+        ----------
+        display: pygame.Surface
+            The surface on which to draw the hearts.
+
+        """
         for heart in range(self.max_health):
             if heart < info['health']:
                 display.blit(full_heart, (heart * 33, 5))
@@ -128,6 +167,21 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 display.blit(empty_heart, (heart * 33, 5))
 
     def update(self, collision_sprites, display, frame_time, battle_area_rect=None):
+        """
+        Update the player's state, handle movement, animation, and drawing.
+
+        Parameters
+        ----------
+        collision_sprites: pygame.sprite.Group
+            Group of sprites to check for collisions.
+        display: pygame.Surface
+            The surface on which to draw the player and other elements.
+        frame_time: float
+            The time elapsed since the last frame.
+        battle_area_rect: pygame.Rect, optional
+            The rectangular area defining the battle zone.
+
+        """
         # getting the keys input
 
         keys = pygame.key.get_pressed()
@@ -194,11 +248,31 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                     self.rect.right = battle_area_rect.left
 
     def dont_leave_battle(self, battle_area_rect):
+        """
+        While in battle the player is not able to leave the battle area.
+
+        Parameters
+        ----------
+        battle_area_rect : pygame.Rect
+            The rectangular area defining the battle zone.
+
+        """
         if self.is_fighting:
             if self.rect.left < battle_area_rect.left:
                 self.rect.left = battle_area_rect.left
 
     def collision(self, direction, collision_sprites):
+        """
+        Handle collisions with other sprites.
+
+        Parameters
+        ----------
+        direction: str
+            The direction of movement ('horizontal' or 'vertical').
+        collision_sprites: pygame.sprite.Group
+            Group of sprites to check for collisions.
+
+        """
         for sprite in collision_sprites:
             if sprite.rect.colliderect(self.hitbox_rect):
                 if direction == 'horizontal':
@@ -221,39 +295,44 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 # Sync the hitbox with the rect after collision
                 self.hitbox_rect.center = self.rect.center
 
-    def shoot(self, bullets):
-        """
-        bullets --> pygame group where I will add bullets
-        """
-        # todo: different weapons have different cooldowns
-        # cooldown ==> how many frames I need to wait until I can shoot again
-        if self.bullet_cooldown <= 0:
-            # defining the directions in which the bullets will fly
-            # these 4 directions, are in order, right, left, up and down
-            for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
-                # Creating a bullet for each angle
-                # I will use self.rect.centerx to make the x position of the bullet the same as the
-                # x position of the player, thus making the bullet come out of them
-                # finally, the direction of the bullet is the angle
-                bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
-                bullets.add(bullet)
-
-            # resetting the cooldown
-            self.bullet_cooldown = fps
-
-        self.bullet_cooldown -= 1
-
     def remove_health(self, health_being_removed):
+        """
+        Remove health from the player if they are not invincible.
+
+        Parameters
+        ----------
+        health_being_removed: int
+            The amount of health removed.
+
+        """
         if not self.invincible:
             if info['health'] >= 0:
                 info['health'] -= health_being_removed
             self.health = info['health']
 
     def get_health(self, amount):  # we should use this if the player picks up hearts or something
+        """
+        Increase the player's health by a specified amount, up to the maximum health.
+
+        Parameters
+        ----------
+        amount: int
+            The amount of health to be added.
+
+        """
         info['health'] = min(info['health'] + amount, self.max_health)
         self.health = info['health']
 
     def buy_item(self, item_name):
+        """
+        Allow the player to buy an item if they have enough gold.
+
+        Parameters
+        ----------
+        item_name: str
+            The name of the item bought.
+
+        """
         # getting the item price from the price_items dictionary
         price = self.price_items[item_name]
 
@@ -261,7 +340,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if info['gold'] >= price:
             info['gold'] -= price
             info['inventory'][item_name] += 1
-            print(f"bought {item_name}: amount {self.inventory[item_name]} money: {info['gold']}")
             if item_name == 'dog' and self.dog is None:
                 self.dog = Dog(self)
                 self.dog.bought = True
@@ -269,10 +347,28 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             print(f"gold is not enough. gold: {info['gold']}")  # todo: add here a screen saying not enough money
 
     def add_gold(self, amount):
+        """
+        Add gold to the player's total gold amount.
+
+        Parameters
+        ----------
+        amount : int
+            The amount of gold to be added.
+
+        """
         info['gold'] += amount
         self.gold = info['gold']
 
     def give_bonus(self, current_wave):
+        """
+        Give a bonus item to the player based on the current wave.
+
+        Parameters
+        ----------
+        current_wave : int
+            The current wave number.
+
+        """
         if current_wave == 5:
             info["inventory"]["gold_axe"] += 1
             self.inventory = info["inventory"]

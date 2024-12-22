@@ -3,6 +3,20 @@ from pytmx.util_pygame import load_pygame
 
 
 def greenhouse_area(player):
+    """
+    Handles the game logic inside the greenhouse area.
+    The player can water their plants inside os this area
+
+    Parameters
+    ----------
+    player: Player
+
+    Returns
+    ----------
+    str
+        returns 'main' when player leaves the greenhouse
+
+    """
     clock = pygame.time.Clock()
     home_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))

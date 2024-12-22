@@ -6,13 +6,11 @@ from game import *
 from utils import *
 
 
-# import platform
-
-
-# from player import Player
-
-
 def interface():
+    """
+    Handles the game interface setup and main menu interactions such as options, rules, quit, start game, and others.
+
+    """
     # initiating pygame
     pygame.init()
 
@@ -145,6 +143,10 @@ def interface():
 
 
 def rules_():
+    """
+    Handles the display and navigation of the game rules
+
+    """
     page_1 = True
     screen.blit(rules_pages[0], (0, 0))
     current_index = 0
@@ -163,11 +165,9 @@ def rules_():
                     interface()
 
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                if current_index != 2:
+                if current_index != 8:
                     # different from the index of the last page
                     screen.blit(rules_pages[current_index + 1], (0, 0))
                     current_index += 1
-                else:
-                    print("That was the last page, babes...")
 
         pygame.display.update()
