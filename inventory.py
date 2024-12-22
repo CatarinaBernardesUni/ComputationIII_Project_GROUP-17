@@ -7,7 +7,7 @@ from mouse_position import get_scaled_mouse_position
 
 # creating a dictionary to store all my pictures for the visual inventory
 images_inventory = {'apple': pygame.image.load("images/inventory/apple.png"),
-                    'cat': pygame.image.load("images/inventory/cat.png"),
+                    'mushroom': pygame.image.load("images/inventory/mushroom.png"),
                     'speed potion': pygame.image.load("images/inventory/potion.png"),
                     'dog': pygame.image.load("images/inventory/doggy.png"),
                     'soup': pygame.image.load("images/inventory/food.png"),
