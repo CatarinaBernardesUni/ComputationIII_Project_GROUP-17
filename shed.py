@@ -74,15 +74,15 @@ def shed_area(player):
             player.just_left_shed = True
             return "main"
 
-        if work_table_rect and work_table_rect.colliderect(player.rect):
-            crafting(player)
-
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         # collision_sprites.draw(display)
         for sprite in collision_sprites:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
+
+        if work_table_rect and work_table_rect.colliderect(player.rect):
+            crafting(player)
 
         shed_screen.blit(pygame.transform.scale(display, resolution), (0, 0))
 
@@ -186,9 +186,11 @@ def crafting(player):
                     inventory_menu(player)
                 if back_button.collidepoint(scaled_mouse_pos):
                     still_crafting = False
-                    # this should be enough for the player to stop colliding with the table
+                    # this should be enough for the player to stop colliding with the work_table_rect
+                    player.rect.centery += 10
+                    progress()
                     print("Back clicked!")
-                    shed_area(player)
+                    return
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Handle crafting selections
@@ -251,24 +253,28 @@ def evolve_weapon(player, weapon, crystal):
         info["inventory"]["red_crystal"] -= 1
         info["inventory"]["fire_sword"] += 1
         player.inventory = info["inventory"]
+        sparkly_music.play()
 
     elif weapon == "dagger" and crystal == "blue_crystal":
         info["inventory"]["dagger"] -= 1
         info["inventory"]["blue_crystal"] -= 1
         info["inventory"]["winter_sword"] += 1
         player.inventory = info["inventory"]
+        sparkly_music.play()
 
     elif weapon == "ghost_bow" and crystal == "white_crystal":
         info["inventory"]["ghost_bow"] -= 1
         info["inventory"]["white_crystal"] -= 1
         info["inventory"]["ice_bow"] += 1
         player.inventory = info["inventory"]
+        sparkly_music.play()
 
     elif weapon == "ghost_bow" and crystal == "gold_crystal":
         info["inventory"]["ghost_bow"] -= 1
         info["inventory"]["gold_crystal"] -= 1
         info["inventory"]["light_bow"] += 1
         player.inventory = info["inventory"]
+        sparkly_music.play()
 
     # damage increases 20% of damage for that weapon, and future one you might create (of the same type)
     elif any(element in weapon for element in ["sword", "bow", "axe", "dagger"]) and crystal == "purple_crystal":
@@ -279,6 +285,7 @@ def evolve_weapon(player, weapon, crystal):
             info["inventory"]["purple_crystal"] -= 1
             info["weapon_attributes_evolved"][weapon] *= 1.2
             print(f"{weapon} damage increased to {info['weapon_attributes_evolved'][weapon]}")
+            sparkly_music.play()
         else:
             error_message = "Weapon at max level"
 

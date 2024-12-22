@@ -13,41 +13,33 @@ weapons = {"dagger": {
     "ghost_bow": {
         "tier": 1,
         "damage": 22,
-        "special_effect": None,
         "directory_path": "images/weapons/ghost_bow"},
     ####################### TIER 2 WEAPONS ########################################
     "winter_sword": {
         "tier": 2,
         "damage": 18,
-        "special_effect": "freeze",  # slow down enemies
         "directory_path": "images/weapons/winter_sword"},
     "gold_axe": {
         "tier": 2,
         "damage": 22,
-        "special_effect": "golden touch",  # get more gold at the end of the wave
         "directory_path": "images/weapons/gold_axe"},
     ####################### TIER 3 WEAPONS ########################################
     "fire_sword": {
         "tier": 3,
         "damage": 28,
-        "special_effect": "burn",
         "directory_path": "images/weapons/fire_sword"},
     "ice_bow": {
         "tier": 3,
         "damage": 24,
-        "special_effect": "freeze",
         "directory_path": "images/weapons/ice_bow"},
     "light_bow": {
         "tier": 3,
         "damage": 23,
-        "special_effect": "blindness",
-        # monster stop moving because they can't see for a while or will miss their attacks or start going away from you
         "directory_path": "images/weapons/light_bow"},
     ####################### TIER 4 WEAPON ########################################
     "ruby_axe": {
         "tier": 4,
         "damage": 15,
-        "special_effect": "bleed",  # Causes enemies to lose HP over time
         "directory_path": "images/weapons/ruby_axe"}}
 
 
@@ -59,7 +51,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.name = weapon_name
         self.tier = weapons[weapon_name]["tier"]
         self.damage = info["weapon_attributes_evolved"][weapon_name]
-        self.special_effect = weapons[weapon_name]["special_effect"]
         self.directory_path = weapons[weapon_name]["directory_path"]
 
         self.upgrade_level = 0
@@ -115,26 +106,12 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.player_direction = (mouse_position - player_position).normalize()
 
     ########################### MECHANICS OF THE WEAPON ######################################################
-    def apply_effect(self, target):
-        if self.special_effect == "burn":
-            target.take_damage(5)
-        elif self.special_effect == "freeze":
-            target.slow(50)
-        elif self.special_effect == "stun":
-            target.kill()
-
-    def upgrade(self):
-        if self.upgrade_level < 5:
-            self.upgrade_level += 1
-            self.damage *= 1.2
 
     def display_stats(self):
         print(f"Name: {self.name}")
         print(f"Tier: {self.tier}")
         print(f"Upgrade Level: {self.upgrade_level}")
         print(f"Damage: {self.damage}")
-        print(f"Special Effect: {self.special_effect}")
-
 
 #################################################################################
 
