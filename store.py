@@ -5,7 +5,6 @@ from utils import area_setup
 
 
 def inside_store(player):
-
     """
     Handles the logic of the player inside the store
     Sets up the inside of the store, including the leave and shop button.
@@ -94,7 +93,6 @@ def inside_store(player):
 
 
 def shop_menu(player):
-
     """
     Handles the logic between the player interaction with the store menu.
     The player buys items inside of this function, which will then be added to their inventory.
@@ -129,10 +127,10 @@ def shop_menu(player):
         for tile in tiles_group:
             display.blit(tile.image, tile.rect.topleft)
 
-        # scaling and blitting the screen to the surface
+        # scaling and drawing the screen to the surface
         store_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 
-        # bliting the actual store menu
+        # drawing the actual store menu
         store_screen.blit(menu_store, (width // 2 - 375, height // 2 - 300))
 
         # setting up so my gold amount shows on store menu

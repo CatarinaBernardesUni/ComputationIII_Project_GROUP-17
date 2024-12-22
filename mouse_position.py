@@ -37,9 +37,9 @@ def draw_button(screen, x, y, width_of_button, height_of_button, text, text_colo
     ----------
     screen: pygame.Surface
         The surface where the button will be drawn on.
-    x: int
+    x: float
         The x-coordinate of the button's top-left corner.
-    y: int
+    y: float
         The y-coordinate of the button's top-left corner.
     width_of_button: int
         The width of the button.
