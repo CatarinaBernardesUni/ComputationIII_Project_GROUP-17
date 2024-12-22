@@ -240,6 +240,8 @@ class WaveManager:
                     self.player.remove_health(enemy.attack)
                     if self.player.invincible:
                         enemy.kill()
+                        self.handle_enemy_drop(enemy)
+                        self.enemies_defeated += 1
                     # print(f"Player hit by {enemy.name}! Health: {self.player.health}")
                     self.player.damage_cooldown = current_time
 

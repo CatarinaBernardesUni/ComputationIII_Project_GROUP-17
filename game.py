@@ -52,8 +52,16 @@ def game_over():
     info['health'] = player.max_health
     info['gold'] = 50
     info['inventory'] = {key: 0 for key in info['inventory']}
-    info["claimed_chest_home"], info["stolen_grandma"] = 0, 0
+    info["claimed_chest_home"], info["stolen_grandma"], info['abandoned_chest'] = 0, 0, 0
     info['current_wave'] = 1
+    info["weapon_attributes_evolved"]["dagger"] = 18
+    info["weapon_attributes_evolved"]["ghost_bow"] = 22
+    info["weapon_attributes_evolved"]["winter_sword"] = 18
+    info["weapon_attributes_evolved"]["gold_axe"] = 22
+    info["weapon_attributes_evolved"]["fire_sword"] = 28
+    info["weapon_attributes_evolved"]["ice_bow"] = 24
+    info["weapon_attributes_evolved"]["light_bow"] = 23
+    info["weapon_attributes_evolved"]["ruby_axe"] = 15
     waiting = True
     while waiting:
         for event in pygame.event.get():
@@ -257,13 +265,14 @@ def execute_game(player, dog):
             for weapon in player.active_weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
+            # if player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
+            # if player.active_weapon and player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
             player.active_weapon.bullets.update()
             for bullet in player.active_weapon.bullets:
                 display.blit(bullet.image, bullet.rect.topleft + camera_offset)
 
             if not wave_manager.is_wave_active and not player.is_leaving_battle:
                 wave_manager.activate_wave()
-                # POWER UPS
             if player.is_fighting:
 
                 power_up_manager.update(player)

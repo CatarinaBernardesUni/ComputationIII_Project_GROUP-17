@@ -68,7 +68,7 @@ display = pygame.Surface((width // 2, height // 2))
 
 # screen = pygame.display.set_mode(resolution)
 # some screen images
-pause_image = pygame.transform.scale(pygame.image.load("images/screens/pause_image.png"), (1280, 180))
+pause_image = pygame.transform.scale(pygame.image.load("images/screens/pause_image.png"), (1280, 180)).convert_alpha()
 choose_character_image = pygame.transform.scale(pygame.image.load("images/screens/choose_character.png"), resolution)
 
 # options screen
@@ -114,40 +114,6 @@ dog_size = (30, 30)
 enemy_size = (80, 80)
 bullet_size = 10
 tile_size = 16
-
-# this is to store progress when the game is closed
-info = {"health": 4,
-        "gold": 200,
-        "inventory": {"dog": 0,
-                      "apple": 0,
-                      "mushroom": 0,
-                      "speed potion": 0,
-                      "dagger": 0,
-                      "soup": 0,
-                      "ghost_bow": 0,
-                      "key": 0,
-                      "winter_sword": 0,
-                      "gold_axe": 0,
-                      "fire_sword": 0,
-                      "ice_bow": 0,
-                      "light_bow": 0,
-                      "ruby_axe": 0,
-                      "red_crystal": 0,
-                      "blue_crystal": 0,
-                      "gold_crystal": 0,
-                      "purple_crystal": 0,
-                      "white_crystal": 0},
-        "claimed_chest_home": 0,
-        "stolen_grandma": 0,
-        "current_wave": 1,
-        "weapon_attributes_evolved": {"dagger": 18,
-                                      "ghost_bow": 22,
-                                      "winter_sword": 18,
-                                      "gold_axe": 22,
-                                      "fire_sword": 28,
-                                      "ice_bow": 24,
-                                      "light_bow": 23,
-                                      "ruby_axe": 15}}
 
 try:
     with open("player_info.txt") as player_file:
