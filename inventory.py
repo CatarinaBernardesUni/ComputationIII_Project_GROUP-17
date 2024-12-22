@@ -40,6 +40,7 @@ hover_inventory_messages = {'red_crystal': "Red Crystal: Used to upgrade a dagge
 # scale all images to the same size
 scaled_images_inventory = {item: pygame.transform.scale(image, (50, 50)) for item, image in images_inventory.items()}
 
+
 # lets the user check their inventory:
 def inventory_menu(player, place=None, item_type=None):
     """
@@ -176,6 +177,7 @@ def get_filtered_items(player, place=None, item_type=None):
             return {name: info["inventory"][name] for name in info["inventory"] if
                     info["inventory"].get(name, 0) > 0 and "crystal" in name}
     return {item: count for item, count in player.inventory.items() if item != "dog"}
+
 
 def display_items(screen, filtered_items, positions, first_x, first_y, item_spacing, row_spacing, items_per_row):
     """

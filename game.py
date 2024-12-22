@@ -16,6 +16,7 @@ from wave import WaveManager
 from weapon import *
 from greenhouse import greenhouse_area
 
+
 def choose_character():
     """
     Displays a screen where the user can choose between 2 characters.
@@ -114,6 +115,7 @@ def game_loop():
         elif current_state == "game_over":
             game_over()
 
+
 def execute_game(player, dog):
     """
     Executes the main game logic, including handling player movement, interactions and transitions between areas.
@@ -148,9 +150,6 @@ def execute_game(player, dog):
     # creating an instance of the wave (it is only going to start once the player enters the battle area)
     wave_manager = WaveManager(player, enemies_data, battle_area_rect)
 
-    # the zero means that no number is being added to the wave number but the configuration of the wave that
-    # is going to be spawned is being set, this way the number of waves isn't increasing when the player leaves
-    # the main area or leaves the game
     wave_manager.start_next_wave()
 
     ###################################### MAIN GAME LOOP #######################################
@@ -195,7 +194,6 @@ def execute_game(player, dog):
             player.rect.center = (500, 455)
             player.just_left_cave = False
 
-        # display.blit(player_score_surf, player_score_rect)
 
         # checking if player enters the store are
         if store_rect and store_rect.colliderect(player.rect):
@@ -317,7 +315,6 @@ def execute_game(player, dog):
                                        font=cutefont)
 
         # handling events:
-        keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 progress()

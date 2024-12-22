@@ -9,29 +9,29 @@ enemies_data = {"green_slime": {"tier": 1, "health": 20, "speed": 0.8, "attack":
                                 "directory_path": "images/monsters/slime_green", "size": (100, 100),
                                 "animation_speed": 0.05, "inflate_parameters": (-50, -50)},
 
-               "normal_fly": {"tier": 1, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire",
-                              "directory_path": "images/monsters/normal_fly", "size": (50, 50),
-                              "animation_speed": 0.1, "inflate_parameters": (-10, -15)},
+                "normal_fly": {"tier": 1, "health": 15, "speed": 1.2, "attack": 1, "weakness": "fire",
+                               "directory_path": "images/monsters/normal_fly", "size": (50, 50),
+                               "animation_speed": 0.1, "inflate_parameters": (-10, -15)},
 
-               "fire_fly": {"tier": 2, "health": 40, "speed": 1.5, "attack": 2, "weakness": "ice",
-                            "directory_path": "images/monsters/fire_fly", "size": (65, 65),
-                            "animation_speed": 0.2, "inflate_parameters": (-10, -15)},
+                "fire_fly": {"tier": 2, "health": 40, "speed": 1.5, "attack": 2, "weakness": "ice",
+                             "directory_path": "images/monsters/fire_fly", "size": (65, 65),
+                             "animation_speed": 0.2, "inflate_parameters": (-10, -15)},
 
-               "horse_ghost": {"tier": 3, "health": 80, "speed": 1.3, "attack": 2.5,
-                               "directory_path": "images/monsters/horse_ghost", "size": (70, 70),
-                               "animation_speed": 0.3, "inflate_parameters": (-10, -15)},
+                "horse_ghost": {"tier": 3, "health": 80, "speed": 1.3, "attack": 2.5,
+                                "directory_path": "images/monsters/horse_ghost", "size": (70, 70),
+                                "animation_speed": 0.3, "inflate_parameters": (-10, -15)},
 
-               "electric_fly": {"tier": 3, "health": 60, "speed": 1.7, "attack": 2,
-                                "directory_path": "images/monsters/electric_fly", "size": (100, 100),
-                                "animation_speed": 0.0005, "inflate_parameters": (-10, -15)},
+                "electric_fly": {"tier": 3, "health": 60, "speed": 1.7, "attack": 2,
+                                 "directory_path": "images/monsters/electric_fly", "size": (100, 100),
+                                 "animation_speed": 0.0005, "inflate_parameters": (-10, -15)},
 
-               "myst_ghost": {"tier": 4, "health": 120, "speed": 1.5, "attack": 3,
-                              "directory_path": "images/monsters/myst_ghost", "size": (60, 90),
-                              "animation_speed": 0.05, "inflate_parameters": (-10, -15)},
+                "myst_ghost": {"tier": 4, "health": 120, "speed": 1.5, "attack": 3,
+                               "directory_path": "images/monsters/myst_ghost", "size": (60, 90),
+                               "animation_speed": 0.05, "inflate_parameters": (-10, -15)},
 
-               "electric_enemy": {"tier": 4, "health": 100, "speed": 1.8, "attack": 3,
-                                  "directory_path": "images/monsters/electric_enemy", "size": (100, 100),
-                                  "animation_speed": 0.05, "inflate_parameters": (-10, -15)}}
+                "electric_enemy": {"tier": 4, "health": 100, "speed": 1.8, "attack": 3,
+                                   "directory_path": "images/monsters/electric_enemy", "size": (100, 100),
+                                   "animation_speed": 0.05, "inflate_parameters": (-10, -15)}}
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -50,6 +50,7 @@ class Enemy(pygame.sprite.Sprite):
         The rectangular area within which the enemy can spawn and move.
 
     """
+
     def __init__(self, player, groups, enemy_name, battle_area_rect):
         super().__init__(groups)
 
@@ -165,4 +166,3 @@ class Enemy(pygame.sprite.Sprite):
         if not self.player.invisible:
             self.moves_towards_player()
         self.animate(frame_time)
-

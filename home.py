@@ -4,6 +4,7 @@ from utils import area_setup, calculate_camera_offset
 from utils import paused
 from mouse_position import draw_button
 
+
 def home_area(player):
     """
     Handles the game logic for the home area.
@@ -101,10 +102,8 @@ def home_area(player):
 
         home_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
 
-        # updates the whole screen since the frame was last drawn
         pygame.display.flip()
 
-    # the main while loop was terminated
     progress()
     pygame.quit()
     exit()

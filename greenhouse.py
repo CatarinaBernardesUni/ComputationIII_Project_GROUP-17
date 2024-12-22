@@ -52,7 +52,6 @@ def greenhouse_area(player):
 
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
-    # adding the player to the group
     player_group.add(player)
 
     # setting the player initial position on the home
@@ -121,11 +120,8 @@ def greenhouse_area(player):
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
         home_screen.blit(pygame.transform.scale(display, resolution), (0, 0))  # 0,0 being the top left
-        # updates the whole screen since the frame was last drawn
         pygame.display.flip()
-        # clock.tick(fps)
 
-    # the main while loop was terminated
     progress()
     pygame.quit()
     exit()

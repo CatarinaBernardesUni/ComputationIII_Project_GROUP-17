@@ -1,10 +1,6 @@
-# Config file used to set global variables and other settings
-# COLORS AND PICTURES HERE FOR NOW
-import pygame.mixer
 import json
 import pygame
 
-# from mouse_position import draw_button
 
 pygame.init()
 # COLORS
@@ -66,7 +62,6 @@ screen = pygame.display.set_mode(resolution, pygame.SRCALPHA)
 character_choice = "player 1"
 display = pygame.Surface((width // 2, height // 2))
 
-# screen = pygame.display.set_mode(resolution)
 # some screen images
 pause_image = pygame.transform.scale(pygame.image.load("images/screens/pause_image.png"), (1280, 180)).convert_alpha()
 pause_image.set_colorkey((0, 0, 0))

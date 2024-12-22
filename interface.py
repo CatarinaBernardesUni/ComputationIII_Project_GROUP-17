@@ -3,6 +3,7 @@ import pygame.image
 from game import *
 from utils import *
 
+
 def interface():
     """
     Handles the game interface setup and main menu interactions such as options, rules, quit, start game, and others.
@@ -14,7 +15,7 @@ def interface():
     pygame_icon = pygame.image.load("images/chests/chest_with_gold.png")
     pygame.display.set_icon(pygame_icon)
     # set the title of the window
-    pygame.display.set_caption("Endless Wilderness Explorer")
+    pygame.display.set_caption("Enchanted Forest")
 
     # initiating the music
     pygame.mixer.init()
@@ -41,7 +42,6 @@ def interface():
         # event detection (future work)
         for ev in pygame.event.get():
 
-            # getting the mouse position (future need)
             mouse = pygame.mouse.get_pos()
             # seeing if the user hits the red x button
             if ev.type == pygame.QUIT:
@@ -61,7 +61,7 @@ def interface():
                 if 800 <= mouse[0] < 975 and 514 <= mouse[1] < 573:
                     credits_()
 
-            # wilderness game button
+            # play button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 517 <= mouse[0] <= 753 and 344 <= mouse[1] <= 429:
                     # wilderness_explorer()
@@ -79,7 +79,6 @@ def interface():
             # rules button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 314 <= mouse[0] <= 472 and 521 <= mouse[1] <= 578:
-                    # under_construction()
                     rules_()
 
         # filling the screen
@@ -88,6 +87,7 @@ def interface():
         screen.blit(bg, (0, 0))
         # update the display so that the loop changes will appear
         pygame.display.update()
+
 
 def rules_():
     """

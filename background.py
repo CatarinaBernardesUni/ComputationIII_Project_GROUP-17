@@ -2,6 +2,7 @@ from config import *
 from tile import Tile
 from collision import CollisionObject
 
+
 def background_setup(tmx_data):
     """
     Sets up the game's background, including tiles, animated tiles, objects, and collision areas.
@@ -126,4 +127,3 @@ def background_setup(tmx_data):
     return (background_sprite_group, tiles_group, animated_tiles_group, objects_group,
             collision_sprites, battle_area_rect, store_rect, cave_entrance_rect, home_rect, old_lady_house_rect,
             pink_house_rect, shed_rect, greenhouse_rect)
-
