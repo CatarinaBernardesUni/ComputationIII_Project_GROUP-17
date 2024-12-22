@@ -6,7 +6,11 @@ def get_mouse_position():
     Gets the current mouse position.
     Created to be more efficient.
 
-    :return: the current mouse position as a tuple (x, y)
+    Returns
+    -----------
+    tuple
+        the current mouse position as a tuple (x, y)
+
     """
     return pygame.mouse.get_pos()
 
@@ -15,7 +19,10 @@ def get_scaled_mouse_position():
     """
     Gets the current mouse position and scales it down by 2.
 
-    :return: the scaled mouse position as a tuple (x, y)
+    Returns
+    -----------
+    tuple
+        the scaled mouse position
     """
     mouse_pos = pygame.mouse.get_pos()
     scaled_mouse_pos = (mouse_pos[0] // 2, mouse_pos[1] // 2)
@@ -27,17 +34,23 @@ def draw_button(screen, x, y, width, height, text, text_color, image_path, font)
     """
     Draws a button on the screen with the user's desired definitions, such as size, image, font, text color, etc.
 
-    :param screen: The surface where the button will be drawn on.
-    :param x: The x-coordinate of the button's top-left corner.
-    :param y: The y-coordinate of the button's top-left corner.
-    :param width: The width of the button.
-    :param height: The height of the button.
-    :param text: The text that should be displayed on the button.
-    :param text_color: The color the text will be displayed in.
-    :param image_path: The file path to the button's image.
-    :param font: The font to use for the button's text.
+     Parameters
+     ----------
+    screen: The surface where the button will be drawn on.
+    x: The x-coordinate of the button's top-left corner.
+    y: The y-coordinate of the button's top-left corner.
+    width: The width of the button.
+    height: The height of the button.
+    text: The text that should be displayed on the button.
+    text_color: The color the text will be displayed in.
+    image_path: The file path to the button's image.
+    font: The font to use for the button's text.
 
-    :return: The rectangle representing the button's position and size: pygame.Rect
+    Returns
+    -----------
+    pygame.Rect
+        The rectangle representing the button's position and size
+
     """
 
     button_image = pygame.image.load(image_path).convert_alpha()  # making sure that it handles transparency
@@ -61,13 +74,16 @@ def show_hover_message(screen, mouse_pos, button_rect, description, on_inventory
     Shows a message when the mouse is over a button.
     Relates an object of the store to its description such as price and its utilization.
 
-    :param screen: the screen where the hover message will be displayed
-    :param mouse_pos: receives the mouse position as a tuple (x, y)
-    :param button_rect: receives the rectangle representing the button's position and size
-    :param description: receives a string as the description that needs to appear when hover message.
-    :param on_inventory: determines if the hover message is for an inventory item (default as False)
+     Parameters
+     ----------
+     screen: the screen where the hover message will be displayed
+     mouse_pos: tuple (x, y)
+        receives the mouse position.
+     button_rect: receives the rectangle representing the button's position and size
+     description: receives a string as the description that needs to appear when hover message.
+     on_inventory: boolean
+        determines if the hover message is for an inventory item (default as False)
 
-    :return: None
     """
 
     custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)

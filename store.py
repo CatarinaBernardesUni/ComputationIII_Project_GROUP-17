@@ -11,8 +11,14 @@ def inside_store(player):
     Sets up the inside of the store, including the leave and shop button.
     The loop handles the interaction within the store, such as going to shop_menu().
 
-    :param player: pygame.sprite.Sprite
-    :return: if the player leaves the store returns 'main'
+    Parameters
+     ----------
+     player: pygame.sprite.Sprite
+
+    Returns
+    -----------
+    'main'
+        if the player leaves the store returns 'main'
     """
 
     ################ TESTING THE TILES ###################
@@ -95,8 +101,10 @@ def shop_menu(player):
     The player buys items inside of this function, which will then be added to their inventory.
     Also handles an event loop which when the mouse hovers over it, returns the description of the objects.
 
-    :param player: pygame.sprite.Sprite
-    :return: nothing
+    Parameters
+     ----------
+     player: pygame.sprite.Sprite
+
     """
     shopping = True
 

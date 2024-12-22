@@ -33,10 +33,14 @@ def paused():
 def update_all_volumes(all_sounds, global_volume):
     """
     Updates all sounds in the list throughout the game.
-    :param all_sounds: a list of all the sounds in the game
-    :param global_volume: a global volume variable for all the sounds in the game.
 
-    :return: None
+    Parameters
+     ----------
+    all_sounds: list
+        all the sounds in the game
+    global_volume: float
+        a variable for all the sounds in the game.
+
     """
     for sound in all_sounds:
         sound.set_volume(global_volume)
@@ -49,14 +53,27 @@ def music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume):
     The slider is updated everytime the user clicks on a button, based on the global_volume and the bar itself.
     The function returns the minus and plus button so the volume is implemented later.
 
-    :param screen: the screen where the music bar will be displayed
-    :param bar_x: the x-coordinate of the music bar.
-    :param bar_y: the y-coordinate of the music bar.
-    :param bar_width: the width of the music bar.
-    :param bar_height: the height of the music bar.
-    :param global_volume: the current global volume level (from 0.0 to 1.0).
+    Parameters
+     ----------
+    screen: the screen where the music bar will be displayed
+    bar_x: float
+        the x-coordinate of the music bar.
+    bar_y: float
+        the y-coordinate of the music bar.
+    bar_width: int
+        the width of the music bar.
+    bar_height: int
+        the height of the music bar.
+    bar_height: int
+        the height of the music bar.
+    global_volume: float
+        the current global volume level (from 0.0 to 1.0)
 
-    :return: minus and plus button volume
+    Returns
+    -----------
+    minus button
+    plus button
+
     """
     # Draw the plus and minus buttons
     minus_button = draw_button(screen, bar_x - 100 - 10, bar_y + (bar_height - 90) // 2, 100, 90, 'MINUS', brick_color,
@@ -84,7 +101,6 @@ def options_menu():
     Then, the music_bar() function is updated and all the music throughout the game is updated through the
     update_all_sounds() function.
 
-    :return: None
     """
     global global_volume
     # Set up the display
@@ -151,14 +167,24 @@ def area_setup(tmx_data, collisions_name, exit_name, clues_name, someone_talks):
     Sets up the area by loading tiles, objects and collision data from the TMX data.
     This function helps to implement the interior of the houses and other TMX related data.
 
-    :param tmx_data: TMX data containing the map information.
-    :param collisions_name: the name of the layer containing the collisions objects.
-    :param exit_name: the name of the layer containing the exit object.
-    :param clues_name: the name of the layer containing the clue object.
-    :param someone_talks: the name of the layer containing objects that trigger speech bubbles.
+    Parameters
+     ----------
+    tmx_data: TMX data containing the map information.
+    collisions_name: string
+        the name of the layer containing the collisions objects.
+    exit_name: string
+        the name of the layer containing the exit object.
+    clues_name: string
+        the name of the layer containing the clue object.
+    someone_talks: string
+        the name of the layer containing objects that trigger speech bubbles.
 
-    :return: Returns a tuple containing the background sprite group, tiles group, objects group,
-        collision sprites group, exit rectangle, speech bubble rectangle, and clues rectangle.
+    Returns
+    -----------
+    tuple
+        contains: background sprite group, tiles group, objects group,
+        collision sprites group, exit rectangle, speech bubble rectangle, and clues rectangle
+
     """
 
     background_sprite_group = pygame.sprite.Group()
@@ -206,9 +232,17 @@ def calculate_camera_offset(player, display):
     Calculates the camera offset to center the player on the screen while placing the
     camera within the map boundaries.
 
-    :param player: The player object containing the player's position and rectangle.
-    :param display: The display surface to render the game.
-    :return: An object representing the camera offset.
+    Parameters
+     ----------
+    player: pygame.sprite.Sprite()
+        The player object containing the player's position and rectangle.
+    display: The display surface to render the game.
+
+    Returns
+    -----------
+    object
+         An object representing the camera offset.
+
     """
 
     camera_x = player.rect.centerx - display.get_width() // 2
@@ -226,7 +260,10 @@ def credits_():
     """
     Displays the credits screen and handles to return to the main menu.
 
-    :return: previous screen
+    Returns
+    -----------
+    previous screen
+
     """
 
     # Set up the display
@@ -266,7 +303,6 @@ def reset_progress():
     """
     Resets the player's progress by setting default values for health, gold, inventory, and other game attributes.
 
-    :return: None
     """
     info['health'] = 5
     info['gold'] = 50
