@@ -3,6 +3,7 @@ import math
 import pygame
 import os
 
+
 # everything that moves has to be a child of sprite
 class Bullet(pygame.sprite.Sprite):
     """
@@ -36,6 +37,7 @@ class Bullet(pygame.sprite.Sprite):
     rect : pygame.Rect
         The rectangle of the bullet.
     """
+
     def __init__(self, x, y, direction):
         """
         Initializes a Bullet object, loads animation frames, and sets the initial position and direction.
