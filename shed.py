@@ -7,6 +7,20 @@ from utils import area_setup, calculate_camera_offset, paused
 from weapon import weapons
 
 def shed_area(player):
+    """
+    A shed area where the player can upgrade their weapons.
+
+    Parameters
+    ----------
+    player: Player
+        The player object to control within the shed area.
+
+    Returns
+    -------
+    str
+        returns 'main' when the player leaves the shed
+
+    """
     clock = pygame.time.Clock()
     shed_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
@@ -95,6 +109,15 @@ def shed_area(player):
     exit()
 
 def crafting(player):
+    """
+    This function handles the crafting of weapons in the game.
+
+    Parameters
+    ----------
+    player: pygame.sprite.Sprite
+        The player sprite involved in the crafting process.
+
+    """
     clock = pygame.time.Clock()
     shed_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
@@ -248,6 +271,24 @@ def crafting(player):
     exit()
 
 def evolve_weapon(player, weapon, crystal):
+    """
+    Evolves the player's weapon based on the provided weapon and crystal combination.
+
+    Parameters
+    ----------
+    player : pygame.sprite.Sprite
+        The player sprite whose weapon is to be evolved.
+    weapon : str
+        The weapon to be evolved.
+    crystal : str
+        The crystal used for evolving the weapon.
+
+    Returns
+    -------
+    Tuple
+        A tuple containing an error message, if combination invalid, and the display duration for the error message.
+
+    """
     error_message = None
     display_duration = 4
 
