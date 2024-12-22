@@ -337,7 +337,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 self.dog = Dog(self)
                 self.dog.bought = True
         else:
-            text = pygame.transform.scale(font_for_message.render("Not enough gold!", True, red), (500, 60))
+            text = pygame.transform.scale(font_for_message.render("Not enough gold!", True, brick_color), (500, 60))
             screen.blit(text, (400, 300))
             pygame.display.update()
             pygame.time.wait(700)

@@ -297,10 +297,18 @@ def execute_game(player, dog):
                 wave_manager.activate_wave()
             if player.is_fighting:
 
+
                 power_up_manager.update(player)
                 power_up_manager.draw(display, camera_offset)
                 # Handle collisions between player and power-ups
                 power_up_manager.handle_collision(player)
+                if info['inventory']['speed potion'] >= 1:
+                    if info['inventory']['speed potion'] >= 1:
+                        speed_potion_powerup = SpeedBoost((100, 100), power_up_speed)
+                        power_up_manager.active_power_ups.add(speed_potion_powerup)
+                        speed_potion_powerup.activate(player)
+                        info['inventory']['speed potion'] -= 1
+
 
             wave_manager.update(display, frame_time)
 

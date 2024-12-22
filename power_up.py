@@ -553,9 +553,4 @@ class PowerUpManager:
                 print(f"Player picked up power-up: {type(power_up).__name__}")
                 power_up.activate(player)  # Activate the power-ups effects
                 power_up.collected = True  # Mark it as collected
-        if info['inventory']['speed potion'] >= 1:
-            speed_potion_powerup = SpeedBoost((100, 100), power_up_speed)
-            self.active_power_ups.add(speed_potion_powerup)
-            speed_potion_powerup.activate(player)
-            info['inventory']['speed potion'] -= 1
     # this code makes the deactivation work but the power up image stays in the game until its effect is gone

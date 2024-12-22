@@ -162,6 +162,12 @@ def shop_menu(player):
                 # POTION BUTTON
                 if 670 <= mouse_pos[0] <= 766 and 291 <= mouse_pos[1] <= 334:
                     if player.inventory['speed potion'] == 1:
+                        text = pygame.transform.scale(font_for_message.render("Can only have 1!", True, brick_color),
+                                                      (500, 60))
+                        screen.blit(text, (400, 300))
+                        pygame.display.update()
+                        pygame.time.wait(700)
+
                         print("Can only have one speed potion")
                     else:
                         player.buy_item('speed potion')
@@ -173,6 +179,12 @@ def shop_menu(player):
                 if 347 <= mouse_pos[0] <= 444 and 503 <= mouse_pos[1] <= 546:
                     # allowing the player to only have one dog
                     if player.inventory['dog'] == 1:
+                        text = pygame.transform.scale(font_for_message.render("Can only have 1!", True, brick_color),
+                                                      (500, 60))
+                        screen.blit(text, (400, 300))
+                        pygame.display.update()
+                        pygame.time.wait(700)
+
                         print("Can only have one dog")
                     else:
                         player.buy_item('dog')
