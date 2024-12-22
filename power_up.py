@@ -545,7 +545,7 @@ class PowerUpManager:
         ----------
         player : Player
             The player object to check for collisions with power-ups.
-            
+
         """
         collided_power_ups = pygame.sprite.spritecollide(player, self.active_power_ups, dokill=False)
         for power_up in collided_power_ups:
