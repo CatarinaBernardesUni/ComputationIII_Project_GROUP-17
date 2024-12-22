@@ -45,6 +45,45 @@ weapons = {"dagger": {
 
 
 class Weapon(pygame.sprite.Sprite, ABC):
+    """
+    Abstract base class for weapon objects.
+
+    Parameters
+    ----------
+    player : pygame.sprite.Sprite
+        The player object to which the weapon is connected.
+    groups : pygame.sprite.Group
+        Groups to which the weapon sprite belongs.
+    weapon_name : str
+        Name of the weapon, used to retrieve attributes.
+
+    Attributes
+    ----------
+    name : str
+        Name of the weapon.
+    tier : int
+        The tier of the weapon.
+    damage : int
+        The damage dealt by the weapon.
+    directory_path : str
+        Path to the directory containing weapon frames.
+    player : Player
+        Reference to the player object.
+    distance : int
+        Distance between the weapon and the player.
+    player_direction : pygame.math.Vector2
+        Direction vector from the player to the weapon.
+    frames : list
+        List of Pygame surfaces representing weapon frames.
+    current_frame_index : int
+        Index of the current animation frame.
+    animation_speed : float
+        Speed of the animation in frames per second.
+    image : pygame.Surface
+        Current image of the weapon.
+    rect : pygame.Rect
+        Rectangular boundary of the weapon.
+    """
     def __init__(self, player, groups, weapon_name):
         super().__init__(groups)
 
@@ -81,11 +120,23 @@ class Weapon(pygame.sprite.Sprite, ABC):
     def animate(self, frame_time):
         """
         Abstract method to animate the weapon.
-        :param frame_time: clock running in the defined fps
+
+        Parameters
+        ----------
+        frame_time : float
+            Time since the last frame in seconds.
         """
         pass
 
     def update(self, frame_time):
+        """
+        Update the weapon's state.
+
+        Parameters
+        ----------
+        frame_time : float
+            Time elapsed since the last frame in seconds.
+        """
         self.get_direction()
         self.animate(frame_time)
         self.rotate_weapon()
@@ -100,13 +151,22 @@ class Weapon(pygame.sprite.Sprite, ABC):
         pass
 
     def get_direction(self):
+        """
+        Update the weapon's direction based on the mouse position.
+        """
         mouse_position = pygame.Vector2(pygame.mouse.get_pos())
         player_position = pygame.Vector2(self.player.rect.center)
         self.player_direction = (mouse_position - player_position).normalize()
 
 ##################### CHILD CLASSES ############################################
 class Sword(Weapon):
+    """
+    A weapon class with specific rotation and animation logic for the swords.
+    """
     def rotate_weapon(self):
+        """
+        Rotate the weapon based on the player's direction.
+        """
         angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
         if -45 <= angle <= 45:
             rotated_frame = pygame.transform.rotate(self.image, angle)
@@ -123,6 +183,14 @@ class Sword(Weapon):
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def animate(self, frame_time):
+        """
+        Animate the weapon by cycling through frames.
+
+        Parameters
+        ----------
+        frame_time : int
+            Time elapsed since the last frame in seconds.
+        """
         self.animation_speed += frame_time
         # Check if it's time to update the animation frame
         if self.animation_speed >= 75:
@@ -137,6 +205,9 @@ class Sword(Weapon):
         # print(f"Current Frame Index: {self.current_frame_index}")
 
 class Bow(Weapon):
+    """
+    A weapon capable of shooting bullets ("arrows").
+    """
     def __init__(self, player, groups, weapon_name):
         super().__init__(player, groups, weapon_name)
         # self.animation_speed = 0.9
@@ -154,6 +225,9 @@ class Bow(Weapon):
             self.arrow_frames.append(scaled_frame)
 
     def rotate_weapon(self):
+        """
+        Rotate the weapon based on the player's direction.
+        """
         angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
         flipped_image = pygame.transform.flip(self.image, True, False)
         rotated_frame = pygame.transform.rotate(flipped_image, angle)
@@ -161,6 +235,14 @@ class Bow(Weapon):
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def animate(self, frame_time):
+        """
+        Animate the weapon by cycling through frames.
+
+        Parameters
+        ----------
+        frame_time : int
+            Time elapsed since the last frame in seconds.
+        """
         self.animation_speed += frame_time
         # Check if it's time to update the animation frame
         if self.animation_speed >= 300:
@@ -175,6 +257,14 @@ class Bow(Weapon):
         # print(f"Current Frame Index: {self.current_frame_index}")
 
     def update(self, frame_time):
+        """
+        Update the weapon's state and handle shooting.
+
+        Parameters
+        ----------
+        frame_time : int
+            Time elapsed since the last frame in seconds.
+        """
         super().update(frame_time)
         self.shoot()
         print(f"Number of bullets: {len(self.bullets)}")
@@ -183,6 +273,9 @@ class Bow(Weapon):
             bullet.update()
 
     def shoot(self):
+        """
+        Fire a bullet from the bow, considering cooldown and angle.
+        """
         current_time = pygame.time.get_ticks()
         if current_time - self.last_shot_time >= self.cooldown_time:
             # Calculate bullet direction based on weapon orientation
@@ -198,7 +291,13 @@ class Bow(Weapon):
             self.last_shot_time = current_time
 
 class Axe(Weapon):
+    """
+    A weapon with distinct animation and rotation behavior for axes.
+    """
     def rotate_weapon(self):
+        """
+        Rotate the weapon based on the player's direction.
+        """
         angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
         if -90 <= angle <= 90:
             rotated_frame = pygame.transform.rotate(self.image, angle)
@@ -210,6 +309,14 @@ class Axe(Weapon):
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def animate(self, frame_time):
+        """
+        Animate the weapon by cycling through frames.
+
+        Parameters
+        ----------
+        frame_time : int
+            Time elapsed since the last frame in seconds.
+        """
         self.animation_speed += frame_time
         # Check if it's time to update the animation frame
         if self.animation_speed >= 100:
