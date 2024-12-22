@@ -11,13 +11,74 @@ from weapon import Bow
 
 
 class WaveManager:
+    """
+    Manages the enemy waves and related animations, spawn logic, and rewards in the game.
+
+    Parameters
+    ----------
+    player : Player
+        The player object interacting with the wave system.
+    enemies_data : dict
+        Data about the available enemies, including attributes like tier and health.
+    battle_area_rect : pygame.Rect
+        Defines the rectangular area where the battle takes place.
+
+    Attributes
+    ----------
+    battle_area_rect : pygame.Rect
+        The rectangular area where the battle occurs.
+    player : Player
+        The player object interacting with the wave system.
+    current_wave : int
+        The current wave number.
+    is_wave_active : bool
+        Indicates if the current wave is active.
+    current_wave_config : dict
+        Configuration for the current wave, including enemy types and counts.
+    camera_offset : list or None
+        Offset for camera adjustments in the battle area.
+    enemies_data : dict
+        Data about the available enemies.
+    active_enemies : pygame.sprite.Group
+        Group of enemies currently in the battle.
+    enemies_defeated : int
+        Count of enemies defeated in the current wave.
+    total_enemies : int
+        Total number of enemies in the current wave.
+    possible_enemies : list
+        List of enemies available for random wave generation.
+    enemy_cooldown : int
+        Cooldown time in milliseconds between enemy spawns.
+    last_enemy_spawn_time : int
+        Timestamp of the last enemy spawn.
+    enemies_to_spawn : list
+        Queue of enemies waiting to spawn.
+    font : pygame.font.Font
+        Font used for displaying wave-related text.
+    elapsed_time : int
+        Time elapsed since the start of the wave animation.
+    animation_index : int
+        Index of the current animation frame.
+    animation_active : bool
+        Indicates if the wave animation is active.
+    current_frame : pygame.Surface or None
+        Current animation frame being displayed.
+    wave_display_start_time : int
+        Timestamp of when the wave display started.
+    beginning_frames : list
+        Frames for the beginning wave animation.
+    progress_frames : list
+        Frames for the progress wave animation (the animated counter of how much it is still left in the wave).
+    predefined_waves : list
+        List of predefined wave configurations.
+
+    """
     def __init__(self, player, enemies_data, battle_area_rect):
 
         self.battle_area_rect = battle_area_rect
         self.player = player
         self.current_wave = info['current_wave']
         self.is_wave_active = False
-        # self.is_wave_paused = False  # pause means that the player has left the battle area
         self.current_wave_config = None
         self.camera_offset = None
 
@@ -79,6 +140,10 @@ class WaveManager:
         ]
 
     def start_next_wave(self):
+        """
+        Initializes the next wave, resetting counters and loading the appropriate configuration.
+        If predefined waves are exhausted, a random wave is generated.
+        """
         self.is_wave_active = False
         # resetting the enemies defeated counter at beginning of each wave
         self.enemies_defeated = 0
@@ -92,6 +157,15 @@ class WaveManager:
         self.total_enemies = sum(self.current_wave_config.values())  # Track total enemies
 
     def generate_random_wave(self):
+        """
+        Generates a random wave configuration based on the current wave.
+        The number of enemies increases with the wave number, up to a maximum of 50.
+
+        Returns
+        -------
+        dict
+        A dictionary mapping enemy types to their counts for the wave.
+        """
         # the more waves you do the bigger they become
         num_enemies = min(10 + info["current_wave"], 50)  # Stopping point: max 50 enemies
 
@@ -107,7 +181,10 @@ class WaveManager:
         return wave_config
 
     def activate_wave(self):
-        """Activates the wave animation."""
+        """
+        Activates the wave by starting the animation and setting the wave state.
+        Resets animation indices and prevents the player from leaving the battle area.
+        """
         if not self.is_wave_active:
             self.is_wave_active = True
             self.animation_active = True
@@ -117,7 +194,14 @@ class WaveManager:
             self.player.is_fighting = True  # Prevent the player from leaving the battle area rect
 
     def update_wave_animation(self, display):
-        """Updates the wave animation and handles fading out the text."""
+        """
+        Updates the wave animation, including fade-out effects and text rendering.
+
+        Parameters
+        ----------
+        display : pygame.Surface
+            The display surface where animations are rendered.
+        """
         if self.animation_active:
             elapsed_time = pygame.time.get_ticks() - self.wave_display_start_time
 
@@ -138,12 +222,27 @@ class WaveManager:
             display.blit(text_surface, text_rect)
 
     def spawn_wave(self, wave_config):
-        # print(f"Spawning wave {self.current_wave} enemies...")
+        """
+        Adds enemies to the spawn queue based on the wave configuration.
+
+        Parameters
+        ----------
+        wave_config : dict
+            A dictionary mapping enemy types to their counts.
+        """
         for enemy_name, count in wave_config.items():
             for _ in range(count):
                 self.enemies_to_spawn.append(enemy_name)
 
     def display_counter(self, display):
+        """
+        Displays the wave progress counter on the screen.
+
+        Parameters
+        ----------
+        display : pygame.Surface
+            The display surface where the progress counter is rendered.
+        """
         # Calculate progress based on enemies defeated
         if self.total_enemies > 0:
             progress_index = min(
@@ -156,14 +255,23 @@ class WaveManager:
             display.blit(progress_frame, (195, 7))
 
     def handle_enemy_drop(self):
-        """Handles rewards dropped by a defeated enemy."""
+        """Handles the logic for enemy drops, giving rewards to the player with a 33% chance."""
         drop_chance = random.random()
         if drop_chance < 0.33:  # 33% chance to drop gold
             self.player.gold += 10
             # print(f"Enemy {enemy.name} dropped gold! The player has {self.player.gold} gold")
 
     def update(self, display, frame_time):
-        """Updates the wave animation and ensures smooth transitions."""
+        """
+        Updates the game state, including animations, spawning, and player-enemy interactions.
+
+        Parameters
+        ----------
+        display : pygame.Surface
+            The display surface where game elements are rendered.
+        frame_time : int
+            The clock tick from the game.
+        """
         # display the announcement of the wave
         self.update_wave_animation(display)
 
@@ -263,13 +371,20 @@ class WaveManager:
                 self.end_wave()
 
     def end_wave(self):
-        # print(f"Wave {self.current_wave} ended!")
+        """
+        Ends the current wave, increments the wave counter, and shows a choice popup.
+        """
+
         info["current_wave"] += 1
         self.current_wave = info["current_wave"]
         self.is_wave_active = False
         self.show_choice_popup()
 
     def show_choice_popup(self):
+        """
+        Displays a popup allowing the player to choose between starting the next wave or leaving.
+        Handles rewards for completing the wave and updates the player state accordingly.
+        """
 
         gold_reward = 50 * (info["current_wave"] - 1)
         self.player.add_gold(gold_reward)
