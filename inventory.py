@@ -221,7 +221,6 @@ def display_items(screen, filtered_items, positions, first_x, first_y, item_spac
                 current_x = first_x
                 current_y += item_image.get_height() + row_spacing
 
-
 def handle_item_click(positions):
     """
     Handle item selection on mouse click.
