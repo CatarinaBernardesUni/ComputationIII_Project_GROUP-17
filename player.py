@@ -20,6 +20,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     A class that represents the player in the game.
 
     """
+
     def __init__(self):
         # calling the mother classes init aka Sprite
         super().__init__()
@@ -339,12 +340,16 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # checking if the player has enough money to buy the item
         if info['gold'] >= price:
             info['gold'] -= price
+            coin_music.play()
             info['inventory'][item_name] += 1
             if item_name == 'dog' and self.dog is None:
                 self.dog = Dog(self)
                 self.dog.bought = True
         else:
-            print(f"gold is not enough. gold: {info['gold']}")  # todo: add here a screen saying not enough money
+            text = pygame.transform.scale(font_for_message.render("Not enough gold!", True, red), (500, 60))
+            screen.blit(text, (400, 300))
+            pygame.display.update()
+            pygame.time.wait(700)
 
     def add_gold(self, amount):
         """

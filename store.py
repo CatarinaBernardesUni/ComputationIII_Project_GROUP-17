@@ -159,22 +159,18 @@ def shop_menu(player):
                 # APPLE BUTTON
                 if 348 <= mouse_pos[0] <= 445 and 291 <= mouse_pos[1] <= 334:
                     player.buy_item('apple')
-                    coin_music.play()
                 # MUSHROOM BUTTON
                 if 509 <= mouse_pos[0] <= 605 and 291 <= mouse_pos[1] <= 334:
                     player.buy_item('mushroom')
-                    coin_music.play()
                 # POTION BUTTON
                 if 670 <= mouse_pos[0] <= 766 and 291 <= mouse_pos[1] <= 334:
                     if player.inventory['speed potion'] == 1:
                         print("Can only have one speed potion")
                     else:
                         player.buy_item('speed potion')
-                        coin_music.play()
                 # SWORD BUTTON
                 if 834 <= mouse_pos[0] <= 930 and 291 <= mouse_pos[1] <= 334:
                     player.buy_item('dagger')
-                    coin_music.play()
                 # LAST ROW
                 # DOG BUTTON
                 if 347 <= mouse_pos[0] <= 444 and 503 <= mouse_pos[1] <= 546:
@@ -183,8 +179,8 @@ def shop_menu(player):
                         print("Can only have one dog")
                     else:
                         player.buy_item('dog')
-                        dog_bark.play()
                         if info['gold'] >= player.price_items['dog']:
+                            dog_bark.play()
                             if not player.dog.bought:
                                 player.dog.bought = True
                                 info['inventory']['dog'] = 1
@@ -193,15 +189,12 @@ def shop_menu(player):
                 # SOUP BUTTON
                 if 499 <= mouse_pos[0] <= 600 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('soup')
-                    coin_music.play()
                 # BOW BUTTON
                 if 673 <= mouse_pos[0] <= 767 and 503 <= mouse_pos[1] <= 546:
                     player.buy_item('ghost_bow')
-                    coin_music.play()
                 # KEY BUTTON
                 if 832 <= mouse_pos[0] <= 926 and 500 <= mouse_pos[1] <= 543:
                     player.buy_item('key')
-                    coin_music.play()
 
         for button in button_data.values():
             show_hover_message(screen, mouse_pos, button["rect"], button["description"])
