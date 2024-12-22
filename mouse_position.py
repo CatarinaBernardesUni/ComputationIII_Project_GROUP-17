@@ -29,23 +29,45 @@ def draw_button(screen, x, y, width, height, text, text_color, image_path, font)
 
 # make a message appear when hover over my rectangles
 # help: https://stackoverflow.com/questions/69833827/how-do-i-make-a-text-box-pop-up-when-i-hover-over-a-button-in-pygame
-def show_hover_message(screen, mouse_pos, button_rect, description):
+def show_hover_message(screen, mouse_pos, button_rect, description, on_inventory=False):
+    custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
+    tip_surface = custom_font.render(description, True, white)
+
+    background_width = tip_surface.get_width() + 10
+    background_height = tip_surface.get_height() + 10
+    background_surface = pygame.Surface((background_width, background_height), pygame.SRCALPHA)
+    pygame.draw.rect(background_surface, brick_color_transparent, background_surface.get_rect(),
+                     border_radius=5)  # rounded rectangle
+
     if button_rect.collidepoint(mouse_pos):
-        # setting up the text
-        custom_font = pygame.font.Font("fonts/Minecraft.ttf", 20)
-        tip_surface = custom_font.render(description, True, white)
+        if not on_inventory:
+            # Blit the text onto the background surface
+            # creates a small padding for the text of 5
+            background_surface.blit(tip_surface, (5, 5))
 
-        # creating a background that supports transparency
-        background_surface = pygame.Surface((tip_surface.get_width() + 10, tip_surface.get_height() + 10),
-                                            pygame.SRCALPHA)
-        pygame.draw.rect(background_surface, brick_color_transparent, background_surface.get_rect(),
-                         border_radius=5)  # rounded rectangle
+            screen.blit(background_surface, (mouse_pos[0] + 16, mouse_pos[1]))
+        else:
+            # Blit the text onto the background surface
+            text_padding = 5
+            background_surface.blit(tip_surface, (text_padding, text_padding))
 
-        # Blit the text onto the background surface
-        # creates a small padding for the text of 5
-        background_surface.blit(tip_surface, (5, 5))
+            # Positioning the hover message
+            hover_x = mouse_pos[0] + 16
+            hover_y = mouse_pos[1] + button_rect.height + 5  # Position below the image
 
-        screen.blit(background_surface, (mouse_pos[0] + 16, mouse_pos[1]))
+            # Constrain the position within the defined limits for a 640px screen
+            if 640 <= pygame.display.get_surface().get_width():  # Check if screen width is 640
+                hover_x = max(250, min(hover_x, 390))
+
+            # Adjusting hover position if it exceeds screen bounds
+            if hover_x + background_width > pygame.display.get_surface().get_width():
+                hover_x = pygame.display.get_surface().get_width() - background_width - 10
+
+            if hover_y + background_height > pygame.display.get_surface().get_height():
+                hover_y = pygame.display.get_surface().get_height() - background_height - 10
+
+            # Blit the background and text onto the screen
+            screen.blit(background_surface, (hover_x, hover_y))
 
 
 button_data = {

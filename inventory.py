@@ -2,8 +2,9 @@ from player import Player
 import pygame
 from config import *
 from store import shop_menu
-from mouse_position import draw_button, get_mouse_position
+from mouse_position import draw_button, get_mouse_position, show_hover_message
 from mouse_position import get_scaled_mouse_position
+from weapon import weapons
 
 # creating a dictionary to store all my pictures for the visual inventory
 images_inventory = {'apple': pygame.image.load("images/inventory/apple.png"),
@@ -31,6 +32,14 @@ images_inventory = {'apple': pygame.image.load("images/inventory/apple.png"),
                     'white_crystal': pygame.image.load("images/crystals/White_crystal2.png")
                     }
 
+hover_inventory_messages = {'red_crystal': "Red Crystal: Used to upgrade a dagger to a fire_sword",
+                            'blue_crystal': "Blue Crystal: Used to upgrade a dagger to a winter_sword",
+                            'gold_crystal': "Gold Crystal: Used to upgrade a ghost_bow to a light_bow",
+                            'purple_crystal': "Purple Crystal: Used to increase the damage of any weapon in 20%",
+                            'white_crystal': "White Crystal: Used to upgrade a ghost_bow to an ice_bow"
+
+                            }
+
 # scale all images to the same size
 scaled_images_inventory = {item: pygame.transform.scale(image, (50, 50)) for item, image in images_inventory.items()}
 
@@ -53,6 +62,7 @@ def inventory_menu(player, place=None, item_type=None):
     in_background = pygame.transform.scale(in_background, (1000, 450))
 
     while on_inventory:
+        mouse_pos = pygame.mouse.get_pos()
         scaled_mouse_pos = get_scaled_mouse_position()
         screen.blit(in_background, (width // 2 - 500, height - 550))
 
@@ -82,6 +92,21 @@ def inventory_menu(player, place=None, item_type=None):
                                        text="Inventory",
                                        text_color=brick_color, image_path="images/buttons/basic_button.png",
                                        font=cutefont)
+        # Detect hover and show messages
+        for item_name, item_x, item_y, item_width, item_height in item_positions:
+            # print(f"{item_name}: x={item_x}, y={item_y}, width={item_width}, height={item_height}")
+            item_rect = pygame.Rect(item_x, item_y, item_width, item_height)
+            if item_rect.collidepoint(mouse_pos):
+                print(f"{item_name} passed over")
+                if item_name in hover_inventory_messages:
+                    show_hover_message(screen, mouse_pos, item_rect, hover_inventory_messages[item_name], True)
+
+                else:
+                    weapon_data = weapons.get(item_name)
+                    if weapon_data:
+                        damage = info["weapon_attributes_evolved"][item_name]
+                        description = f"{item_name.capitalize()} - Damage: {damage}, Tier: {weapon_data['tier']}"
+                        show_hover_message(screen, mouse_pos, item_rect, description, True)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
