@@ -264,7 +264,7 @@ class PowerUpManager:
 
     def draw(self, screen, camera_offset):
         for power_up in self.active_power_ups:
-            screen.blit(power_up.image, power_up.rect.topleft + camera_offset)
+            screen.blit(power_up.image.convert_alpha(), power_up.rect.topleft + camera_offset)
             # this camera offset is used so that the power ups stay in place and don't move with the player moving
 
     def handle_collision(self, player):

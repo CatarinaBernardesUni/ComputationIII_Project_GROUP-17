@@ -52,6 +52,7 @@ class Enemy(pygame.sprite.Sprite):
         self.player = player
         self.battle_area_rect = battle_area_rect
 
+
         # Load enemy images
         self.frames = []
         folder_path = os.path.normpath(self.directory_path)
