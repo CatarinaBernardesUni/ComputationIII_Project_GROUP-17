@@ -255,9 +255,10 @@ def execute_game(player, dog):
 
             # if player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
             # if player.active_weapon and player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
-            player.active_weapon.bullets.update()
-            for bullet in player.active_weapon.bullets:
-                display.blit(bullet.image, bullet.rect.topleft + camera_offset)
+            if isinstance(player.active_weapon, Bow):
+                player.active_weapon.bullets.update()
+                for bullet in player.active_weapon.bullets:
+                    display.blit(bullet.image, bullet.rect.topleft + camera_offset)
 
             if not wave_manager.is_wave_active and not player.is_leaving_battle:
                 wave_manager.activate_wave()
