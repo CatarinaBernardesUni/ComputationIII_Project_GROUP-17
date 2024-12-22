@@ -57,10 +57,8 @@ def home_area(player):
             if keys[pygame.K_SPACE]:
                 paused()
 
-        ############################### CAMERA - REPEATED CODE ################################
         # Calculate camera offset
         camera_offset = calculate_camera_offset(player, display)
-        ####################################################################################
 
         # draw the tiles
         # tiles_group.draw(display)

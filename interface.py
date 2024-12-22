@@ -1,15 +1,11 @@
 import pygame.display
 import pygame.image
-
 from game import *
-# from config import *
 from utils import *
-
 
 def interface():
     """
     Handles the game interface setup and main menu interactions such as options, rules, quit, start game, and others.
-
     """
     # initiating pygame
     pygame.init()
@@ -23,12 +19,6 @@ def interface():
     # initiating the music
     pygame.mixer.init()
     menu_music.play(-1)
-
-    # creating the screen at the set resolution
-    # screen = pygame.display.set_mode(resolution)  # show the user something
-
-    # this was in the execute game function, I put it here to change the title of the window even if we
-    # don't click in the "start game"
 
     ########################### SETTING UP CURSOR ####################################
     # Load the custom cursor image, and loading the cursor to a bigger size
@@ -45,18 +35,6 @@ def interface():
     pygame.mouse.set_cursor(cursor)
 
     ########################################################################
-
-    # setting the fonts
-    # corbelfont = pygame.font.SysFont("Corbel", 50)
-    # comicsansfont = pygame.font.SysFont("Comic Sans MS", 50)
-
-    # render the text (will be used in the game button)
-    # wilderness_text = corbelfont.render("Wilderness Explorer", True, white)
-    # quit_text = corbelfont.render("quit", True, white)
-    # rules_text = corbelfont.render("rules", True, white)
-    # options_text = corbelfont.render("options", True, white)
-    # credits_text = corbelfont.render("credits", True, white)
-    # title_text = comicsansfont.render("Computation III - Project", True, glowing_light_red)
     # main interface loop (will run until the user quits)
     while True:
 
@@ -110,34 +88,6 @@ def interface():
         bg = pygame.image.load("images/screens/menu.png")
         bg = pygame.transform.scale(bg, resolution)
         screen.blit(bg, (0, 0))
-        # wilderness explorer button
-        # pygame.draw.rect(screen, dark_red, [90, 240, 540, 60])
-        # wilderness_rect = wilderness_text.get_rect(center=(90 + 540 // 2, 240 + 60 // 2))  # text centered in the button
-        # screen.blit(wilderness_text, wilderness_rect)
-
-        # rules button
-        # pygame.draw.rect(screen, grey, [90, 480, 140, 60])
-        # rules_rect = rules_text.get_rect(center=(90 + 140 // 2, 480 + 60 // 2))  # text centered in the button
-        # screen.blit(rules_text, rules_rect)
-
-        # options button
-        # pygame.draw.rect(screen, grey, [90, 600, 140, 60])
-        # options_rect = options_text.get_rect(center=(90 + 140 // 2, 600 + 60 // 2))  # text centered in the button
-        # screen.blit(options_text, options_rect)
-
-        # quit button
-        # pygame.draw.rect(screen, grey, [450, 600, 140, 60])
-        # quit_rect = quit_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))  # text centered in the button
-        # screen.blit(quit_text, quit_rect)
-
-        # credits button
-        # pygame.draw.rect(screen, grey, [450, 480, 140, 60])
-        # credits_rect = credits_text.get_rect(center=(450 + 140 // 2, 480 + 60 // 2))  # text centered in the button
-        # screen.blit(credits_text, credits_rect)
-
-        # showing the title of the project
-        # screen.blit(title_text, (55, 0))
-
         # update the display so that the loop changes will appear
         pygame.display.update()
 
