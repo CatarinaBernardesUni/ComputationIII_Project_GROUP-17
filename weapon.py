@@ -183,8 +183,6 @@ class Bow(Weapon):
             bullet.update()
 
     def shoot(self):
-        print(self.player.rect)
-        print(self.rect)
         current_time = pygame.time.get_ticks()
         if current_time - self.last_shot_time >= self.cooldown_time:
             # Calculate bullet direction based on weapon orientation
