@@ -253,9 +253,7 @@ def execute_game(player, dog):
             for weapon in player.active_weapon_group:
                 display.blit(weapon.image, weapon.rect.topleft + camera_offset)
 
-            # if player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
-            # if player.active_weapon and player.active_weapon in ("ghost_bow", "ice_bow", "light_bow"):
-            if isinstance(player.active_weapon, Bow):
+            if isinstance(player.active_weapon, Bow) and wave_manager.is_wave_active:
                 player.active_weapon.bullets.update()
                 for bullet in player.active_weapon.bullets:
                     display.blit(bullet.image, bullet.rect.topleft + camera_offset)
