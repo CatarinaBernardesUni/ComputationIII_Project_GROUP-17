@@ -211,11 +211,9 @@ def crafting(player):
                 if inventory_button.collidepoint(scaled_mouse_pos):
                     inventory_menu(player)
                 if back_button.collidepoint(scaled_mouse_pos):
-                    still_crafting = False
                     # this should be enough for the player to stop colliding with the work_table_rect
                     player.rect.centery += 10
                     progress()
-                    print("Back clicked!")
                     return
 
             if event.type == pygame.MOUSEBUTTONDOWN:

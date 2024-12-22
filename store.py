@@ -24,7 +24,6 @@ def inside_store(player):
     ################ TESTING THE TILES ###################
     store_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2, height // 2))
-    print(display)
     clock = pygame.time.Clock()
 
     ############################### STORE MAP ################################
@@ -102,14 +101,12 @@ def shop_menu(player):
     Also handles an event loop which when the mouse hovers over it, returns the description of the objects.
 
     Parameters
-     ----------
-     player: pygame.sprite.Sprite
+    ----------
+    player: pygame.sprite.Sprite
 
     """
     shopping = True
-
-
-    # creating my player group so i can add later my dog to it:
+    # creating my player group so I can add later my dog to it:
     # creating an empty group for the player (that was received as input)
     player_group = pygame.sprite.Group()
     # adding the player to the group

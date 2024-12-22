@@ -1,24 +1,24 @@
 import pygame
 
 class Tile(pygame.sprite.Sprite):
+    """
+            Initialize a Tile sprite.
+
+            Parameters
+            ----------
+            position: tuple
+                The (x, y) position of the tile.
+            surf: pygame.Surface
+                The surface representing the tile.
+            groups: list
+                The sprite groups the tile belongs to.
+            frames_animation: list, optional
+                A list of surfaces for animation frames.
+            animation_duration: float, optional
+                The duration for each animation frame.
+
+            """
     def __init__(self, position, surf, groups, frames_animation=None, animation_duration=None):
-        """
-        Initialize a Tile sprite.
-
-        Parameters
-        ----------
-        position: tuple
-            The (x, y) position of the tile.
-        surf: pygame.Surface
-            The surface representing the tile.
-        groups: list
-            The sprite groups the tile belongs to.
-        frames_animation: list, optional
-            A list of surfaces for animation frames.
-        animation_duration: float, optional
-            The duration for each animation frame.
-
-        """
         super().__init__(groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft=position)
@@ -50,4 +50,3 @@ class Tile(pygame.sprite.Sprite):
                     # If we want it to loop, return to the first frame
                     self.current_anim_index = 0
                 self.image = self.animation_frames[self.current_anim_index]
-

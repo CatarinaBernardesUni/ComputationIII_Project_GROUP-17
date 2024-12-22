@@ -1,7 +1,4 @@
-from config import *
 import pygame
-import math
-from bullet import Bullet
 from os.path import join
 from os import walk  # allows us to walk through a folder
 import config
@@ -11,7 +8,7 @@ from weapon import *
 
 # I had to import the module itself here in import config, so we could actually choose a character, I tried for a
 # long time and found no other way, I found it was the only way to connect the player to the game without
-# importing the game in player because it causes a circular import :')
+# importing the game in player because it causes a circular import
 
 
 # making a player a child of the Sprite class
@@ -20,7 +17,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     A class that represents the player in the game.
 
     """
-
     def __init__(self):
         # calling the mother classes init aka Sprite
         super().__init__()
@@ -88,7 +84,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     ############################## METHODS TO DEAL WITH WEAPONS ########################################
     def switch_weapon(self, weapon_name, weapon_type):
         """
-        function to be able to switch the currently active weapon.
+        Function to be able to switch the currently active weapon.
 
         Parameters
         ----------
@@ -100,7 +96,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         """
         if self.active_weapon_group is not None:
             self.active_weapon_group.remove(self.active_weapon)
-        """Switch the currently active weapon."""
         if weapon_type == "Sword":
             weapon_instance = Sword(self, self.active_weapon_group, weapon_name)
         elif weapon_type == "Bow":
@@ -119,7 +114,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         ----------
         crystal_name : str
             The name of the crystal to collect.
-
         """
         info['inventory'][crystal_name] += 1
         self.inventory = info['inventory']
@@ -272,7 +266,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             The direction of movement ('horizontal' or 'vertical').
         collision_sprites: pygame.sprite.Group
             Group of sprites to check for collisions.
-
         """
         for sprite in collision_sprites:
             if sprite.rect.colliderect(self.hitbox_rect):
@@ -304,7 +297,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         ----------
         health_being_removed: int
             The amount of health removed.
-
         """
         if not self.invincible:
             if info['health'] >= 0:
@@ -319,7 +311,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         ----------
         amount: int
             The amount of health to be added.
-
         """
         info['health'] = min(info['health'] + amount, self.max_health)
         self.health = info['health']
@@ -359,7 +350,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         ----------
         amount : int
             The amount of gold to be added.
-
         """
         info['gold'] += amount
         self.gold = info['gold']
@@ -372,7 +362,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         ----------
         current_wave : int
             The current wave number.
-
         """
         if current_wave == 5:
             info["inventory"]["gold_axe"] += 1

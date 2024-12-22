@@ -106,7 +106,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
         for file_name in os.listdir(folder_path):
             frame = pygame.image.load(os.path.join(folder_path, file_name)).convert_alpha()
             scaled_frame = pygame.transform.scale(frame, (35, 35))
-            # print(f"Loaded frame: {file_name}")
             self.frames.append(scaled_frame)
 
         self.current_frame_index = 0
