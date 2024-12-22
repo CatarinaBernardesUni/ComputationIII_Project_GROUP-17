@@ -127,7 +127,7 @@ class WaveManager:
                 return
                 # Prepare text properties
             wave_text = f"Wave {info['current_wave']} Starting!"
-            text_surface = self.font.render(wave_text, True, white).convert_alpha()
+            text_surface = self.font.render(wave_text, True, white, None).convert_alpha()
             text_rect = text_surface.get_rect(center=(display.get_width() // 2, display.get_height() // 4))
 
             # Calculate fade-out effect (255 -> 0 over 8 seconds)
@@ -303,11 +303,11 @@ class WaveManager:
             screen.blit(leave_image, leave_button.topleft)
 
             # Render buttons text
-            next_wave_text = self.font.render("Next Wave", True, deep_black)
-            leave_text = self.font.render("Save and Leave", True, deep_black)
+            next_wave_text = self.font.render("Next Wave", True, deep_black, None).convert_alpha()
+            leave_text = self.font.render("Save and Leave", True, deep_black, None).convert_alpha()
 
             for i, line in enumerate(message_lines):
-                rendered_text = self.font.render(line, True, white, None)
+                rendered_text = self.font.render(line, True, white, None).convert_alpha()
                 text_width = rendered_text.get_width()
                 x_position = (screen.get_width() - text_width) // 2  # Centered horizontally
                 y_position = start_y + i * line_spacing  # Line spacing
