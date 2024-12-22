@@ -4,6 +4,7 @@ from config import *
 from math import atan2, degrees
 import pygame.sprite
 from abc import ABC, abstractmethod
+from bullet import Bullet
 
 weapons = {"dagger": {
     "tier": 1,
@@ -52,8 +53,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
         self.tier = weapons[weapon_name]["tier"]
         self.damage = info["weapon_attributes_evolved"][weapon_name]
         self.directory_path = weapons[weapon_name]["directory_path"]
-
-        self.upgrade_level = 0
 
         # connection to the player
         self.player = player
@@ -105,16 +104,6 @@ class Weapon(pygame.sprite.Sprite, ABC):
         player_position = pygame.Vector2(self.player.rect.center)
         self.player_direction = (mouse_position - player_position).normalize()
 
-    ########################### MECHANICS OF THE WEAPON ######################################################
-
-    def display_stats(self):
-        print(f"Name: {self.name}")
-        print(f"Tier: {self.tier}")
-        print(f"Upgrade Level: {self.upgrade_level}")
-        print(f"Damage: {self.damage}")
-
-#################################################################################
-
 ##################### CHILD CLASSES ############################################
 class Sword(Weapon):
     def rotate_weapon(self):
@@ -152,6 +141,8 @@ class Bow(Weapon):
     def __init__(self, player, groups, weapon_name):
         super().__init__(player, groups, weapon_name)
         self.distance = 30
+        self.cooldown_time = 1000
+        self.last_shot_time = pygame.time.get_ticks()
 
         self.arrow_frames = []
         folder_path = os.path.normpath("images/weapons/blue_arrow")
@@ -182,6 +173,14 @@ class Bow(Weapon):
         self.image = self.frames[self.current_frame_index]
         # print(f"Current Frame Index: {self.current_frame_index}")
 
+    def shoot(self, bullet_group):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_shot_time >= self.cooldown_time:
+            # Calculate bullet direction based on weapon orientation
+            angle = atan2(self.player_direction.y, self.player_direction.x)
+            bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
+            bullet_group.add(bullet)
+            self.last_shot_time = current_time
 
 class Axe(Weapon):
     def rotate_weapon(self):

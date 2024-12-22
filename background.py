@@ -7,6 +7,45 @@ from collision import CollisionObject
 
 
 def background_setup(tmx_data):
+    """
+    Sets up the game's background, including tiles, animated tiles, objects, and collision areas.
+
+    Parameters
+    ----------
+    tmx_data : TiledMap (a .tmx file)
+        The Tiled map data containing information about layers, tiles, and objects.
+
+    Returns
+    -------
+    tuple
+        A tuple containing the following:
+        - background_sprite_group : pygame.sprite.Group
+            A group containing all background sprites.
+        - tiles_group : pygame.sprite.Group
+            A group containing all static tiles.
+        - animated_tiles_group : pygame.sprite.Group
+            A group containing animated tiles.
+        - objects_group : pygame.sprite.Group
+            A group containing objects with images.
+        - collision_sprites : pygame.sprite.Group
+            A group containing collision objects.
+        - battle_area_rect : pygame.Rect or None
+            A rectangle defining the battle area, or None if not defined.
+        - store_rect : pygame.Rect or None
+            A rectangle defining the store area, or None if not defined.
+        - cave_entrance_rect : pygame.Rect or None
+            A rectangle defining the cave entrance, or None if not defined.
+        - home_rect : pygame.Rect or None
+            A rectangle defining the player's home, or None if not defined.
+        - old_lady_house_rect : pygame.Rect or None
+            A rectangle defining the old lady's house, or None if not defined.
+        - pink_house_rect : pygame.Rect or None
+            A rectangle defining the pink house, or None if not defined.
+        - shed_rect : pygame.Rect or None
+            A rectangle defining the shed, or None if not defined.
+        - greenhouse_rect : pygame.Rect or None
+            A rectangle defining the greenhouse, or None if not defined.
+    """
     # sprite groups for the objects and tiles
     # the background sprite group is a container for all the background sprites in the game
     background_sprite_group = pygame.sprite.Group()

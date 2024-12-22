@@ -44,15 +44,12 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, player, groups, enemy_name, battle_area_rect):
         super().__init__(groups)
 
-
         enemy_data = enemies_data[enemy_name]
         self.name = enemy_name
         self.tier = enemy_data["tier"]
-        self.element = enemy_data["element"]
         self.health = enemy_data["health"]
         self.speed = enemy_data["speed"]
         self.attack = enemy_data["attack"]
-        self.weakness = enemy_data["weakness"]
         self.special_effect = enemy_data["special_effect"]
         self.directory_path = enemy_data["directory_path"]
         self.animation_speed = enemy_data["animation_speed"]

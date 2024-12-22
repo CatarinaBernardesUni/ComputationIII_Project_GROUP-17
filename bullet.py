@@ -1,6 +1,7 @@
 from config import *
 import math
 import pygame
+import os
 
 
 # everything that moves has to be a child of sprite
@@ -11,13 +12,20 @@ class Bullet(pygame.sprite.Sprite):
         self.direction = direction
         self.radius = 10
         self.color = yellow
-        #self.image = pygame.image.load("images/others/trident.png")
-        #self.image = pygame.surface.Surface(bullet_size)
-        # #self.image = pygame.transform.scale(self.image, bullet_size)
+        self.animation_path = "images/weapons/blue_arrow"
+        self.animation_speed = 0.1
+        self.current_frame_index = 0
+        self.speed = 7
+        # Load animation frames
+        self.frames = []
+        folder_path = os.path.normpath(self.animation_path)
+        for file_name in os.listdir(folder_path):
+            frame = pygame.image.load(os.path.join(folder_path, file_name)).convert_alpha()
+            scaled_frame = pygame.transform.scale(frame, (35, 35))
+            self.frames.append(scaled_frame)
 
-        # updating the x and y positions to fit the circle
-        self.rect = pygame.Rect(x - self.radius, y - self.radius, self.radius * 2, self.radius * 2)
-        self.speed = 7  # todo: change the speed when catching a powerup
+        self.image = self.frames[self.current_frame_index]
+        self.rect = self.image.get_rect(center=(x, y))
 
     def update(self):
         # updating the bullets position based in the speed and direction
@@ -29,5 +37,14 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.x < 0 or self.rect.x > width or self.rect.y < 0 or self.rect.y > height:
             self.kill()
 
-    def draw(self, screen):  # I changed the screen to display at home
-        pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
+        # Animate the bullet
+        self.animation_speed += 0.1
+        if self.animation_speed >= 1:
+            self.animation_speed = 0  # Reset the timer
+            self.current_frame_index += 1
+            if self.current_frame_index >= len(self.frames):
+                self.current_frame_index = 0
+            self.image = self.frames[self.current_frame_index]
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect.topleft)
