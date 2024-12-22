@@ -189,7 +189,7 @@ class Bow(Weapon):
         if current_time - self.last_shot_time >= self.cooldown_time:
             # Calculate bullet direction based on weapon orientation
             angle = atan2(self.player_direction.y, self.player_direction.x)
-            # although we are using the direction of the weapon in relation to the player, the arrows were not alining
+            # although we are using the direction of the weapon in relation to the player, the arrows were not aligning
             # with the animation of the arrow from the bow, so we took out 40 degrees
             angle -= math.radians(40)
             firing_position = self.rect.center
