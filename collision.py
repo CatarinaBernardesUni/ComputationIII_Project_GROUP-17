@@ -2,7 +2,6 @@ from config import *
 import pygame
 
 
-# if I am not mistaken it works only between a moving object and a static object
 class CollisionObject(pygame.sprite.Sprite):
     """
     Class that represents a static collision object in the game.

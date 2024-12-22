@@ -1,9 +1,7 @@
 from config import *
 from pytmx.util_pygame import load_pygame
-
 from inventory import inventory_menu
 from mouse_position import draw_button, get_scaled_mouse_position
-# from game import paused
 from utils import area_setup, paused, calculate_camera_offset
 
 
@@ -76,7 +74,6 @@ def cave_area(player):
         camera_offset = calculate_camera_offset(player, display)
 
         # draw the tiles
-        # tiles_group.draw(display)
         for tile in tiles_group:
             display.blit(tile.image, tile.rect.topleft + camera_offset)
 
@@ -173,12 +170,10 @@ def cave_area(player):
 
         if not keys[pygame.K_e]:
             e_key_pressed = False
-        # display.blit(player_score_surf, player_score_rect)
 
         for sprite in player_group:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
-        # collision_sprites.draw(display)
         for sprite in collision_sprites:
             display.blit(sprite.image, sprite.rect.topleft + camera_offset)
 
