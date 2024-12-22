@@ -67,13 +67,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.gold = info['gold']
 
         # storing the inventory prices
-        self.price_items = {'apple': 5,
-                            'mushroom': 200,
-                            'speed potion': 25,
+        self.price_items = {'apple': 30,
+                            'mushroom': 50,
+                            'speed potion': 70,
                             'dog': 200,
-                            'soup': 60,
-                            'dagger': 80,
-                            'ghost_bow': 100,
+                            'soup': 100,
+                            'dagger': 100,
+                            'ghost_bow': 200,
                             'key': 300}
         self.health_boosts = {"apple": 1, "soup": 5}
 

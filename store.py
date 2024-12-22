@@ -157,10 +157,11 @@ def shop_menu(player):
                     else:
                         player.buy_item('dog')
                         dog_bark.play()
-                        if not player.dog.bought:
-                            player.dog.bought = True
-                            info['inventory']['dog'] = 1
-                            player_group.add(player.dog)
+                        if info['gold'] >= player.price_items['dog']:
+                            if not player.dog.bought:
+                                player.dog.bought = True
+                                info['inventory']['dog'] = 1
+                                player_group.add(player.dog)
 
                 # SOUP BUTTON
                 if 499 <= mouse_pos[0] <= 600 and 503 <= mouse_pos[1] <= 546:
