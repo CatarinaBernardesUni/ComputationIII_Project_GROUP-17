@@ -518,9 +518,14 @@ class PowerUpManager:
                 # Remove if the power-up has expired
                 if not power_up.active:  # Duration expired
                     self.active_power_ups.remove(power_up)
-            if player not in self.fight_area:
-                self.active_power_ups.remove(power_up)
-
+            # if player not in self.fight_area:
+                # self.active_power_ups.remove(power_up)
+            ################################################### CATHE TRYING ##############################
+        if player not in self.fight_area:
+            for power_up in self.active_power_ups:
+                if power_up.collected:
+                    power_up.deactivate(player)
+            self.active_power_ups.empty()
 
     def draw(self, screen, camera_offset):
         """
