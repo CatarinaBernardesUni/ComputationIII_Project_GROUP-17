@@ -5,6 +5,20 @@ from mouse_position import draw_button
 
 
 def old_lady_house_area(player):
+    """
+    Handles the game logic inside the old lady house area.
+    The player can find a chest and earn money.
+
+    Parameters
+    ----------
+    player: Player
+
+    Returns
+    ----------
+    str
+        returns 'main' when player leaves the old lady's house
+
+    """
     clock = pygame.time.Clock()
     home_screen = pygame.display.set_mode(resolution)
     display = pygame.Surface((width // 2.2, height // 2.2))
