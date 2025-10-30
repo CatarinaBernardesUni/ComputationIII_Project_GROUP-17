@@ -119,6 +119,8 @@ def options_menu():
     while running:
         # getting the mouse position
         mouse = get_mouse_position()
+        # Display the background
+        screen.blit(options_background, (0, 0))
         # drawing the quit button to leave the options menu
         quit_options_button = draw_button(screen, 1000, 520, 150, 80, "EXIT", text_color=brick_color,
                                           image_path="images/store/store_button.png", font=settingsfont)
@@ -143,8 +145,7 @@ def options_menu():
                     progress()
                     return
 
-        # Display the background
-        screen.blit(options_background, (0, 0))
+
 
         # display the music bar on the screen:
         music_bar(screen, bar_x, bar_y, bar_width, bar_height, global_volume)
@@ -269,6 +270,10 @@ def credits_():
 
     # main background for credits
     credits_background = pygame.image.load("images/credits/CREDITS.png")
+
+    # Display the background
+    screen.blit(credits_background, (0, 0))
+
     # drawing the quit button to leave the options menu
     quit_options_button = draw_button(screen, 1065, 555, 150, 80, "EXIT", text_color=brick_color,
                                       image_path="images/store/store_button.png", font=settingsfont)
@@ -288,8 +293,6 @@ def credits_():
                 if quit_options_button.collidepoint(mouse):
                     return
 
-        # Display the background
-        screen.blit(credits_background, (0, 0))
 
         pygame.display.flip()
 
