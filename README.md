@@ -1,4 +1,5 @@
-Endless Wilderness Explorer is a 2D endless adventure game developed with Pygame as part of the Computation III Final Project at NOVA IMS (2024).
+# Enchanted Forest
+Enchanted Forest is a 2D adventure game developed with Pygame as part of the Computation III Final Project at NOVA IMS (2024).
 
 ![rules1](images/rules/rules1.png)
 ![rules2](images/rules/rules2.png)
